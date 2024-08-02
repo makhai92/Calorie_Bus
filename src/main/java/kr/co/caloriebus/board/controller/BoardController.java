@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.board.model.service.BoardService;
 import kr.co.caloriebus.util.FileUtils;
 
@@ -26,8 +27,9 @@ public class BoardController {
 	
 	@RequestMapping(value="/list")
 	public String list(String category,int reqPage,Model model) {
-		List list = boardService.selectBoardList(category,reqPage);
-		
+		BoardListData bld = boardService.selectBoardList(category,reqPage);
+		model.addAttribute("list",bld.getList());
+		model.addAttribute("pageNavi",bld.getPageNavi());
 		model.addAttribute("category",category);
 		return "board/list";
 	}

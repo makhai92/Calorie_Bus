@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 리스트</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <style>
 	.btn-category{
 		margin: 20px;
@@ -30,6 +32,31 @@
 		width: 70px;
 		padding-left: 5px;
 	}
+	.page-ul{
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 40px;
+		
+	}
+
+	.page-ul *{
+		display: block;
+	}
+	.page-item{
+		height:40px;
+		line-height:40px;
+		list-style: none;
+		text-align: center;
+	}
+	.page-item>span{
+		line-height:40px;
+	}
+	.active{
+		text-decoration: underline;
+		color: blue;
+	}
 </style>
 </head>
 <body>
@@ -37,7 +64,7 @@
 	<main class="content">
 		<div class="page-title">커뮤니티</div>
 		<div class="btn-category">
-			<a class="btn-round" href="/board/list?reqPage=1">전체보기</a>
+			<a class="btn-round" href="/board/list?category=all&reqPage=1">전체보기</a>
 			<a class="btn-round" href="/board/list?category=B1&reqPage=1">자유글</a>
 			<a class="btn-round" href="/board/list?category=B2&reqPage=1">성공후기</a>
 			<a class="btn-round" href="/board/list?category=B3&reqPage=1">식단토크</a>
@@ -74,7 +101,7 @@
 					<td th:case="B3">식단토크</td>
 					<td th:case="B4">운동토크</td>
 				</th:block>
-				<td th:text="${board.boardTitle}"></td>
+				<td><span th:text="${board.boardTitle}"></span>(<span th:text="${board.commentCount}"></span>)</td>
 				<td th:text="${board.boardWriter}"></td>
 				<td th:text="${board.regDate}"></td>
 				<td th:text="${board.likeCount}"></td>
@@ -82,15 +109,6 @@
 			</tr>
 		</table>
 		<div id="pageNavi" th:utext="${pageNavi}"></div>
-		<div>
-			<ul>
-				<li>1</li>
-				<li>2</li>
-				<li>3</li>
-				<li>4</li>
-				<li>5</li>
-			</ul>
-		</div>
 	</main>
 	<th:block th:include="common/footer"></th:block>
 	<script>
