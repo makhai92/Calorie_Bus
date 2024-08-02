@@ -1,5 +1,7 @@
 package kr.co.caloriebus.board.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/list")
 	public String list(String category,int reqPage,Model model) {
+		List list = boardService.selectBoardList(category,reqPage);
 		
 		model.addAttribute("category",category);
 		return "board/list";
