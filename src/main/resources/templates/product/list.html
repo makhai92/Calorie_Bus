@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+	.product-list-wrap{
+		width : 100%;
+		margin : 30px auto;
+	}
+	.list-header {
+		text-align: center;
+	}
+	.list-header>a{
+		display : inline-block;
+		width : 130px;
+	}
+	.list-content{
+		padding: 30px;
+	}
+	.list-content>ul{
+		overflow: hidden;
+	}
+	.product{
+		width : calc(100% / 4);
+		float: left;
+		padding : 15px;
+		box-sizing: border-box;
+	}
+	.product>a{
+		background-color : #ffffff;
+		height: 300px;
+		display : block;
+	}
+	.product-img{
+		border: 1px solid #d9d9d9;
+		border-radius: 5px;
+		height : 200px;	
+	}
+</style>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="section product-list-wrap">
+			<div class="list-header">
+				<a class="btn-square w" href="#">오픈 예정</a>
+				<a class="btn-square" href="#">진행중</a>
+				<a class="btn-square w" href="#">종료/마감</a>
+			</div>
+			<div class="list-content">
+				<ul>
+					<li class="product">
+						<a href="#">
+							<div class="product-img">
+								<img>
+							</div>
+							<div class="product-info">
+								<div class="title"></div>
+								<div class="percent"></div>
+								<div class="deadline"></div>
+							</div>
+						</a>
+					</li>
+					<li class="product">
+						<a href="#">
+							<div class="product-img">
+								<img>
+							</div>
+							<div class="product-info">
+								<div class="title"></div>
+								<div class="percent"></div>
+								<div class="deadline"></div>
+							</div>
+						</a>
+					</li>
+					<li class="product">
+						<a href="#">
+							<div class="product-img">
+								<img>
+							</div>
+							<div class="product-info">
+								<div class="title"></div>
+								<div class="percent"></div>
+								<div class="deadline"></div>
+							</div>
+						</a>
+					</li>
+					<li class="product">
+						<a href="#">
+							<div class="product-img">
+								<img>
+							</div>
+							<div class="product-info">
+								<div class="title"></div>
+								<div class="percent"></div>
+								<div class="deadline"></div>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div>
+				
+			</div>
+		</section>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
