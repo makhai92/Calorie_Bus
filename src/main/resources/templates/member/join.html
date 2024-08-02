@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link href="css/default.css" rel="stylesheet">
+    <style>
+        .signin-wrap{
+            border: 1px solid var(--line2);
+            border-radius: 15px;
+            width: 800px;
+            margin: 0 auto;
+        }
+        .logo-box{
+            margin: 0 auto;
+            text-align: center;
+        }
+        .signin-box{
+            width: 50%;
+            margin: 0 auto;            
+            border-top: 1px solid var(--line2);
+        }
+        div[id^=signin-]{
+            width: 300px;
+            text-align: center;
+            background-color: var(--main2);
+            padding: 15px;
+            border: 1px solid var(--line2);
+            border-radius: 10px;
+            margin: 30px auto;
+        }
+        #sns-signin-title{
+            text-align: center;
+            padding-top: 30px;
+        }
+        #signin-naver{
+            background-color: #03CF5D;
+        }
+        #signin-kakao{
+            background-color: #F9E000;
+        }
+        a{
+            text-decoration: none;
+            color: var(--main1);
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+        .link-box{
+            text-align: center;
+        }
+        .link-box>div{
+            margin: 10px;
+        }
+        .link-box a{
+            color: var(--point1);
+        }
+    </style>
+</head>
+<body>
+    <!-- <th:block th:include="common/header"></th:block> -->
+    <!-- <th:block th:if="${session.member == null}"></th:block> -->
+    <div class="signin-wrap">
+        <div class="logo-box">
+            <img src="/image/caloriebus_logo.png" style="width: 200px;">
+        </div>
+        <div class="signin-box">
+            <div id="signin-email">
+                <a href="#">이메일로 회원가입</a>
+            </div>
+        </div>
+        <div class="signin-box">
+            <div id="sns-signin-title">
+                <h3>간편 로그인</h3>
+            </div>
+            <div id="signin-naver">
+                <a href="#">네이버로 회원가입</a>
+            </div>
+            <div id="signin-kakao">
+                <a href="#">카카오로 회원가입</a>
+            </div>
+        </div>
+        <div class="link-box">
+            <div>
+                <p>이미 계정이 있으신가요?</p>    
+            </div>
+            <div>
+                <a href="#">로그인하기</a>
+            </div>
+        </div>
+    </div>
+    <!-- <th:block th:include="common/footer"></th:block> -->
+</body>
+</html>
