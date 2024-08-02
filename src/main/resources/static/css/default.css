@@ -1,0 +1,119 @@
+:root {
+    /*main*/
+    --main1 : #141414;
+    --main2 : rgba(241, 229, 215, 1);
+
+    /*point*/
+    --point1 : #D8923D;
+    --point2 : #D9D9D9;
+
+    /*line*/
+    --line1 : #D9D9D9;
+    --line2 : #b5b5b5;
+    --line3 : #141414;
+
+    /*background-color*/
+    --bg1 : #ffffff;
+    --bg2 : #F6F6F6;
+}
+
+/*기본 글꼴*/
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+/*포인트 글꼴*/
+@font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    list-style: none;
+    font-family : 'Pretendard-Regular';
+    color: var(--main1)
+}
+
+
+
+
+
+
+
+
+
+
+[class^="btn-"] {
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/*둥근모양 버튼*/
+.btn-round{
+    width: 110px;
+    border-radius: 30px;
+    border: none;
+    background-color: var(--main2);
+}
+/*사각모양 버튼*/
+.btn-square{
+    width: 130px;
+    border: 0.8px solid var(--line1);
+    background-color: var(--main2);
+}
+
+[class^="btn-"].g {
+    background-color:var(--point2)
+}
+[class^="btn-"].w {
+    background-color: #ffffff;
+}
+
+.tbl{
+    border-top: 0.8px solid var(--line2);
+    width : 100%;
+    border-spacing: 0;
+}
+
+.tbl th, .tbl td{
+    text-align: center;
+    border-bottom: 0.8px solid var(--line2);
+    padding: 10px 20px;
+    font-family: 'Pretendard-Regular';
+    font-size: 12px;
+}
+.tbl th {
+    background-color: var(--main2)
+}
+
+.input-item1 > input {
+    margin: 0 5px;
+    font-size: 16px;
+    border: 0.8px solid var(--line1);
+    padding: 3px 3px;
+}
+.input-item2 > input {
+    font-size: 16px;
+    border: none;
+}
+.ttr1{
+    width: 100%;
+    font-size: 16px;
+    border: 0.8px solid var(--line1);
+    padding: 3px 3px;
+}
+.ttr2 {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+}
