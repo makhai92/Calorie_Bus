@@ -17,4 +17,9 @@ public class MemberController {
 	public String join() {
 		return "member/join";
 	}
+	
+	@GetMapping(value="/joinForm")
+	public String joinForm() {
+		return "member/joinForm";
+	}
 }
