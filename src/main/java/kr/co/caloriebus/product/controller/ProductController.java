@@ -3,6 +3,7 @@ package kr.co.caloriebus.product.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.caloriebus.product.model.service.ProductService;
@@ -20,4 +21,9 @@ public class ProductController {
 	
 	@Autowired
 	private FileUtils fileUtils;
+	
+	@GetMapping(value="/list")
+	public String list() {
+		return "/product/list";
+	}
 }

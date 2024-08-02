@@ -6,7 +6,12 @@
 <!-- 기본 js -->
 <script src="/js/default.js"></script>
 <script src="/js/sweetalert.min.js"></script>
-<header class="header">
+<link rel="stylesheet" href="Semi_Project.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+
+ <header class="header">
         <div>
             <div class="logo">
                 <a href="/">Calroie Bus</a>
@@ -20,13 +25,13 @@
                             <li><a href="#">운동정보</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">공동구매서비스</a></li>
+                    <li><a href="/product/list">공동구매서비스</a></li>
                     <li><a href="#">칼로리계산기</a></li>
                     <li><a href="#">커뮤니티</a>
                         <ul class="comu-menu">
                             <li><a href="#">자유글</a></li>
                             <li><a href="#">식단토크</a></li>
-                            <li><a href="#">식단후기</a></li>
+                            <li><a href="#">성공후기</a></li>
                             <li><a href="#">운동토크</a></li>
                         </ul>
                     </li>
@@ -39,11 +44,10 @@
                     <li><a href="#">고객센터</a></li>
                 </ul>
             </nav>
-
             <ul class="user-menu">
                 <th:block th:if="${session.member == null}">
                     <li><a href="#">로그인</a></li>
-                    <li><a href="#">회원가입</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
                 </th:block>
                 <th:block th:if="${session.member != null}">
                     <li><a href="#" th:text="${session.member.memberName}"></a></li>
