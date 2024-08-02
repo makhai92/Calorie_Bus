@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시글 리스트</title>
+<style>
+	.btn-category{
+		margin: 20px;
+	}
+	.btn-category>a{
+		margin: 0px 30px;
+	}
+	.content>.btn-wrap{
+		padding:10px 0;
+		margin: 5px 0;
+		overflow: hidden;
+	}
+	.btn-wrap>button{
+		float:left;
+	}
+	.input-item1{
+		overflow: hidden;
+	}
+	.input-item1>*{
+		float: right;
+		height: 36px;
+		box-sizing: border-box;
+	}
+	.input-item1>select{
+		width: 70px;
+		padding-left: 5px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<div class="page-title">커뮤니티</div>
+		<div class="btn-category">
+			<a class="btn-round" href="/board/list?reqPage=1">전체보기</a>
+			<a class="btn-round" href="/board/list?category=B1&reqPage=1">자유글</a>
+			<a class="btn-round" href="/board/list?category=B2&reqPage=1">성공후기</a>
+			<a class="btn-round" href="/board/list?category=B3&reqPage=1">식단토크</a>
+			<a class="btn-round" href="/board/list?category=B4&reqPage=1">운동토크</a>
+		</div>
+		<div class="btn-wrap">
+			<button class="btn-round">글쓰기</button>
+			<form action="/board/search" method="get">
+				<div class="input-item1">
+					<button class="btn-square">검색</button>
+					<input type="text" name="keyword">
+					<input type="hidden" name="reqPage" value="1">
+					<input type="hidden" name="boardCategory" th:value="${category}">
+					<select name="type">
+						<option value="title">제목</option>
+						<option value="writer">작성자</option>
+					</select>
+				</div>
+			</form>
+		</div>
+		<table class="tbl">
+			<tr>
+				<th style="width:15%;">카테고리</th>
+				<th style="width:35%;">제목</th>
+				<th style="width:15%;">작성자</th>
+				<th style="width:15%;">작성일</th>
+				<th style="width:10%">좋아요수</th>
+				<th style="width:10%">조회수</th>
+			</tr>
+			<tr th:each="board : ${list}">
+				<th:block th:switch="${board.boardCategory}">
+					<td th:case="B1">자유글</td>
+					<td th:case="B2">성공후기</td>
+					<td th:case="B3">식단토크</td>
+					<td th:case="B4">운동토크</td>
+				</th:block>
+				<td th:text="${board.boardTitle}"></td>
+				<td th:text="${board.boardWriter}"></td>
+				<td th:text="${board.regDate}"></td>
+				<td th:text="${board.likeCount}"></td>
+				<td th:text="${board.readCount}"></td>
+			</tr>
+		</table>
+		<div id="pageNavi" th:utext="${pageNavi}"></div>
+		<div>
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+			</ul>
+		</div>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+	<script>
+		const category = "[[${category}]]";
+		console.log(category);
+		function categoryBtnColor(){
+			const categoryBtn = $(".btn-category>a");
+			categoryBtn.addClass("g");
+			switch(category){
+			case "B1":
+				categoryBtn.eq(1).removeClass("g");
+				break;
+			case "B2":
+				categoryBtn.eq(2).removeClass("g");
+				break;
+			case "B3":
+				categoryBtn.eq(3).removeClass("g");
+				break;
+			case "B4":
+				categoryBtn.eq(4).removeClass("g");
+				break;
+			default:
+				categoryBtn.eq(0).removeClass("g");
+				break;
+			}
+		}
+		categoryBtnColor();
+	</script>
+</body>
+</html>

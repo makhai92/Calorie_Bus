@@ -52,19 +52,51 @@
 a {
     text-decoration: none;
 }
+
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     min-width: 800px;
     position: relative;
+    margin: 20px;
 }
+
+.marquee {
+    height: 25px;
+    width: 420px;
+  
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .marquee div {
+    display: block;
+    width: 200%;
+    height: 30px;
+  
+    position: absolute;
+    overflow: hidden;
+  
+    animation: marquee 10s linear infinite;
+  }
+  
+  .marquee span {
+    float: left;
+    width: 50%;
+  }
+  
+  @keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+  }
 
 .header {
     width: 100%;
     position: sticky;
     top: 0;
     z-index: 1;
+    background-color: #fff;
 }
 
 .header > div {
@@ -91,28 +123,28 @@ body {
 
 .nav {
     flex: 1;
-    border-top: 1px solid #000; /* 메뉴바 위쪽에 줄 추가 */
-    border-bottom: 1px solid #000; /* 메뉴바 아래쪽에 줄 추가 */
-    width: 100%; /* 위아래 선이 끝까지 쭉 가도록 설정 */
+    border-top: 1px solid #000; 
+    border-bottom: 1px solid #000;
+    width: 100%; 
     display: flex;
-    justify-content: center; /* 메뉴바 전체 가운데 정렬 */
+    justify-content: center; 
 }
 
 .nav > ul {
     display: flex;
     align-items: center;
-    justify-content: center; /* 메뉴 아이템들 가운데 정렬 */
-    padding: 10px 0; /* 메뉴바 상하 패딩 추가 */
+    justify-content: center;
+    padding: 10px 0; 
 }
 
 .nav > ul > li {
     position: relative;
     padding: 0 15px;
-    border-right: 1px solid #000; /* 각 메뉴 사이에 구분선 추가 */
+    border-right: 1px solid #000; 
 }
 
 .nav > ul > li:last-child {
-    border-right: none; /* 마지막 메뉴 항목의 오른쪽 구분선 제거 */
+    border-right: none;
 }
 
 .nav a,
@@ -175,16 +207,9 @@ body {
     max-width: 1400px;
     margin: 30px auto;
     flex: 1;
-<<<<<<< HEAD
 }
 
 .page-title {
-=======
-    background-color : #f1f1f1;
-  }
-	
-  .page-title {
->>>>>>> e6fa2cd6bfcd197265535f4baf2547f968c1c07d
     padding: 30px;
     text-align: center;
     font-family: ns-b;
@@ -210,10 +235,6 @@ body {
     left: 120px;
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> e6fa2cd6bfcd197265535f4baf2547f968c1c07d
 .footer-section.about-details {
     min-width: 300px;
     margin: 10px 20px;
