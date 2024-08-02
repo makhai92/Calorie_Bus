@@ -43,7 +43,7 @@
             <ul class="user-menu">
                 <th:block th:if="${session.member == null}">
                     <li><a href="#">로그인</a></li>
-                    <li><a href="#">회원가입</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
                 </th:block>
                 <th:block th:if="${session.member != null}">
                     <li><a href="#" th:text="${session.member.memberName}"></a></li>
