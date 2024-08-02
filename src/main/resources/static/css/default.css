@@ -44,159 +44,136 @@
 
 
 /*Header, Footer*/
-  a {
+a {
+
     text-decoration: none;
-  }
-  body {
+}
+body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     min-width: 800px;
     position: relative;
-  }
-  
-  .header {
+}
+
+.header {
     width: 100%;
     position: sticky;
     top: 0;
-    z-index:1;
-  }
-  .header > div {
-    padding: 10px;
+    z-index: 1;
+}
+
+.header > div {
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
-  }
-  .header a {
-  }
-  .logo {
-    margin-right: 24px;
-  }
-  .logo > a {
-    font-size: 28px;
-  }
-  .nav {
+    flex-direction: column;
+}
+
+.logo {
+    margin-bottom: 10px;
+}
+
+.logo > a {
+    font-size: 90px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-family: 'Italianno', cursive;
+    color: rgb(119, 86, 45);
+}
+
+.nav {
     flex: 1;
-  }
-  .nav > ul {
+    border-top: 1px solid #000; /* 메뉴바 위쪽에 줄 추가 */
+    border-bottom: 1px solid #000; /* 메뉴바 아래쪽에 줄 추가 */
+    width: 100%; /* 위아래 선이 끝까지 쭉 가도록 설정 */
+    display: flex;
+    justify-content: center; /* 메뉴바 전체 가운데 정렬 */
+}
+
+.nav > ul {
     display: flex;
     align-items: center;
-  }
-  .nav > ul > li {
-    margin: 0px 15px;
+    justify-content: center; /* 메뉴 아이템들 가운데 정렬 */
+    padding: 10px 0; /* 메뉴바 상하 패딩 추가 */
+}
+
+.nav > ul > li {
     position: relative;
-  }
-  .nav a,
-  .user-menu a {
+    padding: 0 15px;
+    border-right: 1px solid #000; /* 각 메뉴 사이에 구분선 추가 */
+}
+
+.nav > ul > li:last-child {
+    border-right: none; /* 마지막 메뉴 항목의 오른쪽 구분선 제거 */
+}
+
+.nav a,
+.user-menu a {
     transition-duration: 0.3s;
-  }
-  
-  .nav a:hover,
-  .user-menu a:hover {
-  }
-  
-  .nav .info-menu {
+}
+
+.nav a:hover,
+.user-menu a:hover {
+    color: var(--gray1);
+}
+
+.nav .info-menu,
+.nav .comu-menu,
+.nav .event-menu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #333;
-    border: 1px solid;
+    background-color: #fff;
+    border: 1px solid var(--main2);
+    border-radius: 5px;
     z-index: 1;
     list-style: none;
     padding: 10px 0;
     white-space: nowrap;
-    flex-direction: row; /* 가로로 정렬 */
+    flex-direction: row;
 }
 
-  .info-menu > li {
+.info-menu > li,
+.comu-menu > li,
+.event-menu > li {
     display: inline-block;
 }
 
-.info-menu > li > a {
-    color: ;
+.info-menu > li > a,
+.comu-menu > li > a,
+.event-menu > li > a {
+    color: var(--main2);
     padding: 10px;
     display: block;
 }
 
-.nav > ul > li:hover > .info-menu {
+.nav > ul > li:hover .info-menu,
+.nav > ul > li:hover .comu-menu,
+.nav > ul > li:hover .event-menu {
     display: flex;
 }
 
-  .nav .comu-menu {
-    display: none;
-    position: absolute;
-    width: 130px;
-    background-color: #fff;
-    border: 1px solid ;
-    border-radius: 5px;
-    left: 10px;
-    z-index: 1;
-  }
-
-  .nav .event-menu {
-    display: none;
-    position: absolute;
-    width: 130px;
-    background-color: #fff;
-    border: 1px solid ;
-    border-radius: 5px;
-    left: 10px;
-    z-index: 1;
-  }
-  
-  .info-menu > li > a {
-    color: ;
-    padding: 10px;
-    display: block;
-  }
-
-  .comu-menu > li > a {
-    color: ;
-    padding: 10px;
-    display: block;
-  }
-
-  .event-menu > li > a {
-    color: ;
-    padding: 10px;
-    display: block;
-  }
-  .nav > ul > li:hover > .info-menu {
-    display: block;
-  }
-
-  .nav > ul > li:hover > .comu-menu {
-    display: block;
-  }
-  .nav > ul > li:hover > .event-menu {
-    display: block;
-  }
-
-
-  .info-menu > li > a:hover {
-  }
-
-  .comu-menu > li > a:hover {
-  }
-
-  .event-menu > li > a:hover {
-  }
-
-  .user-menu {
+.user-menu {
     display: flex;
-    gap : 30px;
-  }
-  .user-menu > li {
-    margin-left: 20px;
-  }
-  
-  .content {
+    gap: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.content {
     width: 100%;
     max-width: 1300px;
     margin: 30px auto;
     flex: 1;
+}
+
+.page-title {
     background-color : #f1f1f1;
   }
 	
@@ -205,10 +182,12 @@
     text-align: center;
     font-family: ns-b;
     font-size: 20px;
-  }
-footer {
+}
+
+.footer {
     color: #333;
     padding: 40px 20px;
+    border-top: 2px solid #ccc;
 }
 
 .footer-content {
@@ -223,7 +202,6 @@ footer {
     position: relative;
     left: 120px;
 }
-
 
 .footer-section.about-details {
     min-width: 300px;
@@ -241,7 +219,8 @@ footer {
     margin-bottom: 10px;
 }
 
-.footer-section p, .footer-section a {
+.footer-section p,
+.footer-section a {
     font-size: 14px;
     color: #333;
     line-height: 1.5;
@@ -261,7 +240,6 @@ footer {
     width: 24px;
     height: 24px;
 }
-
 
 
 
@@ -304,6 +282,7 @@ footer {
     border-top: 0.8px solid var(--line2);
     width : 100%;
     border-spacing: 0;
+    
 }
 
 .tbl th, .tbl td{
