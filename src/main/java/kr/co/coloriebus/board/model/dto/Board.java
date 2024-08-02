@@ -18,4 +18,8 @@ public class Board {
 	private int readCount;
 	private String regDate;
 	private String boardWriter;
+	private int likeCount;
+	private int isLike;
+	private int commentCount;
+	private List<BoardFile> fileList;
 }

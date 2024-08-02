@@ -14,10 +14,14 @@ public class BoardListRowMapper implements RowMapper<Board>{
 		Board b = new Board();
 		b.setBoardCategory(rs.getString("board_category"));
 		b.setBoardNo(rs.getInt("board_no"));
+		b.setMemberNo(rs.getInt("member_no"));
 		b.setBoardTitle(rs.getString("board_title"));
 		b.setBoardWriter(rs.getString("board_writer"));
 		b.setReadCount(rs.getInt("read_count"));
 		b.setRegDate(rs.getString("reg_date"));
+		b.setIsLike(rs.getInt("is_like"));
+		b.setLikeCount(rs.getInt("like_count"));
+		b.setCommentCount(rs.getInt("comment_count"));
 		return b;
 	}
 
