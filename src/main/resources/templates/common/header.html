@@ -6,7 +6,12 @@
 <!-- 기본 js -->
 <script src="/js/default.js"></script>
 <script src="/js/sweetalert.min.js"></script>
-<header class="header">
+<link rel="stylesheet" href="Semi_Project.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+
+ <header class="header">
         <div>
             <div class="logo">
                 <a href="/">Calroie Bus</a>
@@ -16,7 +21,7 @@
                     <li><a href="#">뉴스레터</a></li>
                     <li><a href="#">정보공유서비스</a>
                         <ul class="info-menu">
-                            <li><a href="#">식단정보</a></li>
+                            <li><a href="/api/food">식단정보</a></li>
                             <li><a href="#">운동정보</a></li>
                         </ul>
                     </li>
@@ -26,7 +31,7 @@
                         <ul class="comu-menu">
                             <li><a href="#">자유글</a></li>
                             <li><a href="#">식단토크</a></li>
-                            <li><a href="#">식단후기</a></li>
+                            <li><a href="#">성공후기</a></li>
                             <li><a href="#">운동토크</a></li>
                         </ul>
                     </li>
@@ -39,7 +44,6 @@
                     <li><a href="#">고객센터</a></li>
                 </ul>
             </nav>
-
             <ul class="user-menu">
                 <th:block th:if="${session.member == null}">
                     <li><a href="/member/login">로그인</a></li>
