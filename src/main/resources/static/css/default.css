@@ -43,18 +43,7 @@
 
 
 
-
-
-
-
-
 /*Header, Footer*/
-* {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    list-style-type: none;
-  }
   a {
     text-decoration: none;
   }
@@ -205,10 +194,12 @@
   
   .content {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1300px;
     margin: 30px auto;
     flex: 1;
+    background-color : #f1f1f1;
   }
+	
   .page-title {
     padding: 30px;
     text-align: center;
@@ -232,7 +223,6 @@ footer {
     position: relative;
     left: 120px;
 }
-
 
 
 .footer-section.about-details {
@@ -286,6 +276,7 @@ footer {
     padding: 10px 20px;
     text-align: center;
     box-sizing: border-box;
+    
 }
 
 /*둥근모양 버튼*/
@@ -320,7 +311,7 @@ footer {
     border-bottom: 0.8px solid var(--line2);
     padding: 10px 20px;
     font-family: 'Pretendard-Regular';
-    font-size: 12px;
+    font-size: 14px;
 }
 .tbl th {
     background-color: var(--main2)
