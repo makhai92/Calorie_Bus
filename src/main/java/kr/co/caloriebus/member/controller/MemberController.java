@@ -22,4 +22,9 @@ public class MemberController {
 	public String joinForm() {
 		return "member/joinForm";
 	}
+	
+	@GetMapping(value="/login")
+	public String login() {
+		return "member/loginForm";
+	}
 }

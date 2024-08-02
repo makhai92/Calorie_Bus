@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>로그인</title>
+<link href="css/default.css" rel="stylesheet">
+<style>
+    .login-wrap{
+        border: 1px solid var(--line2);
+        border-radius: 15px;
+        width: 800px;
+        margin: 0 auto;
+    }
+    .logo-box{
+        margin: 0 auto;
+        text-align: center;
+    }
+    .login-box{
+        width: 70%;
+        margin: 0 auto;            
+        border-top: 1px solid var(--line2);
+    }
+    .loginform-tbl{
+    	margin: 30px auto;
+    }
+    div[id^=login-]{
+        width: 300px;
+        text-align: center;
+        background-color: var(--main2);
+        padding: 15px;
+        border: 1px solid var(--line2);
+        border-radius: 10px;
+        margin: 30px auto;
+    }
+    #sns-login-title{
+        text-align: center;
+        padding-top: 30px;
+    }
+    #login-naver{
+        background-color: #03CF5D;
+    }
+    #login-kakao{
+        background-color: #F9E000;
+    }
+    a{
+        text-decoration: none;
+        color: var(--main1);
+    }
+    a:hover{
+        text-decoration: underline;
+    }
+    .link-box{
+    	margin: 30px auto;
+        text-align: center;
+    }
+    .link-box>div{
+        margin: 10px;
+    }
+    .link-box a{
+        color: var(--point1);
+    }
+    .input-item1{
+    	padding: 10px;
+    }
+    .input-item1>input{
+    	line-height: 20px;
+    }
+    button[name=login-btn]{
+    	width: 80px;
+    	height: 80px;
+    }
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="section">
+		    <th:block th:if="${session.member == null}">
+			    <div class="login-wrap">
+			        <div class="logo-box">
+			            <img src="/image/caloriebus_logo.png" style="width: 200px;">
+			        </div>
+			        <div class="login-box">
+			            <form>
+			                <table class="loginform-tbl">
+			                    <tr>
+			                        <th style="width: 100px;">아이디</th>
+			                        <td style="width: 260px;" class="input-item1">
+			                        	<input type="text" name="memberId" id="memberId" style="width: 260px">
+			                        </td>
+			                        <td rowspan="2" style="width: 100px;">
+			                        	<button type="submit" name="login-btn" class="btn-round">로그인</button>
+			                        </td>
+			                    </tr>
+			                    <tr>
+			                        <th>비밀번호</th>
+			                        <td class="input-item1">
+			                        	<input type="password" name="memberPw" id="memberPw" style="width: 260px">
+			                        </td>
+			                    </tr>
+			            	</table>
+			            </form>
+			        </div>
+			        <div class="link-box">
+			            <div>
+			                <p>아이디/비밀번호를 잊으셨나요?</p>
+			            </div>
+			            <div>
+			                <a href="/member/forgotId">아이디 찾기</a>
+			            </div>
+			            <div>	                
+			                <a href="/member/forgotPw">비밀번호 찾기</a>
+			            </div>
+			        </div>
+			        <div class="login-box">
+			            <div id="sns-login-title">
+			                <h3>간편 로그인</h3>
+			            </div>
+			            <div id="login-naver">
+			                <a href="#">네이버로 로그인</a>
+			            </div>
+			            <div id="login-kakao">
+			                <a href="#">카카오로 로그인</a>
+			            </div>
+			        </div>
+			    </div>
+			</th:block>
+		</section>
+	</main>    
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
