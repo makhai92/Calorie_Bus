@@ -56,9 +56,6 @@
     cursor: pointer;
     background-color: white;
 }
-.s-button:hover{
-  font-weight: bolder;
-}
 .info{
     margin-top: 100px ;
     width: 100%;
@@ -103,16 +100,13 @@
     cursor: pointer;
     background-color: white;
 }
-.inquery-button:hover{
-  font-weight: bolder;
-}
 
 </style>
 </head>
 <th:block th:include="common/header"></th:block>
 <body>
     <div class="img">
-        <img src="/image/cscmain.png" width="250px" height="250px">
+        <img src="/image/pngwing.com.png" width="250px" height="250px">
     </div>
     <div class="help">
         <span>무엇을 도와드릴까요?</span>
@@ -120,7 +114,7 @@
     <div class="search-box">
             <span class="material-icons" id="search-icon">search</span>
         <button type="submit" class="s-button">
-            <span>자주 묻는 질문들을 검색해보세요!</span>
+            <span>궁금한 점을 검색해보세요 !</span>
         </button>
     </div>
     <div class="info">
@@ -142,6 +136,7 @@
                     <span>1대1 문의</span>
                     <br>
                     <span>바로가기</span>
+                    <a href="/faqMain"></a>
                 </button>
             </div>
         </div>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="css/faqMain.css">
+    <link rel="stylesheet" href="css/headfooter.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="Semi_Project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+<style>
+.faq{
+    padding: 50px 0;
+    width: 1200px;
+    height: 800px;
+    margin: 0 auto;
+    
+}
+.title{
+    margin-bottom: 50px;
+}
+.title>*{
+    font-size: 30px;
+    font-weight: bolder;    
+}
+#search-icon{
+    font-size: 40px;
+    position: relative;
+    top: 15px;
+}
+#keyword{
+    width: 600px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    border-bottom: 2.5px solid black ;
+}
+.writeFaq{
+    float: right;
+    margin-right: 100px;
+    width: 100px;
+    height: 50px;
+    font-size: 15px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.faq-list{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+    height: 500px;
+
+}
+.faq-list>*{
+    font-size: 20px;
+    float: left;
+    border: none;
+}
+
+#box{
+    border: none;
+}
+#support{
+    width: 50px;
+}
+#faqNum{
+    width: 50px;
+    font-size: 17px;
+}
+#faqTitle{
+    width : 500px;
+    font-size: 17px;
+}
+</style>
+</head>
+<th:block th:include="common/header"></th:block>
+<body>
+    <div class="faq">
+        <div class="title">
+            <span>자주 묻는 질문</span>
+        </div>
+        <div class="search-box">
+            <form action="search.html" method="get">
+                <span class="material-icons" id="search-icon">search</span>
+                <input type="text" id="keyword" placeholder="궁금한 점을 검색해보세요 !">
+                <button type="submit" class="writeFaq">FaQ 작성하기</button>
+            </form>
+        </div>
+        <div class="faq-list">
+            <table class="tbl">
+                <tr id="box" th:each="faq : ${list}">
+                    <td id="support"><span class="material-symbols-outlined">contact_support</span></td>
+                    <td th:text = "${faq.faqNo}" id="faqNum">01</td>
+                    <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목1----------</td>
+                </tr>
+                <tr id="box" th:each="faq : ${list}">
+                    <td id="support"><span class="material-symbols-outlined">contact_support</span></td>
+                    <td th:text = "${faq.faqNo}" id="faqNum">02</td>
+                    <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목2----------</td>
+                </tr>
+                <tr id="box" th:each="faq : ${list}">
+                    <td id="support"><span class="material-symbols-outlined">contact_support</span></td>
+                    <td th:text = "${faq.faqNo}" id="faqNum">03</td>
+                    <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목3----------</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+<th:block th:include="common/header"></th:block>
+
+</html>
