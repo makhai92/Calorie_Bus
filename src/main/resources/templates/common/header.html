@@ -20,7 +20,7 @@
                             <li><a href="#">운동정보</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">공동구매서비스</a></li>
+                    <li><a href="/product/list">공동구매서비스</a></li>
                     <li><a href="#">칼로리계산기</a></li>
                     <li><a href="#">커뮤니티</a>
                         <ul class="comu-menu">
@@ -43,7 +43,7 @@
             <ul class="user-menu">
                 <th:block th:if="${session.member == null}">
                     <li><a href="#">로그인</a></li>
-                    <li><a href="#">회원가입</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
                 </th:block>
                 <th:block th:if="${session.member != null}">
                     <li><a href="#" th:text="${session.member.memberName}"></a></li>

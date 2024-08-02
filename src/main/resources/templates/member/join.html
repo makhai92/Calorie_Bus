@@ -6,7 +6,7 @@
     <title>회원가입</title>
     <link href="css/default.css" rel="stylesheet">
     <style>
-        .signin-wrap{
+        .join-wrap{
             border: 1px solid var(--line2);
             border-radius: 15px;
             width: 800px;
@@ -16,12 +16,12 @@
             margin: 0 auto;
             text-align: center;
         }
-        .signin-box{
+        .join-box{
             width: 50%;
             margin: 0 auto;            
             border-top: 1px solid var(--line2);
         }
-        div[id^=signin-]{
+        div[id^=join-]{
             width: 300px;
             text-align: center;
             background-color: var(--main2);
@@ -30,14 +30,14 @@
             border-radius: 10px;
             margin: 30px auto;
         }
-        #sns-signin-title{
+        #sns-join-title{
             text-align: center;
             padding-top: 30px;
         }
-        #signin-naver{
+        #join-naver{
             background-color: #03CF5D;
         }
-        #signin-kakao{
+        #join-kakao{
             background-color: #F9E000;
         }
         a{
@@ -59,37 +59,42 @@
     </style>
 </head>
 <body>
-    <!-- <th:block th:include="common/header"></th:block> -->
-    <!-- <th:block th:if="${session.member == null}"></th:block> -->
-    <div class="signin-wrap">
-        <div class="logo-box">
-            <img src="/image/caloriebus_logo.png" style="width: 200px;">
-        </div>
-        <div class="signin-box">
-            <div id="signin-email">
-                <a href="#">이메일로 회원가입</a>
-            </div>
-        </div>
-        <div class="signin-box">
-            <div id="sns-signin-title">
-                <h3>간편 로그인</h3>
-            </div>
-            <div id="signin-naver">
-                <a href="#">네이버로 회원가입</a>
-            </div>
-            <div id="signin-kakao">
-                <a href="#">카카오로 회원가입</a>
-            </div>
-        </div>
-        <div class="link-box">
-            <div>
-                <p>이미 계정이 있으신가요?</p>    
-            </div>
-            <div>
-                <a href="#">로그인하기</a>
-            </div>
-        </div>
-    </div>
-    <!-- <th:block th:include="common/footer"></th:block> -->
+    <th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="section">
+		    <th:block th:if="${session.member == null}">
+			    <div class="join-wrap">
+			        <div class="logo-box">
+			            <img src="/image/caloriebus_logo.png" style="width: 200px;">
+			        </div>
+			        <div class="join-box">
+			            <div id="join-email">
+			                <a href="/member/joinForm">이메일로 회원가입</a>
+			            </div>
+			        </div>
+			        <div class="join-box">
+			            <div id="sns-join-title">
+			                <h3>간편 로그인</h3>
+			            </div>
+			            <div id="join-naver">
+			                <a href="#">네이버로 회원가입</a>
+			            </div>
+			            <div id="join-kakao">
+			                <a href="#">카카오로 회원가입</a>
+			            </div>
+			        </div>
+			        <div class="link-box">
+			            <div>
+			                <p>이미 계정이 있으신가요?</p>    
+			            </div>
+			            <div>
+			                <a href="#">로그인하기</a>
+			            </div>
+			        </div>
+			    </div>
+			</th:block>
+		</section>
+	</main>    
+	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
