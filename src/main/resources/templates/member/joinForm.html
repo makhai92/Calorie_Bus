@@ -36,6 +36,9 @@
         width: 300px;
         margin: 30px;
     }
+    select{
+    	margin-right: 5px;
+    }
     </style>
 </head>
 <body>
@@ -79,7 +82,13 @@
                     <tr>
                         <th>이메일</th>
                         <td class="input-item1">
-                            <input type="text" name="memberEmail" id="memberEmail" style="width: 360px">
+                            <input type="text" name="memberEmail" id="memberEmail" style="width: 100px">
+                            <span>@</span>
+                            <input type="readonly" name="emailDomain" id="emailDomain" style="width: 100px">
+                            <select name="emailDomain" style="width: 110px">
+                            	<option value="naver.com">naver.com</option>
+                            	<option value="gmail.com">gmail.com</option>
+                            </select>
                             <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
                         </td>
                     </tr>
