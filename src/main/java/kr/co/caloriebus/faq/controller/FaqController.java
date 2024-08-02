@@ -14,7 +14,11 @@ public class FaqController {
 	private FaqService faqService;
 
 @GetMapping(value="/cscMain")
-public String login() {
+public String cscMain() {
 	return "faq/cscMain";
+}
+@GetMapping(value="/faqMain")
+public String faqMain() {
+	return "faq/faqMain";
 }
 }
