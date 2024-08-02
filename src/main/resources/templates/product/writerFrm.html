@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.content{
+		background-color: var(--bg2);
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section>
+			<div class="page-title">상품 등록</div>
+			<form action="/product/insert" method="post" enctype="multipart/form-data">
+				<table>
+					<tr>
+						<th style="width:10%;">상태</th>
+						<td style="width:10%;">
+							<div class="input-item1">
+								<div class="select">
+									<select>
+										<option>준비중</option>
+										<option>진행중</option>
+										<option>종료/마감</option>
+									</select>
+								</div>
+							</div>
+						</td>
+						<th style="width:10%;">판매 시작일</th>
+						<td style="width:15%;">
+							<div class="input-item1">
+								<input type="text">
+							</div>
+						</td>
+						<th style="width:10%;">판매 종료일</th>
+						<td style="width:45%;">
+							<div class="input-item1">
+								<input type="text">
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</section>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

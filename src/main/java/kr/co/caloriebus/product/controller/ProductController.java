@@ -26,4 +26,9 @@ public class ProductController {
 	public String list() {
 		return "/product/list";
 	}
+	
+	@GetMapping(value="/writerFrm")
+	public String writerFrm() {
+		return "/product/writerFrm";
+	}
 }

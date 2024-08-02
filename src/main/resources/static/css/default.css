@@ -197,7 +197,6 @@
     max-width: 1300px;
     margin: 30px auto;
     flex: 1;
-    background-color : #f1f1f1;
   }
 	
   .page-title {
@@ -339,5 +338,11 @@ footer {
     width: 100%;
     font-size: 16px;
     border: none;
+    padding: 3px 3px;
+}
+select{
+	margin: 0 5px;
+    font-size: 16px;
+    border: 0.8px solid var(--line1);
     padding: 3px 3px;
 }
