@@ -53,8 +53,13 @@
             </nav>
             <ul class="user-menu">
                 <th:block th:if="${session.member == null}">
+<<<<<<< HEAD
                     <li><a href="#">로그인</a></li>
                     <li><a href="#">회원가입</a></li>
+=======
+                    <li><a href="/member/login">로그인</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
+>>>>>>> 0e83620c2f19c6f29115620812069fdf6ccb3bd3
                 </th:block>
                 <th:block th:if="${session.member != null}">
                     <li><a href="#" th:text="${session.member.memberName}"></a></li>

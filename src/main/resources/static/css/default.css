@@ -50,6 +50,7 @@
 
 /*Header, Footer*/
 a {
+
     text-decoration: none;
 }
 
@@ -210,6 +211,13 @@ body {
 }
 
 .page-title {
+<<<<<<< HEAD
+=======
+    background-color : #f1f1f1;
+  }
+	
+  .page-title {
+>>>>>>> 0e83620c2f19c6f29115620812069fdf6ccb3bd3
     padding: 30px;
     text-align: center;
     font-family: ns-b;
@@ -350,5 +358,11 @@ body {
     width: 100%;
     font-size: 16px;
     border: none;
+    padding: 3px 3px;
+}
+select{
+	margin: 0 5px;
+    font-size: 16px;
+    border: 0.8px solid var(--line1);
     padding: 3px 3px;
 }

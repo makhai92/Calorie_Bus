@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>정보공유서비스</title>
+<style>
+
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<main class="content">
+			<section class="section">
+				<div class="page-title">음식칼로리</div>
+				<table class="tbl tbl-border food">
+					<tr>
+						<th style="width: 20%">식품명</th>
+						<th style="width: 15%">칼로리(kcal)</th>
+						<th style="width: 15%">탄수화물(g)</th>
+						<th style="width: 15%">단백질(g)</th>
+						<th style="width: 15%">지방(g)</th>
+						<th style="width: 10%">당류(g)</th>
+						<th style="width: 10%">나트륨(mg)</th>
+					</tr>
+				</table>
+				
+				<div class="btn-zone">
+					<button id="more-btn" class="btn-primary lg">더보기</button>
+				</div>
+			</section>
+		</main>
+		<script>
+			let pageNo = 1;
+			$("#more-btn").on("click",function(){
+				$.ajax({
+					url : "/api/foodTotal",
+					data:{pageNo : pageNo},
+					type : "get",
+					success : function(data){
+						for(let i=0;i<data.length;i++){
+							const f = data[i];
+							const tr = $("<tr>");
+							
+							const foodNameTd = $("<td>");
+							foodNameTd .text(f.foodName);
+							
+							const kcalTd = $("<td>");
+							kcalTd.text(f.kcal);
+							
+							const protTd = $("<td>");
+							protTd.text(f.prot);
+							
+							const fatTd = $("<td>");
+							fatTd.text(f.fat);
+							
+							const cardTd = $("<td>");
+							cardTd.text(f.card);
+							
+							const sugarTd = $("<td>");
+							sugarTd.text(f.sugar);
+							
+							const natTd = $("<td>");
+							natTd.text(f.nat);
+							
+							tr.append(foodNameTd).append(kcalTd).append(protTd).append(fatTd).append(cardTd).append(sugarTd).append(natTd);
+							
+							$(".food").append(tr);	
+						}
+						pageNo++;
+					},
+					error : function(){
+					console.log("에러");						
+					}
+				});
+			});
+		</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
+</body>
+</html>

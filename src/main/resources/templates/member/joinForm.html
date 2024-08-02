@@ -53,7 +53,7 @@
                     <tr>
                         <th style="width: 100px;">아이디</th>
                         <td style="width: 500px;" class="input-item1">
-                            <input type="text" name="memberId" id="memberId" style="width: 368px;">
+                            <input type="text" name="memberId" id="memberId" style="width: 360px;">
                             <button type="button" class="btn-round" id="id-check-btn">중복 확인</button>
                         </td>
                     </tr>
@@ -79,14 +79,20 @@
                     <tr>
                         <th>이메일</th>
                         <td class="input-item1">
-                            <input type="text" name="memberEmail" id="memberEmail" style="width: 368px">
+                            <input type="text" name="memberEmail" id="memberEmail" style="width: 100px">
+                            <span>@</span>
+                            <input type="readonly" name="emailDomain" id="emailDomain" style="width: 100px">
+                            <select name="emailDomain" style="width: 105px" class="select">
+                            	<option value="naver.com">naver.com</option>
+                            	<option value="gmail.com">gmail.com</option>
+                            </select>
                             <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
                         </td>
                     </tr>
                     <tr>
                         <th>인증 코드</th>
                         <td class="input-item1">
-                            <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 368px">
+                            <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px">
                             <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
                         </td>
                     </tr>
