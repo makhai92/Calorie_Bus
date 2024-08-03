@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.member.model.service.MemberService;
 
@@ -27,7 +28,7 @@ public class MemberController {
 		return "member/joinForm";
 	}
 	
-	@GetMapping(value="/login")
+	@GetMapping(value="/loginForm")
 	public String login() {
 		return "member/loginForm";
 	}
@@ -52,7 +53,32 @@ public class MemberController {
 			return "redirect:/";			
 		}
 		else {
-			return "redirect:/";
+			return "member/join";
 		}
+	}
+	
+	// 로그인
+	@GetMapping(value="/login")
+	public String loginMember(Member m, HttpSession session) {
+		Member member = memberService.selectOneMember(m);
+		if (member != null) {
+			session.setAttribute("member", member);
+			return "redirect:/";			
+		}
+		else {
+			return "redirect:member/loginForm";
+		}
+	}
+	
+	// 로그아웃
+	@GetMapping(value="/logout")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";			
+	}
+	// 마이페이지로 이동
+	@GetMapping(value="/mypage")
+	public String mypage() {
+		return "member/mypage";
 	}
 }

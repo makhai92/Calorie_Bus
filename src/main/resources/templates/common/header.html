@@ -21,7 +21,7 @@
               
            
             <div class="logo">
-                <a href="/">Calroie Bus</a>
+                <a href="/">Calorie Bus</a>
             </div>
             <nav class="nav">
                 <ul>
@@ -52,13 +52,13 @@
                 </ul>
             </nav>
             <ul class="user-menu">
-
-                    <li><a href="/member/login">로그인</a></li>
+                <th:block th:if="${session.member == null}">
+                    <li><a href="/member/loginForm">로그인</a></li>
                     <li><a href="/member/join">회원가입</a></li>
                 </th:block>
                 <th:block th:if="${session.member != null}">
-                    <li><a href="#" th:text="${session.member.memberName}"></a></li>
-                    <li><a href="#">로그아웃</a></li>
+                    <li><a href="/member/mypage" th:text="${session.member.memberName}"></a></li>
+                    <li><a href="/member/logout">로그아웃</a></li>
                 </th:block>
             </ul>
         </div>

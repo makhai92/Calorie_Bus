@@ -22,4 +22,9 @@ public class MemberService {
 		int result = memberDao.insertMember(m);
 		return result;
 	}
+
+	public Member selectOneMember(Member m) {
+		Member member = memberDao.selectOneMember(m);
+		return member;
+	}
 }

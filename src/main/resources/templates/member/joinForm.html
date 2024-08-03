@@ -22,7 +22,7 @@
         padding: 10px;
     }
     .input-item1>input{
-        width: 100%;
+    	width: 490px;
         line-height: 20px;
     }
     .input-item1>p{
@@ -35,6 +35,10 @@
     #join-btn{
         width: 300px;
         margin: 30px;
+    }
+    .birth-box{
+    	display: flex;
+    	justify-content: center;
     }
     </style>
 </head>
@@ -82,7 +86,8 @@
                             <input type="text" name="emailInput" id="emailInput" style="width: 100px" required>
                             <span>@</span>
                             <input type="text" name="emailDomain" id="emailDomain" style="width: 100px" required readonly>
-                            <select id="selectDomain" style="width: 105px" class="select">
+                            <select id="selectDomain" style="width: 105px" class="select">                             
+                            	<option disabled selected>도메인 선택</option>
                             	<option value="naver.com">naver.com</option>
                             	<option value="gmail.com">gmail.com</option>
                             </select>
@@ -112,7 +117,18 @@
                     <tr>
                         <th>생년월일</th>
                         <td class="input-item1">
-                            <input type="text" name="memberBirth" id="memberBirth">
+                        	<input type="hidden" name="memberBirth" id="memberBirth" required>
+                        	<div class="birth-box">
+								<select class="select" id="birth-year" style="width: 33%">
+							    	<option disabled selected value="-1">출생 연도</option>
+							  	</select>
+							 	<select class="select" id="birth-month" style="width: 33%">
+							    	<option disabled selected value="-1">월</option>
+							  	</select>
+							  	<select class="select" id="birth-day" style="width: 33%">
+							    	<option disabled selected value="-1">일</option>
+							  	</select>
+                        	</div>
                         </td>
                     </tr>
                     <tr>
@@ -214,6 +230,75 @@
 				$(".check-msg-phone").text("전화번호는 11자리 숫자로 입력해야 합니다.");			
 			}
 		})
+		
+		// 생년월일
+		const birthYear = $("#birth-year");
+		var isYearOptionExisted = false;
+		birthYear.on("focus", function () {
+			if(!isYearOptionExisted) {
+				for(var i = 2024; i > 1924; i--) {
+					const yearOption = $("<option>");
+					yearOption.attr("value", i);
+					yearOption.text(i);
+					$(this).append(yearOption);
+				}
+				isYearOptionExisted = true;
+			}
+		})
+		
+		const birthMonth = $("#birth-month");
+		var isMonthOptionExisted = false;
+		birthMonth.on("focus", function () {
+			if(!isMonthOptionExisted) {
+				for(var i = 1; i <= 12; i++) {
+					const monthOption = $("<option>");
+					if (i < 10) {
+						monthOption.attr("value", "0" + i);
+						monthOption.text("0" + i);						
+					}
+					else {						
+						monthOption.attr("value", i);
+						monthOption.text(i);
+					}
+					$(this).append(monthOption);
+				}
+				isMonthOptionExisted = true;
+			}
+		})
+		
+		const birthDay = $("#birth-day");
+		var isDayOptionExisted = false;
+		birthDay.on("focus", function () {
+			if(!isDayOptionExisted) {
+				for(var i = 1; i <= 31; i++) {
+					const dayOption = $("<option>");
+					if (i < 10) {
+						dayOption.attr("value", "0" + i);
+						dayOption.text("0" + i);						
+					}
+					else {						
+						dayOption.attr("value", i);
+						dayOption.text(i);
+					}
+					$(this).append(dayOption);
+				}
+				isDayOptionExisted = true;
+			}
+		})
+		
+		$(".birth-box>select").on("click", function(){
+			addMemberBirth();
+		})
+		
+		function addMemberBirth() {			
+			if(birthYear.val() > 0 && birthMonth.val() > 0 && birthDay.val() > 0) {
+				$("#memberBirth").val(birthYear.val() + "-" + birthMonth.val() + "-" + birthDay.val());
+			}
+		}
+
+		function checkValid() {
+			return true;
+		}
 		
 		/*
 		function checkValid(){
