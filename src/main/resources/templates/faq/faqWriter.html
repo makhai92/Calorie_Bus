@@ -28,10 +28,10 @@
     font-size: 30px;
     font-weight: bolder;    
 }
-#search-icon{
+#title-symbol{
     font-size: 40px;
     position: relative;
-    top: 15px;
+    top: 10px;
 }
 .faqTitle{
     width: 500px;
@@ -42,11 +42,19 @@
     align-items: center;
 }
 .faq-write-wrap {
-width: 900px;
+width: 1000px;
 }
 .faq-write-wrap .input-item>textarea{
     width: 900px;
     height: 500px;
+    font-size: 18px;
+}
+#faqTitle{
+    float: left;
+    width: 800px;
+    height: 25px;
+    border : none;
+    font-size: 20px;
 }
 </style>
 </head>
@@ -65,7 +73,7 @@ width: 900px;
 			<th>제목</th>
 				<td colspan="3">
 				<div class="input-item">
-					<input type="text" name="faqTitle">
+					<input type="text" id="faqTitle">
 				</div>
 		</tr>
 		<tr>
