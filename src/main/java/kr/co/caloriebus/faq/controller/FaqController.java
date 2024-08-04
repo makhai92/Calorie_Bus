@@ -20,8 +20,14 @@ public String cscMain() {
 @GetMapping(value="/faqMain")
 public String faqMain() {
 	return "faq/faqMain";
-}@GetMapping(value="/inqueryMain")
+}
+@GetMapping(value="/inqueryMain")
 public String inqueryMain() {
 	return "faq/inqueryMain";
 }
+@GetMapping(value="/faqWriter")
+public String faqWriter() {
+	return "faq/faqWriter";
+}
+
 }
