@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+   <script th:inline="javascript">
+            const message = [[${data.message}]];
+            if (message) {
+                alert(message);
+            }
+            
+            const redirectUrl = [[${data.redirectUrl}]];
+            if (redirectUrl){  	
+	            location.href = redirectUrl;
+            }
+    </script>
+</body>
+</html>
