@@ -38,15 +38,10 @@ public class MemberService {
 	}
 
 	public int verifyEmail(String memberEmail) {
-		System.out.println(2);
 		Random random = new Random();
-		System.out.println("값 1 "+ random);
 		int veriCode = random.nextInt(888888) + 111111;
-		System.out.println("값 2 " + veriCode);
 		String setFrom = "chae02100103@gmail.com";
-		System.out.println("값 3" + setFrom);
 		String title = "칼로리버스 회원가입 인증 이메일입니다.";
-		System.out.println("값 4 " + title);
 		String content = "인증 코드는 [" + veriCode + "]입니다." + 
 						"<br>" + 
 						"위 번호를 인증 코드 입력란에 입력해 주세요.";
@@ -62,11 +57,6 @@ public class MemberService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		System.out.println(veriCode);
-		System.out.println(veriCode);
-		System.out.println(veriCode);
-		System.out.println(veriCode);
-		System.out.println(veriCode);
 		return veriCode;
 	}
 }
