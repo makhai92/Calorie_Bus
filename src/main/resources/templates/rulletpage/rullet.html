@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalorieBus</title>
+    <title>Rullet</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <script src="src/roulette.js"></script>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/default.css">
     <link rel="stylesheet" href="/css/rullet.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,35 +27,57 @@
             </div>
             <div id="app"></div>
         </div>
-        <div class="event-info">
-            <h1>Rollin 이벤트</h1>
-            <p>과연 이번주 당첨자는???</p>
-            <p class="explan-text">성공후기 게시판에 가장인기가 많은 회원분 5명을 뽑아<br>룰렛판에 당첨된분에게 소정의 상품을 드립니다!</p>
+        <div class="event-info animate-on-scroll">
+            <h1 class="animate-on-scroll">Rollin 이벤트</h1>
+            <p class="animate-on-scroll">과연 이번주 당첨자는???</p>
+            <p class="explan-text animate-on-scroll">성공후기 게시판에 가장인기가 많은 회원분 5명을 뽑아<br>룰렛판에 당첨된분에게 소정의 상품을 드립니다!</p>
         </div>
         <div class="event-products">
-            <div class="product">
+            <div class="product animate-on-scroll">
                 <h2>지난주 상품</h2>
                 <img src="/image/dora.png" alt="지난주 상품">
             </div>
-            <div class="product">
+            <div class="product animate-on-scroll">
                 <h2>이번주 상품</h2>
                 <img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="이번주 상품">
             </div>
-            <div class="product">
+            <div class="product animate-on-scroll">
                 <h2>다음주 상품</h2>
                 <img src="/image/ice3.png" alt="다음주 상품">
             </div>
         </div>
     </div>
-    
+
+   <th:block th:include="common/footer"></th:block>
 
 
+    <script src="testrullet.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const options = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.1
+            };
 
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add("visible");
+                        }, entry.target.dataset.delay);
+                    } else {
+                        entry.target.classList.remove("visible");
+                    }
+                });
+            }, options);
 
-
-    <th:block th:include="common/footer"></th:block>
-    <script src="/js/rullet.js">
-
+            const targets = document.querySelectorAll(".animate-on-scroll");
+            targets.forEach((target, index) => {
+                target.dataset.delay = index * 500; // 각 요소마다 0.5초씩 지연
+                observer.observe(target);
+            });
+        });
     </script>
 </body>
 
