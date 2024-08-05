@@ -1,64 +1,83 @@
 <!DOCTYPE html>
-<!-- jquery -->
-<script src="/js/jquery-3.6.0.js"></script>
-<!-- 기본 CSS -->
-<link rel="stylesheet" href="/css/default.css" />
-<!-- 기본 js -->
-<script src="/js/default.js"></script>
-<script src="/js/sweetalert.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalorieBus</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="attendance.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
- <header class="header">
-        <div class="marquee">
-            <div>
-              <span>여기는 공지사항이 올곳 테스트중</span>
-              <span>세미프로젝트끝나면 밥먹어요 세영이가 쏘는걸로하고</span>
-            </div>
-          </div>
-              
-           
-            <div class="logo">
-                <a href="/">Calorie Bus</a>
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="#">뉴스레터</a></li>
-                    <li><a href="#">정보공유서비스</a>
-                        <ul class="info-menu">
-                            <li><a href="#">식단정보</a></li>
-                            <li><a href="#">운동정보</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">공동구매서비스</a></li>
-                    <li><a href="#">칼로리계산기</a></li>
-                    <li><a href="#">커뮤니티</a>
-                        <ul class="comu-menu">
-                            <li><a href="/board/list?category=B1&reqPage=1">자유글</a></li>
-                            <li><a href="/board/list?category=B2&reqPage=1">식단토크</a></li>
-                            <li><a href="/board/list?category=B3&reqPage=1">성공후기</a></li>
-                            <li><a href="/board/list?category=B4&reqPage=1">운동토크</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">이벤트</a>
-                        <ul class="event-menu">
-                            <li><a href="#">후기이벤트</a></li>
-                            <li><a href="#">출석체크</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="/faq/cscMain">고객센터</a></li>
-                </ul>
-            </nav>
-            <ul class="user-menu">
-                <th:block th:if="${session.member == null}">
-                    <li><a href="/member/loginForm">로그인</a></li>
-                    <li><a href="/member/join">회원가입</a></li>
-                </th:block>
-                <th:block th:if="${session.member != null}">
-                    <li><a href="/member/mypage" th:text="${session.member.memberName}"></a></li>
-                    <li><a href="/member/logout">로그아웃</a></li>
-                </th:block>
-            </ul>
+<body>
+    <header class="header">
+        <marquee>
+            <span class="notice-item">
+                <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
+                <span class="notice-text"><span class="highlight">공지사항</span> 룰렛 이벤트에 5인이 선정되었습니다. 본인 이름이 올라갔는지 확인후 룰렛을 돌려주세요!!!</span>
+                <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
+            </span>
+            <span class="notice-item">
+                <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
+                <span class="notice-text"><span class="highlight">공지사항</span> 종료임박한 공구가 있습니다 얼른 서둘러주세요!!!</span>
+                <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
+            </span>
+            <span class="notice-item">
+                <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
+                <span class="notice-text"><span class="highlight">공지사항</span> 그리고 세영이가 밥사준대요!!!</span>
+                <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
+            </span>
+        </marquee>
+        <div class="logo">
+            <a href="/">Calroie Bus</a>
         </div>
+        <ul class="user-menu">
+            <th:block th:if="${session.member == null}">
+                <li><a href="#">로그인</a></li>
+            </th:block>
+            <th:block th:if="${session.member != null}">
+                <li><a href="#" th:text="${session.member.memberName}"></a></li>
+                <li><a href="#">회원가입</a></li>
+                
+            </th:block>
+        </ul>
+        <div class="search-box">
+            <form action="search.html" method="get">
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                <button type="submit"><span class="material-icons">search</span></button>
+            </form>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#">뉴스레터</a></li>
+                <li><a href="/foodNutrition">정보공유서비스</a>
+                    <ul class="info-menu">
+                        <li><a href="/foodNutrition/food">식단정보</a></li>
+                        <li><a href="#">운동정보</a></li>
+                    </ul>
+                </li>
+                <li><a href="/product/list">공동구매서비스</a></li>
+                <li><a href="#">칼로리계산기</a></li>
+                <li><a href="/board">커뮤니티</a>
+                    <ul class="comu-menu">
+                        <li><a href="/board/list">자유글</a></li>
+                        <li><a href="#">식단토크</a></li>
+                        <li><a href="#">성공후기</a></li>
+                        <li><a href="#">운동토크</a></li>
+                    </ul>
+                </li>
+                <li><a href="/rulletpage">이벤트</a>
+                    <ul class="event-menu">
+                        <li><a href="/rulletpage/rullet">후기이벤트</a></li>
+                        <li><a href="/attendance/attendance">출석체크</a></li>
+                    </ul>
+                </li>
+                <li><a href="/faq/faqmain">고객센터</a></li>
+            </ul>
+        </nav>
     </header>

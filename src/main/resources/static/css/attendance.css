@@ -1,0 +1,239 @@
+.attendance-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.header-image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: translateX(100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.header-image {
+    width: 800px;
+    height: auto;
+    border-radius: 10px;
+    position: relative;
+    left: 200px;
+    margin-bottom: -50px;
+}
+.overlay-text .animate-on-scroll{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -200%);
+    text-align: center;
+    color: #000;
+}
+.overlay-text {
+    position: absolute;
+    top: 40px;
+    right: 440px;
+    transform: translate(-50%, -50%) translateY(50px);
+    text-align: center;
+    color: #000;
+    opacity: 0;
+    transition: opacity 7s ease-out, transform 7s ease-out;
+}
+.overlay-text h1 {
+    font-size: 70px;
+    margin: 0;
+}
+
+#button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: -10px;
+    position: relative;
+    top: 50px;
+}
+#check-in-button,
+#reset-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #816138;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+    position: relative;
+    top: -220px;
+}
+#check-in-button {
+    background-color: #816138;
+}
+#reset-button {
+    background-color: #ff3b30;
+}
+
+#check-in-button:hover,
+#reset-button:hover {
+    background-color: #d8923d;
+}
+#attendance-status {
+    margin-top: -160px;
+}
+
+#message {
+    margin-top: 20px;
+    color: #ff0000;
+}
+.calendar {
+    margin-top: 20px;
+    overflow: hidden;
+    z-index: 1;
+    position: relative;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    z-index: 1;
+}
+
+.calendar-header button.nav-button {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.calendar-header button.nav-button:hover {
+    color: #007aff;
+}
+
+.calendar-header h2 {
+    margin: 0 10px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.calendar-body {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    display: table;
+    table-layout: fixed;
+    z-index: 1;
+}
+
+.calendar-body th,
+.calendar-body td {
+    width: 14.28%;
+    height: 170px;
+    border: 1px solid #e1e1e1;
+    padding: 10px;
+    text-align: center;
+    vertical-align: top;
+    position: relative;
+}
+
+.day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stamp {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 5px;
+    background-image: url('/image/unactive.png');
+    background-size: cover;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: transparent;
+    border: 2px solid transparent;
+    transition: background-image 0.3s;
+}
+
+.stamp.active {
+    background-image: url('/image/active.png');
+    color: transparent;
+    border-color: transparent;
+}
+
+.stamp.used {
+    background-color: #ccc;
+    color: #999;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 3s ease-out, transform 3s ease-out;
+}
+
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.header-image-container.animate-on-scroll {
+    transform: translateX(100px);
+}
+.header-image-container.animate-on-scroll.visible {
+    transform: translateX(0);
+}
+.animate-on-scroll.visible.header-image-container {
+    opacity: 1;
+    transform: translateX(0);
+}

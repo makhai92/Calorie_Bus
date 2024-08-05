@@ -1,16 +1,227 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalorieBus</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
-	<th:block th:include="common/header"></th:block>
-	<main class="content">
-		<section class="section">
-			<div class="page-title">칼로리버스 접속 스트</div>
-		</section>
-	</main>
-	<th:block th:include="common/footer"></th:block>
+    <th:block th:include="common/header"></th:block>
+
+    <div class="main-content">
+        <div class="swiper banner-swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide">
+                    <a href="javascript:void(0)">
+                        <img src="/image/bg.jpg" alt="">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0)">
+                        <img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:void(0)">
+                        <img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="">
+                    </a>
+                </div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">
+            <h2>진행중인 공구</h2>
+        </div>
+        <div class="swiper content-swiper-gongu">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/image/flower1.png" alt="Image 4"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="Image 5"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="Image 6"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-18.jpeg" alt="Image 7"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="Image 8"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">
+            <h2>회원들의 성공후기</h2>
+        </div>
+        <div class="swiper content-swiper-success">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/image/flower1.png" alt="Image 9"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="Image 10"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="Image 11"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="Image 12"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-18.jpeg" alt="Image 13"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-title">
+            <h2>이벤트</h2>
+        </div>
+        <div class="swiper content-swiper-event">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="Image 14"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-21.jpeg" alt="Image 15"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-18.jpeg" alt="Image 16"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="Image 17"></div>
+                <div class="swiper-slide"><img src="/image/bg.jpg" alt="Image 18"></div>
+                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="Image 18"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <aside class="side-left">
+        <div class="app-download">
+            <a>인스타그램 팔로우</a>
+            <img src="/image/qrcode.png" alt="QR Code" class="qr-code">
+        </div>
+    </aside>
+
+    <aside class="side-right">
+        <div class="character">
+            <img src="/image/quokka main.png" alt="Quokka Character">
+        </div>
+        <div class="advertisement">
+            <a href="/faq/faqMain" id="inquiry-button">제휴문의</a>
+        </div>
+    </aside>
+
+    <th:block th:include="common/footer"></th:block>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const options = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    } else {
+                        entry.target.classList.remove("visible");
+                    }
+                });
+            }, options);
+
+            const targets = document.querySelectorAll(".content-title h2");
+            targets.forEach(target => {
+                observer.observe(target);
+            });
+        });
+
+        // Banner Swiper
+        var swiperBanner = new Swiper('.banner-swiper', {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false
+            },
+            speed: 7000,
+            freeMode: true,
+            pagination: {
+                el: '.banner-swiper .swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.banner-swiper .swiper-button-next',
+                prevEl: '.banner-swiper .swiper-button-prev',
+            },
+        });
+
+        var swiperGongu = new Swiper('.content-swiper-gongu', {
+            loop: true,
+            slidesPerView: 4,
+            spaceBetween: 20,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false
+            },
+            speed: 4500,
+            pagination: {
+                el: '.content-swiper-gongu .swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.content-swiper-gongu .swiper-button-next',
+                prevEl: '.content-swiper-gongu .swiper-button-prev',
+            },
+        });
+
+        // 성공후기 Swiper
+        var swiperSuccess = new Swiper('.content-swiper-success', {
+            loop: true,
+            slidesPerView: 4,
+            spaceBetween: 20,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false
+            },
+            speed: 5500,
+            pagination: {
+                el: '.content-swiper-success .swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.content-swiper-success .swiper-button-next',
+                prevEl: '.content-swiper-success .swiper-button-prev',
+            },
+        });
+
+        // 이벤트 Swiper
+        var swiperEvent = new Swiper('.content-swiper-event', {
+            loop: true,
+            slidesPerView: 4,
+            spaceBetween: 20,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false
+            },
+            speed: 5000,
+            pagination: {
+                el: '.content-swiper-event .swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.content-swiper-event .swiper-button-next',
+                prevEl: '.content-swiper-event .swiper-button-prev',
+            },
+        });
+    </script>
 </body>
+
 </html>
