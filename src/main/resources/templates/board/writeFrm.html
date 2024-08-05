@@ -21,7 +21,7 @@
 			<table class="tbl writeFrm">
 				<tr>
 					<th style="width:5%;">
-						<select id="boardCategory">
+						<select name="boardCategory">
 							<option value="B1">자유글</option>
 							<option value="B2">식단토크</option>
 							<option value="B3">성공후기</option>
@@ -31,7 +31,7 @@
 					<th style="width:10%;">제목</th>
 					<td style="width:85%; text-align: left;" colspan="2">
 						<div class="input-item2">				
-							<input style="width:100%;"type="text" id="boardTitle">
+							<input style="width:100%;"type="text" name="boardTitle">
 						</div>
 					</td>		
 				</tr>
@@ -39,7 +39,7 @@
 					<th>작성자</th>
 					<td style="text-align: left;" colspan="2">
 						<div class="input-item2">
-							<input type="text" name="memberId" value="아이디" readonly> 
+							<input type="text" name="memberId" th:value="${session.member.memberId}" readonly> 
 						</div>
 					</td>	
 					<td>
@@ -47,12 +47,13 @@
 					</td>	
 				</tr>
 				<tr>
-					<td colspan="4">
+					<td colspan="4" style="text-align: left;">
 						<textarea name="boardContent" id="boardContent"></textarea>
 					</td>		
 				</tr>
 				<tr>
 					<td colspan="4">
+						<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
 						<button type="submit" class="btn-round" style="width:50%; font-size: 16px;">게시글 작성</button>
 					</td>
 				</tr>
@@ -87,7 +88,7 @@
 			}
 		});
 		$("#boardContent").summernote("fontSize",16);
-		function uploadImg(file,editor){
+		function uploadImage(file,editor){
 			const form = new FormData();
 			form.append("upfile",file);
 			$.ajax({

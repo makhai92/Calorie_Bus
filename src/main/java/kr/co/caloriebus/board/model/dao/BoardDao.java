@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardInfoRowMapper;
 import kr.co.caloriebus.board.model.dto.BoardListRowMapper;
 
@@ -45,5 +47,22 @@ public class BoardDao {
 		Object[] params = {"B1","B2","B3","B4"};
 		int totalCount = jdbc.queryForObject(query, Integer.class, params);
 		return totalCount;
+	}
+	public int insertBoard(Board b) {
+		String query = "insert into board values(board_seq.nextval,?,?,?,?,1,to_char(sysdate,'YYYY-MM-DD'))";
+		Object[] params = {b.getMemberNo(),b.getBoardCategory(),b.getBoardTitle(),b.getBoardContent()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int selectBoardNo() {
+		String query = "select max(board_no) from board";
+		int boardNo = jdbc.queryForObject(query, Integer.class);
+		return boardNo;
+	}
+	public int insertBoardFile(BoardFile boardFile) {
+		String query = "insert into board_file values(board_file_seq.nextval,?,?,?)";
+		Object[] params = {boardFile.getFilename(),boardFile.getFilepath(),boardFile.getBoardNo()};
+		int result = jdbc.update(query,params);
+		return result;
 	}
 }
