@@ -64,21 +64,26 @@ width: 1000px;
             <span class="material-symbols-outlined" id="title-symbol">contact_support</span>
             <span>자주묻는질문 작성하기</span>
         </div>
-    	<div class="faq-write-container">
-    	<div class="faq-write-wrap">
-    	<form action="/faq/write" method="post" enctype="multipart/form-data">
+ <div class="faq-write-container">
+    <div class="faq-write-wrap">
+    	<form action="/faq/write" method="post">
             <table class="tbl">
-	    <tr>
+	    	<tr>
 			<th>제목</th>
 				<td colspan="3">
 				<div class="input-item">
-					<input type="text" id="faqTitle">
+					<input type="text" name="faqTitle">
 				</div>
-		</tr>
-		<tr>
+			</tr>
+			<tr>
             <th style="width:10%;">작성자</th>
-               <td style="width:40%;"></td>
-        </tr>
+            <td style="width:40%;">
+            	<span th:text="${session.member.memberId}"></span>
+				<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
+            </td>
+
+			
+        	</tr>
         <tr>
             <td colspan="4">
               	<div class="input-item">
@@ -88,10 +93,11 @@ width: 1000px;
         </tr>
         <tr>
            <td colspan="4">
-               <button type="submit" class="btn-primary lg">FAQ 작성하기</button>
+               <button type="submit" class="btn-primary lg" >FAQ 작성하기</button>
            </td>
         </tr>
-	</table>
+		</table>
+	</form>
 </div>
 </div>
 </div>

@@ -1,10 +1,17 @@
 package kr.co.caloriebus.faq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.caloriebus.faq.model.dto.Faq;
+import kr.co.caloriebus.faq.model.dto.FaqListData;
 import kr.co.caloriebus.faq.model.service.FaqService;
 
 @Controller
@@ -18,7 +25,10 @@ public String cscMain() {
 	return "faq/cscMain";
 }
 @GetMapping(value="/faqMain")
-public String faqMain() {
+public String faqMain(int reqPage,Model model) {
+	FaqListData fld = faqService.selectAllFaq(reqPage);
+	model.addAttribute("list", fld.getList());
+	model.addAttribute("pageNavi", fld.getPageNavi());
 	return "faq/faqMain";
 }
 @GetMapping(value="/inqueryMain")
@@ -33,5 +43,17 @@ public String faqWriter() {
 public String inqueryWriter() {
 	return "faq/inqueryWriter";
 }
-
+@PostMapping(value = "/write")
+public String write(Faq f, Model model) {
+	int result = faqService.insertFaq(f);
+	System.out.println(f);
+	if (result > 0) {
+		model.addAttribute("title", "작성 완료");
+		model.addAttribute("msg", "공지사항 작성에 성공하였습니다!");
+		model.addAttribute("icon", "success");
+		model.addAttribute("loc", "/faq/faqMain");
+		return "common/msg";
+	}
+	return "redirect:/faq/faqMain";
+}
 }
