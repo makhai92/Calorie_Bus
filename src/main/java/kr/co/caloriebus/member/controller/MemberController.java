@@ -58,6 +58,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="/verifyEmail")
 	public int verifyEmail(String memberEmail) {
+		System.out.println(2);
 		int result = memberService.verifyEmail(memberEmail);
 		return result;
 	}

@@ -24,25 +24,25 @@
 		<form action="/member/findId" method="post" class="joinform-tbl">
 			<table class="joinform-tbl">
 				<tr>
-					<th>이름</th>
+					<th style="width: 100px">이름</th>
 					<td class="input-item1" colspan="2"><input type="text" name="memberName" id="memberName" required></td>
 				</tr>
 				<tr>
 					<th>이메일</th>
-					<td class="input-item1">
-						<input type="hidden" name="memberEmail" id="memberEmail">
-						<input type="text" name="emailInput" id="emailInput" style="width: 105px" required>
-						<span>@</span>
-						<input type="text" name="emailDomain" id="emailDomain" style="width: 105px" required readonly>
-						<select id="selectDomain" style="width: 104px" class="select">
-							<option disabled selected>도메인 선택</option>
-							<option value="naver.com">naver.com</option>
-							<option value="gmail.com">gmail.com</option>
-						</select>
-					</td>
-					<td>
-						<button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
-					</td>
+                    <td class="input-item1" id="email-box">
+                    	<input type="hidden" name="memberEmail" id="memberEmail">
+                        <input type="text" name="emailInput" id="emailInput" class="email-input" required>
+                        <span>@</span>
+                        <input type="text" name="emailDomain" id="emailDomain" class="email-input" required readonly>
+                        <select id="selectDomain" class="select email-input" >                             
+                        	<option disabled selected>도메인 선택</option>
+                        	<option value="naver.com">naver.com</option>
+                        	<option value="gmail.com">gmail.com</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
+                    </td>
 				</tr>
 				<tr>
 					<th>인증 코드</th>
@@ -67,17 +67,21 @@
 	</section>
 </main>
 <script>
+	
 	//이메일
-	$("#emailInput").on("keyup", function() {
+	let veriCode = 0; // 인증 코드 용 변수
+	
+	$("#emailInput").on("keyup", function(){
 		$("#memberEmail").removeClass("valid");
+		veriCode = 0;
 	})
-	$("#selectDomain").on("click", function() {
+	$("#selectDomain").on("click", function(){
 		$("#memberEmail").removeClass("valid");
 		$("#emailDomain").val($(this).val());
+		veriCode = 0;
 	})
 
 	// 이메일 인증
-	let veriCode = 0;
 	$("#email-check-btn").on("click", function() {
 		const emailInput = $("#emailInput").val();
 		const emailDomain = $("#emailDomain").val();
@@ -89,9 +93,7 @@
 			$.ajax({
 				url : "/member/verifyEmail",
 				type : "post",
-				data : {
-					"memberEmail" : memberEmail
-				},
+				data : {memberEmail : memberEmail},
 				success : function(result) {
 					veriCode = result;
 					alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
