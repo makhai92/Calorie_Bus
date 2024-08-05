@@ -58,8 +58,8 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="/verifyEmail")
 	public int verifyEmail(String memberEmail) {
-		int veriCode = memberService.verifyEmail(memberEmail);
-		return veriCode;
+		int result = memberService.verifyEmail(memberEmail);
+		return result;
 	}
 	
 	// 회원 등록
@@ -102,6 +102,22 @@ public class MemberController {
 	@GetMapping(value="/forgotId")
 	public String forgotId() {
 		return "member/forgotId";
+	}
+	
+	// 아이디 찾기
+	@PostMapping(value="/findId")
+	public String findId(Member m, Model model) {
+		String memberId = memberService.findId(m);
+		Message data = new Message();
+		if(memberId != null) {
+			data.setMessage("아이디가 이메일로 전송되었습니다.");
+			data.setRedirectUrl("/member/loginForm");
+		}
+		else {			
+			data.setMessage("일치하는 회원을 찾을 수 없습니다.");
+			data.setRedirectUrl("/member/forgotId");
+		}
+		return alertMsg(data, model);
 	}
 	
 	// 비밀번호 찾기 페이지로 이동

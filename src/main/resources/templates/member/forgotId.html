@@ -4,111 +4,142 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 <link href="/css/memberJoinForm.css" rel="stylesheet">
+<style>
+#find-id-btn {
+	width: 300px;
+	margin: 30px;
+}
+</style>
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
 <th:block th:if="${session.member == null}">
 <main class="content">
-    <section class="joinform-wrap">
-        <div class="page-title">아이디 찾기</div>
+	<section class="joinform-wrap">
+		<div class="page-title">
+        	<p>아이디 찾기<p>
+        </div>
         
-        <!-- 아이디 찾기 폼 -->
-        <form action="/member/insertMember" method="post" class="joinform-tbl">
-            <table class="joinform-tbl">
-                <tr>
-                    <th style="width: 100px;">아이디</th>
-                    <td class="input-item1">
-                        <input type="text" name="memberId" id="memberId" style="width: 360px;" required>
-                        <p class="check-msg-id"></p>
-                    </td>
-                    <td>
-                        <button type="button" class="btn-round" id="id-check-btn">중복 확인</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>비밀번호</th>
-                    <td class="input-item1" colspan="2">
-                        <input type="password" name="memberPw" id="memberPw" required>
-                    </td>
-                </tr>
-                <tr>
-                    <th>비밀번호 확인</th>
-                    <td class="input-item1" colspan="2">
-                        <input type="password" name="memberPwRe" id="memberPwRe" required>
-                        <p class="check-msg-pw"></p>
-                    </td>
-                </tr>
-                <tr>
-                    <th>이름</th>
-                    <td class="input-item1" colspan="2">
-                        <input type="text" name="memberName" id="memberName" required>
-                    </td>
-                </tr>
-                <tr>
-                    <th>이메일</th>
-                    <td class="input-item1">
-                    	<input type="hidden" name="memberEmail" id="memberEmail">
-                        <input type="text" name="emailInput" id="emailInput" style="width: 105px" required>
-                        <span>@</span>
-                        <input type="text" name="emailDomain" id="emailDomain" style="width: 105px" required readonly>
-                        <select id="selectDomain" style="width: 104px" class="select">                             
-                        	<option disabled selected>도메인 선택</option>
-                        	<option value="naver.com">naver.com</option>
-                        	<option value="gmail.com">gmail.com</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>인증 코드</th>
-                    <td class="input-item1">
-                        <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required>
-                    </td>
-                    <td>
-                        <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>전화번호</th>
-                    <td class="input-item1" colspan="2">
-                        <input type="text" name="memberPhone" id="memberPhone" required>
-                        <p class="check-msg-phone"></p>
-                    </td>
-                </tr>
-                <tr>
-                    <th>주소</th>
-                    <td class="input-item1" colspan="2">
-                        <input type="text" name="memberAddr" id="memberAddr" required>
-                    </td>
-                </tr>
-                <tr>
-                    <th>생년월일</th>
-                    <td class="input-item1" colspan="2">
-                    	<input type="hidden" name="memberBirth" id="memberBirth" required>
-                    	<div class="birth-box">
-				<select class="select" id="birth-year" style="width: 33%">
-			    	<option disabled selected>출생 연도</option>
-			  	</select>
-			 	<select class="select" id="birth-month" style="width: 33%">
-			    	<option disabled selected>월</option>
-			  	</select>
-			  	<select class="select" id="birth-day" style="width: 33%">
-			    	<option disabled selected>일</option>
-			  	</select>
-                    	</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" id="submit-btn-wrap">
-                        <button type="submit" class="btn-round" id="join-btn" onclick="return checkValid()">가입하기</button>
-                       </td>
-                   </tr>
-               </table>
-           </form>
+		<!-- 아이디 찾기 폼 -->
+		<form action="/member/findId" method="post" class="joinform-tbl">
+			<table class="joinform-tbl">
+				<tr>
+					<th>이름</th>
+					<td class="input-item1" colspan="2"><input type="text" name="memberName" id="memberName" required></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td class="input-item1">
+						<input type="hidden" name="memberEmail" id="memberEmail">
+						<input type="text" name="emailInput" id="emailInput" style="width: 105px" required>
+						<span>@</span>
+						<input type="text" name="emailDomain" id="emailDomain" style="width: 105px" required readonly>
+						<select id="selectDomain" style="width: 104px" class="select">
+							<option disabled selected>도메인 선택</option>
+							<option value="naver.com">naver.com</option>
+							<option value="gmail.com">gmail.com</option>
+						</select>
+					</td>
+					<td>
+						<button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
+					</td>
+				</tr>
+				<tr>
+					<th>인증 코드</th>
+					<td class="input-item1"><input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required></td>
+					<td>
+						<button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
+					</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td class="input-item1" colspan="2"><input type="text" name="memberPhone" id="memberPhone" required>
+						<p class="check-msg-phone"></p>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" id="submit-btn-wrap">
+						<button type="submit" class="btn-round" id="find-id-btn" onclick="return checkValid()">아이디 찾기</button>
+					</td>
+				</tr>
+			</table>
+		</form>
 	</section>
 </main>
+<script>
+	//이메일
+	$("#emailInput").on("keyup", function() {
+		$("#memberEmail").removeClass("valid");
+	})
+	$("#selectDomain").on("click", function() {
+		$("#memberEmail").removeClass("valid");
+		$("#emailDomain").val($(this).val());
+	})
 
+	// 이메일 인증
+	let veriCode = 0;
+	$("#email-check-btn").on("click", function() {
+		const emailInput = $("#emailInput").val();
+		const emailDomain = $("#emailDomain").val();
+		if (emailInput && emailDomain) {
+			$("#memberEmail").val(emailInput + "@" + emailDomain);
+			const memberEmail = $("#memberEmail").val();
+
+			// 인증코드 전송
+			$.ajax({
+				url : "/member/verifyEmail",
+				type : "post",
+				data : {
+					"memberEmail" : memberEmail
+				},
+				success : function(result) {
+					veriCode = result;
+					alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
+				},
+				error : function() {
+					alert("서버 오류입니다.");
+				}
+			}) // ajax 끝
+		} else {
+			alert("이메일 주소가 올바르지 않습니다.")
+		}
+	})
+
+	// 인증 코드 일치 확인
+	$("#code-check-btn").on("click", function() {
+		const inputCode = $("#memberVeriCode").val();
+		if (veriCode == inputCode) {
+			$("#memberEmail").addClass("valid");
+			alert("이메일이 인증되었습니다.");
+		} else {
+			alert("인증 코드가 올바르지 않습니다.");
+		}
+	})
+	
+	// 전화번호
+	$("#memberPhone").on("change", function(){
+		$("#memberPhone").removeClass("valid");
+		const phoneVal = $(this).val()
+		const phoneReg = /^[0-9]{11,11}$/;
+		if(phoneReg.test(phoneVal) && phoneVal.length == 11){				
+			$(".check-msg-phone").text("");
+			$("#memberPhone").addClass("valid");
+		}
+		else {
+			alert("전화번호는 11자리 숫자로 입력해야 합니다.");
+		}
+	})
+	
+	// 입력값 확인
+	function checkValid(){
+		const valid = $(".valid");
+		if(valid.length != 2){ // 이메일, 전화번호
+			alert("모든 항목이 올바르게 입력되었는지 확인해 주세요.")
+			return false;
+		}
+		return true;
+	}
+	
+</script>
 </body>
 </html>
