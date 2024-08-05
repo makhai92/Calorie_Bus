@@ -22,5 +22,4 @@ public class Board {
 	private int isLike;
 	private int commentCount;
 	private List<BoardFile> fileList;
-	private String pageNavi;
 }

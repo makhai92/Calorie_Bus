@@ -97,6 +97,18 @@ public class MemberController {
 		Message data = new Message("로그아웃되었습니다.", "/");
 		return alertMsg(data, model);			
 	}
+	
+	// 아이디 찾기 페이지로 이동
+	@GetMapping(value="/forgotId")
+	public String forgotId() {
+		return "member/forgotId";
+	}
+	
+	// 비밀번호 찾기 페이지로 이동
+	@GetMapping(value="/forgotPw")
+	public String forgotPw() {
+		return "member/forgotPw";
+	}
 
 	// 마이페이지로 이동
 	@GetMapping(value="/mypage")

@@ -2,153 +2,115 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-    <title>회원가입 양식</title>
-    <style>
-    .joinform-wrap{
-        border: 1px solid var(--line2);
-        border-radius: 15px;
-        width: 800px;
-        margin: 0 auto;
-    }
-    .page-title{
-        margin: 30px;
-        text-align: center;
-    }
-    .joinform-tbl{
-        margin: 0 auto;
-    }
-    .input-item1{
-        padding: 10px;
-    }
-    .input-item1>input{
-    	width: 100%;
-    	height: 29px;
-    	box-sizing: border-box;
-        line-height: 20px;
-    }
-    .input-item1>p{
-        padding-left: 5px;
-        font-size: 13px;
-    }
-    #submit-btn-wrap{
-        text-align: center;
-    }
-    #join-btn{
-        width: 300px;
-        margin: 30px;
-    }
-    .birth-box{
-    	display: flex;
-    	justify-content: center;
-    }
-    </style>
+<title>회원가입 양식</title>
+<link href="/css/memberJoinForm.css" rel="stylesheet">
 </head>
 <body>
-    <th:block th:include="common/header"></th:block>
-    <th:block th:if="${session.member == null}">
-    <main class="content">
-        <section class="joinform-wrap">
-            <div class="page-title">회원가입</div>
-            
-            <!-- 회원가입 양식 -->
-            <form action="/member/insertMember" method="post" class="joinform-tbl">
-                <table class="joinform-tbl">
-                    <tr>
-                        <th style="width: 100px;">아이디</th>
-                        <td class="input-item1">
-                            <input type="text" name="memberId" id="memberId" style="width: 360px;" required>
-                            <p class="check-msg-id"></p>
-                        </td>
-                        <td>
-                            <button type="button" class="btn-round" id="id-check-btn">중복 확인</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>비밀번호</th>
-                        <td class="input-item1" colspan="2">
-                            <input type="password" name="memberPw" id="memberPw" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>비밀번호 확인</th>
-                        <td class="input-item1" colspan="2">
-                            <input type="password" name="memberPwRe" id="memberPwRe" required>
-                            <p class="check-msg-pw"></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>이름</th>
-                        <td class="input-item1" colspan="2">
-                            <input type="text" name="memberName" id="memberName" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>이메일</th>
-                        <td class="input-item1">
-                        	<input type="hidden" name="memberEmail" id="memberEmail">
-                            <input type="text" name="emailInput" id="emailInput" style="width: 105px" required>
-                            <span>@</span>
-                            <input type="text" name="emailDomain" id="emailDomain" style="width: 105px" required readonly>
-                            <select id="selectDomain" style="width: 104px" class="select">                             
-                            	<option disabled selected>도메인 선택</option>
-                            	<option value="naver.com">naver.com</option>
-                            	<option value="gmail.com">gmail.com</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>인증 코드</th>
-                        <td class="input-item1">
-                            <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required>
-                        </td>
-                        <td>
-                            <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>전화번호</th>
-                        <td class="input-item1" colspan="2">
-                            <input type="text" name="memberPhone" id="memberPhone" required>
-                            <p class="check-msg-phone"></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>주소</th>
-                        <td class="input-item1" colspan="2">
-                            <input type="text" name="memberAddr" id="memberAddr" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>생년월일</th>
-                        <td class="input-item1" colspan="2">
-                        	<input type="hidden" name="memberBirth" id="memberBirth" required>
-                        	<div class="birth-box">
-								<select class="select" id="birth-year" style="width: 33%">
-							    	<option disabled selected>출생 연도</option>
-							  	</select>
-							 	<select class="select" id="birth-month" style="width: 33%">
-							    	<option disabled selected>월</option>
-							  	</select>
-							  	<select class="select" id="birth-day" style="width: 33%">
-							    	<option disabled selected>일</option>
-							  	</select>
-                        	</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" id="submit-btn-wrap">
-                            <button type="submit" class="btn-round" id="join-btn" onclick="return checkValid()">가입하기</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-		</section>
-	</main>
-	<script>
-	
+<th:block th:include="common/header"></th:block>
+<th:block th:if="${session.member == null}">
+<main class="content">
+    <section class="joinform-wrap">
+        <div class="page-title">회원가입</div>
+        
+        <!-- 회원가입 양식 -->
+        <form action="/member/insertMember" method="post" class="joinform-tbl">
+            <table class="joinform-tbl">
+                <tr>
+                    <th style="width: 100px;">아이디</th>
+                    <td class="input-item1">
+                        <input type="text" name="memberId" id="memberId" style="width: 360px;" required>
+                        <p class="check-msg-id"></p>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-round" id="id-check-btn">중복 확인</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="password" name="memberPw" id="memberPw" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="password" name="memberPwRe" id="memberPwRe" required>
+                        <p class="check-msg-pw"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberName" id="memberName" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td class="input-item1">
+                    	<input type="hidden" name="memberEmail" id="memberEmail">
+                        <input type="text" name="emailInput" id="emailInput" style="width: 105px" required>
+                        <span>@</span>
+                        <input type="text" name="emailDomain" id="emailDomain" style="width: 105px" required readonly>
+                        <select id="selectDomain" style="width: 104px" class="select">                             
+                        	<option disabled selected>도메인 선택</option>
+                        	<option value="naver.com">naver.com</option>
+                        	<option value="gmail.com">gmail.com</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>인증 코드</th>
+                    <td class="input-item1">
+                        <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberPhone" id="memberPhone" required>
+                        <p class="check-msg-phone"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberAddr" id="memberAddr" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td class="input-item1" colspan="2">
+                    	<input type="hidden" name="memberBirth" id="memberBirth" required>
+                    	<div class="birth-box">
+				<select class="select" id="birth-year" style="width: 33%">
+			    	<option disabled selected>출생 연도</option>
+			  	</select>
+			 	<select class="select" id="birth-month" style="width: 33%">
+			    	<option disabled selected>월</option>
+			  	</select>
+			  	<select class="select" id="birth-day" style="width: 33%">
+			    	<option disabled selected>일</option>
+			  	</select>
+                    	</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" id="submit-btn-wrap">
+                        <button type="submit" class="btn-round" id="join-btn" onclick="return checkValid()">가입하기</button>
+                      </td>
+                  </tr>
+              </table>
+          </form>
+	</section>
+</main>
+<script>
+
 	// 아이디 정규 표현식 확인
 	let idRegChecked = false;
 	$("#memberId").on("keyup", function(){
@@ -209,7 +171,7 @@
 	$("#memberPwRe").on("keyup", function(){
 		pwCheck();
 	})
-
+	
 	// 이메일
 	$("#emailInput").on("keyup", function(){
 		$("#memberEmail").removeClass("valid");			
@@ -337,7 +299,7 @@
 			$("#memberBirth").val(birthYear.val() + "-" + birthMonth.val() + "-" + birthDay.val());
 		}
 	}
-
+	
 	function checkValid(){
 		const valid = $(".valid");
 		if(valid.length != 4){ // 아이디, 비번, 이메일, 전화번호, 주소
@@ -345,8 +307,7 @@
 			return false;
 		}
 	}
-	
-	</script>
-    <th:block th:include="common/footer"></th:block>
+</script>
+<th:block th:include="common/footer"></th:block>
 </body>
 </html>
