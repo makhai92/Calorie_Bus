@@ -211,13 +211,10 @@ body {
 }
 
 .page-title {
-<<<<<<< HEAD
-=======
     background-color : #f1f1f1;
-  }
+}
 	
-  .page-title {
->>>>>>> 0e83620c2f19c6f29115620812069fdf6ccb3bd3
+.page-title {
     padding: 30px;
     text-align: center;
     font-family: ns-b;
