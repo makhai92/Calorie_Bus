@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Check</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/attendance.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <th:block th:include="common/header"></th:block>
+
+    <main>
+        <div class="attendance-container">
+            <div class="header-image-container animate-on-scroll" data-delay="0">
+                <img src="/image/stamp.png" alt="Header Image" class="header-image">
+                <div class="overlay-text animate-on-scroll" data-delay="500">
+                    <h1>매일매일<br> 오운완체크</h1>
+                </div>
+            </div>
+            <div id="button-container">
+                <button id="check-in-button">오운완 체크하기</button>
+                <button id="reset-button">리셋</button>
+            </div>
+            <p id="attendance-status">오늘의 출석 여부: <span id="attendance-result">미출석</span></p>
+            <p id="message"></p>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <button id="prev-year" class="nav-button">«</button>
+                    <button id="prev-month" class="nav-button">‹</button>
+                    <h2 id="calendar-title"></h2>
+                    <button id="next-month" class="nav-button">›</button>
+                    <button id="next-year" class="nav-button">»</button>
+                </div>
+                <table class="calendar-body">
+                    <thead>
+                        <tr>
+                            <th>일</th>
+                            <th>월</th>
+                            <th>화</th>
+                            <th>수</th>
+                            <th>목</th>
+                            <th>금</th>
+                            <th>토</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <th:block th:include="common/footer"></th:block>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>축하합니다! 룰렛을 돌릴 수 있는 쿠폰을 받았습니다.</p>
+        </div>
+    </div>
+    <script src="/js/attendance.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const options = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add("visible");
+                        }, entry.target.dataset.delay);
+                    } else {
+                        entry.target.classList.remove("visible");
+                    }
+                });
+            }, options);
+
+            const targets = document.querySelectorAll(".animate-on-scroll");
+            targets.forEach((target) => {
+                observer.observe(target);
+            });
+        });
+    </script>
+</body>
+</html>
