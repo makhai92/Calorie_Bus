@@ -1,11 +1,15 @@
 package kr.co.caloriebus.board.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.caloriebus.board.model.dao.BoardDao;
+import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 
 @Service
@@ -64,5 +68,18 @@ public class BoardService {
 		pageNavi += "</ul>";
 		BoardListData bld = new BoardListData(list, pageNavi);
 		return bld;
+	}
+
+	@Transactional
+	public int insertBoard(Board b, ArrayList<BoardFile> fileList) {
+		int result = boardDao.insertBoard(b);
+		if(result > 0) {
+			int boardNo = boardDao.selectBoardNo();
+			for (BoardFile boardFile : fileList) {
+				boardFile.setBoardNo(boardNo);
+				result += boardDao.insertBoardFile(boardFile);
+			}
+		}
+		return result;
 	}
 }
