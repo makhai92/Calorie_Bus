@@ -337,7 +337,6 @@ body {
 }
 /*border가 필요한 경우*/
 .input-item1 > input {
-    margin: 0 5px;
     font-size: 16px;
     border: 0.8px solid var(--line1);
     padding: 3px 3px;
