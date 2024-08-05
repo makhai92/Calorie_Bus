@@ -29,5 +29,9 @@ public String inqueryMain() {
 public String faqWriter() {
 	return "faq/faqWriter";
 }
+@GetMapping(value="/inqueryWriter")
+public String inqueryWriter() {
+	return "faq/inqueryWriter";
+}
 
 }

@@ -78,13 +78,13 @@
 }
 </style>
 </head>
-<th:block th:include="common/header"></th:block>
 <body>
+<th:block th:include="common/header"></th:block>
     <div class="faq">
         <div class="title">
             <span>자주 묻는 질문</span>
         </div>
-        <div class="search-box">
+        <div class="faq-search-box">
             <form action="search.html" method="get">
                 <span class="material-icons" id="search-icon">search</span>
                 <input type="text" id="keyword" placeholder="궁금한 점을 검색해보세요 !">
@@ -109,6 +109,7 @@
                     <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목3----------</td>
                 </tr>
             </table>
+            
         </div>
     </div>
 </body>
