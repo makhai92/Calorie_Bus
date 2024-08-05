@@ -228,7 +228,6 @@ marquee img {
 .info-menu > li > a,
 .comu-menu > li > a,
 .event-menu > li > a {
-    color: var(--main2);
     padding: 10px;
     display: block;
 }

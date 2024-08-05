@@ -87,6 +87,23 @@
 			}
 		});
 		$("#boardContent").summernote("fontSize",16);
+		function uploadImg(file,editor){
+			const form = new FormData();
+			form.append("upfile",file);
+			$.ajax({
+				url : "/board/editorImage",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					$(editor).summernote("insertImage",data);
+				},
+				error : function(){
+					console.log("error");
+				}
+			});
+		}
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
