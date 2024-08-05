@@ -19,16 +19,16 @@ public class BoardDao {
 	private BoardListRowMapper boardListRowMapper;
 	
 	public List selectBoardList(String category, int start, int end) {
-		String query = "select bb.* from (select rownum as rnum, b.*,(select count(*) from board_comment where board_ref=b.board_no) as comment_count, (select count(*) from board_like where board_no=b.board_no) as like_count\r\n" + 
-				"from ((select board_no,member_no,board_title,board_category,read_count,reg_date,member_id as board_writer from board join member using(member_no) where board_category=? order by 1 desc)b))bb where rnum between ? and ?";
+		String query = "select * from (select rownum rnum, b.*\r\n" + 
+				"from ((select board_no,member_no,board_title,board_category,read_count,reg_date,member_id as board_writer,(select count(*) from board_comment where board_ref=board.board_no) as comment_count,(select count(*) from board_like where board_no=board.board_no) as like_count from board join member using(member_no) where board_category=? order by 1 desc)b)) where rnum between ? and ?";
 		Object[] params = {category,start,end};
 		List list = jdbc.query(query, boardListRowMapper,params);
 		return list;
 	}
 	public List selectBoardList(int start,int end) {
-		String query = "select bb.* from (select rownum as rnum, b.*,(select count(*) from board_comment where board_ref=b.board_no) as comment_count, (select count(*) from board_like where board_no=b.board_no) as like_count\r\n" + 
-				"from ((select board_no,member_no,board_title,board_category,read_count,reg_date,member_id as board_writer from board join member using(member_no) where board_category in (?,?,?,?) order by 1 desc)b))bb where rnum between ? and ?";
-		Object[] params = {"B1","B2","B3","B4",start,end};
+		String query = "select * from (select rownum rnum, b.*\r\n" + 
+				"from ((select board_no,member_no,board_title,board_category,read_count,reg_date,member_id as board_writer,(select count(*) from board_comment where board_ref=board.board_no) as comment_count,(select count(*) from board_like where board_no=board.board_no) as like_count from board join member using(member_no) where board_category in ('B1','B2','B3','B4') order by 1 desc)b)) where rnum between ? and ?";
+		Object[] params = {start,end};
 		List list = jdbc.query(query, boardListRowMapper,params);
 		return list;
 	}
