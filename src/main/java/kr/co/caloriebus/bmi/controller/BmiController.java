@@ -1,4 +1,4 @@
-package kr.co.caloriebus.mbi.controller;
+package kr.co.caloriebus.bmi.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping(value = "/mbi")
-public class MbiController {
+@RequestMapping(value = "/bmi")
+public class BmiController {
 	
-	@GetMapping(value = "/MBI")
+	@GetMapping(value = "/BMI")
 	public String MBI() {
-		return"mbi/MBI";
+		return"bmi/BMI";
 	}
 }
