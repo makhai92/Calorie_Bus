@@ -12,12 +12,4 @@ import kr.co.caloriebus.newslatter.model.dto.NewsLetterRowMapper;
 public class NewsLetterDao {
 	@Autowired
 	private JdbcTemplate jdbc;
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	@Autowired
-	private NewsLetterRowMapper newsletterRowMapper;
-	@Autowired
-	private NewsLetterFileRowMapper newsletterFileRowMapper;
-	@Autowired
-	private NewsLetterCommentRowMapper newsLetterCommentRowMapper;
 }
