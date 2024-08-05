@@ -38,11 +38,11 @@
         </div>
         <ul class="user-menu">
             <th:block th:if="${session.member == null}">
-                <li><a href="#">로그인</a></li>
+                <li><a href="/member/loginForm">로그인</a></li>
             </th:block>
             <th:block th:if="${session.member != null}">
-                <li><a href="#" th:text="${session.member.memberName}"></a></li>
-                <li><a href="#">회원가입</a></li>
+                <li><a href="/member/mypage" th:text="${session.member.memberName}"></a></li>
+                <li><a href="/member/joinForm">회원가입</a></li>
                 
             </th:block>
         </ul>
@@ -54,7 +54,7 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="#">뉴스레터</a></li>
+                <li><a href="/newsletter/listForm">뉴스레터</a></li>
                 <li><a href="/foodNutrition">정보공유서비스</a>
                     <ul class="info-menu">
                         <li><a href="/foodNutrition/food">식단정보</a></li>
