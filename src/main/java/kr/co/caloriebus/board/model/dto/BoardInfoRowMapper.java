@@ -22,6 +22,7 @@ public class BoardInfoRowMapper implements RowMapper<Board>{
 		b.setRegDate(rs.getString("reg_date"));
 		b.setIsLike(rs.getInt("is_like"));
 		b.setLikeCount(rs.getInt("like_count"));
+		b.setCommentCount(rs.getInt("comment_count"));
 		return b;
 	}
 	

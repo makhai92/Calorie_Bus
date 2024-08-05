@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.board.model.service.BoardService;
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.util.FileUtils;
 
 @Controller
@@ -80,5 +82,17 @@ public class BoardController {
 		}
 		model.addAttribute("loc","/board/list?category="+b.getBoardCategory()+"&reqPage=1");
 		return "common/msg"; 
+	}
+	
+	@GetMapping(value="/view")
+	public String view(int boardNo,@SessionAttribute (required=false)Member m,Model model) {
+		Board b = null;
+		if(m != null) {
+			b = boardService.selectBoard(m.getMemberNo(),boardNo);			
+		}else {
+			b = boardService.selectBoard(-1,boardNo);
+		}
+		model.addAttribute("board",b);
+		return "board/view";
 	}
 }

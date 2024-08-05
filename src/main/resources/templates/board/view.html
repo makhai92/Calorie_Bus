@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>상세보기</title>
+<style>
+	.content>.view-tbl tr>*{
+		font-size : 18px;
+	}
+	.view-tbl tr>td>span{
+		font-size : 18px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<div class="page-title">게시글 상세보기</div>
+		<table class="tbl view-tbl">
+			<tr>
+				<th colspan="5" th:text=${board.boardTitle}></th>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td style="width:50%; text-align: left;" th:text=${board.boardWriter}>아이디</td>
+				<td>조회수 : <span th:text=${board.readCount}></span></td>
+				<td>좋아요수 : <span th:text=${board.likeCount}></span></td>
+				<td>작성일 : <span th:text=${board.regDate}></span>
+			</tr>
+			<tr>
+				<td colspan="5" th:utext=${board.boardContent}></td>
+			</tr>
+		</table>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

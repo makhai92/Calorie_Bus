@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardInfoRowMapper;
 import kr.co.caloriebus.board.model.dto.BoardListRowMapper;
+
 
 @Repository
 public class BoardDao {
@@ -64,5 +66,15 @@ public class BoardDao {
 		Object[] params = {boardFile.getFilename(),boardFile.getFilepath(),boardFile.getBoardNo()};
 		int result = jdbc.update(query,params);
 		return result;
+	}
+	public Board selectBoard(int memberNo,int boardNo) {
+		String query = "select board_no,member_no,board_category,board_title,board_content,read_count,reg_date,member_id as board_writer,(select count(*) from board_like where board_no=b.board_no) as like_count,(select count(*) from board_comment where board_ref=b.board_no) as comment_count,(select count(*) from board_like where board_no=b.board_no and member_no=?) as is_like from board b join member using(member_no) where board_no=?";
+		Object[] params = {memberNo,boardNo};
+		List list = jdbc.query(query, boardInfoRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {			
+			return (Board)list.get(0);
+		}
 	}
 }
