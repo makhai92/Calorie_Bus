@@ -15,12 +15,13 @@ public class ProductRowMapper implements RowMapper<Product>{
 		p.setEndDate(rs.getString("end_date"));
 		p.setProductContent(rs.getString("product_content"));
 		p.setProductDcPrice(rs.getInt("product_dc_price"));
-		p.setProductMaxCount(rs.getInt("product_max_count"));
-		p.setProductMinCount(rs.getInt("product_min_count"));
+		p.setProductMaxAmount(rs.getInt("product_max_amount"));
+		p.setProductMinAmount(rs.getInt("product_min_amount"));
 		p.setProductNo(rs.getInt("product_no"));
 		p.setProductPrice(rs.getInt("product_price"));
 		p.setProductTitle(rs.getString("product_title"));
 		p.setStartDate(rs.getString("start_date"));
+		p.setProductImg(rs.getString("product_img"));
 		return p;
 	}
 	

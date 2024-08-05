@@ -13,8 +13,9 @@ public class Product {
 	private String productContent;
 	private int productPrice;
 	private int productDcPrice;
-	private int productMinCount;
-	private int productMaxCount;
+	private int productMinAmount;
+	private int productMaxAmount;
 	private String startDate;
 	private String endDate;
+	private String productImg;
 }
