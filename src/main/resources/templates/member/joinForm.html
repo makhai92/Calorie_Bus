@@ -243,6 +243,7 @@
 		if(emailInput && emailDomain){
 			$("#memberEmail").val(emailInput + "@" + emailDomain);
 			const memberEmail = $("#memberEmail").val();
+			
 			// 인증코드 전송
 			$.ajax({
 				url: "/member/verifyEmail",

@@ -17,7 +17,7 @@ import kr.co.caloriebus.food.model.dto.Food;
 
 
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/foodNutrition")
 public class FoodController {
 	
 	@GetMapping(value = "/food")

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>BMI 계산기</title>
+<style>
+	h1{
+	text-align: center;
+	}
+	.message-box{
+	margin-bottom: 25px;
+	padding: 25px;
+	background: #f8f8f8;
+	text-align: center;
+	}
+
+.form{
+	margin-bottom: 20px;	
+}	
+
+#age, #gender, #length, #weight{
+	margin: 5px;
+	padding: 0 5px;
+	width: 80px;
+	height:40px;
+	text-align: center;
+	border: 1px solid #ddd;
+	vertical-align: middle;
+	}
+
+.btn-square{
+ 	font-size: medium;
+	}
+.clear{
+	margin-top:20px; 
+	margin-bottom: 20px;
+	}
+
+h4{
+	margin-top: 10px;
+	color: olive;
+	}
+p{
+	margin-bottom: 10px;
+}
+	
+#resultText,#bmiNumber{
+	color: orange;
+	}
+.bmi-ul>li>label{
+	display: inline-block;
+	width: 15%;
+	}
+.bmi{
+	display: flex;
+	height: 35px;
+    line-height: 35px;
+    text-align: center;
+	}
+.low-weight{
+	float:left;
+	width: 16.5%;
+	background: #239ae3;
+	color: #fff;
+	}
+.regular{
+	float:left;
+	width: 14.7%;
+	background: #95c520;
+	color: #fff;
+	}
+.overweight{
+	float:left;
+	width: 16.2%;
+	background: #ee942a;
+	color: #fff;
+	}
+.obesity{
+	float:left;
+	width: 16.5%;
+	background: #f15232;
+	color: #fff;
+	}
+</style>
+
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<main class="content">
+			<div class="mbi">
+			 <div class="mbi-header">
+      			 <h1>BMI 계산기</h1>
+        		 <div class="mbi-body">
+        		 	<div class="message-box">
+        		 		<span>
+        		 			"현대인들의 바쁜 일상 속에 관리가 어려워지고 있는 요즘 시대"
+        		 			<br>
+        		 			"BMI(Body Mass Index)로 체중을 키의 제곱으로 나눈 값을 통해 지방의 양을 추정하는 비만측정법."
+        		 			<br>
+        		 			"이 BMI 지수가 높으면 높을수록 생활습관병이 걸리기 쉽고, 비만학회에서는 남녀 모두 지수가 22일때 가장 건강한 상태이고 이상적인 체중일 때 라고 합니다."
+        		 		</span>
+        		 	</div>
+        		 	<div class="form">
+        		 		<form id="bmiCheckForm">
+        		 			<div>
+        		 				<label>나이</label>
+        		 				<input type="text" id="age">
+        		 				<span>세</span>
+        		 			</div>
+        		 			<div>
+        		 				<label>성별</label>
+        		 				<select class="gender" id="gender">
+        		 					<option value=""></option>
+        		 					<option value="남자">남자</option>
+        		 					<option value="여자">여자</option>
+        		 				</select>
+        		 			</div>
+        		 			<div>
+        		 				<label>키</label>
+        		 				<input type="text" id="length">
+        		 				<span>cm</span>
+        		 			</div>
+        		 			<div>
+        		 				<label>몸무게</label>
+        		 				<input type="text" id="weight">
+        		 				<span>kg</span>
+        		 			</div>
+        		 			<span>
+        		 				<input type="button" class="btn-square" id="btnCalc" value="계산">
+        		 				<input type="reset" class="btn-square" value="초기화">
+        		 			</span>
+        		 		</form>
+        		 		<div class="clear">
+        		 			<p>비만도 결과</p>
+        		 			<p id=resultText></p>
+        		 			<p>BMI 지수</p>
+        		 			<p id="bmiNumber"></p>
+        		 		</div>
+        		 		<ul class="bmi-ul">
+        		 			<li>
+        		 				<label>BMI</label>
+        		 				<label class="dv1">18.5</label>
+        		 				<label class="dv2">23</label>
+        		 				<label>25.00</label>
+        		 				
+        		 				<ul class="bmi">
+        		 					<li class="low-weight">저체중</li>
+        		 					<li class="regular">정상</li>
+        		 					<li class="overweight">과체중</li>
+        		 					<li class="obesity">비만</li>
+        		 				</ul>
+        		 				<label>체중</label>
+        		 			</li>
+        		 		</ul>
+        		 	</div>
+        		 	<h2>💓적정체지방률과 체지방률 계산하기💓</h2>
+        		 	<p>❣️체지방률 %={체지방량(kg)÷체중(kg)}×100</p>
+        		 	<p>❣️참고로 체지방률은 몸안의 수분과 혈액에 흐름에 영향을 받기 때문에 하루에 2~3%의 변동이 있을 수 있습니다.</p>
+        		 	<p>❣️그래서 다이어트 하시는 분들중에 집에 체지방계가 있다면 항상 일정한 시간에 측정하는 것을 추천합니다!!</p>
+        		 	<br>
+        		 	<h2>💓BMI와 체지방률로 본 체형 타입💓</h2>
+        		 	<p>❣️숨은 비만 타입 : BMI정상,체지방률이 높다</p>
+        		 	<p>❣️표준타입 : BMI,체지방률 모두 표준</p>
+        		 	<p>❣️통통한 타입 : BMI,체지방률 둘다 약간 높다</p>
+        		 	<p>❣️비만 타입 : BMI,체지방률 둘다 높다.</p>
+        		 	<br>
+        		 	<h2>💓올바른 식생활 지침💓</h3>
+        		 	<h4>제때에</h4>
+        		 	<p>신체리듬에 맞춰 규칙적으로 식사하는 것이 아주 중요합니다. 아침을 드시는걸 권장합니다.</p>
+        		 	<h4>골고루</h4>
+        		 	<p>다양한 식품을 선택해 부족한 영양소가 없도록 해야 하는것이 중요합니다.</p>
+        		 	<h4>알맞게</h4>
+        		 	<p>표준 체중을 유지하기 위해 하루에 필요한 적정량의 음식을 섭취합니다.</p>
+        		 	<h4>싱겁게</h4>
+        		 	<p>소금의 과잉 섭취는 고혈압을 비롯한 순환기계질환의 중요 요인이 될수 있습니다. 소금섭취를 5g이하로 줄입시다.</p>
+        		 	<h4>즐겁게</h4>
+        		 	<p>식사는 가능한 여럿이 함께 함으로써 즐겁게 먹고 싶은 음식도 드시고 적절한 운동으로 건강한 다이어트를 하시기를 바랍니다.</p>
+        		 </div>
+    		</div>
+			</div>
+		</main>
+		<script>
+		$("#btnCalc").click(function(){
+			if($("#length").val()==""){
+				alert("신장을 입력해주세요.");
+				return false;
+			}
+			if($("#weight").val()==""){
+				alert("체중을 입력해주세요.");
+				return false;
+			}
+			var len = parseFloat($('#length').val())/100;
+			var wet = parseFloat($('#weight').val());
+			var result = parseFloat(wet)/parseFloat(len*len);
+			var resultText="";
+			if(result<18.5){
+				resultText="저체중";
+			}else if(result<23){
+				resultText="정상";
+			}else if(result<25){
+				resultText="과체중";
+			}else{
+				resultText = "비만";
+			}
+			resultText += "입니다.";
+			
+			$("#bmiNumber").text(result.toString().match(/^.*\.\d{2}/)||result);
+			$("#resultText").text(resultText);
+		});
+		
+		$(":reset").click(function(){
+			$("#bmiNumber").text("");
+			$("#resultText").text("");
+		});
+		</script>
+		<th:block th:include="common/footer"></th:block>
+</body>
+</html>

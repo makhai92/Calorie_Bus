@@ -1,10 +1,10 @@
 package kr.co.caloriebus.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,8 +58,8 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="/verifyEmail")
 	public int verifyEmail(String memberEmail) {
-		System.out.println(2);
 		int result = memberService.verifyEmail(memberEmail);
+		// 회원 없을 때 veriCode, 있을 때 0, 에러났을 때 -1
 		return result;
 	}
 	
@@ -105,6 +105,15 @@ public class MemberController {
 		return "member/forgotId";
 	}
 	
+	// 아이디, 비번 찾기 용 이메일 인증 보내기
+	@ResponseBody
+	@PostMapping(value="/findVerifyEmail")
+	public int findVerifyEmail(String memberEmail) {
+		int result = memberService.findVerifyEmail(memberEmail);
+		// 회원 있을 때 veriCode, 없을 때 0 리턴
+		return result;
+	}
+	
 	// 아이디 찾기
 	@PostMapping(value="/findId")
 	public String findId(Member m, Model model) {
@@ -125,6 +134,44 @@ public class MemberController {
 	@GetMapping(value="/forgotPw")
 	public String forgotPw() {
 		return "member/forgotPw";
+	}
+	
+	// 비밀번호 재설정 가능한지 확인
+	@PostMapping(value="/findPw")
+	public String findPw(Member m, Model model) {
+		int memberNo = memberService.findPw(m);
+		if (memberNo > 0) {
+			model.addAttribute("number", memberNo);
+			return "member/resetPw";
+		}
+		else {
+			Message data = new Message();
+			data.setMessage("일치하는 회원을 찾을 수 없습니다.");
+			data.setRedirectUrl("/member/forgotPw");
+			return alertMsg(data, model);
+		}
+	}
+	
+	// 비밀번호 재설정
+	@PostMapping(value="/updatePw")
+	public String updatePw(String number, String memberPw, Model model) {
+		int memberNo = Integer.parseInt(number);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		int result = memberService.updatePw(memberNo, memberPw);
+		Message data = new Message();
+		if (result > 0) {
+			data.setMessage("비밀번호가 재설정되었습니다.");
+			data.setRedirectUrl("/member/loginForm");;
+		}
+		else {
+			data.setMessage("비밀번호가 재설정에 실패했습니다.");
+			data.setRedirectUrl("/member/forgotPw");;
+		}
+		return alertMsg(data, model);
 	}
 
 	// 마이페이지로 이동

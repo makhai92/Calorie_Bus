@@ -20,19 +20,24 @@ public class ProductDao {
 	@Autowired
 	private ProductFileRowMapper productFileRowMapper;
 	
+	public List selectAllProduct() {
+		String query="select * from product";
+		List list = jdbc.query(query, productRowMapper);
+		return list;
+	}
 	
 	public int productInsert(Product p) {
-		String query = "insert into product values(product_seq.nextval,?,?,?,?,?,?,?,?)";
-		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinCount(),p.getProductMaxCount(),p.getStartDate(),p.getEndDate()};
+		String query = "insert into product values(product_seq.nextval,?,?,?,?,?,?,?,?,?)";
+		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductImg()};
 		int result = jdbc.update(query, params);
 		return result;
 	}
 
 
-	public Product selectProductNo(String productTitle) {
+	public Product selectOneProduct(String productTitle) {
 		String query = "select * from product where product_title = ?";
 		Object[] params = {productTitle};
-		List list = jdbc.query(query, productFileRowMapper, params);
+		List list = jdbc.query(query, productRowMapper, params);
 		if(list.isEmpty()) {
 			return null;
 		}else {
@@ -47,4 +52,7 @@ public class ProductDao {
 		int result = jdbc.update(query, params);
 		return result;
 	}
+
+
+
 }

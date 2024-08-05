@@ -93,12 +93,17 @@
 			
 			// 인증코드 전송
 			$.ajax({
-				url: "/member/verifyEmail",
+				url: "/member/findVerifyEmail",
 				type: "post",
 				data: {memberEmail : memberEmail},
 				success: function(result){
-					veriCode = result;
-					alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
+					if(result > 0) {
+						veriCode = result;
+						alert("입력하신 이메일로 인증 코드가 전송되었습니다.");
+					}
+					else {
+						alert("회원가입되지 않은 이메일입니다.");
+					}
 				},
 				error: function(){
 					alert("서버 오류입니다.");
@@ -126,8 +131,8 @@
 	function checkValid(){
 		const valid = $(".valid");
 		if(valid.length != 1){ // 이메일
-			alert("모든 항목이 올바르게 입력되었는지 확인해 주세요.")
-			return false;
+			// alert("모든 항목이 올바르게 입력되었는지 확인해 주세요.")
+			// return false;
 		}
 		return true;
 	}

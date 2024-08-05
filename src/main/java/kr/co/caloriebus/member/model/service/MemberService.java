@@ -82,6 +82,26 @@ public class MemberService {
 		}
 	}
 	
+	// 아이디, 비번 찾기 용 이메일 인증 보내기
+	public int findVerifyEmail(String memberEmail) {
+		int result = memberDao.selectMemberEmail(memberEmail);
+		
+		// 해당 이메일로 회원 있을 때 veriCode 값 리턴
+		if (result > 0) { 
+			Random random = new Random();
+			int veriCode = random.nextInt(888888) + 111111;
+			String title = "[칼로리버스] 인증 코드 이메일입니다.";
+			String content = "인증 코드는 [" + veriCode + "]입니다." + 
+					"<br>" + 
+					"위 번호를 인증 코드 입력란에 입력해 주세요.";
+			String toMail = memberEmail;
+			sendEmail(toMail, title, content);
+			result = veriCode;
+		}
+		// 해당 이메일로 회원 없을 때 0 리턴
+		return result;
+	}
+	
 	// 아이디 찾기
 	public String findId(Member m) {
 		String memberId = memberDao.findId(m);
@@ -92,5 +112,18 @@ public class MemberService {
 			sendEmail(toMail, title, content);
 		}
 		return memberId;
+	}
+
+	// 비밀번호 찾기
+	public int findPw(Member m) {
+		int memberNo = memberDao.findPw(m);
+		return memberNo;
+	}
+	
+	// 비밀번호 재설정
+	@Transactional
+	public int updatePw(int memberNo, String memberPw) {
+		int result = memberDao.updatePw(memberNo, memberPw);
+		return result;
 	}
 }
