@@ -54,101 +54,15 @@
 			</div>
 			<div class="list-content">
 				<ul>
-					<li class="product">
+					<li class="product" th:each="product : ${list}">
 						<a href="#">
 							<div class="product-img">
-								<img>
+								<img th:src=${product.productImg}>
 							</div>
 							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-				</ul>
-				<ul>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
-							</div>
-						</a>
-					</li>
-					<li class="product">
-						<a href="#">
-							<div class="product-img">
-								<img>
-							</div>
-							<div class="product-info">
-								<div class="title"></div>
-								<div class="percent"></div>
-								<div class="deadline"></div>
+								<div class="title" th:text=${product.productTitle}></div>
+								<div class="percent" th:text=${product.productMinAmount}></div>
+								<div class="deadline" th:text=${product.endDate}></div>
 							</div>
 						</a>
 					</li>
