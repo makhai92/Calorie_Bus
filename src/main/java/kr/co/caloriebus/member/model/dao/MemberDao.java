@@ -46,6 +46,19 @@ public class MemberDao {
 		}
 	}
 
+	// 이메일로 회원 찾기 (이메일 인증 용)
+	public int selectMemberEmail(String memberEmail) {
+		String query = "select count(*) from member where member_email = ?";
+		Object[] params = {memberEmail};
+		try {			
+			int result = jdbc.queryForObject(query, Integer.class, params);
+			return result; // 해당 이메일로 회원 있으면 1, 없으면 0 리턴
+		}
+		catch(final DataAccessException e) {
+			return -1; // 에러 났으면 1 리턴
+		}
+	}
+	
 	public String findId(Member m) {
 		String query = "select member_id from member where member_name = ? and member_email = ? and member_phone = ?";
 		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone()};
@@ -58,16 +71,15 @@ public class MemberDao {
 		}
 	}
 
-	// 이메일로 회원 찾기 (이메일 인증 용)
-	public int selectMemberEmail(String memberEmail) {
-		String query = "select count(*) from member where member_email = ?";
-		Object[] params = {memberEmail};
+	public int findPw(Member m) {
+		String query = "select member_no from member where member_id = ? and member_name = ? and member_email = ?";
+		Object[] params = {m.getMemberId(), m.getMemberName(), m.getMemberEmail()};
 		try {			
-			int result = jdbc.queryForObject(query, Integer.class, params);
-			return result; // 해당 이메일로 회원 있으면 1, 없으면 0 리턴
+			int memberNo = jdbc.queryForObject(query, Integer.class, params);
+			return memberNo;
 		}
 		catch(final DataAccessException e) {
-			return -1; // 에러 났으면 1 리턴
+			return -1;
 		}
 	}
 }

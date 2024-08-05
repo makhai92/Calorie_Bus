@@ -2,9 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>비밀번호 재설정</title>
+<link href="/css/memberJoinForm.css" rel="stylesheet">
+<style>
+#update-pw-btn {
+	width: 300px;
+	margin: 30px;
+}
+</style>
 </head>
 <body>
-
+<th:block th:include="common/header"></th:block>
+<th:block th:if="${session.member == null}">
+<main class="content">
+    <section class="joinform-wrap">
+        <div class="page-title">
+        	<p>비밀번호 재설정<p>
+        </div>
+        
+        <!-- 비밀번호 재설정 폼 -->
+		<form action="/member/updatePw" method="post" class="joinform-tbl">
+			<table class="joinform-tbl">
+            	<tr>
+                    <th style="width: 100px;">비밀번호</th>
+                    <td class="input-item1">
+                        <input type="password" name="memberPw" id="memberPw" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td class="input-item1">
+                        <input type="password" name="memberPwRe" id="memberPwRe" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="submit-btn-wrap">
+                        <button type="submit" class="btn-round" id="update-pw-btn" onclick="return checkValid()">비밀번호 찾기</button>
+                    </td>
+               	</tr>
+	        </table>
+		</form>
+	</section>
+</main>
+</th:block>
 </body>
 </html>
