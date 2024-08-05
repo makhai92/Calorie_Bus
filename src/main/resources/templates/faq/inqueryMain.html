@@ -40,7 +40,7 @@
     font-size: 15px;
     background-color: transparent;
 }
-.search-box{
+.inquery-search-box{
     position: relative;
     left: 340px;
     height:100%;
@@ -51,13 +51,13 @@
     top: 15px;
 
 }
-#search-inquery{
+#inquery-search{
     width: 450px;
     height: 40px;
     font-size: 20px;
     border: none;
     border-bottom: 2.5px solid black ;
-    text-align: center;
+    text-align: left;
 }
 .writeFaq:hover{
     font-weight: bolder;
@@ -78,9 +78,9 @@
 }
 
 </style>
+<th:block th:include="common/header"></th:block>
 </head>
 
-<th:block th:include="common/header"></th:block>
 
 <body>
     <div class="inquery-main">
@@ -90,10 +90,10 @@
         </div>
         <div class="inquery-sub">
             <form action="search.html" method="get">
-                <button type="submit" class="writeFaq">1:1 문의 작성하기</button>
-                    <div class="search-box">
+                <button type="button" class="writeFaq" onclick = "location.href ='/faq/inqueryWriter'">1:1 문의 작성하기</button>
+                    <div class="inquery-search-box">
                         <span class="material-icons" id="search-icon">search</span>
-                        <input type="text" id="search-inquery" placeholder="제목으로 1:1 문의를 검색해보세요">
+                        <input type="text" id="inquery-search" placeholder="제목으로 1:1 문의를 검색해보세요">
                     </div>
             </form>
         </div>
@@ -119,6 +119,5 @@
         </table>
     </div>
 </body>
-
 <th:block th:include="common/footer"></th:block>
 </html>
