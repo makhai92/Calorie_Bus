@@ -38,14 +38,27 @@ th {
 .input-item1>input{
 	float: left;
 }
-#unit{
-	width : 20px;
+#unit1{
+	width :50px;
 	color : var(--line2);
 }
+#unit2{
+	width : 25px;
+	color : var(--line2);
+}
+.registration{
+	padding-top : 30px;
+	text-align: center;
+}
+
 </style>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	
 	<main class="content">
 		<section class="section">
 			<div class="page-title">상품 등록</div>
@@ -67,13 +80,13 @@ th {
 								<th style="width: 12%;">판매 시작일</th>
 								<td style="width: 20%;">
 									<div class="input-item1">
-										<input type="date">
+										<input type="date" name="startDate" id="startDate">
 									</div>
 								</td>
 								<th style="width: 12%;">판매 종료일</th>
 								<td style="width: 36%;">
 									<div class="input-item1">
-										<input type="date">
+										<input type="date" name="endDate" id="endDate">
 									</div>
 								</td>
 
@@ -85,7 +98,8 @@ th {
 							<h4>상품명</h4>
 						</div>
 						<div class="input-item1">
-							<input type="text">
+							<input type="text" style="width:350px;" name="productTitle" id="productTitle">
+							<input type="text" value="0/100" id="unit1" readonly>
 						</div>
 					</div>
 					<div>
@@ -93,7 +107,7 @@ th {
 							<h4>상품 2줄 소개</h4>
 						</div>
 						<div class="input-item1">
-							<textarea></textarea>
+							<textarea name="productContent" id="productContent"></textarea>
 						</div>
 					</div>
 					<div>
@@ -102,20 +116,20 @@ th {
 						</div>
 						<table>
 							<tr>
-								<th style="width: 100px; height:40px;">상품원가</th>
+								<td style="width: 100px; height:40px;">상품원가</td>
 								<td>
 									<div class="input-item1">
-										<input type="text">
-										<input type="text" value="원" id="unit" readonly>
+										<input type="text" name="productPrice" id="productPrice">
+										<input type="text" value="원" id="unit2" readonly>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th style="width: 100px; height:40px;">할인가</th>
+								<td style="width: 100px; height:40px;">할인가</td>
 								<td>
 									<div class="input-item1">
-										<input type="text">
-										<input type="text" value="원" id="unit" readonly>
+										<input type="text" name="productDcPrice" id="productDcPrice">
+										<input type="text" value="원" id="unit2" readonly>
 									</div>
 								</td>
 							</tr>
@@ -127,19 +141,19 @@ th {
 						</div>
 						<table>
 							<tr>
-								<th style="width: 40px;">최소</th>
+								<td style="width: 40px;">최소</td>
 								<td>
 									<div class="input-item1">
-										<input type="text" class="amoutInput">
-										<input type="text" value="개" id="unit" readonly>
+										<input type="text" class="amoutInput" name="productMinCount" id="productMinCount">
+										<input type="text" value="개" id="unit2" readonly>
 									</div>
 								</td>
-								<th>~</th>
-								<th style="width: 50px;">최대</th>
+								<td style="width:50px; text-align: center;">~</td>
+								<td style="width: 50px;">최대</td>
 								<td>
 									<div class="input-item1">
-										<input type="text" class="amoutInput">
-										<input type="text" value="개" id="unit" readonly>
+										<input type="text" class="amoutInput" name="productMaxCount" id="productMaxCount">
+										<input type="text" value="개" id="unit2" readonly>
 									</div>
 								</td>
 							</tr>
@@ -147,31 +161,46 @@ th {
 					</div>
 					<div>
 						<div class="title">
-							<h4>첨부파일</h4>
+							<h4>메인 사진</h4>
 						</div>
-						<table>
-							<tr>
-								<th style="width: 100px; height:40px;">메인사진</th>
-								<td>
-									<div>
-										<input type="file" name="upfile" multiple>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th style="width: 100px; height:40px;">상세페이지</th>
-								<td>
-									<div>
-										<input type="file" name="upfile" multiple>
-									</div>
-								</td>
-							</tr>
-						</table>
+						<div>
+							<input type="file" name="upfile" multiple>
+						</div>
 					</div>
+					<div>
+						<div class="title">
+							<h4>상세페이지</h4>
+						</div>
+						<div>
+							<textarea id="detailContent"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="registration">
+					<button type="submit" class="btn-round">상품 등록</button>
 				</div>
 			</form>
 		</section>
 	</main>
+	
+	<script>
+	$("#detailContent").summernote({
+		height:500,
+		lang : "ko-KR",
+		disableResize:true,
+		disableResizeEditor:true,
+		resize:false,
+		callbacks : {
+			//사용자가 이미지를 올리면 동작할 함수 지정
+			onImageUpload : function(files){
+				//이미지를 선택하면 해당 파일을 매개변수로 받음
+				//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터 객체를 전송
+				uploadImage(files[0],this);
+			}
+		}
+	});
+	
+	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
