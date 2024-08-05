@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/mbi")
 public class MbiController {
 	
-	@GetMapping(value = "MBI")
+	@GetMapping(value = "/MBI")
 	public String MBI() {
 		return"mbi/MBI";
 	}
