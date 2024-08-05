@@ -4,11 +4,6 @@
 <meta charset="UTF-8">
 <title>회원가입 양식</title>
 <link href="/css/memberJoinForm.css" rel="stylesheet">
-<style>
-.input-item1{
-	padding: 0;
-}
-</style>
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
@@ -75,12 +70,12 @@
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td class="input-item1">
+                    <td class="input-item1" id="email-box">
                     	<input type="hidden" name="memberEmail" id="memberEmail">
-                        <input type="text" name="emailInput" id="emailInput" style="width: 105px" required>
+                        <input type="text" name="emailInput" id="emailInput" class="email-input" required>
                         <span>@</span>
-                        <input type="text" name="emailDomain" id="emailDomain" style="width: 105px" required readonly>
-                        <select id="selectDomain" style="width: 104px" class="select">                             
+                        <input type="text" name="emailDomain" id="emailDomain" class="email-input" required readonly>
+                        <select id="selectDomain" class="select email-input" >                             
                         	<option disabled selected>도메인 선택</option>
                         	<option value="naver.com">naver.com</option>
                         	<option value="gmail.com">gmail.com</option>
@@ -239,6 +234,7 @@
 		$("#emailDomain").val($(this).val());
 		veriCode = 0;
 	})
+
 	
 	// 이메일 인증
 	$("#email-check-btn").on("click", function(){
@@ -247,12 +243,11 @@
 		if(emailInput && emailDomain){
 			$("#memberEmail").val(emailInput + "@" + emailDomain);
 			const memberEmail = $("#memberEmail").val();
-			
 			// 인증코드 전송
 			$.ajax({
 				url: "/member/verifyEmail",
 				type: "post",
-				data: {"memberEmail" : memberEmail},
+				data: {memberEmail : memberEmail},
 				success: function(result){
 					// 인증 코드 발송 성공 시 result는 인증 코드 값
 					if (result > 0) {
@@ -265,7 +260,7 @@
 					}
 					// 에러 났을 때
 					else {
-						alert("서버 오류입니다. 잠시 후 다시 시도해 주세요.")
+						alert("처리 중 에러가 발생했습니다.")
 					}
 				},
 				error: function(){
@@ -288,7 +283,6 @@
 		else {
 			alert("인증 코드가 올바르지 않습니다.");
 		}
-		
 	})
 	
 	// 전화번호

@@ -36,7 +36,7 @@
     font-weight: bolder;
     text-decoration: none;
 }
-.search-box{
+.csc-search-box{
     width: 700px;
     margin: 0 auto;
     border: none;   
@@ -45,6 +45,7 @@
     font-size: 35px;
     position: relative;
     top: 15px;
+    left : 30px;
 }
 .s-button{
     width: 600px;
@@ -55,6 +56,9 @@
     font-size: 20px;
     cursor: pointer;
     background-color: white;
+}
+.s-button:hover{
+  font-weight: bolder;
 }
 .info{
     margin-top: 100px ;
@@ -84,12 +88,14 @@
     padding: 20px;
 }
 .left{
-    position: relative;    
+    position: relative;
+    top : 10px;    
 }
-.center{
-    position: absolute;
-    bottom: 50px;
-    right : 90px;
+.right{
+	float : right;
+}
+.cscCenter{
+
     font-size: 25px;
 }
 .inquery-button{
@@ -100,7 +106,9 @@
     cursor: pointer;
     background-color: white;
 }
-
+.inquery-button:hover{
+  font-weight: bolder;
+}
 </style>
 </head>
 <th:block th:include="common/header"></th:block>
@@ -111,7 +119,7 @@
     <div class="help">
         <span>무엇을 도와드릴까요?</span>
     </div>
-    <div class="search-box">
+    <div class="csc-search-box">
             <span class="material-icons" id="search-icon">search</span>
         <button type="submit" class="s-button" onclick = "location.href ='/faq/faqMain'">
             <span>궁금한 점을 검색해보세요 !</span>
@@ -125,7 +133,7 @@
         </div>
         <div class="under2">
             <div class="left">
-                <div class="center">
+                <div class="cscCenter">
                     <span>고객센터</span>
                     <br>
                     <span>7777-7777</span>

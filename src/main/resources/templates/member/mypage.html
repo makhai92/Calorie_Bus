@@ -5,6 +5,8 @@
 <title>마이페이지</title>
 </head>
 <body>
-
+	<th:block th:if="${session.member.memberLevel == 1}">
+		<a href="/admin/adminMain">관리자 페이지로</a>	
+	</th:block>
 </body>
 </html>
