@@ -1,15 +1,13 @@
 package kr.co.caloriebus.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.caloriebus.member.model.dto.Member;
@@ -140,11 +138,11 @@ public class MemberController {
 	
 	// 비밀번호 재설정 가능한지 확인
 	@PostMapping(value="/findPw")
-	public String findPw(Member m, RedirectAttributes redirect, Model model) {
+	public String findPw(Member m, Model model) {
 		int memberNo = memberService.findPw(m);
 		if (memberNo > 0) {
-			redirect.addAttribute("memberNo", memberNo);
-			return "redirect:/member/resetPw";
+			model.addAttribute("number", memberNo);
+			return "member/resetPw";
 		}
 		else {
 			Message data = new Message();
@@ -154,11 +152,26 @@ public class MemberController {
 		}
 	}
 	
-	// 비밀번호 재설정 페이지로 이동
-	@GetMapping(value="/resetPw")
-	public String resetPw(@RequestParam("memberNo") int memberNo, Model model) {
-		model.addAttribute("memberNo", memberNo);
-		return "member/resetPw";
+	// 비밀번호 재설정
+	@PostMapping(value="/updatePw")
+	public String updatePw(String number, String memberPw, Model model) {
+		int memberNo = Integer.parseInt(number);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		System.out.println(memberNo);
+		int result = memberService.updatePw(memberNo, memberPw);
+		Message data = new Message();
+		if (result > 0) {
+			data.setMessage("비밀번호가 재설정되었습니다.");
+			data.setRedirectUrl("/member/loginForm");;
+		}
+		else {
+			data.setMessage("비밀번호가 재설정에 실패했습니다.");
+			data.setRedirectUrl("/member/forgotPw");;
+		}
+		return alertMsg(data, model);
 	}
 
 	// 마이페이지로 이동

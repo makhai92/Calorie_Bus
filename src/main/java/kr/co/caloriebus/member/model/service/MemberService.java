@@ -114,8 +114,16 @@ public class MemberService {
 		return memberId;
 	}
 
+	// 비밀번호 찾기
 	public int findPw(Member m) {
 		int memberNo = memberDao.findPw(m);
 		return memberNo;
+	}
+	
+	// 비밀번호 재설정
+	@Transactional
+	public int updatePw(int memberNo, String memberPw) {
+		int result = memberDao.updatePw(memberNo, memberPw);
+		return result;
 	}
 }
