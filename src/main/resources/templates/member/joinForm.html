@@ -4,13 +4,20 @@
 <meta charset="UTF-8">
 <title>회원가입 양식</title>
 <link href="/css/memberJoinForm.css" rel="stylesheet">
+<style>
+.input-item1{
+	padding: 0;
+}
+</style>
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
 <th:block th:if="${session.member == null}">
 <main class="content">
     <section class="joinform-wrap">
-        <div class="page-title">회원가입</div>
+        <div class="page-title">
+        	<p>회원가입<p>
+        </div>
         
         <!-- 회원가입 양식 -->
         <form action="/member/insertMember" method="post" class="joinform-tbl">
@@ -19,11 +26,16 @@
                     <th style="width: 100px;">아이디</th>
                     <td class="input-item1">
                         <input type="text" name="memberId" id="memberId" style="width: 360px;" required>
-                        <p class="check-msg-id"></p>
                     </td>
                     <td>
                         <button type="button" class="btn-round" id="id-check-btn">중복 확인</button>
                     </td>
+                </tr>
+                <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg-id" style="visibility: hidden">아이디 확인</p>                	
+                	</td>
                 </tr>
                 <tr>
                     <th>비밀번호</th>
@@ -32,17 +44,34 @@
                     </td>
                 </tr>
                 <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg-pw" style="visibility: hidden">비밀번호 확인</p>
+                	</td>
+                </tr>
+                <tr>
                     <th>비밀번호 확인</th>
                     <td class="input-item1" colspan="2">
                         <input type="password" name="memberPwRe" id="memberPwRe" required>
-                        <p class="check-msg-pw"></p>
                     </td>
+                </tr>
+                <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg-pwre" style="visibility: hidden">비밀번호 일치 확인</p>
+                	</td>
                 </tr>
                 <tr>
                     <th>이름</th>
                     <td class="input-item1" colspan="2">
                         <input type="text" name="memberName" id="memberName" required>
                     </td>
+                </tr>
+                <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg" style="visibility: hidden">확인</p>
+                	</td>
                 </tr>
                 <tr>
                     <th>이메일</th>
@@ -62,6 +91,12 @@
                     </td>
                 </tr>
                 <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg" style="visibility: hidden">확인</p>
+                	</td>
+                </tr>
+                <tr>
                     <th>인증 코드</th>
                     <td class="input-item1">
                         <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required>
@@ -71,11 +106,22 @@
                     </td>
                 </tr>
                 <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg" style="visibility: hidden">확인</p>
+                	</td>
+                </tr>
+                <tr>
                     <th>전화번호</th>
                     <td class="input-item1" colspan="2">
                         <input type="text" name="memberPhone" id="memberPhone" required>
-                        <p class="check-msg-phone"></p>
                     </td>
+                </tr>
+                <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg-phone" style="visibility: hidden">전화번호 확인</p>
+                	</td>
                 </tr>
                 <tr>
                     <th>주소</th>
@@ -84,27 +130,22 @@
                     </td>
                 </tr>
                 <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="check-msg" style="visibility: hidden">확인</p>
+                	</td>
+                </tr>
+                <tr>
                     <th>생년월일</th>
                     <td class="input-item1" colspan="2">
-                    	<input type="hidden" name="memberBirth" id="memberBirth" required>
-                    	<div class="birth-box">
-				<select class="select" id="birth-year" style="width: 33%">
-			    	<option disabled selected>출생 연도</option>
-			  	</select>
-			 	<select class="select" id="birth-month" style="width: 33%">
-			    	<option disabled selected>월</option>
-			  	</select>
-			  	<select class="select" id="birth-day" style="width: 33%">
-			    	<option disabled selected>일</option>
-			  	</select>
-                    	</div>
+                    	<input type="date" id="memberBirth" name="memberBirth" min="1924-01-01" max="2024-12-31">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" id="submit-btn-wrap">
                         <button type="submit" class="btn-round" id="join-btn" onclick="return checkValid()">가입하기</button>
-                      </td>
-                  </tr>
+                    </td>
+                </tr>
               </table>
           </form>
 	</section>
@@ -122,29 +163,29 @@
 			idRegChecked = true;
 		}
 		else {
-			$(".check-msg-id").text("아이디는 영문자와 숫자를 4~20글자로 조합해야 합니다.");
+			$(".check-msg-id").text("아이디는 영문자와 숫자를 4~20글자로 조합해야 합니다.").css("visibility", "visible").css("color", "var(--point1)");
 		}
 	})
 	
 	// 아이디 중복 확인
 	$("#id-check-btn").on("click", function(){
 		if (idRegChecked) {
-			$(".check-msg-id").text("");
+			$(".check-msg-id").css("visibility", "hidden");
 			$.ajax({
 				url:"/member/checkId",
 				type:"get",
 				data:{"checkId" : $("#memberId").val()},
 				success: function(result){
 					if(result > 0){ 
-						$(".check-msg-id").text("이미 사용 중인 아이디입니다.")
+						$(".check-msg-id").text("이미 사용 중인 아이디입니다.").css("visibility", "visible").css("color", "var(--point1)");
 					}
 					else {
-						$(".check-msg-id").text("사용 가능한 아이디입니다.")						
-						$(this).addClass("valid");
+						$(".check-msg-id").text("사용 가능한 아이디입니다.").css("visibility", "visible").css("color", "var(--point2)");					
+						$("#memberId").addClass("valid");
 					}
 				},
 				error: function(){
-					alert("서버 오류")
+					alert("서버 오류입니다. 관리자에게 문의하세요.")
 				}
 			})
 		}
@@ -152,17 +193,31 @@
 			alert("아이디가 올바르지 않습니다.")	
 		}
 	})
+	
+	// 비밀번호 정규 표현식 확인
+	$("#memberPw").on("keyup", function(){
+		$(this).removeClass("valid");
+		const memberPwVal = $(this).val();
+		const pwReg = /^[a-zA-Z0-9]{8,20}$/;
+		if(pwReg.test(memberPwVal)){
+			$(".check-msg-pw").css("visibility", "hidden");
+			$(this).addClass("valid");
+		}
+		else {
+			$(".check-msg-pw").text("비밀번호는 영문자와 숫자를 8~20글자로 조합해야 합니다.").css("visibility", "visible").css("color", "var(--point1)");
+		}
+	})
 		
-	// 비밀번호 확인
+	// 비밀번호 일치 여부 확인 (비밀번호, 비밀번호 확인에 입력될 때마다 실행)
 	function pwCheck(){
-		$("#memberPw").removeClass("valid");
+		$("#memberPwRe").removeClass("valid");
 		const pwValue = $("#memberPw").val();
 		const pwReValue = $("#memberPwRe").val();
 		if(pwValue === pwReValue){
-			$(".check-msg-pw").text("비밀번호가 일치합니다.");
-			$("#memberPw").addClass("valid");
+			$(".check-msg-pwre").css("visibility", "hidden");
+			$("#memberPwRe").addClass("valid");
 		} else {
-			$(".check-msg-pw").text("비밀번호가 일치하지 않습니다.");
+			$(".check-msg-pwre").text("비밀번호가 일치하지 않습니다.").css("visibility", "visible").css("color", "var(--point1)");
 		}
 	}		
 	$("#memberPw").on("keyup", function() {
@@ -173,16 +228,19 @@
 	})
 	
 	// 이메일
+	let veriCode = 0; // 인증 코드 용 변수
+
 	$("#emailInput").on("keyup", function(){
 		$("#memberEmail").removeClass("valid");			
+		veriCode = 0;
 	})
 	$("#selectDomain").on("click", function(){
 		$("#memberEmail").removeClass("valid");
 		$("#emailDomain").val($(this).val());
+		veriCode = 0;
 	})
 	
 	// 이메일 인증
-	let veriCode = 0;
 	$("#email-check-btn").on("click", function(){
 		const emailInput = $("#emailInput").val();
 		const emailDomain = $("#emailDomain").val();
@@ -196,8 +254,19 @@
 				type: "post",
 				data: {"memberEmail" : memberEmail},
 				success: function(result){
-					veriCode = result;
-					alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
+					// 인증 코드 발송 성공 시 result는 인증 코드 값
+					if (result > 0) {
+						veriCode = result;
+						alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
+					}
+					// 해당 회원 이미 있을 때
+					else if (result == 0) {
+						alert("이미 회원가입된 이메일입니다.")
+					}
+					// 에러 났을 때
+					else {
+						alert("서버 오류입니다. 잠시 후 다시 시도해 주세요.")
+					}
 				},
 				error: function(){
 					alert("서버 오류입니다.");
@@ -224,88 +293,26 @@
 	
 	// 전화번호
 	$("#memberPhone").on("change", function(){
+		$("#memberPhone").removeClass("valid");
 		const phoneVal = $(this).val()
 		const phoneReg = /^[0-9]{11,11}$/;
 		if(phoneReg.test(phoneVal) && phoneVal.length == 11){				
-			$(".check-msg-phone").text("");
+			$(".check-msg-phone").css("visibility", "hidden");
 			$("#memberPhone").addClass("valid");
 		}
 		else {
-			$(".check-msg-phone").text("전화번호는 11자리 숫자로 입력해야 합니다.");			
+			$(".check-msg-phone").text("전화번호는 11자리 숫자로 입력해야 합니다.").css("visibility", "visible").css("color", "var(--point1)");			
 		}
 	})
 	
-	// 생년월일
-	const birthYear = $("#birth-year");
-	let isYearOptionExisted = false;
-	birthYear.on("focus", function () {
-		if(!isYearOptionExisted) {
-			for(let i = 2024; i > 1924; i--) {
-				const yearOption = $("<option>");
-				yearOption.attr("value", i);
-				yearOption.text(i);
-				$(this).append(yearOption);
-			}
-			isYearOptionExisted = true;
-		}
-	})
-	
-	const birthMonth = $("#birth-month");
-	let isMonthOptionExisted = false;
-	birthMonth.on("focus", function () {
-		if(!isMonthOptionExisted) {
-			for(let i = 1; i <= 12; i++) {
-				const monthOption = $("<option>");
-				if (i < 10) {
-					monthOption.attr("value", "0" + i);
-					monthOption.text("0" + i);						
-				}
-				else {						
-					monthOption.attr("value", i);
-					monthOption.text(i);
-				}
-				$(this).append(monthOption);
-			}
-			isMonthOptionExisted = true;
-		}
-	})
-	
-	const birthDay = $("#birth-day");
-	let isDayOptionExisted = false;
-	birthDay.on("focus", function () {
-		if(!isDayOptionExisted) {
-			for(let i = 1; i <= 31; i++) {
-				const dayOption = $("<option>");
-				if (i < 10) {
-					dayOption.attr("value", "0" + i);
-					dayOption.text("0" + i);						
-				}
-				else {						
-					dayOption.attr("value", i);
-					dayOption.text(i);
-				}
-				$(this).append(dayOption);
-			}
-			isDayOptionExisted = true;
-		}
-	})
-	
-	$(".birth-box>select").on("click", function(){
-		addMemberBirth();
-	})
-	
-	function addMemberBirth() {			
-		if(birthYear.val() > 0 && birthMonth.val() > 0 && birthDay.val() > 0) {
-			$("#memberBirth").val(birthYear.val() + "-" + birthMonth.val() + "-" + birthDay.val());
-		}
-	}
-	
+	// 입력값 확인
 	function checkValid(){
 		const valid = $(".valid");
-		if(valid.length != 4){ // 아이디, 비번, 이메일, 전화번호, 주소
+		if(valid.length != 5){ // 아이디, 비번, 비번 확인, 이메일, 전화번호, 주소
 			alert("모든 항목이 올바르게 입력되었는지 확인해 주세요.")
 			return false;
 		}
+		return true;
 	}
 </script>
 <th:block th:include="common/footer"></th:block>
