@@ -112,4 +112,10 @@ public class ExerciseController {
 		
 	}
 	*/
+	
+	@GetMapping(value="/viewFrm")
+	public String viewFrm() {
+		return "exercise/viewFrm";
+	}
+	
 }
