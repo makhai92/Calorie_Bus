@@ -353,6 +353,18 @@ marquee img {
 .footer-section a:hover {
     text-decoration: underline;
 }
+.footer h2 a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    transition: none;
+}
+
+.footer h2 a:hover {
+    color: inherit;
+    text-decoration: none;
+}
 
 .social-icons {
     display: flex;
@@ -417,7 +429,7 @@ marquee img {
     font-size: 12px;
 }
 .tbl th {
-    background-color: var(--main2)
+    background-color: var(--main2);
 }
 /*border가 필요한 경우*/
 .input-item1 > input {
