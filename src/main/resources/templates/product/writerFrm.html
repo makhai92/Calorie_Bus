@@ -195,10 +195,31 @@ th {
 			onImageUpload : function(files){
 				//이미지를 선택하면 해당 파일을 매개변수로 받음
 				//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터 객체를 전송
-				uploadImage(files[0],this);
+				for(let i=0;i<files.length;i++){
+					uploadImage(files[i],this);
+				}
 			}
 		}
 	});
+	
+	function uploadImage(file, editor){
+		const form = new FormData();
+		form.append("upfile",file);
+		
+		$.ajax({
+			url : "/product/editorImage",
+			type : "post",
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data){
+				$(editor).summernote("insertImage",data);
+			},
+			error : function(){
+				console.log("error");
+			}
+		});
+	}
 	
 	</script>
 	<th:block th:include="common/footer"></th:block>
