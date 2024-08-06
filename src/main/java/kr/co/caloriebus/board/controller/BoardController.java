@@ -58,13 +58,14 @@ public class BoardController {
 	}
 	
 	@PostMapping(value="/write")
-	public String write(Board b,MultipartFile[] files, Model model) {
+	public String write(Board b,MultipartFile[] upfile, Model model) {
 		ArrayList<BoardFile> fileList = new ArrayList<BoardFile>();
-		if(!files[0].isEmpty()) {
+		if(!upfile[0].isEmpty()) {
+			System.out.println(1);
 			String savepath = root+"/board/";
-			for(int i=0;i<files.length;i++) {
-				String filename = files[i].getOriginalFilename();
-				String filepath = fileUtils.upload(savepath, files[i]);
+			for(int i=0;i<upfile.length;i++) {
+				String filename = upfile[i].getOriginalFilename();
+				String filepath = fileUtils.upload(savepath, upfile[i]);
 				BoardFile boardFile = new BoardFile();
 				boardFile.setFilepath(filepath);
 				boardFile.setFilename(filename);
