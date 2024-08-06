@@ -126,4 +126,11 @@ public class MemberService {
 		int result = memberDao.updatePw(memberNo, memberPw);
 		return result;
 	}
+
+	// 회원 정보 수정
+	@Transactional
+	public int updateMember(Member m) {
+		int result = memberDao.updateMember(m);
+		return result;
+	}
 }

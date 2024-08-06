@@ -87,4 +87,11 @@ public class MemberDao {
 		int result = jdbc.update(query, params);
 		return result;
 	}
+
+	public int updateMember(Member m) {
+		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_birth = ?, member_account = ?, member_bank = ? where member_no = ?";
+		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
 }

@@ -14,7 +14,7 @@
         </div>
         
         <!-- 내 정보 양식 -->
-        <form action="/member/updateMemberInfo" method="post" class="joinform-tbl">
+        <form action="/member/updateMember" method="post" class="joinform-tbl">
             <table class="joinform-tbl">
                 <tr>
                     <th style="width: 100px;">아이디</th>
@@ -48,7 +48,7 @@
                 <tr>
                     <th>인증 코드</th>
                     <td class="input-item1">
-                        <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required>
+                        <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px">
                     </td>
                     <td class="member-btn-box">
                         <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
@@ -75,7 +75,7 @@
                 <tr>
                     <th>환불 받을 계좌</th>
                     <td class="input-item1 bank-no-input">
-                    	<input type="text" id="memberAccount" name="memberAccount" min="1924-01-01" max="2024-12-31">
+                    	<input type="text" id="memberAccount" name="memberAccount">
                     </td>
                     <td>
                     	<select id="selectBank" class="select">
@@ -91,7 +91,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" id="submit-btn-wrap">
-                        <button type="button" class="btn-round" id="update-btn" onclick="return checkValid()">수정하기</button>
+                        <button type="submit" class="btn-round" id="update-btn" onclick="return checkValid()">수정하기</button>
                     </td>
                 </tr>
                 <tr>
@@ -150,7 +150,6 @@ $("#selectDomain").on("click", function(){
 })
 
 // 이메일 인증
-
 $("#email-check-btn").on("click", function(){
 	const emailInput = $("#emailInput").val();
 	const emailDomain = $("#emailDomain").val();
@@ -211,11 +210,24 @@ $("#memberPhone").on("change", function(){
 	$("#memberPhone").removeClass("valid");
 	const phoneVal = $(this).val()
 	const phoneReg = /^[0-9]{11,11}$/;
-	if(phoneReg.test(phoneVal) && phoneVal.length != 11){				
+	if(phoneReg.test(phoneVal) && phoneVal.length == 11){				
 		$("#memberPhone").addClass("valid");
 	}
 	else {
 		alert("전화번호는 11자리 숫자로 입력해야 합니다.")
+	}
+})
+
+// 계좌 정보 확인
+const memberAccount = $("#memberAccount");
+memberAccount.on("change", function(){
+	const inputVal = $("#memberAccount").val();
+	const accountReg = /^[0-9]{10,20}$/;
+	if (accountReg.test(inputVal) || !inputVal) {
+	}
+	else {
+		alert("계좌 번호가 올바르지 않습니다.")
+		memberAccount.val("");
 	}
 })
 

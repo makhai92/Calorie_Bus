@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.caloriebus.member.model.dto.Member;
@@ -155,20 +156,15 @@ public class MemberController {
 	@PostMapping(value="/updatePw")
 	public String updatePw(String number, String memberPw, Model model) {
 		int memberNo = Integer.parseInt(number);
-		System.out.println(memberNo);
-		System.out.println(memberNo);
-		System.out.println(memberNo);
-		System.out.println(memberNo);
-		System.out.println(memberNo);
 		int result = memberService.updatePw(memberNo, memberPw);
 		Message data = new Message();
 		if (result > 0) {
 			data.setMessage("비밀번호가 재설정되었습니다.");
-			data.setRedirectUrl("/member/loginForm");;
+			data.setRedirectUrl("/member/loginForm");
 		}
 		else {
 			data.setMessage("비밀번호가 재설정에 실패했습니다.");
-			data.setRedirectUrl("/member/forgotPw");;
+			data.setRedirectUrl("/member/forgotPw");
 		}
 		return alertMsg(data, model);
 	}
@@ -177,5 +173,22 @@ public class MemberController {
 	@GetMapping(value="/mypage")
 	public String mypage() {
 		return "member/mypage";
+	}
+	
+	// 회원 정보 수정
+	@PostMapping(value="/updateMember")
+	public String updateMember(Member m, Model model, @SessionAttribute Member member) {
+		int result = memberService.updateMember(m);
+		Message data = new Message();
+		if (result > 0) {
+			data.setMessage("회원 정보가 수정되었습니다.");
+			data.setRedirectUrl("/member/mypage");
+		}
+		else {
+			data.setMessage("처리 중 에러가 발생하였습니다.");
+			data.setRedirectUrl("/member/mypage");
+		}
+		return alertMsg(data, model);
+		
 	}
 }
