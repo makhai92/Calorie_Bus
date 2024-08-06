@@ -31,7 +31,7 @@
     height: 150px;
     width: 1200px;
 }
-.writeFaq{
+.writeInquery{
     border: none;
     width: 150px;
     height: 40px;
@@ -59,8 +59,9 @@
     border-bottom: 2.5px solid black ;
     text-align: left;
 }
-.writeFaq:hover{
+.writeInquery:hover{
     font-weight: bolder;
+    cursor : pointer;
 }
 .tbl{
     margin : 70px ;
@@ -90,7 +91,7 @@
         </div>
         <div class="inquery-sub">
             <form action="search.html" method="get">
-                <button type="button" class="writeFaq" onclick = "location.href ='/faq/inqueryWriter'">1:1 문의 작성하기</button>
+                <button type="button" class="writeInquery" onclick = "location.href ='/faq/inqueryWriter'">1:1 문의 작성하기</button>
                     <div class="inquery-search-box">
                         <span class="material-icons" id="search-icon">search</span>
                         <input type="text" id="inquery-search" placeholder="제목으로 1:1 문의를 검색해보세요">

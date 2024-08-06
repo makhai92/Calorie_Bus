@@ -51,7 +51,9 @@
 }
 .writeFaq: hover{
 	font-weight: bolder;
+	cursor : pointer;
 }
+
 .faq-list{
     width: 80%;
     margin: 0 auto;
@@ -81,13 +83,18 @@
 }
 #pageNavi{
 
-	margin : 0 auto;
 }
 #pageNavi>ul{
-	overflow : hidden;
+	text-align : center;
+	width : 500px;
 }
 #pageNavi>ul>li{
+	display : flex;
 	float : left;
+	margin-left : 50px;
+}
+#pageNavi>ul>li>* : hover{
+     font-weight: bolder;
 }
 </style>
 </head>

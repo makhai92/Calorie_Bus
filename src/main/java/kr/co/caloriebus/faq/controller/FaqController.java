@@ -46,14 +46,19 @@ public String inqueryWriter() {
 @PostMapping(value = "/write")
 public String write(Faq f, Model model) {
 	int result = faqService.insertFaq(f);
-	System.out.println(f);
 	if (result > 0) {
 		model.addAttribute("title", "작성 완료");
-		model.addAttribute("msg", "공지사항 작성에 성공하였습니다!");
+		model.addAttribute("msg", "FAQ 작성에 성공하였습니다!");
 		model.addAttribute("icon", "success");
-		model.addAttribute("loc", "/faq/faqMain");
+		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
+		return "common/msg";
+	}else {
+		model.addAttribute("title", "작성 실패");
+		model.addAttribute("msg", "FAQ 작성에 실패하였습니다..");
+		model.addAttribute("icon", "success");
+		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
 		return "common/msg";
 	}
-	return "redirect:/faq/faqMain";
+		
 }
 }
