@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.board.model.dto.BoardFile;
+import kr.co.caloriebus.board.model.dto.BoardFileRowMapper;
 import kr.co.caloriebus.board.model.dto.BoardInfoRowMapper;
 import kr.co.caloriebus.board.model.dto.BoardListRowMapper;
 
@@ -21,6 +22,8 @@ public class BoardDao {
 	private BoardInfoRowMapper boardInfoRowMapper;
 	@Autowired
 	private BoardListRowMapper boardListRowMapper;
+	@Autowired
+	private BoardFileRowMapper boardFileRowMapper;
 	
 	public List selectBoardList(String category, int start, int end) {
 		String query = "select * from (select rownum rnum, b.*\r\n" + 
@@ -76,5 +79,35 @@ public class BoardDao {
 		}else {			
 			return (Board)list.get(0);
 		}
+	}
+	public int deleteBoardLike(int boardNo, int memberNo) {
+		String query = "delete from board_like where board_no=? and member_no=?";
+		Object[] params = {boardNo,memberNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int insertBoardLike(int boardNo, int memberNo) {
+		String query = "insert into board_like values(?,?)";
+		Object[] params = {boardNo,memberNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int selectBoardLikeCount(int boardNo) {
+		String query = "select count(*) from board_like where board_no=?";
+		Object[] params = {boardNo};
+		int likeCount = jdbc.queryForObject(query, Integer.class,params);
+		return likeCount;
+	}
+	public int updateReadCount(int boardNo) {
+		String query = "update board set read_count=read_count+1 where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public List selectBoardFileList(int boardNo) {
+		String query = "select * from board_file where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query, boardFileRowMapper, params);
+		return list;
 	}
 }
