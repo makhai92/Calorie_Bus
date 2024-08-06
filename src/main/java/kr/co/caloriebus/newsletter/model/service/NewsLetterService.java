@@ -18,14 +18,14 @@ public class NewsLetterService {
 	@Autowired
 	private NewsLetterDao newsletterDao;
 
-	public NewsLetterListData selectNewsLetterList(String category, int reqPage) {
+	public NewsLetterListData selectNewsLetterList(int reqPage) {
 		System.out.println(1);
 		int numPerPage = 10;
 		int end = reqPage*numPerPage;
 		int start = end-numPerPage+1;
 		int totalCount = 0;
-		List list = newsletterDao.selectNewsLetterList(category,start,end);
-		totalCount = newsletterDao.selectNewsLetterTotalCount(category);
+		List list = newsletterDao.selectNewsLetterList(start,end);
+		totalCount = newsletterDao.selectNewsLetterTotalCount();
 		int rNum = totalCount-(reqPage-1)*10;
 		for(int i=0;i<list.size();i++) {
 			NewsLetter nl = (NewsLetter)list.get(i);
@@ -43,16 +43,16 @@ public class NewsLetterService {
 		String pageNavi = "<ul class='page-ul'>";
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='page-item' href='/newsletter/list?category="+category+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<a class='page-item' href='/newsletter/list?&reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		for(int i=0;i<pageNaviSize;i++) {
 			pageNavi += "<li>";
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='page-item active' href='/newsletter/list?category="+category+"&reqPage="+pageNo+"'>";
+				pageNavi += "<a class='page-item active' href='/newsletter/list?&reqPage="+pageNo+"'>";
 			}else {
-				pageNavi += "<a class='page-item' href='/newsletter/list?category="+category+"&reqPage="+pageNo+"'>";
+				pageNavi += "<a class='page-item' href='/newsletter/list?&reqPage="+pageNo+"'>";
 			}
 			pageNavi += pageNo;
 			pageNavi += "</a></li>";
@@ -63,7 +63,7 @@ public class NewsLetterService {
 		}
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='page-item' href='/newsletter/list?category="+category+"&reqPage="+pageNo+"'>";
+			pageNavi += "<a class='page-item' href='/newsletter/list?&reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 		}

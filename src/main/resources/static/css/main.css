@@ -426,13 +426,49 @@ content-swiper-event .swiper-button-next {
     margin-bottom: 20px;
     opacity: 0;
     transform: translateY(-20px);
-    transition: opacity 5s ease-out, transform 5s ease-out;
+    transition: opacity 5s ease-out, transform 6s ease-out;
 }
 .content-title h2.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
+
+.content-title p {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 5s ease-out, transform 5s ease-out;
+}
+
+.content-title h2.visible,
+.content-title p.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.image-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.image-item {
+    width: 270px;
+    height: 350px;
+    object-fit: cover;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 4s ease-out, transform 5s ease-out;
+    flex-shrink: 0;
+}
+
+.image-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 .content-items {
     display: flex;
     justify-content: space-between;
@@ -556,4 +592,26 @@ content-swiper-event .swiper-button-next {
     width: 150px;
     height: 150px;
     margin-top: 10px;
+}
+.centered-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+    color: #141414;
+}
+
+/* Scroll animation effect */
+.animated-title,
+.scroll-animate {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 7s ease-out, transform 10s ease-out;
+}
+
+.animated-title.visible,
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
