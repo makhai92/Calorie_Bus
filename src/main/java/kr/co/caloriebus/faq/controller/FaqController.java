@@ -56,4 +56,20 @@ public String write(Faq f, Model model) {
 	}
 	return "redirect:/faq/faqMain";
 }
+@GetMapping(value = "/faqView")
+public String view(int faqNo,Model model) {
+	Faq f = faqService.selectOneFaq(faqNo);
+	
+	if (f == null) {
+		model.addAttribute("title", "조회 실패");
+		model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
+		model.addAttribute("icon", "info");
+		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
+		return "common/msg";
+	} else {
+		model.addAttribute("f", f);
+		return "faq/faqView";
+	}
+}
+
 }

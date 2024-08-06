@@ -35,4 +35,16 @@ public class FaqDao {
 		int totalCount = jdbc.queryForObject(query, Integer.class);
 		return totalCount;
 	}
+
+	public Faq selectOneFaq(int faqNo) {
+		String query = "select * from faq where faq_no = ?";
+		Object[] params = {faqNo};
+		List list = jdbc.query(query, faqRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (Faq) list.get(0);
+		}
+
+	}
 }
