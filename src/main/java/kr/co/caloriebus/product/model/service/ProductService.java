@@ -26,6 +26,7 @@ public class ProductService {
 		return result;
 	}
 
+	/*
 	public Product selectOneProduct(String productTitle) {
 		Product product = productDao.selectOneProduct(productTitle);
 		return product;
@@ -38,6 +39,12 @@ public class ProductService {
 			result += productDao.productFileInsert(productList);			
 		}
 		return result;
+	}
+	*/
+
+	public Product selectOneProduct(int productNo) {
+		Product p = productDao.selectOneProduct(productNo);
+		return p;
 	}
 
 

@@ -34,9 +34,9 @@ public class ProductDao {
 	}
 
 
-	public Product selectOneProduct(String productTitle) {
-		String query = "select * from product where product_title = ?";
-		Object[] params = {productTitle};
+	public Product selectOneProduct(int productNo) {
+		String query = "select * from product where product_no = ?";
+		Object[] params = {productNo};
 		List list = jdbc.query(query, productRowMapper, params);
 		if(list.isEmpty()) {
 			return null;
@@ -44,14 +44,15 @@ public class ProductDao {
 			return (Product)list.get(0);
 		}
 	}
-
-
+	
+	/*
 	public int productFileInsert(ProductFile productList) {
 		String query = "insert into product_file values(product_file_seq.nextval,?,?,?)";
 		Object[] params = {productList.getFilename(),productList.getFilepath(),productList.getProductNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}
+	*/
 
 
 

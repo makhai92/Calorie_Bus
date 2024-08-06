@@ -101,8 +101,9 @@ public class ProductController {
 	}
 	
 	@GetMapping(value="/view")
-	public String view(int productNo) {
-		System.out.println(productNo);
+	public String view(int productNo,Model model) {
+		Product p = productService.selectOneProduct(productNo);
+		model.addAttribute("p", p);
 		return "/product/view";
 	}
 		
