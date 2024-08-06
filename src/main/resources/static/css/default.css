@@ -203,6 +203,7 @@ marquee img {
     text-decoration: none;
     color: #000;
     transition-duration: 0.3s;
+    font-family: 'Pretendard-Regular'
 }
 .user-menu a {
     transition-duration: 0.3s;

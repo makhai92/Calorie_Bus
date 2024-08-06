@@ -45,11 +45,16 @@
         </div>
         <div class="swiper content-swiper-gongu">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="/image/flower1.png" alt="Image 4"></div>
-                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="Image 5"></div>
-                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="Image 6"></div>
-                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-18.jpeg" alt="Image 7"></div>
-                <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="Image 8"></div>
+            	<th:block th:each="product : ${list}">
+            		
+                	<div class="swiper-slide"><img th:src="@{/product/main}+${product.productImg}"><span th:text=${product.productTitle}></span></div>
+                	<!-- 
+                	<div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="Image 5"></div>
+                	<div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="Image 6"></div>
+                	<div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-18.jpeg" alt="Image 7"></div>
+                	<div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="Image 8"></div>
+                	 -->
+                </th:block>
             </div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
@@ -64,6 +69,7 @@
         <div class="swiper content-swiper-success">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="/image/flower1.png" alt="Image 9"></div>
+                
                 <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-26-26.jpeg" alt="Image 10"></div>
                 <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-29.jpeg" alt="Image 11"></div>
                 <div class="swiper-slide"><img src="/image/KakaoTalk_Photo_2024-08-02-21-25-49.jpeg" alt="Image 12"></div>

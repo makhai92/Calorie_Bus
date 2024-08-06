@@ -507,17 +507,14 @@ content-swiper-event .swiper-button-next {
 }
 .app-download a {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     color: #141414;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: bold;
     text-align: center;
 }
 .advertisement a:hover {
-    background-color: #cf8728;
-}
-.app-download a:hover{
     background-color: #cf8728;
 }
 
