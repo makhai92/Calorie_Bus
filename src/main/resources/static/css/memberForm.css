@@ -1,0 +1,185 @@
+@charset "UTF-8";
+
+/* ------------------------ 회원가입 폼 ------------------------ */
+.joinform-wrap{
+    border: 1px solid var(--line2);
+    border-radius: 15px;
+    width: 800px;
+    margin: 0 auto;
+}
+.page-title{
+    margin: 30px;
+    text-align: center;
+}
+.page-title>p{
+	font-family : 'Pretendard-Regular';
+    font-size: 24px;
+}
+.joinform-tbl{
+    margin: 0 auto;
+}
+.input-item1{
+    padding: 10px 0px;
+}
+.input-item1>input{
+	width: 100%;
+	box-sizing: border-box;
+	height: 29px;
+    line-height: 20px;
+}
+.joinform-tbl p{
+    padding-left: 5px;
+    font-size: 13px;
+}
+#email-box{
+	display: flex;
+	justify-content: space-between;
+}
+#email-box>select{
+	margin: 0;
+}
+#email-box>.email-input{
+	width: 110px;	
+}
+#submit-btn-wrap{
+    text-align: center;
+}
+#join-btn{
+    width: 300px;
+    margin: 30px;
+}
+.birth-box{
+	display: flex;
+	justify-content: center;
+}
+
+
+/* ------------------------ 회원가입 선택 폼 ------------------------ */
+.join-wrap{
+    border: 1px solid var(--line2);
+    border-radius: 15px;
+    width: 800px;
+    margin: 0 auto;
+}
+.logo-box{
+    margin: 0 auto;
+    text-align: center;
+}
+.join-box{
+    width: 50%;
+    margin: 0 auto;            
+    border-top: 1px solid var(--line2);
+}
+div[id^=join-]{
+    width: 300px;
+    text-align: center;
+    background-color: var(--main2);
+    padding: 15px;
+    border: 1px solid var(--line2);
+    border-radius: 10px;
+    margin: 30px auto;
+}
+#sns-join-title{
+    text-align: center;
+    padding-top: 30px;
+}
+#join-naver{
+    background-color: #03CF5D;
+}
+#join-kakao{
+    background-color: #F9E000;
+}
+a{
+    text-decoration: none;
+    color: var(--main1);
+}
+a:hover{
+    text-decoration: underline;
+}
+.link-box{
+	margin: 30px auto;
+    text-align: center;
+}
+.link-box>div{
+    margin: 10px;
+}
+.link-box a{
+    color: var(--point1);
+}
+
+
+/* ------------------------ 로그인 페이지 용 ------------------------ */
+.login-wrap{
+    border: 1px solid var(--line2);
+    border-radius: 15px;
+    width: 800px;
+    margin: 0 auto;
+}
+.logo-box{
+    margin: 0 auto;
+    text-align: center;
+}
+.login-box{
+    width: 70%;
+    margin: 0 auto;            
+    border-top: 1px solid var(--line2);
+}
+.loginform-tbl{
+	margin: 30px auto;
+}
+div[id^=login-]{
+    width: 300px;
+    text-align: center;
+    background-color: var(--main2);
+    padding: 15px;
+    border: 1px solid var(--line2);
+    border-radius: 10px;
+    margin: 30px auto;
+}
+#sns-login-title{
+    text-align: center;
+    padding-top: 30px;
+}
+#login-naver{
+    background-color: #03CF5D;
+}
+#login-kakao{
+    background-color: #F9E000;
+}
+.input-item1{
+	padding: 10px;
+}
+.input-item1>input{
+	line-height: 20px;
+}
+button[name=login-btn]{
+	width: 80px;
+	height: 80px;
+}
+
+
+
+/* ------------------------ 마이페이지 용 ------------------------ */
+#selectBank{
+	margin: 0;
+	width: 121px;
+	box-sizing: border-box;
+}
+#join-btn{
+    width: 300px;
+    margin: 30px;
+    margin-bottom: 0;
+}
+.member-btn-box{
+	width: 131px;
+}
+.member-btn-box>button{
+	width: 121px;
+}
+.member-link-box>div{
+	margin: 30px;
+    margin-top: 10px;;
+}
+.member-link-box a{
+	font-size: 12px;
+}	

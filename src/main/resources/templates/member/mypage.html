@@ -3,10 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<link href="/css/memberForm.css" rel="stylesheet">
 </head>
 <body>
-	<th:block th:if="${session.member.memberLevel == 1}">
-		<a href="/admin/adminMain">관리자 페이지로</a>	
-	</th:block>
+<th:block th:include="common/header"></th:block>
+<main class="content">
+    <section class="joinform-wrap">
+        <div class="page-title">
+        	<p>마이페이지<p>
+        </div>
+        
+        <!-- 내 정보 양식 -->
+        <form action="/member/updateMemberInfo" method="post" class="joinform-tbl">
+            <table class="joinform-tbl">
+                <tr>
+                    <th style="width: 100px;">아이디</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberId" id="memberId" th:value="${session.member.memberId}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberName" id="memberName" th:value="${session.member.memberName}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td class="input-item1" id="email-box">
+                    	<input type="hidden" name="memberEmail" id="memberEmail" th:value="${session.member.memberEmail}">
+                        <input type="text" name="emailInput" id="emailInput" class="email-input" required>
+                        <span>@</span>
+                        <input type="text" name="emailDomain" id="emailDomain" class="email-input" required readonly>
+                        <select id="selectDomain" class="select email-input" >                             
+                        	<option disabled selected>도메인 선택</option>
+                        	<option value="naver.com">naver.com</option>
+                        	<option value="gmail.com">gmail.com</option>
+                        </select>
+                    </td>
+                    <td class="member-btn-box">
+                        <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>인증 코드</th>
+                    <td class="input-item1">
+                        <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px" required>
+                    </td>
+                    <td class="member-btn-box">
+                        <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td class="input-item1" colspan="2">
+                        <input type="text" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td class="input-item1" colspan="2">
+                    	<input type="date" id="memberBirth" name="memberBirth" min="1924-01-01" max="2024-12-31" value='2024-08-04'>
+                    	<input type="date" id="memberBirth" name="memberBirth" min="1924-01-01" max="2024-12-31" th:value='${session.member.memberBirth}'>
+                    </td>
+                </tr>
+                <tr>
+                    <th>환불 받을 계좌</th>
+                    <td class="input-item1 bank-no-input">
+                    	<input type="text" id="memberAccount" name="memberBirth" min="1924-01-01" max="2024-12-31">
+                    </td>
+                    <td>
+                    	<select id="selectBank" class="select">
+                        	<option disabled selected>은행 선택</option>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" id="submit-btn-wrap">
+                        <button type="submit" class="btn-round" id="update-btn" onclick="return checkValid()">수정하기</button>
+                    </td>
+                </tr>
+                <tr>
+                	<td colspan="3" class="link-box member-link-box">
+                		<div th:if="${session.member.memberLevel == 1}">                		
+							<a href="/admin/adminMain" id="admin-link">관리자 페이지로</a>	
+                		</div>
+                		<div th:if="${session.member.memberLevel != 1}">                		
+							<a href="#" id="delete-link">회원 탈퇴하기</a>	
+                		</div>
+                	</td>
+                </tr>
+              </table>
+          </form>
+	</section>
+</main>
+<script>
+
+// 은행 셀렉트 옵션 생성
+let isBankClicked = false; // 생성 여부 저장용 변수
+
+// 맨 처음 클릭 시 옵션 생성
+$("#selectBank").on("click", function(){
+	const bankArr = ['경남은행', '광주은행', '국민은행', '기업은행', '농협은행', '부산은행', '수협은행', '신한은행', '씨티은행', '우리은행', '우체국', '전북은행', '제주은행', '주택금융공사', '지역농협', '지역수협', '카카오뱅크', '토스뱅크', '케이뱅크', '하나은행', '한국장학재단', 'iM뱅크', 'KDB산업은행', 'SC제일은행'];
+	if(!isBankClicked) {
+		bankArr.forEach(function(bank, index, array){
+			const bankOption = $("<option>");
+			bankOption.val(bank).text(bank);
+			$("#selectBank").append(bankOption);
+		})
+		isBankClicked = true;
+	}
+})
+
+// 이메일 잘라서 보여주기
+const memberEmail = $("#memberEmail").val().split('@');
+const emailArr = [];
+memberEmail.forEach(function(email, index, array){
+	emailArr.push(email);
+})
+$("#emailInput").val(emailArr[0]);
+$("#emailDomain").val(emailArr[1]);
+
+conso
+
+</script>
 </body>
 </html>
