@@ -82,4 +82,9 @@ public class BoardService {
 		}
 		return result;
 	}
+
+	public Board selectBoard(int memberNo,int boardNo) {
+		Board b = boardDao.selectBoard(memberNo,boardNo);
+		return b;
+	}
 }

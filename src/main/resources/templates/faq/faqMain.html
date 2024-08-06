@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,6 +49,9 @@
     background-color: transparent;
     cursor: pointer;
 }
+.writeFaq: hover{
+	font-weight: bolder;
+}
 .faq-list{
     width: 80%;
     margin: 0 auto;
@@ -76,6 +79,16 @@
     width : 500px;
     font-size: 17px;
 }
+#pageNavi{
+
+	margin : 0 auto;
+}
+#pageNavi>ul{
+	overflow : hidden;
+}
+#pageNavi>ul>li{
+	float : left;
+}
 </style>
 </head>
 <body>
@@ -92,27 +105,19 @@
             </form>
         </div>
         <div class="faq-list">
-            <table class="tbl">
-                <tr id="box" th:each="faq : ${list}">
-                    <td id="support"><span class="material-symbols-outlined">contact_support</span></td>
-                    <td th:text = "${faq.faqNo}" id="faqNum">01</td>
-                    <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목1----------</td>
-                </tr>
-                <tr id="box" th:each="faq : ${list}">
-                    <td id="support"><span class="material-symbols-outlined">contact_support</span></td>
-                    <td th:text = "${faq.faqNo}" id="faqNum">02</td>
-                    <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목2----------</td>
-                </tr>
-                <tr id="box" th:each="faq : ${list}">
-                    <td id="support"><span class="material-symbols-outlined">contact_support</span></td>
-                    <td th:text = "${faq.faqNo}" id="faqNum">03</td>
-                    <td th:text = "${faq.faqTitle}" id="faqTitle" >----------글제목3----------</td>
-                </tr>
-            </table>
-            
+            <table class="tbl tbl-hover">
+					<tr>
+						<th style="width: 10%;">번호</th>
+						<th style="width: 90%;">제목</th>
+					</tr>
+					<tr th:each="faq : ${list}">
+						<td th:text = "${faq.faqNo}"></td>
+						<td th:text = "${faq.faqTitle}"></td>
+					</tr>
+			</table>
         </div>
+        <div id="pageNavi" th:utext="${pageNavi}"></div>
     </div>
 </body>
 <th:block th:include="common/footer"></th:block>
-
 </html>

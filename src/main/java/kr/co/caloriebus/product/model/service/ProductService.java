@@ -1,6 +1,5 @@
 package kr.co.caloriebus.product.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,19 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 	
+	public List selectAllProduct() {
+		List list = productDao.selectAllProduct();
+		return list;
+	}
+	
 	@Transactional
 	public int productInsert(Product p) {
 		int result = productDao.productInsert(p);
 		return result;
 	}
 
-	public Product selectProductNo(String productTitle) {
-		Product product = productDao.selectProductNo(productTitle);
+	public Product selectOneProduct(String productTitle) {
+		Product product = productDao.selectOneProduct(productTitle);
 		return product;
 	}
 
@@ -35,4 +39,6 @@ public class ProductService {
 		}
 		return result;
 	}
+
+
 }
