@@ -18,4 +18,6 @@ public class Member {
 	private String memberBirth;
 	private int memberLevel;
 	private int eventCount;
+	private int memberAccount;
+	private String memberBank;
 }

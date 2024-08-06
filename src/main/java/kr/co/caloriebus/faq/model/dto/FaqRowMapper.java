@@ -12,8 +12,7 @@ public class FaqRowMapper implements RowMapper<Faq>{
 	@Override
 	public Faq mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Faq f = new Faq();
-		System.out.println(f);
-		f.setFaqNo(rs.getInt("faq_no"));
+		f.setFaqNo(rs.getInt("faq_No"));
 		f.setFaqTitle(rs.getString("faq_title"));
 		f.setFaqContent(rs.getString("faq_content"));
 		f.setMemberNo(rs.getInt("member_no"));

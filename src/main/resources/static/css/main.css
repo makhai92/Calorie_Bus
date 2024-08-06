@@ -65,7 +65,7 @@ marquee img {
 
 .header > div {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1300px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -246,12 +246,6 @@ marquee img {
     right: 10px;
 }
 
-.content {
-    width: 100%;
-    max-width: 1400px;
-    margin: 30px auto;
-    flex: 1;
-}
 
 .page-title {
     padding: 30px;
