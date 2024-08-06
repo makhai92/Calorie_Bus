@@ -44,15 +44,15 @@ public class ProductDao {
 			return (Product)list.get(0);
 		}
 	}
-
-
+	
+	/*
 	public int productFileInsert(ProductFile productList) {
 		String query = "insert into product_file values(product_file_seq.nextval,?,?,?)";
 		Object[] params = {productList.getFilename(),productList.getFilepath(),productList.getProductNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}
-
+	*/
 
 
 }

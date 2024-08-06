@@ -49,9 +49,10 @@
     background-color: transparent;
     cursor: pointer;
 }
-.writeFaq: hover{
+.writeFaq:hover{
 	font-weight: bolder;
 }
+
 .faq-list{
     width: 80%;
     margin: 0 auto;
@@ -81,13 +82,25 @@
 }
 #pageNavi{
 
-	margin : 0 auto;
 }
 #pageNavi>ul{
-	overflow : hidden;
+	text-align : center;
+	width : 500px;
 }
 #pageNavi>ul>li{
+	position : relative;
+	left : 100px;
+	display : flex;
 	float : left;
+	margin-left : 50px;
+}
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+	display:flex;
+	justify-content:center;
+	align-items:center;
 }
 </style>
 </head>
@@ -95,13 +108,14 @@
 <th:block th:include="common/header"></th:block>
     <div class="faq">
         <div class="title">
+        	<span class="material-icons">tips_and_updates</span>
             <span>자주 묻는 질문</span>
         </div>
         <div class="faq-search-box">
             <form action="search.html" method="get">
                 <span class="material-icons" id="search-icon">search</span>
                 <input type="text" id="keyword" placeholder="궁금한 점을 검색해보세요 !">
-                <button type="button" class="writeFaq" onclick = "location.href ='/faq/faqWriter'">FaQ 작성하기</button>
+                <button type="button" class="writeFaq" onclick = "location.href ='/faq/faqWriter'">FAQ 작성하기</button>
             </form>
         </div>
         <div class="faq-list">
@@ -115,6 +129,9 @@
 						<td th:text = "${faq.faqTitle}"></td>
 					</tr>
 			</table>
+        </div>
+        <div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
         </div>
         <div id="pageNavi" th:utext="${pageNavi}"></div>
     </div>

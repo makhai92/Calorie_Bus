@@ -29,7 +29,7 @@ public class MemberDao {
 	}
 
 	public int insertMember(Member m) {
-		String query = "insert into member values(member_seq.nextval, ?, ?, ?, ?, ?, ?, ?, 2, 0)";
+		String query = "insert into member values(member_seq.nextval, ?, ?, ?, ?, ?, ?, ?, 2, 0, null, null)";
 		Object[] params = { m.getMemberId(), m.getMemberPw(), m.getMemberName(), m.getMemberPhone(), m.getMemberAddr(),
 				m.getMemberEmail(), m.getMemberBirth() };
 		int result = jdbc.update(query, params);
@@ -75,11 +75,6 @@ public class MemberDao {
 		Object[] params = { m.getMemberId(), m.getMemberName(), m.getMemberEmail() };
 		try {
 			int memberNo = jdbc.queryForObject(query, Integer.class, params);
-			System.out.println("DAO" + memberNo);
-			System.out.println("DAO" + memberNo);
-			System.out.println("DAO" + memberNo);
-			System.out.println("DAO" + memberNo);
-			System.out.println("DAO" + memberNo);
 			return memberNo;
 		} catch (final DataAccessException e) {
 			return -1;

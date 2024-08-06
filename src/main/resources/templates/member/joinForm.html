@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 양식</title>
-<link href="/css/memberJoinForm.css" rel="stylesheet">
+<link href="/css/memberForm.css" rel="stylesheet">
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
@@ -147,6 +147,7 @@
 </main>
 <script>
 
+<<<<<<< Updated upstream
 	// 아이디 정규 표현식 확인
 	let idRegChecked = false;
 	$("#memberId").on("keyup", function(){
@@ -156,6 +157,117 @@
 		if(idReg.test(memberIdVal)){
 			$(".check-msg-id").css("visibility", "hidden");
 			idRegChecked = true;
+=======
+            <form>
+                <table class="joinform-tbl">
+                    <tr>
+                        <th style="width: 100px;">아이디</th>
+                        <td style="width: 500px;" class="input-item1">
+                            <input type="text" name="memberId" id="memberId" style="width: 360px;">
+                            <button type="button" class="btn-round" id="id-check-btn">중복 확인</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td class="input-item1">
+                            <input type="password" name="memberPw" id="memberPw">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호 확인</th>
+                        <td class="input-item1">
+                            <input type="password" name="memberPwRe" id="memberPwRe">
+                            <p class="check-msg-pw"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td class="input-item1">
+                            <input type="text" name="memberName" id="memberName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td class="input-item1">
+                            <input type="text" name="memberEmail" id="memberEmail" style="width: 360px">
+                            <button type="button" class="btn-round g" id="email-check-btn">인증코드 받기</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>인증 코드</th>
+                        <td class="input-item1">
+                            <input type="text" name="memberVeriCode" id="memberVeriCode" style="width: 360px">
+                            <button type="button" class="btn-round g" id="code-check-btn">인증하기</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td class="input-item1">
+                            <input type="text" name="memberPhone" id="memberPhone">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td class="input-item1">
+                            <input type="text" name="memberAddr" id="memberAddr">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td class="input-item1">
+                            <input type="text" name="memberAddr" id="memberAddr">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="submit-btn-wrap">
+                            <button type="submit" class="btn-round" id="join-btn">가입하기</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+		</section>
+	</main>
+	<script>
+		// 비밀번호 확인 input의 입력 값이 변경되면 비밀번호 input의 입력 값과 동일한지 확인
+		$("#memberPwRe").on("change", function(){
+			$(".pw-check-msg").removeClass("valid").removeClass("invalid");
+			const pwValue = $("#memberPw").val();
+			const pwReValue = $("#memberPwRe").val();
+			if(pwValue === pwReValue){
+				$(".pw-check-msg").text("비밀번호가 일치합니다.");
+				$(".pw-check-msg").addClass("valid");
+			} else {
+				$(".pw-check-msg").text("비밀번호가 일치하지 않습니다.");
+				$(".pw-check-msg").addClass("invalid");
+			}
+		})
+		$(".id-check-btn").on("click", function(){
+			// window.open(새 창을 띄울 페이지, 새 창의 이름, 새 창의 옵션);
+			window.open("", "checkId", "width=600, height=300");
+			
+			// 새 창과 아이디 중복 체크 폼 연결 -> 아이디 중복 체크 폼이 새 창에서 열림!
+			$("[name=checkIdForm]").attr("target", "checkId");
+			
+			// 아이디 중복 체크 폼 내부의 input에 사용자가 입력한 아이디 대입 후 submit
+			const inputId = $("#memberId").val();
+			$("#memberId").removeClass("valid");
+			$("[name=checkId]").val(inputId);
+			$("[name=checkIdForm]").submit();
+		})
+		
+		function checkValue(){
+			const valid = $(".valid");
+			// 아이디 중복 체크에서 valid, 비밀번호 두 개 일치 valid까지 valid 두 개여야 submit 가능하게
+			if(valid.length != 2){
+				// valid 두 개 아니면 submit 자체를 막음
+				swal({
+					title: "입력 값 확인",
+					text: "입력 값이 올바르지 않습니다.",
+					icon: "warning"
+				})
+				// return false;
+			}
+>>>>>>> Stashed changes
 		}
 		else {
 			$(".check-msg-id").text("아이디는 영문자와 숫자를 4~20글자로 조합해야 합니다.").css("visibility", "visible").css("color", "var(--point1)");

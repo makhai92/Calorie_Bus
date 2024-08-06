@@ -2,14 +2,102 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>뉴스레터</title>
+<title>게시글 작성</title>
+<style>
+	.writeForm tr>th{
+		font-size: 18px;
+		
+	}
+</style>
 </head>
 <body>
-<th:block th:include="common/header"></th:block>
+	<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 	<main class="content">
-		<section class="section product-list-wrap">
-		</section>
+		<div class="page-title">게시글 작성</div>
+		<form action="/newsletter/write" method="post" enctype="multipart/form-data">
+			<table class="tbl writeForm">
+				<tr>
+					<th style="width:15%;">제목</th>
+					<td style="width:85%; text-align: left;" colspan="2">
+						<div class="input-item2">				
+							<input style="width:100%;"type="text" name="boardTitle">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td style="text-align: left;" colspan="2">
+						<div class="input-item2">
+							<input type="text" name="memberId" th:value="${session.member.memberId}" readonly> 
+						</div>
+					</td>	
+					<td>
+						<input type="file" name="upFile" multiple>
+					</td>	
+				</tr>
+				<tr>
+					<td colspan="4" style="text-align: left;">
+						<textarea name="boardContent" id="boardContent"></textarea>
+					</td>		
+				</tr>
+				<tr>
+					<td colspan="4">
+						<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
+						<button type="submit" class="btn-round" style="width:50%; font-size: 16px;">게시글 작성</button>
+					</td>
+				</tr>
+			</table>
+		</form>
 	</main>
-<th:block th:include="common/footer"></th:block>
+	<script>
+		$("#boardContent").summernote({
+			toolbar:[
+				['style', ['style']],
+				['fontsize', ['fontsize']],
+				['font', ['bold', 'italic', 'underline', 'clear']],
+				['fontname', ['fontname']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				['table', ['table']],
+				['insert', ['link', 'picture', 'hr']],
+				['view', ['fullscreen', 'codeview']],
+				['help', ['help']]		
+			],
+			height:500,
+			lang : "ko-KR",
+			disableResize : true,
+			disableResizeEditor : true,
+			resize : false,
+			fontSizes: ['8','9','10','11','12','13','14','15','16','17','18','19','20','24','30','36','48','64','82','150'],
+			callbacks : {
+				onImageUpload : function(files){
+					uploadImage(files[0],this);
+				}
+			}
+		});
+		$("#boardContent").summernote("fontSize",16);
+		function uploadImage(file,editor){
+			const form = new FormData();
+			form.append("upfile",file);
+			$.ajax({
+				url : "/newsletter/editorImage",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					$(editor).summernote("insertImage",data);
+				},
+				error : function(){
+					console.log("error");
+				}
+			});
+		}
+	</script>
+	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
