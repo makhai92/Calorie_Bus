@@ -35,7 +35,7 @@
 							<div class="boardContent" th:utext="${e.boradContent}"></div>
 						</td>
 					</tr>
-					<tr th:if="${session.member != null && session.member.memberId == e.boardWriter}">
+					<tr th:if="${session.member != null && session.member?.memberId == e.boardWriter}">
 						<td colspan="6">
 							<a th:href="@{/exercise/updateFrm(boardNo=${e.boardNo})}" class="btn-round">수정</a>
 							<button class="btn-secondary" th:onclick="boardDelete([[${e.boardNo}]]);">삭제</button>
