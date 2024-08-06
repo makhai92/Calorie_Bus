@@ -83,8 +83,32 @@ public class BoardService {
 		return result;
 	}
 
-	public Board selectBoard(int memberNo,int boardNo) {
+	@Transactional
+	public Board selectBoard(int memberNo,int boardNo, String check) {
 		Board b = boardDao.selectBoard(memberNo,boardNo);
+		if(b != null) {
+			if(check == null) {
+				int result = boardDao.updateReadCount(boardNo);
+			}
+			List fileList = boardDao.selectBoardFileList(boardNo);
+			b.setFileList(fileList);
+		}
 		return b;
+	}
+
+	@Transactional
+	public int boardLikePush(int boardNo, int isLike, int memberNo) {
+		int result = 0;
+		if(isLike==1) {
+			result = boardDao.deleteBoardLike(boardNo,memberNo);
+		}else {
+			result = boardDao.insertBoardLike(boardNo,memberNo);
+		}
+		if(result >0) {
+			int likeCount = boardDao.selectBoardLikeCount(boardNo);
+			return likeCount;
+		}else {
+			return -1;
+		}
 	}
 }

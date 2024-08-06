@@ -1,4 +1,4 @@
-package kr.co.caloriebus.newslatter.model.dto;
+package kr.co.caloriebus.exercise.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class NewsLetterComment {
+public class ExerciseComment {
 	private int boardCommentNo;
 	private String boardCommentContent;
 	private int memberNo;
@@ -15,6 +15,7 @@ public class NewsLetterComment {
 	private int boardCommentRef;
 	private String boardCommentDate;
 	private String board_comment_writer;
-	private int likeCount;
 	private int isLike;
+	private int likeCount;
+	
 }

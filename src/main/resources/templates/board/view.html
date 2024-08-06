@@ -10,6 +10,35 @@
 	.view-tbl tr>td>span{
 		font-size : 18px;
 	}
+	.wrap{
+		overflow: hidden;
+	}
+	.wrap>div{
+		height: 80px;
+		line-height: 80px;
+		padding : 0px 20px;
+	}
+	.wrap>.like-wrap>span{
+		line-height:80px;
+		cursor: pointer;
+		font-size: 36px;
+	}
+	.update-btn-wrap{
+		float:left;
+	}
+	.wrap>.like-wrap{
+		float:right;
+	}
+	.favorite{
+		color:var(--point1);		
+	}
+	.notFavorite{
+		color:var(--point1);
+	}
+	.view-tbl #content-box>td{
+		text-align: left;
+		min-height: 500px;
+	}
 </style>
 </head>
 <body>
@@ -18,20 +47,75 @@
 		<div class="page-title">게시글 상세보기</div>
 		<table class="tbl view-tbl">
 			<tr>
-				<th colspan="5" th:text=${board.boardTitle}></th>
+				<th colspan="5" th:text="${board.boardTitle}"></th>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td style="width:50%; text-align: left;" th:text=${board.boardWriter}>아이디</td>
-				<td>조회수 : <span th:text=${board.readCount}></span></td>
-				<td>좋아요수 : <span th:text=${board.likeCount}></span></td>
-				<td>작성일 : <span th:text=${board.regDate}></span>
+				<td style="width:50%; text-align: left;" th:text="${board.boardWriter}"></td>
+				<td>조회수 : <span th:text="${board.readCount}"></span></td>
+				<td>좋아요수 : <span th:text="${board.likeCount}"></span></td>
+				<td>작성일 : <span th:text="${board.regDate}"></span>
 			</tr>
 			<tr>
+				<th colspan="1">첨부파일</th>
+				<td colspan="4" style="text-align: left;">
+					<th:block th:each="file : ${board.fileList}">
+						<a th:href="@{/board/filedown(filename=${file.filename},filepath=${file.filepath})}">
+							<span class="material-icons">description</span>
+							<span  th:text="${file.filename}"></span>
+						</a>
+					</th:block>
+				</td>
+			<tr>
+			<tr id="content-box">
 				<td colspan="5" th:utext=${board.boardContent}></td>
 			</tr>
 		</table>
+		<div class="wrap">
+			<div class="update-btn-wrap">
+				<a class="btn-round">수정하기</a>
+				<a class="btn-round g">삭제하기</a>
+			</div>
+			<div class="like-wrap">
+				<span th:if="${board.isLike}==1" class="material-icons favorite">thumb_down</span>
+				<span th:if="${board.isLike}==0" class="material-icons notFavorite">thumb_up</span>
+			</div>
+		</div>
 	</main>
+	<script>
+		const boardNo = "[[${board.boardNo}]]";
+		$(".like-wrap>span").on("click",function(){
+			const likeSpan = $(this);
+			const isLike = likeSpan.hasClass("favorite")?1:0;
+			$.ajax({
+				url : "/board/boardLikePush",
+				data : {boardNo : boardNo, isLike : isLike},
+				type : "post",
+				success : function(data){
+					if(data == -1){
+						console.log("처리오류");
+					}else if(data == -10){
+						alert("로그인해라");							
+					}else{
+						if(isLike === 1){
+							likeSpan.removeClass("favorite");		
+							likeSpan.addClass("notFavorite");
+							likeSpan.text("thumb_up");
+						}else{
+							likeSpan.removeClass("notFavorite");
+							likeSpan.addClass("favorite");
+							likeSpan.text("thumb_down");
+						}
+						$(".view-tbl tr>td>span").eq(1).text(data);
+					}
+				},
+				error : function(){
+					console.log("error")
+				}
+			});
+		});
+		
+	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

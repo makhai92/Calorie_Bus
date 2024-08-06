@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>운동정보</title>
+</head>
+<body>
+<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="section product-list-wrap">
+			<div class="page-title">운동정보 수정</div>
+				<form action="/exercise/update" class="exerciseUpdateFrm" method="post" enctype="multipart/form-data">
+				<table class="tbl">
+					<tr>
+						<th style="width: 15%">제목</th>
+							<td>
+								<div class="input-item">
+									<input type="text" name="boardTitle" th:value="${e.boardTitle}">
+									<input type="hidden" name="boardNo" th:value="${e.boardNo}">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>첨부파일</th>
+							<td>							
+							<div class="file-wrap">
+								<div class="files" th:each="file : ${e.fileList}">
+									<span class="delFilename" th:text="${file.filename}"></span>
+									<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+								</div>
+							</div>
+							</td>
+						</tr>
+						<tr>
+							<th>추가파일</th>
+							<td class="left">							
+							<input type="file" name="upfile" multiple>
+							</td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td class="left">
+								<div class="input-item">
+									<textarea name="boardContent" th:text="${e.boardContent}"></textarea>
+								
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button type="submit" class="btn-round">수정하기</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+		</section>
+	</main>
+	<script>
+	</script>
+<th:block th:include="common/footer"></th:block>
+</body>
+</html>

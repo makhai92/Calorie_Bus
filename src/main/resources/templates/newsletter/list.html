@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>NewsLetter</title>
+    <link rel="stylesheet" href="/css/newsletter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
+</head>
+<body>
+<th:block th:include="common/header"></th:block>
+    <main class="content">
+        <section class="section notice-list-wrap">
+            <div class="news-title">News Letter</div>
+            <div>
+                <table class="tbl tbl-hover">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">No</th>
+                            <th style="width:40%;">제목</th>
+                            <th style="width:15%;">글쓴이</th>
+                            <th style="width:15%;">작성시간</th>
+                            <th style="width:10%">좋아요</th>
+                            <th style="width:10%">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="newsletter : ${list}">
+                        	<td th:text="${newsletter.rNum}"></td>
+                            <td><a th:href="@{/newsletter/view(boardNo=${newsletter.boardNo})}"><span th:text="${newsletter.boardTitle}"></span>(<span th:text="${newsletter.commentCount}"></span>)</a></td>
+                            <td th:text="${newsletter.boardWriter}"></td>
+                            <td th:text="${newsletter.regDate}"></td>
+                            <td th:text="${newsletter.likeCount}"></td>
+                            <td th:text="${newsletter.readCount}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pageNavi" th:utext="${pageNavi}"></div>
+            <div class="search-write-container">
+                <form action="/newsletter/search" method="get" id="searchFrm" class="search-form">
+                    <div class="input-item">
+                        <input type="text" name="keyword" placeholder="Search">
+                        <button type="submit" class="search-button"><span class="material-icons">search</span></button>
+                    </div>
+                </form>
+                <a th:if="${session.member != null && session.member.memberLevel ==1}" class="btn-point" id="write-btn" href="/newsletter/writeForm">글쓰기</a>
+            </div>
+        </section>
+    </main>
+<th:block th:include="common/footer"></th:block>
+</body>
+</html>

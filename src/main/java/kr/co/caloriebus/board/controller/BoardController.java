@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
@@ -85,14 +86,32 @@ public class BoardController {
 	}
 	
 	@GetMapping(value="/view")
-	public String view(int boardNo,@SessionAttribute (required=false)Member m,Model model) {
+	public String view(int boardNo,String check,@SessionAttribute (required=false)Member member,Model model) {
 		Board b = null;
-		if(m != null) {
-			b = boardService.selectBoard(m.getMemberNo(),boardNo);			
+		if(member != null) {
+			b = boardService.selectBoard(member.getMemberNo(),boardNo,check);	
+			model.addAttribute("memberNo",member.getMemberNo());
 		}else {
-			b = boardService.selectBoard(-1,boardNo);
+			b = boardService.selectBoard(-1,boardNo,check);
+			model.addAttribute("memberNo",-1);
 		}
 		model.addAttribute("board",b);
 		return "board/view";
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/boardLikePush")
+	public int boardLikePush(int boardNo,int isLike,@SessionAttribute (required=false)Member member) {
+		if(member == null) {
+			return -10;
+		}else {
+			int likeCount = boardService.boardLikePush(boardNo,isLike,member.getMemberNo());
+			return likeCount;
+		}
+	}
+	@GetMapping(value="/filedown")
+	public void filedown(BoardFile bf,HttpServletResponse response) {
+		String savepath = root+"/board/";
+		fileUtils.downloadFile(savepath, bf.getFilename(), bf.getFilepath(), response);
 	}
 }

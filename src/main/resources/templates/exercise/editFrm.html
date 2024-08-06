@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>운동정보 작성</title>
+<style>
+	.input-item>.boardTitle{
+		border: none;
+			
+	}
+</style>
+</head>
+<body>
+<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>	
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">	
+	
+	<main class="content">
+		<section class="section product-list-wrap">
+		<div class="page-title">운동정보 작성</div>
+		<form action="/exercise/write" method="post" enctype="multipart/form-data">
+					<table class="tbl">
+						<tr>
+							<th style="width: 5%;">제목</th>
+							<td colspan="3">
+								<div class="input-item2">
+									<input style="width: 100%;" type="text" name="boardTitle">
+								</div>							
+							</td>
+						</tr>
+						<tr>
+							<th style="width: 10%">작성자</th>
+							<td style="width: 40%">
+								<input type="text" name="memberId" th:value="${session.member?.memberId}" readonly>
+								
+							</td>
+							<th style="width: 10%">첨부파일</th>
+							<td style="width: 40%">
+								<input type="file" name="upfile" multiple>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" class="left">
+								<textarea name="boardContent" id="boardContent"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<button type="submit" class="btn-round" style="width:50%; font-size:16px;">운동정보 작성</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+		</section>
+	</main>
+	<script>
+		$("#boardContent").summernote({
+			height:500,
+			lang : "ko-KR",
+			disableResize : true,
+			disableResizeEditor:true,
+			resize : false,
+			callbacks :{
+				onImageUpload : function(files){
+					uploadImage(files[0],this);
+				}
+			}
+		});
+		function uploadImage(file, editor){
+			const form = new FormData();
+			form.append("upfile",file);
+			$.ajax({
+				url : "/exercise/editorImage",
+				type: "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					$(editor).summernote("insertImage",data);	
+				},
+				error : function(){
+					console.log("error");
+				}
+			});
+		}
+	</script>
+<th:block th:include="common/footer"></th:block>
+</body>
+</html>
