@@ -66,6 +66,9 @@
 	.dcPrice{
 		color : var(--point1)
 	}
+	.funding {
+		width : 500px;
+	}
 </style>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -98,6 +101,7 @@
 						<div class="remainingAmount" th:text=잔여수량+':'+${p.productMaxAmount}></div>
 						<div class=" price" th:text=정상가+${p.productPrice}></div>
 						<div class=" dcPrice" th:text=${p.productDcPrice}></div>
+						
 					</div>
 				</div>
 			</div>
