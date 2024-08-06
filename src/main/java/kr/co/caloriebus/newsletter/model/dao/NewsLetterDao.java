@@ -47,12 +47,6 @@ public class NewsLetterDao {
 		return totalCount;
 	}
 
-	public int selectNewsLetterTotalCount() {
-		String query = "select count(*) from board where board_category in ('B1','B2','B3','B4')";
-		int totalCount = jdbc.queryForObject(query, Integer.class);
-		return totalCount;
-	}
-
 	public int insertNewsLetter(NewsLetter nl) {
 		String query = "insert into board values(board_seq.nextval,?,?,?,?,1,to_char(sysdate,'YYYY-MM-DD'))";
 		System.out.println(nl);
