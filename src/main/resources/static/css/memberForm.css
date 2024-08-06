@@ -28,7 +28,7 @@
     line-height: 20px;
 }
 .joinform-tbl p{
-    padding-left: 5px;
+    padding-left: 10px;
     font-size: 13px;
 }
 #email-box{
@@ -165,10 +165,9 @@ button[name=login-btn]{
 	width: 121px;
 	box-sizing: border-box;
 }
-#join-btn{
+#update-btn{
     width: 300px;
     margin: 30px;
-    margin-bottom: 0;
 }
 .member-btn-box{
 	width: 131px;
@@ -178,8 +177,11 @@ button[name=login-btn]{
 }
 .member-link-box>div{
 	margin: 30px;
-    margin-top: 10px;;
+    margin-top: 10px;
 }
 .member-link-box a{
 	font-size: 12px;
-}	
+}
+.bank-info-msg{
+	color: var(--point1)
+}

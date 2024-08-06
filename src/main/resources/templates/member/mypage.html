@@ -19,7 +19,7 @@
                 <tr>
                     <th style="width: 100px;">아이디</th>
                     <td class="input-item1" colspan="2">
-                        <input type="text" name="memberId" id="memberId" th:value="${session.member.memberId}" readonly>
+                        <input type="text" name="memberId" id="memberId" th:value="${session.member.memberId}" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -31,7 +31,7 @@
                 <tr>
                     <th>이메일</th>
                     <td class="input-item1" id="email-box">
-                    	<input type="hidden" name="memberEmail" id="memberEmail" th:value="${session.member.memberEmail}">
+                    	<input type="hidden" name="memberEmail" id="memberEmail" th:value="${session.member.memberEmail}" class="valid">
                         <input type="text" name="emailInput" id="emailInput" class="email-input" required>
                         <span>@</span>
                         <input type="text" name="emailDomain" id="emailDomain" class="email-input" required readonly>
@@ -57,7 +57,7 @@
                 <tr>
                     <th>전화번호</th>
                     <td class="input-item1" colspan="2">
-                        <input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}" required>
+                        <input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}" class="valid" required>
                     </td>
                 </tr>
                 <tr>
@@ -69,14 +69,13 @@
                 <tr>
                     <th>생년월일</th>
                     <td class="input-item1" colspan="2">
-                    	<input type="date" id="memberBirth" name="memberBirth" min="1924-01-01" max="2024-12-31" value='2024-08-04'>
                     	<input type="date" id="memberBirth" name="memberBirth" min="1924-01-01" max="2024-12-31" th:value='${session.member.memberBirth}'>
                     </td>
                 </tr>
                 <tr>
                     <th>환불 받을 계좌</th>
                     <td class="input-item1 bank-no-input">
-                    	<input type="text" id="memberAccount" name="memberBirth" min="1924-01-01" max="2024-12-31">
+                    	<input type="text" id="memberAccount" name="memberAccount" min="1924-01-01" max="2024-12-31">
                     </td>
                     <td>
                     	<select id="selectBank" class="select">
@@ -85,8 +84,14 @@
                     </td>
                 </tr>
                 <tr>
+                	<td></td>
+                	<td colspan="2">
+                        <p class="bank-info-msg">공구 무산 시 해당 계좌로 환불이 진행되니 정확하게 입력해 주세요.</p>
+                	</td>
+                </tr>
+                <tr>
                     <td colspan="3" id="submit-btn-wrap">
-                        <button type="submit" class="btn-round" id="update-btn" onclick="return checkValid()">수정하기</button>
+                        <button type="button" class="btn-round" id="update-btn" onclick="return checkValid()">수정하기</button>
                     </td>
                 </tr>
                 <tr>
@@ -122,15 +127,114 @@ $("#selectBank").on("click", function(){
 })
 
 // 이메일 잘라서 보여주기
-const memberEmail = $("#memberEmail").val().split('@');
+const currEmail = $("#memberEmail").val();
+const currEmailSplit = currEmail.split('@');
 const emailArr = [];
-memberEmail.forEach(function(email, index, array){
+currEmailSplit.forEach(function(email, index, array){
 	emailArr.push(email);
 })
 $("#emailInput").val(emailArr[0]);
 $("#emailDomain").val(emailArr[1]);
 
-conso
+//이메일 인증 코드 용 변수
+let veriCode = -1;
+
+$("#emailInput").on("keyup", function(){
+	$("#memberEmail").removeClass("valid");			
+	veriCode = -1;
+})
+$("#selectDomain").on("click", function(){
+	$("#memberEmail").removeClass("valid");
+	$("#emailDomain").val($(this).val());
+	veriCode = -1;
+})
+
+// 이메일 인증
+
+$("#email-check-btn").on("click", function(){
+	const emailInput = $("#emailInput").val();
+	const emailDomain = $("#emailDomain").val();
+	if(emailInput && emailDomain){
+		$("#memberEmail").val(emailInput + "@" + emailDomain);
+		const memberEmail = $("#memberEmail").val();
+		
+		// 원래 등록했던 이메일과 같으면 새로 인증 진행하지 않음
+		if(currEmail === memberEmail) {
+			alert("기존 이메일과 동일합니다.");
+		}
+		else {
+			// 인증코드 전송
+			$.ajax({
+				url: "/member/verifyEmail",
+				type: "post",
+				data: {memberEmail : memberEmail},
+				success: function(result){
+					// 인증 코드 발송 성공 시 result는 인증 코드 값
+					if (result > 0) {
+						veriCode = result;
+						alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
+					}
+					// 해당 회원 이미 있을 때
+					else if (result == 0) {
+						alert("이미 회원가입된 이메일은 사용하실 수 없습니다.")
+					}
+					// 에러 났을 때
+					else {
+						alert("처리 중 에러가 발생했습니다.")
+					}
+				},
+				error: function(){
+					alert("서버 오류입니다.");
+				}
+			}) // ajax 끝
+		}
+	}
+	else {
+		alert("이메일 주소가 올바르지 않습니다.")
+	}
+})
+
+// 인증 코드 일치 확인
+$("#code-check-btn").on("click", function(){
+	const inputCode = $("#memberVeriCode").val();
+	if (veriCode == inputCode) {
+		$("#memberEmail").addClass("valid");
+		alert("이메일이 인증되었습니다.");
+	}
+	else {
+		alert("인증 코드가 올바르지 않습니다.");
+	}
+})
+
+// 전화번호
+$("#memberPhone").on("change", function(){
+	$("#memberPhone").removeClass("valid");
+	const phoneVal = $(this).val()
+	const phoneReg = /^[0-9]{11,11}$/;
+	if(phoneReg.test(phoneVal) && phoneVal.length != 11){				
+		$("#memberPhone").addClass("valid");
+	}
+	else {
+		alert("전화번호는 11자리 숫자로 입력해야 합니다.")
+	}
+})
+
+// 입력값 확인
+function checkValid(){
+	const valid = $(".valid");
+	if(valid.length != 2){ // 이메일, 전화번호, 주소
+		alert("모든 항목이 올바르게 입력되었는지 확인해 주세요.")
+		return false;
+	}
+	else {
+		if(confirm("입력하신 정보로 수정하시겠습니까?")){
+			return true;			
+		}
+		else {
+			return false;
+		}
+	}
+}
 
 </script>
 </body>

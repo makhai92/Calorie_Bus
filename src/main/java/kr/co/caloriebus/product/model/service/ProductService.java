@@ -25,10 +25,10 @@ public class ProductService {
 		int result = productDao.productInsert(p);
 		return result;
 	}
-
-	public Product selectOneProduct(String productTitle) {
-		Product product = productDao.selectOneProduct(productTitle);
-		return product;
+	
+	public Product selectOneProduct(int productNo) {
+		Product p = productDao.selectOneProduct(productNo);
+		return p;
 	}
 
 	@Transactional
