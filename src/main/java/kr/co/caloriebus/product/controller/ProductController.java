@@ -60,36 +60,6 @@ public class ProductController {
 		}
 		model.addAttribute("loc","/product/list");
 		return "common/msg";
-		/*
-		if(result>0) {
-			//productNo를 조회해와서 productFile에 이미지 추가 등록
-			Product product = productService.selectOneProduct(p.getProductTitle());
-			
-			List<ProductFile> fileList = new ArrayList<ProductFile>();
-			if (!upfile[0].isEmpty()) {
-				// C:/Temp/upload/product/main
-				String savepath = root + "/product/main/";
-				for (MultipartFile file : upfile) {
-					// 사용자가 업로드한 파일 이름 출력
-					String filename = file.getOriginalFilename(); 
-					String filepath = fileUtils.upload(savepath, file);
-					ProductFile productfile = new ProductFile();
-					productfile.setFilename(filename);
-					productfile.setFilepath(filepath);
-					productfile.setProductNo(product.getProductNo());
-					fileList.add(productfile);
-				}
-			}
-			int result2 = productService.productFileInsert(fileList);
-			if(result2>0) {
-				model.addAttribute("title", "작성성공!");
-				model.addAttribute("msg", "공지사항 작성에 성공했습니다.");
-				model.addAttribute("icon", "success");
-				model.addAttribute("loc", "/product/list");
-				return "common/msg";
-			}
-		}
-		*/
 	}
 	
 	@ResponseBody
@@ -106,5 +76,51 @@ public class ProductController {
 		model.addAttribute("p", p);
 		return "/product/view";
 	}
+	
+	@GetMapping(value="delete")
+	public String delete(int productNo,Model model) {
+		int result = productService.deleteProduct(productNo);
+		if(result>0) {
+			model.addAttribute("title","삭제 완료");
+			model.addAttribute("msg","게시물이 삭제되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","삭제 실패");
+			model.addAttribute("msg","게시물 삭제 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+			model.addAttribute("icon","warning");
+		}
+		model.addAttribute("loc","/product/list");
+		return "common/msg";
+	}
+	
+	@GetMapping(value="updateFrm")
+	public String updateFrm(int productNo,Model model) {
+		Product p = productService.selectOneProduct(productNo);
+		model.addAttribute("p",p);
+		return "/product/updateFrm";
+	}
 		
+	@PostMapping(value="update")
+	public String update(Product p, MultipartFile upfile,Model model) {
+		int result = 0;
+		if(upfile.isEmpty()) {
+			result = productService.update1Product(p);
+		}else {
+			String savepath = root+"/product/main/";
+			String filepath = fileUtils.upload(savepath, upfile);
+			p.setProductImg(filepath);
+			result = productService.update2Product(p);
+		}
+		if(result>0) {
+			model.addAttribute("title","수정완료");
+			model.addAttribute("msg","게시물 수정이 완료되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","수정실패");
+			model.addAttribute("msg","게시물 수정 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+			model.addAttribute("icon","error");
+		}
+		model.addAttribute("loc","/product/view?productNo="+p.getProductNo());
+		return "common/msg";
+	}
 }

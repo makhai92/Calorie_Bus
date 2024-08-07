@@ -52,5 +52,27 @@ public class ProductDao {
 		return result;
 	}
 
+	public int deleteProduct(int productNo) {
+		String query = "delete from product where product_no = ?";
+		Object[] params = {productNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int update1Product(Product p) {
+		String query = "update product set product_title=?,product_content=?,product_price=?,product_dc_price=?,product_min_amount=?,product_max_amount=?,start_date=?,end_date=?,product_info=? where product_no=?";
+		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductInfo(),p.getProductNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int update2Product(Product p) {
+		String query = "update product set product_title=?,product_content=?,product_price=?,product_dc_price=?,product_min_amount=?,product_max_amount=?,start_date=?,end_date=?,product_img=?,product_info=? where product_no=?";
+		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductImg(),p.getProductInfo(),p.getProductNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	
+
 
 }
