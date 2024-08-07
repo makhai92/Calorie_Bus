@@ -18,4 +18,5 @@ public class Product {
 	private String startDate;
 	private String endDate;
 	private String productImg;
+	private String productInfo;
 }
