@@ -21,7 +21,7 @@ public class ProductDao {
 	private ProductFileRowMapper productFileRowMapper;
 	
 	public List selectAllProduct() {
-		String query="select * from product order by 1 desc";
+		String query="select * from product";
 		List list = jdbc.query(query, productRowMapper);
 		return list;
 	}
