@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>운동정보</title>
+
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
@@ -15,8 +16,8 @@
 						<th style="width: 15%">제목</th>
 							<td>
 								<div class="input-item">
-									<input type="text" name="boardTitle" th:value="${e.boardTitle}">
-									<input type="hidden" name="boardNo" th:value="${e.boardNo}">
+									<input type="text" name="boardTitle" th:value="${exercise.boardTitle}">
+									<input type="hidden" name="boardNo" th:value="${exercise.boardNo}">
 								</div>
 							</td>
 						</tr>
@@ -24,7 +25,7 @@
 							<th>첨부파일</th>
 							<td>							
 							<div class="file-wrap">
-								<div class="files" th:each="file : ${e.fileList}">
+								<div class="files" th:each="file : ${exercise.fileList}">
 									<span class="delFilename" th:text="${file.filename}"></span>
 									<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
 								</div>
@@ -41,7 +42,7 @@
 							<th>내용</th>
 							<td class="left">
 								<div class="input-item">
-									<textarea name="boardContent" th:text="${e.boardContent}"></textarea>
+									<textarea name="boardContent" th:text="${exercise.boardContent}"></textarea>
 								
 								</div>
 							</td>
