@@ -39,7 +39,7 @@ public class ExerciseDao {
 
 	public int insertBoard(Exercise e) {
 		String query = "insert into board values(board_seq.nextval,?,I1,?,?,1,to_char(sysdate,'yyyy-mm-dd'))";
-		Object[] params = {e.getBoardTitle(),e.getBoardWriter(),e.getBoardContent()};
+		Object[] params = {e.getMemberNo(),e.getBoardTitle(),e.getBoardContent()};
 		int result = jdbc.update(query,params);
 		return result;
 	}
