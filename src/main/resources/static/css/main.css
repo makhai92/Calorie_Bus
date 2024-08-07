@@ -85,45 +85,6 @@ marquee img {
     font-family: 'Italianno', cursive;
     color: rgb(119, 86, 45);
 }
-.search-box {
-    width: 200px !important;
-    height: 40px; 
-    position: absolute;
-    top: 110px;
-    left: 1470px;
-    align-items: center;
-}
-
-.search-box > form {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.search-box > form > input {
-    width: 200px;
-    border: none;
-    border-bottom: 1px solid #141414;
-    background-color: transparent;
-    font-size: 15px;
-    padding: 5px; 
-}
-
-.search-box > form > button {
-    position: absolute;
-    right: 0;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    padding-left: 10px; 
-    display: flex;
-    align-items: center;
-}
-
-.search-box > form > button > span {
-    font-size: 25px;
-}
-
 
 
 .nav {

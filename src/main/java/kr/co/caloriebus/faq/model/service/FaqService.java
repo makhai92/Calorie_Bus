@@ -76,4 +76,9 @@ public class FaqService {
 		
 		return fld;
 	}
+
+	public Faq selectOneFaq(int faqNo) {
+		Faq f = faqDao.selectOneFaq(faqNo);
+		return f;
+	}
 }

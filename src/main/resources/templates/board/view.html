@@ -10,15 +10,15 @@
 	.view-tbl tr>td>span{
 		font-size : 18px;
 	}
-	.wrap{
+	.button-wrap{
 		overflow: hidden;
 	}
-	.wrap>div{
+	.button-wrap>div{
 		height: 80px;
 		line-height: 80px;
 		padding : 0px 20px;
 	}
-	.wrap>.like-wrap>span{
+	.button-wrap>.like-wrap>span{
 		line-height:80px;
 		cursor: pointer;
 		font-size: 36px;
@@ -26,7 +26,7 @@
 	.update-btn-wrap{
 		float:left;
 	}
-	.wrap>.like-wrap{
+	.button-wrap>.like-wrap{
 		float:right;
 	}
 	.favorite{
@@ -38,6 +38,9 @@
 	.view-tbl #content-box>td{
 		text-align: left;
 		min-height: 500px;
+	}
+	.input-comment-box{
+	
 	}
 </style>
 </head>
@@ -71,7 +74,7 @@
 				<td colspan="5" th:utext=${board.boardContent}></td>
 			</tr>
 		</table>
-		<div class="wrap">
+		<div class="button-wrap">
 			<div class="update-btn-wrap">
 				<a class="btn-round">수정하기</a>
 				<a class="btn-round g">삭제하기</a>
@@ -80,6 +83,22 @@
 				<span th:if="${board.isLike}==1" class="material-icons favorite">thumb_down</span>
 				<span th:if="${board.isLike}==0" class="material-icons notFavorite">thumb_up</span>
 			</div>
+		</div>
+		<form action="/board/insertBoardComment" method="post">
+			<div class="input-item1 input-comment-box">
+				<textarea name="boardCommentContent" style="resize:none;"></textarea>
+				<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+				<button type="submit" class="btn-square">댓글작성</button>
+			</div>
+		</form>
+		<div class="comment-wrap">
+		
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
 		</div>
 	</main>
 	<script>

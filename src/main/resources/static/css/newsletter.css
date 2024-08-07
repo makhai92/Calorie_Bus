@@ -45,16 +45,21 @@ a {
     margin-bottom: 20px;
 }
 
-.custom-tbl th, .custom-tbl td {
-    padding: 8px;
+.custom-tbl th{
+	padding: 8px;
     text-align: center;
-    border-left: none; /* 세로선 제거 */
+    border-left: none;
     border-right: none;
-}
-
-.custom-tbl th {
     background-color: var(--main2);
     font-weight: bold;
+} 
+
+.custom-tbl td {
+    padding: 8px;
+    text-align: center;
+    border-left: none;
+    border-right: none;
+    font-weight: 200;
 }
 
 .custom-tbl-hover tbody tr {
@@ -127,7 +132,7 @@ a {
     border: none;
     border-radius: 30px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: regular;
     cursor: pointer;
     text-decoration: none;
     color: #000;

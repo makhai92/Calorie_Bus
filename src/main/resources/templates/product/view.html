@@ -21,7 +21,6 @@
 	}
 	.detail-top{
 		width : calc(100% / 2);
-		height : 500px;
 		float : left;
 	}
 	.top {
@@ -42,25 +41,28 @@
 		height : 100%;
 		padding : 40px 5px;
 	}
-	.title{
+	.pdtitle{
 		font-size : 20px;
 		font-weight: 700;
-		margin-top: 10px;
 	}
-	.centent,.remainingAmount{
+	.pdcontent,.remainingAmount{
 		margin : 30px 0;
 	}
 	.percent,.dcPrice{
 		font-size : 24px;
 	}
-	.deadline{
+	.pddeadline{
 		font-size : 14px;
 	}
 	.dcPrice{
 		color : var(--point1)
 	}
+	.button-box{
+		padding-top:30px;
+		overflow: hidden;
+	}
 	.button-box>button{
-		margin : 0;
+		float: left;
 	}
 	.like-box{
 		width : 50px;
@@ -68,7 +70,6 @@
 		border-radius:5px;
 		text-align: center;
 		background-color: #ffffff;
-		box-sizing: border-box;
 	}
 	.like-box>span{
 		font-size : 30px;
@@ -77,6 +78,13 @@
 	.like-box>p{
 		font-size : 15px;
 		color : var(--line2);
+	}
+	.button-box>.btn-round{
+		width : 500px;
+		height : 40px;
+		margin : 5px 20px;
+		font-size: 16px;
+		font-weight: 700;
 	}
 </style>
 <body>
@@ -99,14 +107,14 @@
 				</div>
 				<div class="detail-top right">
 					<div class="info">
-						<div class="title" th:text=[진행중]+${p.productTitle}></div>
-						<div class="centent" th:text=${p.productContent}></div>
+						<div class="pdtitle" th:text=[진행중]+${p.productTitle}></div>
+						<div class="pdcontent" th:text=${p.productContent}></div>
 						<div class="percent" th:text=${p.productMinAmount}></div>
 						<div class="orderCount"></div>
-						<div class="deadline" th:text=${p.endDate}></div>
+						<div class="pddeadline" th:text=${p.endDate}></div>
 						<div class="remainingAmount" th:text=잔여수량+':'+${p.productMaxAmount}></div>
-						<div class=" price" th:text=정상가+${p.productPrice}></div>
-						<div class=" dcPrice" th:text=${p.productDcPrice}></div>
+						<div class=" price" th:text=정상가+${p.productPrice}+원></div>
+						<div class=" dcPrice" th:text=${p.productDcPrice}+원></div>
 						<div class="button-box">
 							<button class="like-box">
 								<span class="material-symbols-outlined">favorite</span>
