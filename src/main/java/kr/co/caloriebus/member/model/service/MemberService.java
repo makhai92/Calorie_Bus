@@ -115,9 +115,9 @@ public class MemberService {
 	}
 
 	// 비밀번호 찾기
-	public int findPw(Member m) {
-		int memberNo = memberDao.findPw(m);
-		return memberNo;
+	public Member findPw(Member m) {
+		Member member = memberDao.findPw(m);
+		return member;
 	}
 	
 	// 비밀번호 재설정
@@ -133,4 +133,13 @@ public class MemberService {
 		int result = memberDao.updateMember(m);
 		return result;
 	}
+
+	// 회원 삭제
+	@Transactional
+	public int deleteMember(Member member) {
+		int result = memberDao.deleteMember(member);
+		return result;
+	}
+
+
 }

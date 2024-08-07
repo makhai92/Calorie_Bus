@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지</title>
+<link href="/css/memberForm.css" rel="stylesheet">
+</head>
+<body>
+<th:block th:include="common/header"></th:block>
+<main class="content">
+    <section class="joinform-wrap">
+        <div class="page-title">
+        	<p>마이페이지<p>
+        </div>
+        
+        
+        <!-- 내 게시글 보기 양식 -->
+        <form class="joinform-tbl">
+        	<th:block th:include="member/category"></th:block>
+            <table class="joinform-tbl">
+                
+            </table>
+        </form>
+	</section>
+</main>
+<script>
+
+
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@
 .faqview{
     padding: 50px 0;
     width: 1000px;
-    height: 800px;
+    height: 600px;
     margin: 0 auto;
 
 }
@@ -41,28 +41,24 @@
           	<table class="tbl">
                <tr>
                    <th>제목</th>
-                   <td colspan="3">
-                   <div class="input-item">
-                        
-                   </div>
+                   <td colspan="3" th:text="${f.faqTitle}">
+                  </td>
                </tr>
                <tr>
                   <th style="width:10%;">작성자</th>
-                  <td style="width:40%;">
+                  <td style="width:40%;" >
                   <span>관리자</span>
                   </td>
                </tr>
                <tr>
                   <td colspan="4">
-                      <div class="input-item">
-                           
+                      <div class="faqContent" th:utext = "${f.faqContent}">
                       </div>
                   </td>
-               </tr>
-                        
-            </table>
-      </div>
-</div>
+               </tr>          
+          	</table>
+      	</div>
+	</div>
 </div>
 
 </body>

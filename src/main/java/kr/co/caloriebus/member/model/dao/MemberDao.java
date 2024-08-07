@@ -70,14 +70,15 @@ public class MemberDao {
 		}
 	}
 
-	public int findPw(Member m) {
-		String query = "select member_no from member where member_id = ? and member_name = ? and member_email = ?";
+	public Member findPw(Member m) {
+		String query = "select * from member where member_id = ? and member_name = ? and member_email = ?";
 		Object[] params = { m.getMemberId(), m.getMemberName(), m.getMemberEmail() };
-		try {
-			int memberNo = jdbc.queryForObject(query, Integer.class, params);
-			return memberNo;
-		} catch (final DataAccessException e) {
-			return -1;
+		List list = jdbc.query(query, memberRowMapper, params);
+		if (list.isEmpty()) {
+			return null;
+		}
+		else {
+			return (Member)list.get(0);
 		}
 	}
 
@@ -89,8 +90,15 @@ public class MemberDao {
 	}
 
 	public int updateMember(Member m) {
-		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_birth = ?, member_account = ?, member_bank = ? where member_no = ?";
-		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberNo()};
+		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_birth = ?, member_account = ?, member_bank = ? where member_id = ?";
+		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberId()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteMember(Member member) {
+		String query = "delete from member where member_no = ?";
+		Object[] params = {member.getMemberNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

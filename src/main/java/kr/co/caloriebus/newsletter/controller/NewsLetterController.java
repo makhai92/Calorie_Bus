@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.board.model.service.BoardService;
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFile;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterListData;
@@ -79,7 +82,36 @@ public class NewsLetterController {
 			model.addAttribute("msg","게시글 작성 실패");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/newsletter/list?reqPage=1");
+		model.addAttribute("loc","/newsletter/listForm?reqPage=1");
 		return "common/msg"; 
+	}
+	@GetMapping(value="/viewForm")
+	public String view(int boardNo,String check,@SessionAttribute (required=false)Member member,Model model) {
+		NewsLetter n = null;
+		if(member != null) {
+			n = newsletterService.selectNewsLetter(member.getMemberNo(),boardNo,check);	
+			model.addAttribute("memberNo",member.getMemberNo());
+		}else {
+			n = newsletterService.selectNewsLetter(-1,boardNo,check);
+			model.addAttribute("memberNo",-1);
+		}
+		model.addAttribute("newsletter",n);
+		return "newsletter/viewForm";
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/newsletterLikePush")
+	public int newsletterLikePush(int boardNo,int isLike,@SessionAttribute (required=false)Member member) {
+		if(member == null) {
+			return -10;
+		}else {
+			int likeCount = newsletterService.newsletterLikePush(boardNo,isLike,member.getMemberNo());
+			return likeCount;
+		}
+	}
+	@GetMapping(value="/filedown")
+	public void filedown(BoardFile bf,HttpServletResponse response) {
+		String savepath = root+"/newsletter/";
+		fileUtils.downloadFile(savepath, bf.getFilename(), bf.getFilepath(), response);
 	}
 }

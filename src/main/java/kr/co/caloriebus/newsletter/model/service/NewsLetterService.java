@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
@@ -82,5 +84,33 @@ public class NewsLetterService {
 			}
 		}
 		return result;
+	}
+	@Transactional
+	public NewsLetter selectNewsLetter(int memberNo,int boardNo, String check) {
+		NewsLetter n = newsletterDao.selectNewsLetter(memberNo,boardNo);
+		if(n != null) {
+			if(check == null) {
+				int result = newsletterDao.updateReadCount(boardNo);
+			}
+			List fileList = newsletterDao.selectNewsLetterFileList(boardNo);
+			n.setFileList(fileList);
+		}
+		return n;
+	}
+
+	@Transactional
+	public int newsletterLikePush(int boardNo, int isLike, int memberNo) {
+		int result = 0;
+		if(isLike==1) {
+			result = newsletterDao.deleteNewsLetterLike(boardNo,memberNo);
+		}else {
+			result = newsletterDao.insertNewsLetterLike(boardNo,memberNo);
+		}
+		if(result >0) {
+			int likeCount = newsletterDao.selectNewsLetterLikeCount(boardNo);
+			return likeCount;
+		}else {
+			return -1;
+		}
 	}
 }

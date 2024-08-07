@@ -13,7 +13,6 @@
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
-<th:block th:if="${session.member == null}">
 <main class="content">
     <section class="joinform-wrap">
         <div class="page-title">
@@ -22,7 +21,8 @@
         
         <!-- 비밀번호 재설정 폼 -->
 		<form action="/member/updatePw" method="post" class="joinform-tbl">
-	        <input type="hidden" id="number" name="number" th:value="${number}">
+	        <input th:if="${session.member == null}" type="hidden" id="number" name="number" th:value="${session.tempMember.memberNo}">
+	        <input th:if="${session.member != null}" type="hidden" id="number" name="number" th:value=${session.member.memberNo}>
 	       	<table class="joinform-tbl">
             	<tr>
                     <th style="width: 100px;">비밀번호</th>
@@ -57,7 +57,6 @@
 		</form>
 	</section>
 </main>
-</th:block>
 <script>
 	
 	//비밀번호 정규 표현식 확인

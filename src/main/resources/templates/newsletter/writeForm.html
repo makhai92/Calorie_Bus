@@ -3,102 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-	.writeForm tr>th{
-		font-size: 18px;
-		
-	}
+    .content-write {
+        width: 100%;
+        max-width: 950px;
+        margin: 30px auto;
+        flex: 1;
+    }
+
+    .write-title {
+        font-size: 60px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: 'Italianno', cursive;
+        color: rgb(119, 86, 45);
+    }
+
+    .custom-write-form {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-write-form th, .custom-write-form td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .custom-write-form th {
+        width: 30%;
+        background-color: var(--main2);
+    }
+
+    .custom-input-item {
+        width: 100%;
+    }
+
+    .custom-input-item input {
+        width: 100%;
+        padding: 5px;
+        margin: 0;
+        border: none;
+    }
+
+    .file-upload label {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    .file-upload p {
+        font-size: 12px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .btn-round {
+        width: 50%;
+        font-size: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 30px;
+        background-color: var(--main2);
+        color: var(--main1);
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-round:hover {
+        background-color: rgb(198, 182, 164);
+    }
+
+    .btn-cancel {
+       color: var(--main1);
+       background-color: var(--main2);
+    }
+
+    .btn-cancel:hover {
+        background-color: rgb(198, 182, 164);
+    }
 </style>
 </head>
 <body>
-	<th:block th:include="common/header"></th:block>
-	<script src="/summernote/summernote-lite.js"></script>
-	<script src="/summernote/lang/summernote-ko-KR.js"></script>
-	<link rel="stylesheet" href="/summernote/summernote-lite.css">
-	<main class="content">
-		<div class="page-title">게시글 작성</div>
-		<form action="/newsletter/write" method="post" enctype="multipart/form-data">
-			<table class="tbl writeForm">
-				<tr>
-					<th style="width:15%;">제목</th>
-					<td style="width:85%; text-align: left;" colspan="2">
-						<div class="input-item2">				
-							<input style="width:100%;"type="text" name="boardTitle">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th>작성자</th>
-					<td style="text-align: left;" colspan="2">
-						<div class="input-item2">
-							<input type="text" name="memberId" th:value="${session.member.memberId}" readonly> 
-						</div>
-					</td>	
-					<td>
-						<input type="file" name="upFile" multiple>
-					</td>	
-				</tr>
-				<tr>
-					<td colspan="4" style="text-align: left;">
-						<textarea name="boardContent" id="boardContent"></textarea>
-					</td>		
-				</tr>
-				<tr>
-					<td colspan="4">
-						<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
-						<button type="submit" class="btn-round" style="width:50%; font-size: 16px;">게시글 작성</button>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</main>
-	<script>
-		$("#boardContent").summernote({
-			toolbar:[
-				['style', ['style']],
-				['fontsize', ['fontsize']],
-				['font', ['bold', 'italic', 'underline', 'clear']],
-				['fontname', ['fontname']],
-				['color', ['color']],
-				['para', ['ul', 'ol', 'paragraph']],
-				['height', ['height']],
-				['table', ['table']],
-				['insert', ['link', 'picture', 'hr']],
-				['view', ['fullscreen', 'codeview']],
-				['help', ['help']]		
-			],
-			height:500,
-			lang : "ko-KR",
-			disableResize : true,
-			disableResizeEditor : true,
-			resize : false,
-			fontSizes: ['8','9','10','11','12','13','14','15','16','17','18','19','20','24','30','36','48','64','82','150'],
-			callbacks : {
-				onImageUpload : function(files){
-					uploadImage(files[0],this);
-				}
-			}
-		});
-		$("#boardContent").summernote("fontSize",16);
-		function uploadImage(file,editor){
-			const form = new FormData();
-			form.append("upfile",file);
-			$.ajax({
-				url : "/newsletter/editorImage",
-				type : "post",
-				data : form,
-				processData : false,
-				contentType : false,
-				success : function(data){
-					console.log(data);
-					$(editor).summernote("insertImage",data);
-				},
-				error : function(){
-					console.log("error");
-				}
-			});
-		}
-	</script>
-	<th:block th:include="common/footer"></th:block>
+    <th:block th:include="common/header"></th:block>
+    <script src="/summernote/summernote-lite.js"></script>
+    <script src="/summernote/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="/summernote/summernote-lite.css">
+    <main class="content-write">
+        <div class="write-title">Write Post</div>
+        <form action="/newsletter/write" method="post" enctype="multipart/form-data">
+            <table class="custom-write-form">
+                <tr>
+                    <th>제목</th>
+                    <td>
+                        <div class="custom-input-item">                
+                            <input type="text" name="boardTitle">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>작성자</th>
+                    <td>
+                        <div class="custom-input-item">
+                        	<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
+                            <input type="text" name="memberId" th:value="${session.member.memberId}" readonly> 
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">
+                        <textarea name="boardContent" id="boardContent"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="file-upload">
+                        <label for="upFile">사진, 움짤, 동영상 등 파일 첨부</label>
+                        <input type="file" name="upFile" id="upFile" multiple>
+                        <p>허용 확장자: *.jpg;*.jpeg;*.gif;*.png;*.mp4;*.mov;*.webm;*.ogv;*.webp;*.bmp;*.tif;*.tiff;*.heic;*.avi;*.mkv;*.wmv;*.asf;</p>
+                        <p>파일당 최대 용량: 50.00MB, 총 50MB.</p>
+                        <p>.mp4, .webm, .mov, .webp 는 총 12개 까지 첨부 가능</p>
+                        <p>.mp4, .webm, .mov, .webp 는 파일당 40MB 까지 업로드 가능</p>
+                        <p>11MB~40MB 움짤은 11MB 이하로 자동변환됨</p>
+                        <p>음원 있는 움짤/동영상은 45초 이내 길이만 가능, 쪼개서 올릴 경우 무통보 삭제 가능</p>
+                        <p>여기에 파일을 끌어 놓거나 파일 첨부 버튼을 클릭하세요.</p>
+                    </td>
+                </tr>
+            </table>
+            <div class="btn-container">
+                <div>
+                    <button type="submit" class="btn-round">게시글 작성</button>
+                </div>
+                <div>
+                    <button type="button" class="btn-round btn-cancel" onclick="window.history.back();">취소</button>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script>
+        $("#boardContent").summernote({
+            toolbar:[
+                ['style', ['style']],
+                ['fontsize', ['fontsize']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'hr']],
+                ['view', ['fullscreen', 'codeview']],
+                ['help', ['help']]        
+            ],
+            height:500,
+            lang : "ko-KR",
+            disableResize : true,
+            disableResizeEditor : true,
+            resize : false,
+            fontSizes: ['8','9','10','11','12','13','14','15','16','17','18','19','20','24','30','36','48','64','82','150'],
+            callbacks : {
+                onImageUpload : function(files){
+                    uploadImage(files[0],this);
+                }
+            }
+        });
+        $("#boardContent").summernote("fontSize",16);
+        function uploadImage(file,editor){
+            const form = new FormData();
+            form.append("upfile",file);
+            $.ajax({
+                url : "/newsletter/editorImage",
+                type : "post",
+                data : form,
+                processData : false,
+                contentType : false,
+                success : function(data){
+                    console.log(data);
+                    $(editor).summernote("insertImage",data);
+                },
+                error : function(){
+                    console.log("error");
+                }
+            });
+        }
+    </script>
+    <th:block th:include="common/footer"></th:block>
 </body>
 </html>

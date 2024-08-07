@@ -24,7 +24,7 @@ a {
     color: rgb(119, 86, 45);
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 .scroll-animate.visible {
@@ -72,8 +72,8 @@ a {
 }
 
 .custom-tbl thead tr {
-    border-top: 2px solid #000; /* 위쪽 진한 선 */
-    border-bottom: 2px solid #000; /* 아래쪽 진한 선 */
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
 }
 
 #pageNavi {
@@ -83,7 +83,7 @@ a {
 
 .search-write-container {
     display: flex;
-    justify-content: center; /* 검색 기능을 가운데로 정렬 */
+    justify-content: center;
     align-items: center;
     margin-top: 20px;
 }
