@@ -1,5 +1,7 @@
 package kr.co.caloriebus.member.controller;
 
+import java.io.Console;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -177,7 +179,7 @@ public class MemberController {
 	
 	// 회원 정보 수정
 	@PostMapping(value="/updateMember")
-	public String updateMember(Member m, Model model, @SessionAttribute Member member) {
+	public String updateMember(Member m, Model model) {
 		int result = memberService.updateMember(m);
 		Message data = new Message();
 		if (result > 0) {
@@ -190,5 +192,23 @@ public class MemberController {
 		}
 		return alertMsg(data, model);
 		
+	}
+	
+	// 회원 탈퇴
+	@GetMapping(value="/deleteAccount")
+	public String deleteAccount(HttpSession session, Model model) {
+		Member member = (Member)session.getAttribute("member");
+		int result = memberService.deleteMember(member);
+		Message data = new Message();
+		if (result > 0) {			
+			session.invalidate();
+			data.setMessage("탈퇴 완료되었습니다.");
+			data.setRedirectUrl("/");
+		}
+		else {
+			data.setMessage("처리 중 에러가 발생하였습니다.");
+			data.setRedirectUrl("/member/mypage");
+		}
+		return alertMsg(data, model);
 	}
 }
