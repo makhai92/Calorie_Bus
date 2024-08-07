@@ -45,7 +45,7 @@ public class ExerciseController {
 	*/
 	
 	@GetMapping(value="/list")
-	public String list(int reqPage,Model model) {
+	public String list(int reqPage, Model model) {
 		ExerciseListData eld = exerciseService.selectBoardList(reqPage);
 		model.addAttribute("list",eld.getList());
 		model.addAttribute("pageNavi",eld.getPageNavi());
