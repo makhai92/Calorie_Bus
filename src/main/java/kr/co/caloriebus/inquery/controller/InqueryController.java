@@ -56,9 +56,6 @@ public class InqueryController {
 	
 	@PostMapping(value="/write")
 	public String write(Inquery i, MultipartFile[] upfile, Model model) {
-		System.out.println(i);
-		System.out.println("업로드된 파일 수 : " + upfile.length);
-		
 		List<InqueryFile> fileList = new ArrayList<InqueryFile>();
 		
 		if(!upfile[0].isEmpty()) {
@@ -81,7 +78,7 @@ public class InqueryController {
 			return "common/msg";
 		}
 		
-		return "redirect:/inquery/inqueryWriter";
+		return "redirect:/inquery/inqueryEditor";
 		
 		
 	}

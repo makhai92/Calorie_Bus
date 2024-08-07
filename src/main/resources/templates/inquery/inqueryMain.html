@@ -102,7 +102,7 @@
         </div>
         <div class="inquery-sub">
             <form action="search.html" method="get">
-                <button type="button" class="writeInquery" onclick = "location.href ='/inquery/inqueryEditor'">1:1 문의 작성하기</button>
+                <button th:if="${session.member != null}" type="button" class="writeInquery" onclick = "location.href ='/inquery/inqueryEditor'">1:1 문의 작성하기</button>
                     <div class="inquery-search-box">
                         <span class="material-icons" id="search-icon">search</span>
                         <input type="text" id="inquery-search" placeholder="제목으로 1:1 문의를 검색해보세요">

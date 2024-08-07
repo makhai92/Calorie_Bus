@@ -64,5 +64,21 @@ public String view(int faqNo,Model model) {
 		return "faq/faqView";
 	}
 }
+@GetMapping(value = "/faqDelete")
+public String delete(int faqNo, Model model) {
+	int result= faqService.deleteFaq(faqNo);
+	if(result == 0) {
+		model.addAttribute("title", "삭제 실패");
+		model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
+		model.addAttribute("icon", "error");
+		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
+	}else {
+		model.addAttribute("title", "삭제 성공");
+		model.addAttribute("msg", "게시글이 삭제되었습니다..");
+		model.addAttribute("icon", "success");
+		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
+	}
+	return "common/msg";
+}
 
 }

@@ -81,4 +81,12 @@ public class FaqService {
 		Faq f = faqDao.selectOneFaq(faqNo);
 		return f;
 	}
+
+	public int deleteFaq(int faqNo) {
+		int result = faqDao.deleteFaq(faqNo);
+		if(result>0) {
+			return faqNo;
+		}
+		return result;
+	}
 }

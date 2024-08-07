@@ -47,4 +47,12 @@ public class FaqDao {
 		}
 
 	}
+
+	public int deleteFaq(int faqNo) {
+		String query = "delete from faq where faq_no=?";
+		Object[] params = {faqNo};
+		int result = jdbc.update(query,params);
+		
+		return result;
+	}
 }

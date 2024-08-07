@@ -58,35 +58,38 @@ margin: 0 auto;
         </div>
         <div class="inqueryWriter-container">
             <div class="wrap">
+       			<form action="/inquery/write" method="post" enctype="multipart/form-data">
                     <table class="tbl">
-                <tr>
+                	<tr>
                     <th>제목</th>
-                    <td colspan="3">
-                        <div class="input-item">
-                            <input type="text" id="inqueryTitle">
-                        </div>
-                </tr>
-                <tr>
-                    <th style="width:10%;">작성자</th>
-                    <td style="width:40%;">
-                    </td>
-                    <th style="width:10%;">첨부파일</th>
-                    <td style="width:40%;">
+	                    <td colspan="3">
+	                        <div class="input-item">
+	                            <input type="text" name="inqueryTitle" id="inqueryTitle">
+	                        </div>
+               		</tr>
+                	<tr>
+	                    <th style="width:10%;">작성자</th>
+		                    <td style="width:40%;" th:text="${session.member.memberId}">
+		                    	
+		                    </td>
+                    	<th style="width:10%;">첨부파일</th>
+                   		 <td style="width:40%;">
                         <input type="file" name="upfile" multiple>
+                    	</td>
+                	</tr>
+                	<tr>
+                    	<td colspan="4" class="left" style="text-align: left;">
+                         <textarea name="inqueryContent" id="inqueryContent"></textarea>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="left">
-                            <textarea name="inqueryContent" id="inqueryContent"></textarea>
-                    </td>
-                </tr>
-                <tr>
+                	</tr>
+               		 <tr>
                     <td colspan="4">
+                    	<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
                         <button type="submit" class="btn-primary lg">1:1문의 작성</button>
                     </td>
                 </tr>
-
                 </table>
+                </form>
             </div>
         </div>
     </div>
@@ -106,10 +109,10 @@ $("#inqueryContent").summernote({
         }
     }
 });
+$("#boardContent").summernote("fontSize",16);
 function uploadImage(file,editor){
 	const form = new FormData();
 	form.append("upfile", file);
-	
 	$.ajax({
 		url : "/inquery/editorImage",
 				type : "post",
@@ -117,8 +120,7 @@ function uploadImage(file,editor){
 				processData: false,
 				contentType : false,
 				success : function(data){
-					$(editor).summernote("insertImage",data);
-					//console.log(data);	
+					$(editor).summernote("insertImage",data);	
 				},
 				error:function(){
 					console.log("에러");
