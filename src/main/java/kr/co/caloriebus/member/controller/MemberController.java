@@ -140,11 +140,11 @@ public class MemberController {
 	
 	// 비밀번호 재설정 가능한지 확인
 	@PostMapping(value="/findPw")
-	public String findPw(Member m, Model model) {
-		int memberNo = memberService.findPw(m);
-		if (memberNo > 0) {
-			model.addAttribute("number", memberNo);
-			return "member/resetPw";
+	public String findPw(Member m, HttpSession session, Model model) {
+		Member member = memberService.findPw(m);
+		if (member != null) {
+			session.setAttribute("tempMember", member);
+			return "redirect:/member/resetPw";
 		}
 		else {
 			Message data = new Message();
@@ -154,9 +154,15 @@ public class MemberController {
 		}
 	}
 	
-	// 비밀번호 재설정
+	// 비밀번호 재설정 폼으로 이동
+	@GetMapping(value="/resetPw")
+	public String resetPw() {
+		return "member/resetPw";
+	}
+	
+	// 비밀번호 변경 (비밀번호 찾기, 내 정보 수정)
 	@PostMapping(value="/updatePw")
-	public String updatePw(String number, String memberPw, Model model) {
+	public String updatePw(String number, String memberPw, HttpSession session, Model model) {
 		int memberNo = Integer.parseInt(number);
 		int result = memberService.updatePw(memberNo, memberPw);
 		Message data = new Message();
@@ -165,9 +171,10 @@ public class MemberController {
 			data.setRedirectUrl("/member/loginForm");
 		}
 		else {
-			data.setMessage("비밀번호가 재설정에 실패했습니다.");
+			data.setMessage("비밀번호 재설정에 실패했습니다.");
 			data.setRedirectUrl("/member/forgotPw");
 		}
+		session.invalidate();
 		return alertMsg(data, model);
 	}
 
@@ -179,10 +186,17 @@ public class MemberController {
 	
 	// 회원 정보 수정
 	@PostMapping(value="/updateMember")
-	public String updateMember(Member m, Model model) {
+	public String updateMember(Member m, Model model, @SessionAttribute Member member) {
 		int result = memberService.updateMember(m);
 		Message data = new Message();
 		if (result > 0) {
+			member.setMemberName(m.getMemberName());
+			member.setMemberEmail(m.getMemberEmail());
+			member.setMemberPhone(m.getMemberPhone());
+			member.setMemberAddr(m.getMemberAddr());
+			member.setMemberBirth(m.getMemberBirth());
+			member.setMemberAccount(m.getMemberAccount());
+			member.setMemberBank(m.getMemberBank());
 			data.setMessage("회원 정보가 수정되었습니다.");
 			data.setRedirectUrl("/member/mypage");
 		}
@@ -191,7 +205,6 @@ public class MemberController {
 			data.setRedirectUrl("/member/mypage");
 		}
 		return alertMsg(data, model);
-		
 	}
 	
 	// 회원 탈퇴
