@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>상세보기</title>
+<style>
+    body {
+        font-family: 'Pretendard-Regular', sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .content {
+        width: 80%;
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .post-title {
+        font-size: 60px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: 'Italianno', cursive;
+        color: rgb(119, 86, 45);
+    }
+    .custom-tbl {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .custom-tbl th, .custom-tbl td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+    .custom-tbl th {
+        background-color: #f9f9f9;
+        width: 20%;
+        text-align: left;
+    }
+    .custom-tbl td {
+        text-align: left;
+    }
+    .custom-tbl .content-box {
+        min-height: 300px;
+    }
+    .custom-tbl .file-list a {
+        display: block;
+        margin: 5px 0;
+    }
+    .wrap {
+        overflow: hidden;
+        margin-top: 20px;
+    }
+    .wrap > div {
+        height: 50px;
+        line-height: 50px;
+        padding: 0px 20px;
+    }
+    .wrap .like-wrap {
+        float: right;
+    }
+    .like-wrap span {
+        cursor: pointer;
+        font-size: 36px;
+    }
+    .favorite {
+        color: var(--point1);
+    }
+    .notFavorite {
+        color: #ccc;
+    }
+    .btn-round {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 10px;
+        border-radius: 30px;
+        background-color: var(--main2);
+        color: var(--main1);
+        text-decoration: none;
+        font-size: 18px;
+        transition: background-color 0.3s;
+    }
+    .btn-round:hover {
+        background-color: rgb(198, 182, 164);
+    }
+</style>
+</head>
+<body>
+    <th:block th:include="common/header"></th:block>
+    <main class="content">
+        <div class="post-title">News Letter</div>
+        <table class="custom-tbl">
+            <tr>
+                <th colspan="5" th:text="${newsletter.boardTitle}">운동 안 하고도 살 빠지는 방법이 출시</th>
+            </tr>
+            <tr>
+                <th>작성자</th>
+                <td style="width:50%;" th:text="${newsletter.boardWriter}">관리자</td>
+                <td colspan="3" style="text-align: right;">조회수: <span th:text="${newsletter.readCount}">10000</span></td>
+            </tr>
+            <tr>
+                <td colspan="2">작성일: <span th:text="${newsletter.regDate}">2024.08.01</span></td>
+                <td colspan="3" style="text-align: right;">추천수: <span th:text="${newsletter.likeCount}">10</span> 댓글: <span th:text="${newsletter.commentCount}">100</span></td>
+            </tr>
+            <tr>
+                <th colspan="1">첨부파일</th>
+                <td colspan="4" class="file-list">
+                    <th:block th:each="file : ${newsletter.fileList}">
+                        <a th:href="@{/newsletter/filedown(filename=${file.filename},filepath=${file.filepath})}">
+                            <span class="material-icons">description</span>
+                            <span th:text="${file.filename}">파일명</span>
+                        </a>
+                    </th:block>
+                </td>
+            </tr>
+            <tr class="content-box">
+                <td colspan="5" th:utext="${newsletter.boardContent}">
+                    <img src="example-image.png" alt="example" style="width:100%; height:auto;">
+                    <p>응, 그런 거 없어요~ 열심히 해</p>
+                </td>
+            </tr>
+        </table>
+        <div class="wrap">
+            <div class="update-btn-wrap">
+                <a class="btn-round" href="/edit">수정</a>
+                <a class="btn-round" href="/delete">삭제</a>
+            </div>
+            <div class="like-wrap">
+                <span th:if="${newsletter.isLike}==1" class="material-icons favorite">thumb_down</span>
+                <span th:if="${newsletter.isLike}==0" class="material-icons notFavorite">thumb_up</span>
+            </div>
+        </div>
+    </main>
+    <script>
+        const boardNo = "[[${newsletter.boardNo}]]";
+        $(".like-wrap>span").on("click", function() {
+            const likeSpan = $(this);
+            const isLike = likeSpan.hasClass("favorite") ? 1 : 0;
+            $.ajax({
+                url: "/newsletter/boardLikePush",
+                data: { boardNo: boardNo, isLike: isLike },
+                type: "post",
+                success: function(data) {
+                    if (data == -1) {
+                        console.log("처리오류");
+                    } else if (data == -10) {
+                        alert("로그인해라");
+                    } else {
+                        if (isLike === 1) {
+                            likeSpan.removeClass("favorite");
+                            likeSpan.addClass("notFavorite");
+                            likeSpan.text("thumb_up");
+                        } else {
+                            likeSpan.removeClass("notFavorite");
+                            likeSpan.addClass("favorite");
+                            likeSpan.text("thumb_down");
+                        }
+                        $(".view-tbl tr>td>span").eq(1).text(data);
+                    }
+                },
+                error: function() {
+                    console.log("error");
+                }
+            });
+        });
+    </script>
+    <th:block th:include="common/footer"></th:block>
+</body>
+</html>

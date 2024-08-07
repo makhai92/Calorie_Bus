@@ -50,17 +50,21 @@
 		min-height: 500px;
 		text-align: left;
 	}
+	.comment-wrap{
+		border-top: 1px solid #ccc; 
+	}
 	.comment-wrap>ul{
-		width:100%;
-		
-		
-		
+		border-bottom: 1px solid #ccc;
 	}
 	.comment-info>.material-icons{
 		font-size: 18px;
 	}
 	.recShow:hover{
 		text-decoration: underline;
+	}
+	.reComment-box{
+		display: flex;
+		justify-content: space-between;
 	}
 </style>
 </head>
@@ -113,8 +117,8 @@
 				</div>
 			</form>
 		<span>댓글수 : <span th:text="${board.commentCount}"></span></span>
-		<div class="comment-wrap" style="border-top:1px solid #ccc;">
-			<ul th:each="boardComment : ${board.boardCommentList}" style="border-bottom: 1px solid #ccc;" >
+		<div class="comment-wrap">
+			<ul th:each="boardComment : ${board.boardCommentList}">
 				<li>
 					<p class="comment-info">
 						<span class="material-icons">person</span>
@@ -123,12 +127,14 @@
 						좋아요수 : <span th:text="${boardComment.likeCount}"></span>
 						<span th:if="${boardComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_down</span>
 						<span th:if="${boardComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_up</span>
+						<a th:if="${session.member != null && session.member.memberNo == boardComment.memberNo}" href="javascript:void(0)" class="updateComment">수정</a>
+						<a th:if="${session.member != null && session.member.memberNo == boardComment.memberNo}" href="javascript:void(0)" class="deleteComment">삭제</a>
 					</p>
 					<p th:text="${boardComment.boardCommentContent}"></p>
-					<div style="display: flex;justify-content: space-between;">
+					<div class="reComment-box">
 						<span th:text="'답글수 ' +${boardComment.reCommentCount}"></span>
 						<div>
-							<a href="javascript:void(0)" class="commentShow">답글보기</a>
+							<a th:if="${boardComment.reCommentCount > 0}" href="javascript:void(0)" th:onclick="commentShow(this,[[${boardComment.boardCommentNo}]]);">답글보기</a>
 							<a href="javascript:void(0)" class="recShow">답글달기</a>
 						</div>
 					</div>
@@ -220,6 +226,26 @@
 			}
 			$(".input-comment-box").eq(index+1).toggle();
 		});
+		function commentShow(obj, boardCommentNo){
+			$.ajax({
+				url : "/board/boardreCommentList",
+				data : {boardCommentNo : boardCommentNo},
+				type : "post",
+				success : function(data){
+					for(let i=0;i<data.length;i++){
+						const bc = data[i];
+						const ul = $("<ul>");
+						const li1 = $("<li>");
+						const commentInfoP = $("<p class='comment-info'>");
+						const IconSpan = $("<span class='material-icons'>");
+						IconSpan.text("person");
+					}
+				},
+				error : function(){
+					console.log("error");	
+				}
+			});
+		}
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

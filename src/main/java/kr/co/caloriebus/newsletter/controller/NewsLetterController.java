@@ -38,12 +38,12 @@ public class NewsLetterController {
 	@Autowired
 	private FileUtils fileUtils;
 	
-	@GetMapping(value = "/listForm")
+	@GetMapping(value = "/list")
 	public String list(int reqPage,Model model) {
 		NewsLetterListData bld = newsletterService.selectNewsLetterList(reqPage);
 		model.addAttribute("list",bld.getList());
 		model.addAttribute("pageNavi",bld.getPageNavi());
-		return "newsletter/listForm";
+		return "newsletter/list";
 	}
 	@GetMapping(value="/writeForm")
 	public String writeForm() {
