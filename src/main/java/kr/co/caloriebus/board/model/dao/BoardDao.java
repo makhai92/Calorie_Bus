@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardComment;
+import kr.co.caloriebus.board.model.dto.BoardCommentRowMapper;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardFileRowMapper;
 import kr.co.caloriebus.board.model.dto.BoardInfoRowMapper;
@@ -24,6 +26,8 @@ public class BoardDao {
 	private BoardListRowMapper boardListRowMapper;
 	@Autowired
 	private BoardFileRowMapper boardFileRowMapper;
+	@Autowired
+	private BoardCommentRowMapper boardCommentRowMapper;
 	
 	public List selectBoardList(String category, int start, int end) {
 		String query = "select * from (select rownum rnum, b.*\r\n" + 
@@ -109,5 +113,36 @@ public class BoardDao {
 		Object[] params = {boardNo};
 		List list = jdbc.query(query, boardFileRowMapper, params);
 		return list;
+	}
+	public List selectBoardCommentList(int boardNo, int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_ref=? and board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null)bc";
+		Object[] params = {memberNo,boardNo,boardNo};
+		List list = jdbc.query(query, boardCommentRowMapper,params);
+		return list;
+	}
+	public int insertBoardComment(BoardComment bc) {
+		String query = "insert into board_comment values(board_comment_seq.nextval,?,?,?,?,to_char(sysdate,'YYYY-MM-DD'))";
+		String boardCommentRef = bc.getBoardCommentRef() == 0 ? null : String.valueOf(bc.getBoardCommentRef());
+		Object[] params = {bc.getBoardCommentContent(),bc.getMemberNo(),bc.getBoardRef(),boardCommentRef};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int deleteBoardCommentLike(int boardCommentNo, int memberNo) {
+		String query = "delete from board_comment_like where board_comment_no=? and member_no=?";
+		Object[] params = {boardCommentNo,memberNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int insertBoardCommentLike(int boardCommentNo, int memberNo) {
+		String query = "insert into board_comment_like values(?,?)";
+		Object[] params = {boardCommentNo,memberNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int selectBoardCommentLikeCount(int boardCommentNo) {
+		String query = "select count(*) from board_comment_like where board_comment_no=?";
+		Object[] params = {boardCommentNo};
+		int likeCount = jdbc.queryForObject(query, Integer.class,params);
+		return likeCount;
 	}
 }

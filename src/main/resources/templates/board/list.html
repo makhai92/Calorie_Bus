@@ -57,6 +57,9 @@
 		text-decoration: underline;
 		font-weight: 800;
 	}
+	.board-list:hover{
+		background-color: #ccc; 
+	}
 </style>
 </head>
 <body>
@@ -94,7 +97,7 @@
 				<th style="width:10%">좋아요수</th>
 				<th style="width:10%">조회수</th>
 			</tr>
-			<tr th:each="board : ${list}">
+			<tr class="board-list" th:each="board : ${list}">
 				<th:block th:switch="${board.boardCategory}">
 					<td th:case="B1">자유글</td>
 					<td th:case="B2">식단토크</td>
