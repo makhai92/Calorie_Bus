@@ -82,7 +82,7 @@ public class NewsLetterController {
 			model.addAttribute("msg","게시글 작성 실패");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/newsletter/list?reqPage=1");
+		model.addAttribute("loc","/newsletter/listForm?reqPage=1");
 		return "common/msg"; 
 	}
 	@GetMapping(value="/viewForm")
