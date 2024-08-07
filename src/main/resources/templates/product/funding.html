@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.product-info{
+		border-bottom: 0.8px solid var(--line1);
+		border-top: 0.8px solid var(--line1);
+		width : 100%;
+		height : 100%;
+		padding : 10px;
+	}
+	.product-tbl{
+		width : 100%;
+		padding : 0 5px;
+	}
+	.product-img>img{
+		width : 150px;
+	}
+	.title{
+		font-weight: 700;
+	}
+	.amount{
+		width : 60px;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="product-funding-wrap">
+			<div class="product-info">
+				<table class="product-tbl">
+					<tr>
+						<td style="width: 20%;">
+							<div class="product-img">
+								<img th:src=@{/product/main/}+${p.productImg}>
+							</div>
+						</td>
+						<td style="width: 55%;">
+							<div class="title" th:text=${p.productTitle}></div>
+						</td>
+						<td style="width: 15%;">
+                            <input class="amount" type="number" name="number" min="1" max="10" value="1" step="1">
+						</td>
+						<td style="width: 10%;">
+							<div class=" dcPrice" th:text=${p.productDcPrice}+원></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</section>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

@@ -82,7 +82,7 @@
 		font-size : 30px;
 		color : var(--line2);
 	}
-	.button-box>.btn-round{
+	.button-box>.funding{
 		width : 500px;
 		height : 40px;
 		margin : 5px 20px;
@@ -107,8 +107,8 @@
 	<main class="content">
 		<section class="product-detail-wrap">
 			<div class="detail-header">
-				<a class="btn-square" href="#">상품 상세보기</a>
-				<a class="btn-square w" href="#">상품 후기</a>
+				<a class="btn-square" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
+				<a class="btn-square w" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
 			</div>
 			<div class="detail-content">
 				<div class="top">
@@ -134,7 +134,7 @@
 								<span class="material-symbols-outlined">favorite</span>
 								<span style="font-size:16px;">0</span>
 							</button>
-							<button class="btn-round">구매 예약하기</button>
+							<button class="btn-round funding" th:onclick="productFunding([[${p.productNo}]]);">구매 예약하기</button>
 						</div>
 					</div>
 				</div>
@@ -174,6 +174,9 @@
 					location.href="/product/delete?productNo="+productNo;
 				}
 			});
+		}
+		function productFunding(productNo){
+			location.href="/product/funding?productNo="+productNo;
 		}
 	</script>
 	<th:block th:include="common/footer"></th:block>

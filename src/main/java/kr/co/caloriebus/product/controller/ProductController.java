@@ -1,6 +1,5 @@
 package kr.co.caloriebus.product.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,5 +121,12 @@ public class ProductController {
 		}
 		model.addAttribute("loc","/product/view?productNo="+p.getProductNo());
 		return "common/msg";
+	}
+	
+	@GetMapping(value="funding")
+	public String funding(int productNo,Model model) {
+		Product p = productService.selectOneProduct(productNo);
+		model.addAttribute("p",p);
+		return "/product/funding";
 	}
 }
