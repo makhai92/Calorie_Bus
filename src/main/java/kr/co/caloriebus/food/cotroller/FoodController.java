@@ -53,7 +53,7 @@ public class FoodController {
 				String sugar = item.select("NUTR_CONT5").text(); //당류
 				String nat = item.select("NUTR_CONT6").text();	//나트륨
 				
-				Food f = new Food(foodName,kcal, prot, fat, card, sugar,nat);
+				Food f = new Food(foodName,kcal,prot,fat,card,sugar,nat);
 				list.add(f);
 				}
 	

@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import kr.co.caloriebus.board.model.dto.BoardFileRowMapper;
 import kr.co.caloriebus.exercise.model.dto.Exercise;
-import kr.co.caloriebus.exercise.model.dto.ExerciseComment;
 import kr.co.caloriebus.exercise.model.dto.ExerciseCommentRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFile;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFileRowMapper;
