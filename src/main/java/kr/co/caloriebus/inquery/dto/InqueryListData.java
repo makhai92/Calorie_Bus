@@ -1,5 +1,7 @@
 package kr.co.caloriebus.inquery.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,10 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Inquery {
-	private int inqueryNo;
-	private String inqueryTitle;
-	private String inqueryContent;
-	private String inqueryDate;
-	private int memberNo;
+public class InqueryListData {
+	private List list;
+	private String pageNavi;
 }
