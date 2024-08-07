@@ -39,6 +39,24 @@ public class ProductService {
 		}
 		return result;
 	}
+	
+	@Transactional
+	public int deleteProduct(int productNo) {
+		int result = productDao.deleteProduct(productNo);
+		return result;
+	}
+	
+	@Transactional
+	public int update1Product(Product p) {
+		int result = productDao.update1Product(p);
+		return result;
+	}
+	
+	@Transactional
+	public int update2Product(Product p) {
+		int result = productDao.update2Product(p);
+		return result;
+	}
 
 
 }
