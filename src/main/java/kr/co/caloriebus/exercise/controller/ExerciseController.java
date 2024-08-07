@@ -33,13 +33,13 @@ public class ExerciseController {
 	
 	@Autowired
 	private FileUtils fileUtils;
-	
+	/*
 	@GetMapping(value="/list")
 	public String list() {
 		return "exercise/list";
 	}
-	
-	/*
+	*/
+
 	@GetMapping(value="/list")
 	public String list(int reqPage,Model model) {
 		ExerciseListData eld = exerciseService.selectBoardList(reqPage);
@@ -47,7 +47,7 @@ public class ExerciseController {
 		model.addAttribute("pageNavi",eld.getPageNavi());
 		return "exercise/list";
 	}
-	*/
+
 	
 	@GetMapping(value="/editFrm")
 	public String editFrm() {

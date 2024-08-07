@@ -36,11 +36,10 @@ public class NewsLetterController {
 	private FileUtils fileUtils;
 	
 	@GetMapping(value = "/listForm")
-	public String list(String category,int reqPage,Model model) {
-		NewsLetterListData bld = newsletterService.selectNewsLetterList(category,reqPage);
+	public String list(int reqPage,Model model) {
+		NewsLetterListData bld = newsletterService.selectNewsLetterList(reqPage);
 		model.addAttribute("list",bld.getList());
 		model.addAttribute("pageNavi",bld.getPageNavi());
-		model.addAttribute("category",category);
 		return "newsletter/listForm";
 	}
 	@GetMapping(value="/writeForm")
@@ -80,7 +79,7 @@ public class NewsLetterController {
 			model.addAttribute("msg","게시글 작성 실패");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/newsletter/list?category="+nl.getBoardCategory()+"&reqPage=1");
+		model.addAttribute("loc","/newsletter/list?reqPage=1");
 		return "common/msg"; 
 	}
 }

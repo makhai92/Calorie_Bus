@@ -13,9 +13,9 @@
 <th:block th:include="common/header"></th:block>
     <main class="content">
         <section class="section notice-list-wrap">
-            <div class="news-title">News Letter</div>
-            <div>
-                <table class="tbl tbl-hover">
+            <div class="news-title scroll-animate">News Letter</div>
+            <div class="table-container">
+                <table class="custom-tbl custom-tbl-hover">
                     <thead>
                         <tr>
                             <th style="width:10%;">No</th>
@@ -37,6 +37,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <a th:if="${session.member != null && session.member.memberLevel ==1}" class="btn-point" id="write-btn" href="/newsletter/writeForm">글쓰기</a>
             </div>
             <div id="pageNavi" th:utext="${pageNavi}"></div>
             <div class="search-write-container">
@@ -46,10 +47,34 @@
                         <button type="submit" class="search-button"><span class="material-icons">search</span></button>
                     </div>
                 </form>
-                <a th:if="${session.member != null && session.member.memberLevel ==1}" class="btn-point" id="write-btn" href="/newsletter/writeForm">글쓰기</a>
             </div>
         </section>
     </main>
 <th:block th:include="common/footer"></th:block>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const options = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                } else {
+                    entry.target.classList.remove("visible");
+                }
+            });
+        }, options);
+
+        const targets = document.querySelectorAll(".scroll-animate");
+        targets.forEach(target => {
+            observer.observe(target);
+        });
+    });
+</script>
 </body>
 </html>

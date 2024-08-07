@@ -32,6 +32,7 @@ public class ExerciseDao {
 		List list = jdbc.query(query, exerciseRowMapper,params);
 		return list;
 	}
+	
 	public List selectBoardList(int start,int end) {
 		String query = "select * from (select rownum rnum, b.*\r\n" + 
 				"from ((select board_no,member_no,board_title,board_category,read_count,reg_date,member_id as board_writer,(select count(*) from board_comment where board_ref=board.board_no) as comment_count,(select count(*) from board_like where board_no=board.board_no) as like_count from board join member using(member_no) where board_category in ('I1') order by 1 desc)b)) where rnum between ? and ?";

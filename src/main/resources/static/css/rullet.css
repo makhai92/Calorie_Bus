@@ -11,7 +11,7 @@
 .top-section {
     display: flex;
     align-items: flex-start;
-    justify-content: center; /* 수평 정렬을 중앙으로 조정 */
+    justify-content: center;
     margin-bottom: 20px;
 }
 
@@ -30,7 +30,7 @@
 
 .character-and-roulette {
     display: flex;
-    align-items: flex-start; /* 캐릭터 이미지를 조금 위로 올리기 위해 조정 */
+    align-items: flex-start;
     margin-bottom: 20px;
 }
 
@@ -50,7 +50,7 @@
 }
 .character-image button {
     position: absolute;
-    top: 500px; /* 버튼의 세로 위치 조정 */
+    top: 500px;
     left: 300px;
     transform: translateX(-50%);
     background: #febf00;
@@ -70,29 +70,29 @@
 }
 .event-info {
     text-align: left;
-    margin-top: 50px; /* 기존의 margin-top */
+    margin-top: 50px; 
     width: 100%;
     position: relative;
-    top: -200px; /* 위로 이동 */
+    top: -200px; 
     left: 280px;
 }
 .event-info h1 {
-    font-size: 50px; /* h1 글씨 크기 설정 */
-    font-weight: bold; /* h1 글씨 두껍게 */
-    margin-bottom: 10px; /* h1 아래 여백 설정 */
+    font-size: 50px; 
+    font-weight: bold; 
+    margin-bottom: 10px;
 }
 
 .event-info p {
-    font-size: 40px; /* p 글씨 크기 설정 */
-    margin-bottom: 10px; /* p 아래 여백 설정 */
+    font-size: 40px; 
+    margin-bottom: 10px; 
 }
 .event-info .explan-text {
-    font-size: 20px; /* 작은 글씨 크기 설정 */
+    font-size: 20px;
 }
 .event-products {
     display: flex;
     justify-content: center;
-    margin-top: -180px; /* 위로 200px 이동 */
+    margin-top: -180px;
     width: 1100px;
 }
 .product {
