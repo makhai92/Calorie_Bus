@@ -111,7 +111,7 @@ public class ExerciseDao {
 		int result = jdbc.update(query,params);
 		return result;
 	}
-	
+
 	
 	
 	

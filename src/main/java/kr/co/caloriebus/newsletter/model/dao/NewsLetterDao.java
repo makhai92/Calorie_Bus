@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.caloriebus.board.model.dto.Board;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterCommentRowMapper;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFile;
@@ -23,6 +24,9 @@ public class NewsLetterDao {
 	
 	@Autowired
 	private NewsLetterListRowMapper newsletterListRowMapper;
+	
+	@Autowired
+	private NewsLetterFileRowMapper newsletterFileRowMapper;
 
 	public List selectNewsLetterList(int start, int end) {
 		String query = "select * from (select rownum rnum, b.*\r\n" + 
@@ -57,5 +61,45 @@ public class NewsLetterDao {
 		Object[] params = {newsletterFile.getFilename(),newsletterFile.getFilepath(),newsletterFile.getBoardNo()};
 		int result = jdbc.update(query,params);
 		return result;
+	}
+	public NewsLetter selectNewsLetter(int memberNo,int boardNo) {
+		String query = "select board_no,member_no,board_category,board_title,board_content,read_count,reg_date,member_id as board_writer,(select count(*) from board_like where board_no=b.board_no) as like_count,(select count(*) from board_comment where board_ref=b.board_no) as comment_count,(select count(*) from board_like where board_no=b.board_no and member_no=?) as is_like from board b join member using(member_no) where board_no=?";
+		Object[] params = {memberNo,boardNo};
+		List list = jdbc.query(query, newsletterInfoRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {			
+			return (NewsLetter)list.get(0);
+		}
+	}
+	public int deleteNewsLetterLike(int boardNo, int memberNo) {
+		String query = "delete from board_like where board_no=? and member_no=?";
+		Object[] params = {boardNo,memberNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int insertNewsLetterLike(int boardNo, int memberNo) {
+		String query = "insert into board_like values(?,?)";
+		Object[] params = {boardNo,memberNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int selectNewsLetterLikeCount(int boardNo) {
+		String query = "select count(*) from board_like where board_no=?";
+		Object[] params = {boardNo};
+		int likeCount = jdbc.queryForObject(query, Integer.class,params);
+		return likeCount;
+	}
+	public int updateReadCount(int boardNo) {
+		String query = "update board set read_count=read_count+1 where board_no=?";
+		Object[] params = {boardNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public List selectNewsLetterFileList(int boardNo) {
+		String query = "select * from board_file where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query, newsletterFileRowMapper, params);
+		return list;
 	}
 }

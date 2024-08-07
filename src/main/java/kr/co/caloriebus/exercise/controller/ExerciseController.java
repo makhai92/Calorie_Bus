@@ -20,7 +20,6 @@ import kr.co.caloriebus.exercise.model.dto.Exercise;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFile;
 import kr.co.caloriebus.exercise.model.dto.ExerciseListData;
 import kr.co.caloriebus.exercise.model.service.ExerciseService;
-import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.util.FileUtils;
 
 
@@ -36,20 +35,36 @@ public class ExerciseController {
 	
 	@Autowired
 	private FileUtils fileUtils;
-
+	
+	/*
 	@GetMapping(value="/list")
-	public String list(int reqPage,Model model) {
+	public String list() {
+		return "exercise/list";
+	}
+	*/
+	
+	@GetMapping(value="/list")
+	public String list(int reqPage, Model model) {
 		ExerciseListData eld = exerciseService.selectBoardList(reqPage);
 		model.addAttribute("list",eld.getList());
 		model.addAttribute("pageNavi",eld.getPageNavi());
 		return "exercise/list";
 	}
 	
+	
 	@GetMapping(value="/editFrm")
 	public String editFrm() {
 		return "exercise/editFrm";
 	}
 	
+	@ResponseBody
+	@PostMapping(value="/editorImage", produces = "plain/text;charset=utf-8")
+	public String editorImage(MultipartFile upfile) {
+		String savepath = root+"/newsletter/editor/";
+		String filepath = fileUtils.upload(savepath, upfile);
+		return "/exercise/editor/"+filepath;
+	}
+
 	@PostMapping(value="/write")
 	public String write(Exercise e, MultipartFile[] upfile, Model model) {
 		ArrayList<ExerciseFile> fileList = new ArrayList<ExerciseFile>();

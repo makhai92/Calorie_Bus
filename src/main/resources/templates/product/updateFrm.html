@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.content {
+	background-color: var(--bg2);
+}
+
+.section {
+	padding: 30px;
+}
+
+.info>div {
+	background-color: var(--bg1);
+	margin: 10px auto;
+	border-radius: 5px;
+}
+
+.info>div>table {
+	padding: 20px;
+}
+
+.info>div>div {
+	padding: 20px;
+}
+
+.title {
+	border-bottom: 0.8px solid var(--line1);
+}
+
+th {
+	text-align: left;
+}
+
+.amoutInput {
+	width: 70px;
+}
+
+.input-item1 {
+	overflow: hidden;
+}
+
+.input-item1>input {
+	float: left;
+}
+
+#unit1 {
+	width: 50px;
+	color: var(--line2);
+}
+
+#unit2 {
+	width: 25px;
+	color: var(--line2);
+}
+
+.registration {
+	padding-top: 30px;
+	text-align: center;
+}
+.material-symbols-outlined{
+	color : #ff0000;
+	cursor : pointer;
+	font-size : 10px;
+ 	font-variation-settings:
+  		'opsz' 18;
+}
+</style>
+}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	<script src="/js/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<main class="content">
+		<section class="section">
+			<div class="page-title">상품 정보 수정</div>
+			<form action="/product/update" class="productUpdateFrm" method="post" enctype="multipart/form-data">
+				<div class="info">
+					<div>
+						<table>
+							<tr>
+								<th style="width: 40px;">상태</th>
+								<td style="width: 15%;">
+									<div class="select">
+										<select name="" id="">
+											<option>준비중</option>
+											<option>진행중</option>
+											<option>종료/마감</option>
+										</select>
+									</div>
+								</td>
+								<th style="width: 12%;">판매 시작일</th>
+								<td style="width: 20%;">
+									<div class="input-item1">
+										<input type="date" name="startDate" id="startDate" th:value="${p.startDate}">
+									</div>
+								</td>
+								<th style="width: 12%;">판매 종료일</th>
+								<td style="width: 36%;">
+									<div class="input-item1">
+										<input type="date" name="endDate" id="endDate" th:value="${p.endDate}">
+									</div>
+								</td>
+
+							</tr>
+						</table>
+					</div>
+					<div>
+						<div class="title">
+							<h4>상품명</h4>
+						</div>
+						<div class="input-item1">
+							<input type="text" style="width: 350px;" name="productTitle" id="productTitle" th:value="${p.productTitle}">
+							<input type="text" value="0/100" id="unit1" readonly>
+						</div>
+					</div>
+					<div>
+						<div class="title">
+							<h4>상품 2줄 소개</h4>
+						</div>
+						<div class="input-item1">
+							<textarea name="productInfo" id="productInfo" th:text="${p.productInfo}"></textarea>
+						</div>
+					</div>
+					<div>
+						<div class="title">
+							<h4>상품 금액</h4>
+						</div>
+						<table>
+							<tr>
+								<td style="width: 100px; height: 40px;">상품원가</td>
+								<td>
+									<div class="input-item1">
+										<input type="text" name="productPrice" id="productPrice" th:value="${p.productPrice}">
+										<input type="text" value="원" id="unit2" readonly>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 100px; height: 40px;">할인가</td>
+								<td>
+									<div class="input-item1">
+										<input type="text" name="productDcPrice" id="productDcPrice" th:value="${p.productDcPrice}">
+										<input type="text" value="원" id="unit2" readonly>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div>
+						<div class="title">
+							<h4>수량</h4>
+						</div>
+						<table>
+							<tr>
+								<td style="width: 40px;">최소</td>
+								<td>
+									<div class="input-item1">
+										<input type="text" class="amoutInput" name="productMinAmount" id="productMinAmount" th:value="${p.productMinAmount}">
+										<input type="text" value="개" id="unit2" readonly>
+									</div>
+								</td>
+								<td style="width: 50px; text-align: center;">~</td>
+								<td style="width: 50px;">최대</td>
+								<td>
+									<div class="input-item1">
+										<input type="text" class="amoutInput" name="productMaxAmount" id="productMaxAmount" th:value="${p.productMaxAmount}">
+										<input type="text" value="개" id="unit2" readonly>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div>
+						<div class="title">
+							<h4>메인 사진</h4>
+						</div>
+						<div>
+							<span class="delFilename" th:text="${p.productImg}"></span>
+							<span class="material-symbols-outlined" th:onclick="deleteFile(this,[[${p.productNo}]])">close</span>
+						</div>
+						<div>
+							<input type="file" name="upfile" multiple>
+						</div>
+					</div>
+					<div>
+						<div class="title">
+							<h4>상세페이지</h4>
+						</div>
+						<div>
+							<textarea name="productContent" id="productContent" th:utext="${p.productContent}"></textarea>
+						</div>
+					</div>
+				</div>
+				<div>
+					<input type="hidden" name="productNo" id="productNo" th:value="${p.productNo}">
+				</div>
+				<div class="registration">
+					<button type="submit" class="btn-round">수정 완료</button>
+				</div>
+			</form>
+		</section>
+	</main>
+
+	<script>
+		$("#productContent").summernote({
+			height : 500,
+			lang : "ko-KR",
+			disableResize : true,
+			disableResizeEditor : true,
+			resize : false,
+			callbacks : {
+				//사용자가 이미지를 올리면 동작할 함수 지정
+				onImageUpload : function(files) {
+					//이미지를 선택하면 해당 파일을 매개변수로 받음
+					//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터 객체를 전송
+					for (let i = 0; i < files.length; i++) {
+						uploadImage(files[i], this);
+					}
+				}
+			}
+		});
+
+		function uploadImage(file, editor) {
+			const form = new FormData();
+			form.append("upfile", file);
+
+			$.ajax({
+				url : "/product/editorImage",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data) {
+					$(editor).summernote("insertImage", data);
+				},
+				error : function() {
+					console.log("error");
+				}
+			});
+		}
+		
+		 function deleteFile(obj,productNo){
+			 swal({
+					title:"파일 삭제",
+					text:"메인 사진을 삭제하시겠습니까?",
+					icon:"info",
+					buttons:{
+						cancel:{
+							text : "취소",
+							value : false,
+							visible : true,
+							className : "btn-round",
+							closeModal : true
+						},
+						confirm:{
+							text : "삭제",
+							value : true,
+							visible : true,
+							className : "btn-round",
+							closeModal : true
+						}
+					}
+				}).then(function(isConfirm){
+					if(isConfirm){
+						$(obj).parent().remove();
+					}
+				});
+		 }
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
