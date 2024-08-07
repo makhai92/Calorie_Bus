@@ -36,12 +36,6 @@ public class ExerciseController {
 	@Autowired
 	private FileUtils fileUtils;
 	
-	/*
-	@GetMapping(value="/list")
-	public String list() {
-		return "exercise/list";
-	}
-	*/
 	
 	@GetMapping(value="/list")
 	public String list(int reqPage, Model model) {
@@ -60,19 +54,19 @@ public class ExerciseController {
 	@ResponseBody
 	@PostMapping(value="/editorImage", produces = "plain/text;charset=utf-8")
 	public String editorImage(MultipartFile upfile) {
-		String savepath = root+"/newsletter/editor/";
+		String savepath = root+"/exercise/editor/";
 		String filepath = fileUtils.upload(savepath, upfile);
 		return "/exercise/editor/"+filepath;
 	}
 
 	@PostMapping(value="/write")
-	public String write(Exercise e, MultipartFile[] upfile, Model model) {
+	public String write(Exercise e, MultipartFile[] files, Model model) {
 		ArrayList<ExerciseFile> fileList = new ArrayList<ExerciseFile>();
-		if(!upfile[0].isEmpty()) {
+		if(!files[0].isEmpty()) {
 			String savepath = root+"/exericse/";
-			for(MultipartFile file : upfile) {
-				String filename = file.getOriginalFilename();
-				String filepath = fileUtils.upload(savepath, file);
+			for(int i=0;i<files.length;i++) {
+				String filename = files[i].getOriginalFilename();
+				String filepath = fileUtils.upload(savepath, files[i]);
 				ExerciseFile exerciseFile = new ExerciseFile();
 				exerciseFile.setFilepath(filepath);
 				exerciseFile.setFilename(filename);
@@ -97,7 +91,7 @@ public class ExerciseController {
 			model.addAttribute("title","조회실패");
 			model.addAttribute("msg","해당 게시글이 존재하지 않습니다.");
 			model.addAttribute("icon","info");
-			model.addAttribute("loc","/board/list?reqPage=1");
+			model.addAttribute("loc","/exercise/list?reqPage=1");
 			return "common/msg";
 		}else {
 			model.addAttribute("e",e);
@@ -111,6 +105,7 @@ public class ExerciseController {
 		fileUtils.downloadFile(savepath,exerciseFile.getFilename(),exerciseFile.getFilepath(),response);
 	}
 	*/
+	
 	@GetMapping(value = "/delete")
 	public String delete(int boardNo, Model model) {
 		List<ExerciseFile> list = exerciseService.deleteBoard(boardNo);
