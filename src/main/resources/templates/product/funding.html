@@ -29,6 +29,13 @@
 		width : 60px;
 		text-align: center;
 	}
+	.member-info,.delivery-info,.same-info{
+		width: 640px;
+		float: left;
+	}
+	.member-info{
+		margin-right: 20px;
+	}
 	#memberBank{
 		width : 100px;
 	}
@@ -66,7 +73,7 @@
 			</div>
 			<div class="member-info">
 				<div class="title">
-					<h3>내 정보</h3>
+					<h3>주문자 정보</h3>
 				</div>
 				<div class="info">
 					<table class="info-tbl">
@@ -98,6 +105,43 @@
 					</table>
 				</div>
 			</div>
+			<div class="delivery-info">
+				<div class="title">
+					<h3>배송지 정보</h3>
+				</div>
+				<div class="info">
+					<table class="info-tbl">
+						<tr>
+							<th style="height:40px;">이름</th>
+							<td class="input-item1">
+								<input type="text" name="memberName" id="memberName" th:value="${session.member.memberName}">
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">전화번호</th>
+							<td class="input-item1">
+								<input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}">
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">주소</th>
+							<td class="input-item1">
+								<input type="text" name="membeAddr" id="memberAddr" th:value="${session.member.memberAddr}">
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">환불 정보</th>
+							<td class="input-item1">
+								<select class="select" name="memberBank" id="memberBank">
+									<option th:text="${session.member.memberBank}" disabled selected></option>
+								</select>
+								<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}">
+								<span></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</section>
 	</main>
 	
@@ -109,6 +153,19 @@
 			console.log(total);
 			$("#totalPrice").text(total+'원');
 		});
+
+		let isBankClicked = false; // 생성 여부 저장용 변수
+		$("#memberBank").on("click", function(){
+			const bankArr = ['경남은행', '광주은행', '국민은행', '기업은행', '농협은행', '부산은행', '수협은행', '신한은행', '씨티은행', '우리은행', '우체국', '전북은행', '제주은행', '주택금융공사', '지역농협', '지역수협', '카카오뱅크', '토스뱅크', '케이뱅크', '하나은행', '한국장학재단', 'iM뱅크', 'KDB산업은행', 'SC제일은행'];
+			if(!isBankClicked) {
+				bankArr.forEach(function(bank, index, array){
+					const bankOption = $("<option>");
+					bankOption.val(bank).text(bank);
+					$("#memberBank").append(bankOption);
+				})
+				isBankClicked = true;
+			}
+		})
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
