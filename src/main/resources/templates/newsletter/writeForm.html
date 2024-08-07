@@ -112,6 +112,7 @@
                     <th>작성자</th>
                     <td>
                         <div class="custom-input-item">
+                        	<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
                             <input type="text" name="memberId" th:value="${session.member.memberId}" readonly> 
                         </div>
                     </td>

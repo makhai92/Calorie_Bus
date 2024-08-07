@@ -20,7 +20,8 @@ public class BoardCommentRowMapper implements RowMapper<BoardComment>{
 		boardComment.setIsLike(rs.getInt("is_like"));
 		boardComment.setLikeCount(rs.getInt("like_count"));
 		boardComment.setMemberNo(rs.getInt("member_no"));
-		boardComment.setBoard_comment_writer(rs.getString("board_comment_writer"));
+		boardComment.setBoardCommentWriter(rs.getString("board_comment_writer"));
+		boardComment.setReCommentCount(rs.getInt("re_comment_count"));
 		return boardComment;
 	}
 	

@@ -16,7 +16,6 @@
 .inquery-main{
     padding: 50px 0;
     width: 1200px;
-    height : 600px;
     margin: 0 auto;
 }
 .inquery-maintitle{
@@ -88,6 +87,7 @@
 	display:flex;
 	justify-content:center;
 	align-items:center;
+	margin-top : 50px;
 }
 </style>
 <th:block th:include="common/header"></th:block>
@@ -102,7 +102,7 @@
         </div>
         <div class="inquery-sub">
             <form action="search.html" method="get">
-                <button type="button" class="writeInquery" onclick = "location.href ='/inquery/inqueryWriter'">1:1 문의 작성하기</button>
+                <button type="button" class="writeInquery" onclick = "location.href ='/inquery/inqueryEditor'">1:1 문의 작성하기</button>
                     <div class="inquery-search-box">
                         <span class="material-icons" id="search-icon">search</span>
                         <input type="text" id="inquery-search" placeholder="제목으로 1:1 문의를 검색해보세요">
@@ -114,12 +114,12 @@
 					<tr>
 						<th style="width: 10%;">글번호</th>
 						<th style="width: 50%;">제목</th>
-						<th style="width: 15%;">작성자</th>
+						<th style="width: 15%;">회원번호</th>
 						<th style="width: 25%;">작성일</th>
 					</tr>
 					<tr th:each="inquery : ${list}" >
 						<td th:text = "${inquery.inqueryNo}"></td>
-						<td th:text = "${inquery.inqueryTitle}"></td>
+						<td class="inqueryView"><a th:href = "@{/inquery/inqueryView}" th:text = "${inquery.inqueryTitle}"></a></td>
 						<td th:text = "${inquery.memberNo}"></td>
 						<td th:text = "${inquery.inqueryDate}"></td>
 					</tr>

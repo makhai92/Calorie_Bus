@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.board.model.service.BoardService;
@@ -110,9 +111,26 @@ public class BoardController {
 			return likeCount;
 		}
 	}
+	@ResponseBody
+	@PostMapping(value="/boardCommentLikePush")
+	public int boardCommentLikePush(int boardCommentNo,int isLike,@SessionAttribute (required=false)Member member) {
+		if(member == null) {
+			return -10;
+		}else {
+			int likeCount = boardService.boardCommentLikePush(boardCommentNo,isLike,member.getMemberNo());
+			return likeCount;
+		}
+	}
 	@GetMapping(value="/filedown")
 	public void filedown(BoardFile bf,HttpServletResponse response) {
 		String savepath = root+"/board/";
 		fileUtils.downloadFile(savepath, bf.getFilename(), bf.getFilepath(), response);
+	}
+	
+	@PostMapping(value="/insertBoardComment")
+	public String insertBoardComment(BoardComment bc,@SessionAttribute(required=false)Member member) {
+		bc.setMemberNo(member.getMemberNo());
+		int result = boardService.insertBoardComment(bc);
+		return "redirect:/board/view?boardNo="+bc.getBoardRef();
 	}
 }

@@ -10,37 +10,57 @@
 	.view-tbl tr>td>span{
 		font-size : 18px;
 	}
-	.button-wrap{
-		overflow: hidden;
+	.like-wrap>span{
+		line-height:80px;
+		font-size: 24px;
 	}
-	.button-wrap>div{
+	.update-btn-wrap{
 		height: 80px;
 		line-height: 80px;
 		padding : 0px 20px;
 	}
-	.button-wrap>.like-wrap>span{
-		line-height:80px;
-		cursor: pointer;
-		font-size: 36px;
-	}
-	.update-btn-wrap{
-		float:left;
+	.like-wrap{
+		height: 80px;
+		line-height: 80px;
+		padding : 0px 20px;
+		text-align: center;
 	}
 	.button-wrap>.like-wrap{
-		float:right;
+		text-align: center;
 	}
 	.favorite{
-		color:var(--point1);		
+		color:var(--point1);	
+		cursor: pointer;	
 	}
 	.notFavorite{
 		color:var(--point1);
-	}
-	.view-tbl #content-box>td{
-		text-align: left;
-		min-height: 500px;
+		cursor: pointer;
 	}
 	.input-comment-box{
-	
+		display: flex;
+		align-items: center;
+		gap:5px;
+		margin: 20px 0;
+	}
+	.input-comment-box>[name=boardCommentContent]{
+		width: 800px;
+		height: 50px;
+	}
+	.content-wrap{
+		min-height: 500px;
+		text-align: left;
+	}
+	.comment-wrap>ul{
+		width:100%;
+		
+		
+		
+	}
+	.comment-info>.material-icons{
+		font-size: 18px;
+	}
+	.recShow:hover{
+		text-decoration: underline;
 	}
 </style>
 </head>
@@ -70,40 +90,67 @@
 					</th:block>
 				</td>
 			<tr>
-			<tr id="content-box">
-				<td colspan="5" th:utext=${board.boardContent}></td>
-			</tr>
+				<td colspan="5">
+					<div class="content-wrap" th:utext="${board.boardContent}"></div>
+					<div class="like-wrap">
+			    		<span th:text="${board.likeCount}"></span>
+						<span th:if="${board.isLike}==1" class="material-icons favorite">thumb_down</span>
+						<span th:if="${board.isLike}==0" class="material-icons notFavorite">thumb_up</span>
+					</div>
+				</td>
 		</table>
-		<div class="button-wrap">
-			<div class="update-btn-wrap">
-				<a class="btn-round">수정하기</a>
-				<a class="btn-round g">삭제하기</a>
-			</div>
-			<div class="like-wrap">
-				<span th:if="${board.isLike}==1" class="material-icons favorite">thumb_down</span>
-				<span th:if="${board.isLike}==0" class="material-icons notFavorite">thumb_up</span>
-			</div>
+		<div class="update-btn-wrap" th:if="${session.member != null && session.member.memberNo == board.memberNo}">
+			<a class="btn-round">수정하기</a>
+			<a class="btn-round g">삭제하기</a>
 		</div>
-		<form action="/board/insertBoardComment" method="post">
-			<div class="input-item1 input-comment-box">
-				<textarea name="boardCommentContent" style="resize:none;"></textarea>
-				<input type="hidden" name="boardNo" th:value="${board.boardNo}">
-				<button type="submit" class="btn-square">댓글작성</button>
-			</div>
-		</form>
-		<div class="comment-wrap">
-		
-			<ul>
-				<li></li>
-				<li></li>
-				<li></li>
-				<li></li>
+			<form action="/board/insertBoardComment" method="post">
+				<div th:if="${session.member} != null" class="input-item1 input-comment-box">
+					<span class="material-icons">person</span>
+					<span th:text=${session.member.memberId}></span>
+					<textarea name="boardCommentContent" style="resize:none;"></textarea>
+					<button type="submit" class="btn-square" style="height:50px">댓글작성</button>
+					<input type="hidden" name="boardRef" th:value="${board.boardNo}">
+				</div>
+			</form>
+		<span>댓글수 : <span th:text="${board.commentCount}"></span></span>
+		<div class="comment-wrap" style="border-top:1px solid #ccc;">
+			<ul th:each="boardComment : ${board.boardCommentList}" style="border-bottom: 1px solid #ccc;" >
+				<li>
+					<p class="comment-info">
+						<span class="material-icons">person</span>
+						<span th:text="${boardComment.boardCommentWriter}"></span>
+						작성일 : <span th:text="${boardComment.boardCommentDate}"></span>
+						좋아요수 : <span th:text="${boardComment.likeCount}"></span>
+						<span th:if="${boardComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_down</span>
+						<span th:if="${boardComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_up</span>
+					</p>
+					<p th:text="${boardComment.boardCommentContent}"></p>
+					<div style="display: flex;justify-content: space-between;">
+						<span th:text="'답글수 ' +${boardComment.reCommentCount}"></span>
+						<div>
+							<a href="javascript:void(0)" class="commentShow">답글보기</a>
+							<a href="javascript:void(0)" class="recShow">답글달기</a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<form action="/board/insertBoardComment" method="post">
+						<div th:if="${session.member} != null" class="input-item1 input-comment-box" style="display:none;">
+							<span class="material-icons">person</span>
+							<span th:text=${session.member.memberId}></span>
+							<textarea name="boardCommentContent" style="resize:none;"></textarea>
+							<button type="submit" class="btn-square" style="height:50px">댓글작성</button>
+							<input type="hidden" name="boardRef" th:value="${board.boardNo}">
+							<input type="hidden" name="boardCommentRef" th:value="${boardComment.boardCommentNo}">
+						</div>
+					</form>
+				</li>
 			</ul>
 		</div>
 	</main>
 	<script>
 		const boardNo = "[[${board.boardNo}]]";
-		$(".like-wrap>span").on("click",function(){
+		$(".like-wrap>.favorite,.notFavorite").on("click",function(){
 			const likeSpan = $(this);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
 			$.ajax({
@@ -126,14 +173,53 @@
 							likeSpan.text("thumb_down");
 						}
 						$(".view-tbl tr>td>span").eq(1).text(data);
+						likeSpan.prev().text(data);
 					}
 				},
 				error : function(){
-					console.log("error")
+					console.log("error");
 				}
 			});
 		});
-		
+		function likePush(obj, boardCommentNo){
+			const likeSpan = $(obj);
+			const isLike = likeSpan.hasClass("favorite")?1:0;
+			$.ajax({
+				url : "/board/boardCommentLikePush",
+				data : {boardCommentNo : boardCommentNo, isLike : isLike},
+				type : "post",
+				success : function(data){
+					if(data == -1){
+						console.log("처리오류");
+					}else if(data == -10){
+						alert("로그인해라");							
+					}else{
+						if(isLike === 1){
+							likeSpan.removeClass("favorite");		
+							likeSpan.addClass("notFavorite");
+							likeSpan.text("thumb_up");
+						}else{
+							likeSpan.removeClass("notFavorite");
+							likeSpan.addClass("favorite");
+							likeSpan.text("thumb_down");
+						}
+						$(obj).prev().text(data);
+					}
+				},
+				error : function(){
+					console.log("error");
+				}
+			});
+		};
+		$(".recShow").on("click",function(){
+			const index = $(".recShow").index(this);
+			if($(this).text() === "답글달기"){
+				$(this).text("취소");
+			}else{
+				$(this).text("답글달기");
+			}
+			$(".input-comment-box").eq(index+1).toggle();
+		});
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

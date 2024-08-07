@@ -32,7 +32,7 @@ public class ExerciseDao {
 	}
 
 	public int selectBoardTotalCount() {
-		String query = "select count(*) from board_category='I1'";
+		String query = "select count(*) from board where board_category='I1'";
 		int totalCount = jdbc.queryForObject(query, Integer.class);
 		return totalCount;
 	}

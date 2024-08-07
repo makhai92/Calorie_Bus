@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.caloriebus.board.model.dao.BoardDao;
 import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 
@@ -92,6 +93,8 @@ public class BoardService {
 			}
 			List fileList = boardDao.selectBoardFileList(boardNo);
 			b.setFileList(fileList);
+			List boardCommentList = boardDao.selectBoardCommentList(boardNo,memberNo);
+			b.setBoardCommentList(boardCommentList);
 		}
 		return b;
 	}
@@ -106,6 +109,28 @@ public class BoardService {
 		}
 		if(result >0) {
 			int likeCount = boardDao.selectBoardLikeCount(boardNo);
+			return likeCount;
+		}else {
+			return -1;
+		}
+	}
+
+	@Transactional
+	public int insertBoardComment(BoardComment bc) {
+		int result = boardDao.insertBoardComment(bc);
+		return result;
+	}
+
+	@Transactional
+	public int boardCommentLikePush(int boardCommentNo, int isLike, int memberNo) {
+		int result = 0;
+		if(isLike==1) {
+			result = boardDao.deleteBoardCommentLike(boardCommentNo,memberNo);
+		}else {
+			result = boardDao.insertBoardCommentLike(boardCommentNo,memberNo);
+		}
+		if(result >0) {
+			int likeCount = boardDao.selectBoardCommentLikeCount(boardCommentNo);
 			return likeCount;
 		}else {
 			return -1;
