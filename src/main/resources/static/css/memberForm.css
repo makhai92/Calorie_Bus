@@ -217,3 +217,10 @@ button[name=login-btn]{
 .my-category-list a:hover{
 	text-decoration: none;
 }
+
+
+/* ------------------------ 마이페이지 내 게시글 용 ------------------------ */
+.myboard-content>table tr:first-child{
+	background-color: grey;
+}
+
