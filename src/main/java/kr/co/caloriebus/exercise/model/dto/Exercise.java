@@ -21,4 +21,5 @@ public class Exercise {
 	private List<ExerciseFile> fileList;	
 	private List<ExerciseComment> commentList;
 	private List<ExerciseComment> reCommentList;
+	private int Rnum;
 }

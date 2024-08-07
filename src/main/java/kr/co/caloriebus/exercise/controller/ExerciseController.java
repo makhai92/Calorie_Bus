@@ -20,7 +20,6 @@ import kr.co.caloriebus.exercise.model.dto.Exercise;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFile;
 import kr.co.caloriebus.exercise.model.dto.ExerciseListData;
 import kr.co.caloriebus.exercise.model.service.ExerciseService;
-import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.util.FileUtils;
 
 
