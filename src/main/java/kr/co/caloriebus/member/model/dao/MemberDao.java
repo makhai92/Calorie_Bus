@@ -89,8 +89,15 @@ public class MemberDao {
 	}
 
 	public int updateMember(Member m) {
-		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_birth = ?, member_account = ?, member_bank = ? where member_no = ?";
-		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberNo()};
+		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_birth = ?, member_account = ?, member_bank = ? where member_id = ?";
+		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberId()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteMember(Member member) {
+		String query = "delete from member where member_no = ?";
+		Object[] params = {member.getMemberNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

@@ -19,7 +19,7 @@
                 <tr>
                     <th style="width: 100px;">아이디</th>
                     <td class="input-item1" colspan="2">
-                        <input type="text" name="memberId" id="memberId" th:value="${session.member.memberId}" disabled>
+                        <input type="text" name="memberId" id="memberId" th:value="${session.member.memberId}" readonly>
                     </td>
                 </tr>
                 <tr>
@@ -100,7 +100,7 @@
 							<a href="/admin/adminMain" id="admin-link">관리자 페이지로</a>	
                 		</div>
                 		<div th:if="${session.member.memberLevel != 1}">                		
-							<a href="#" id="delete-link">회원 탈퇴하기</a>	
+							<a id="delete-link">회원 탈퇴하기</a>	
                 		</div>
                 	</td>
                 </tr>
@@ -231,7 +231,7 @@ memberAccount.on("change", function(){
 	}
 })
 
-// 입력값 확인
+// 수정 시 입력값 확인
 function checkValid(){
 	const valid = $(".valid");
 	if(valid.length != 2){ // 이메일, 전화번호, 주소
@@ -247,6 +247,26 @@ function checkValid(){
 		}
 	}
 }
+
+// 탈퇴 전 비밀번호 받기, confirm까지
+$("#delete-link").on("click", function(){
+	const memberPw = "[[${session.member.memberPw}]]";
+	console.log(memberPw);
+	const inputPw = prompt("탈퇴하시려면 비밀번호를 입력하세요.");
+	console.log(inputPw);
+	if(inputPw === memberPw){
+		if (confirm("정말 탈퇴하시겠습니까?")){
+			location.href="/member/deleteAccount";
+		}
+	}
+	else if (inputPw == null) {
+		
+	}
+	else {
+		alert("비밀번호가 일치하지 않습니다.");
+	}
+})
+
 
 </script>
 </body>

@@ -133,4 +133,11 @@ public class MemberService {
 		int result = memberDao.updateMember(m);
 		return result;
 	}
+
+	// 회원 삭제
+	@Transactional
+	public int deleteMember(Member member) {
+		int result = memberDao.deleteMember(member);
+		return result;
+	}
 }
