@@ -44,10 +44,10 @@ public String write(Faq f, Model model) {
 		model.addAttribute("title", "작성 완료");
 		model.addAttribute("msg", "공지사항 작성에 성공하였습니다!");
 		model.addAttribute("icon", "success");
-		model.addAttribute("loc", "/faq/faqMain");
+		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
 		return "common/msg";
 	}
-	return "redirect:/faq/faqMain";
+	return "redirect:/faq/faqview";
 }
 @GetMapping(value = "/faqView")
 public String view(int faqNo,Model model) {

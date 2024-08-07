@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.caloriebus.inquery.dao.InqueryDao;
+import kr.co.caloriebus.inquery.dto.Inquery;
+import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryListData;
 
 @Service
@@ -35,16 +37,16 @@ public class InqueryService {
 		String pageNavi = "<ul>";
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi +=	"<a class='page-item' href='/inquery/list?reqPage="+(pageNo-1)+"'>";
+			pageNavi +=	"<a class='page-item' href='/inquery/inqueryMain?reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}	
 		for(int i=0;i<pageNaviSize;i++) {
-			pageNavi +=	"<a class='page-item' href='/inquery/list?reqPage="+pageNo+"'>";	
+			pageNavi +=	"<a class='page-item' href='/inquery/inqueryMain?reqPage="+pageNo+"'>";	
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='page-item active-page href='/inquery/list?reqPage="+pageNo+"'>";
+				pageNavi += "<a class='page-item active-page href='/inquery/inqueryMain?reqPage="+pageNo+"'>";
 			}else {
-				pageNavi += "<a class='page-item' href='/inquery/list?reqPage="+pageNo+"'>";
+				pageNavi += "<a class='page-item' href='/inquery/inqueryMain?reqPage="+pageNo+"'>";
 			}
 			pageNavi += "<li>";
 			pageNavi += pageNo;
@@ -56,7 +58,7 @@ public class InqueryService {
 		}
 			if(pageNo <= totalPage) {
 				pageNavi += "<li>";
-				pageNavi +=	"<a class='page-item' href='/inquery/list?reqPage="+pageNo+"'>";
+				pageNavi +=	"<a class='page-item' href='/inquery/inqueryMain?reqPage="+pageNo+"'>";
 				pageNavi += "<span class='material-icons'>chevron_right</span>";
 				pageNavi += "</a></li>";
 				pageNo++;
@@ -69,4 +71,18 @@ public class InqueryService {
 		
 		return ild;
 	}
+	
+	public int insertInquery(Inquery i, List<InqueryFile> fileList) {
+		int result = inqueryDao.insertInquery(i);
+		if(result > 0) {
+			int inqueryNo = inqueryDao.selectInqueryNo();
+			
+			for(InqueryFile inqueryFile : fileList) {
+				inqueryFile.setInqueryNo(inqueryNo);
+				result += inqueryDao.insertInqueryFile(inqueryFile);
+			}
+		}
+		return result;
+	}
+	
 }
