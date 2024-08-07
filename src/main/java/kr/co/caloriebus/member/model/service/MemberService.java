@@ -115,9 +115,9 @@ public class MemberService {
 	}
 
 	// 비밀번호 찾기
-	public int findPw(Member m) {
-		int memberNo = memberDao.findPw(m);
-		return memberNo;
+	public Member findPw(Member m) {
+		Member member = memberDao.findPw(m);
+		return member;
 	}
 	
 	// 비밀번호 재설정

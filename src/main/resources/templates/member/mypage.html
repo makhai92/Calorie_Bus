@@ -90,8 +90,9 @@
                 	</td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="submit-btn-wrap">
-                        <button type="submit" class="btn-round" id="update-btn" onclick="return checkValid()">수정하기</button>
+                    <td colspan="3" id="update-btn-wrap">
+                        <button type="submit" class="btn-round" id="update-info-btn" onclick="return checkValid()">수정하기</button>
+                        <button type="button" class="btn-round g" id="update-pw-btn">비밀번호 변경</button>
                     </td>
                 </tr>
                 <tr>
@@ -99,7 +100,7 @@
                 		<div th:if="${session.member.memberLevel == 1}">                		
 							<a href="/admin/adminMain" id="admin-link">관리자 페이지로</a>	
                 		</div>
-                		<div th:if="${session.member.memberLevel != 1}">                		
+                		<div th:if="${session.member.memberLevel != 1}">
 							<a id="delete-link">회원 탈퇴하기</a>	
                 		</div>
                 	</td>
@@ -248,12 +249,17 @@ function checkValid(){
 	}
 }
 
+// 비밀번호 변경 페이지로 이동
+$("#update-pw-btn").on("click", function(){
+	if(confirm("비밀번호 변경 시 로그아웃됩니다. 변경하시겠습니까?")) {
+		location.href="/member/resetPw";
+	}
+})
+
 // 탈퇴 전 비밀번호 받기, confirm까지
 $("#delete-link").on("click", function(){
 	const memberPw = "[[${session.member.memberPw}]]";
-	console.log(memberPw);
 	const inputPw = prompt("탈퇴하시려면 비밀번호를 입력하세요.");
-	console.log(inputPw);
 	if(inputPw === memberPw){
 		if (confirm("정말 탈퇴하시겠습니까?")){
 			location.href="/member/deleteAccount";

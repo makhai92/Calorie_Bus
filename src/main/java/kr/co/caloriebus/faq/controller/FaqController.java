@@ -31,17 +31,10 @@ public String faqMain(int reqPage,Model model) {
 	model.addAttribute("pageNavi", fld.getPageNavi());
 	return "faq/faqMain";
 }
-@GetMapping(value="/inqueryMain")
-public String inqueryMain() {
-	return "faq/inqueryMain";
-}
+
 @GetMapping(value="/faqWriter")
 public String faqWriter() {
 	return "faq/faqWriter";
-}
-@GetMapping(value="/inqueryWriter")
-public String inqueryWriter() {
-	return "faq/inqueryWriter";
 }
 @PostMapping(value = "/write")
 public String write(Faq f, Model model) {

@@ -16,6 +16,7 @@
 .inquery-main{
     padding: 50px 0;
     width: 1200px;
+    height : 600px;
     margin: 0 auto;
 }
 .inquery-maintitle{
@@ -64,20 +65,30 @@
     cursor : pointer;
 }
 .tbl{
-    margin : 70px ;
+    margin : 0 auto;
 }
 #support{
     width: 50px;
 }
-#faqNum{
-    width: 50px;
-    font-size: 17px;
+#pageNavi>ul{
+	text-align : center;
+	width : 500px;
 }
-#faqTitle{
-    width : 500px;
-    font-size: 17px;
+#pageNavi>ul>li{
+	position : relative;
+	left : 100px;
+	display : flex;
+	float : left;
+	margin-left : 50px;
 }
-
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
 </style>
 <th:block th:include="common/header"></th:block>
 </head>
@@ -91,7 +102,7 @@
         </div>
         <div class="inquery-sub">
             <form action="search.html" method="get">
-                <button type="button" class="writeInquery" onclick = "location.href ='/faq/inqueryWriter'">1:1 문의 작성하기</button>
+                <button type="button" class="writeInquery" onclick = "location.href ='/inquery/inqueryWriter'">1:1 문의 작성하기</button>
                     <div class="inquery-search-box">
                         <span class="material-icons" id="search-icon">search</span>
                         <input type="text" id="inquery-search" placeholder="제목으로 1:1 문의를 검색해보세요">
@@ -101,14 +112,21 @@
          <div class="inquery-list">
             <table class="tbl tbl-hover">
 					<tr>
-						<th style="width: 10%;">번호</th>
-						<th style="width: 90%;">제목</th>
+						<th style="width: 10%;">글번호</th>
+						<th style="width: 50%;">제목</th>
+						<th style="width: 15%;">작성자</th>
+						<th style="width: 25%;">작성일</th>
 					</tr>
-					<tr th:each="faq : ${list}">
-						<td th:text = "${faq.faqNo}"></td>
-						<td th:text = "${faq.faqTitle}"></td>
+					<tr th:each="inquery : ${list}" >
+						<td th:text = "${inquery.inqueryNo}"></td>
+						<td th:text = "${inquery.inqueryTitle}"></td>
+						<td th:text = "${inquery.memberNo}"></td>
+						<td th:text = "${inquery.inqueryDate}"></td>
 					</tr>
 			</table>
+        </div>
+        <div class="pageNavi-wrap">
+        <div id="pageNavi" th:utext="${pageNavi}"></div>
         </div>
     </div>
 </body>

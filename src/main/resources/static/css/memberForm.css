@@ -89,11 +89,11 @@ div[id^=join-]{
 #join-kakao{
     background-color: #F9E000;
 }
-a{
+.joinform-wrap a{
     text-decoration: none;
     color: var(--main1);
 }
-a:hover{
+.joinform-wrap a:hover{
     text-decoration: underline;
 }
 .link-box{
@@ -165,8 +165,7 @@ button[name=login-btn]{
 	width: 121px;
 	box-sizing: border-box;
 }
-#update-btn{
-    width: 300px;
+#update-info-btn{
     margin: 30px;
 }
 .member-btn-box{
@@ -184,4 +183,11 @@ button[name=login-btn]{
 }
 .bank-info-msg{
 	color: var(--point1)
+}
+#update-btn-wrap{
+    text-align: center;
+}
+#update-btn-wrap button{
+	width: 121px;
+	box-sizing: border-box;
 }
