@@ -180,7 +180,8 @@ public class MemberController {
 
 	// 마이페이지로 이동
 	@GetMapping(value="/mypage")
-	public String mypage() {
+	public String mypage(Model model) {
+		model.addAttribute("category", "mypage");
 		return "member/mypage";
 	}
 	
@@ -224,4 +225,33 @@ public class MemberController {
 		}
 		return alertMsg(data, model);
 	}
+	
+	// 내 공구 내역 보기
+	@GetMapping(value="/myfunding")
+	public String myfunding(Model model) {
+		model.addAttribute("category", "myfunding");
+		return "member/myfunding";
+	}
+	
+	// 내 찜 목록 보기
+	@GetMapping(value="/mylike")
+	public String mylike(Model model) {
+		model.addAttribute("category", "mylike");
+		return "member/mylike";
+	}
+	
+	// 내 게시글 보기
+	@GetMapping(value="/myboard")
+	public String myboard(Model model) {
+		model.addAttribute("category", "myboard");
+		return "member/myboard";
+	}
+	
+	// 내 문의 내역 보기
+	@GetMapping(value="/myinquiry")
+	public String myinquiry(Model model) {
+		model.addAttribute("category", "myinquiry");
+		return "member/myinquiry";
+	}
+
 }

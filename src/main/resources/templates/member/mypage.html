@@ -13,8 +13,10 @@
         	<p>마이페이지<p>
         </div>
         
+        
         <!-- 내 정보 양식 -->
         <form action="/member/updateMember" method="post" class="joinform-tbl">
+        	<th:block th:include="member/category"></th:block>
             <table class="joinform-tbl">
                 <tr>
                     <th style="width: 100px;">아이디</th>

@@ -140,4 +140,6 @@ public class MemberService {
 		int result = memberDao.deleteMember(member);
 		return result;
 	}
+
+
 }

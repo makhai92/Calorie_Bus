@@ -191,3 +191,29 @@ button[name=login-btn]{
 	width: 121px;
 	box-sizing: border-box;
 }
+
+
+/* ------------------------ 마이페이지 카테고리 용 ------------------------ */
+.my-category-wrap{
+	width: 640px;
+	margin: 0 auto;
+	margin-bottom: 30px;
+}
+.my-category-list{
+	display: flex;
+	justify-content: center;
+}
+.my-category-list>li{
+	display: inline-block;
+	width: 120px;
+	padding: 10px;
+	border: 0.8px solid var(--line1);
+	border-right: none;
+	text-align: center;
+}
+.my-category-list>li:last-child{
+	border-right: 0.8px solid var(--line1);
+}
+.my-category-list a:hover{
+	text-decoration: none;
+}

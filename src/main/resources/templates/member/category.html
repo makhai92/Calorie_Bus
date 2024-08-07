@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Category</title>
+<link href="/css/memberForm.css" rel="stylesheet">
+</head>
+<body>
+	<div class="my-category-wrap">
+		<ul class="my-category-list">
+			<li id="mypage-btn">내 정보</li>
+			<li id="myfunding-btn">내 공구 내역</li>
+			<li id="mylike-btn">내 찜 목록</li>
+			<li id="myboard-btn">내 게시글</li>
+			<li id="myinquery-btn">내 문의 내역</li>
+		</ul>
+	</div>
+</body>
+<script>
+
+// 전체 색 제거
+const li = $(".my-category-list>li");
+li.css("background-color", "transparent");
+
+// 클릭하는 걸로 색 변경
+const category = "[[${category}]]";
+switch(category){
+	case "mypage":
+		$("#mypage-btn").css("background-color", "var(--main2)");
+		break;
+	case "myfunding":
+		$("#myfunding-btn").css("background-color", "var(--main2)");
+		break;
+	case "mylike":
+		$("#mylike-btn").css("background-color", "var(--main2)");
+		break;
+	case "myboard":
+		$("#myboard-btn").css("background-color", "var(--main2)");
+		break;
+	case "myinquery":
+		$("#myinquery-btn").css("background-color", "var(--main2)");
+		break;
+}
+
+
+
+// 클릭하면 페이지 이동
+$("#mypage-btn").on("click", function(){
+	location.href="/member/mypage";
+})
+$("#myfunding-btn").on("click", function(){
+	location.href="/member/myfunding";
+})
+$("#mylike-btn").on("click", function(){
+	location.href="/member/mylike";
+})
+$("#myboard-btn").on("click", function(){
+	location.href="/member/myboard";
+})
+$("#myinquery-btn").on("click", function(){
+	location.href="/member/myinquery";
+})
+</script>
+</html>
