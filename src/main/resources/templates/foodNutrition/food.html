@@ -2,13 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
 <title>정보공유서비스</title>
 <style>
 
@@ -40,7 +33,7 @@
 			let pageNo = 1;
 			$("#more-btn").on("click",function(){
 				$.ajax({
-					url : "api/foodTotal",
+					url :"api/foodTotal",
 					data:{pageNo : pageNo},
 					type : "get",
 					success : function(data){
@@ -82,7 +75,5 @@
 			});
 		</script>
 	<th:block th:include="common/footer"></th:block>
-</body>
-</html>
 </body>
 </html>
