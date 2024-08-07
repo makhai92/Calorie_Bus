@@ -52,7 +52,7 @@
 						<th style="width:10%;">조회수</th>
 					</tr>
 					<tr th:each="exercise : ${list}">
-						<td th:text="${exercise.boardNo}"></td>
+						<td th:text="${exercise.rNum}"></td>
 						<td class="left"><a th:href="@{/exercise/view(boardNo=${exercise.boardNo})}" th:text="${exercise.boardTitle}"></a></td>
 						<td th:text="${exercise.boardWriter}"></td>
 						<td th:text="${exercise.regDate}"></td>

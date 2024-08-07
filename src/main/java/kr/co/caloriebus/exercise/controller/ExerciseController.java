@@ -36,7 +36,14 @@ public class ExerciseController {
 	
 	@Autowired
 	private FileUtils fileUtils;
-
+	
+	/*
+	@GetMapping(value="/list")
+	public String list() {
+		return "exercise/list";
+	}
+	*/
+	
 	@GetMapping(value="/list")
 	public String list(int reqPage,Model model) {
 		ExerciseListData eld = exerciseService.selectBoardList(reqPage);
@@ -45,11 +52,20 @@ public class ExerciseController {
 		return "exercise/list";
 	}
 	
+	
 	@GetMapping(value="/editFrm")
 	public String editFrm() {
 		return "exercise/editFrm";
 	}
 	
+	@ResponseBody
+	@PostMapping(value="/editorImage", produces = "plain/text;charset=utf-8")
+	public String editorImage(MultipartFile upfile) {
+		String savepath = root+"/newsletter/editor/";
+		String filepath = fileUtils.upload(savepath, upfile);
+		return "/exercise/editor/"+filepath;
+	}
+
 	@PostMapping(value="/write")
 	public String write(Exercise e, MultipartFile[] upfile, Model model) {
 		ArrayList<ExerciseFile> fileList = new ArrayList<ExerciseFile>();
