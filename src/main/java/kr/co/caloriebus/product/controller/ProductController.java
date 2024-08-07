@@ -47,6 +47,7 @@ public class ProductController {
 		String savepath = root+"/product/main/";
 		String filepath = fileUtils.upload(savepath, upfile);
 		p.setProductImg(filepath);
+		System.out.println(p);
 		int result = productService.productInsert(p);
 		if(result>0) {
 			model.addAttribute("title","작성완료");
