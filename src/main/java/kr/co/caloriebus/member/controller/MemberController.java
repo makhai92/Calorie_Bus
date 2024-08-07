@@ -188,6 +188,7 @@ public class MemberController {
 	// 회원 정보 수정
 	@PostMapping(value="/updateMember")
 	public String updateMember(Member m, Model model, @SessionAttribute Member member) {
+		System.out.println(m.getMemberBank());
 		int result = memberService.updateMember(m);
 		Message data = new Message();
 		if (result > 0) {

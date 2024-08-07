@@ -13,13 +13,34 @@
         	<p>마이페이지<p>
         </div>
         
-        
         <!-- 내 게시글 보기 양식 -->
         <form class="joinform-tbl">
         	<th:block th:include="member/category"></th:block>
-            <table class="joinform-tbl">
-                
-            </table>
+			<div class="content myboard-content">
+				<table class="joinform-tbl">
+					<tr>
+						<th style="width:10%;">카테고리</th>
+						<th style="width:40%;">제목</th>
+						<th style="width:20%;">작성일</th>
+						<th style="width:15%">좋아요수</th>
+						<th style="width:15%">조회수</th>
+					</tr>
+					<tr th:each="board : ${list}">
+						<th:block th:switch="${board.boardCategory}">
+							<td th:case="B1">자유글</td>
+							<td th:case="B2">식단토크</td>
+							<td th:case="B3">성공후기</td>
+							<td th:case="B4">운동토크</td>
+						</th:block>
+						<td><a th:href="@{/board/view(boardNo=${board.boardNo})}"><span th:text="${board.boardTitle}"></span>(<span th:text="${board.commentCount}"></span>)</a></td>
+						<td th:text="${board.boardWriter}"></td>
+						<td th:text="${board.regDate}"></td>
+						<td th:text="${board.likeCount}"></td>
+						<td th:text="${board.readCount}"></td>
+					</tr>
+				</table>
+				<div id="pageNavi" th:utext="${pageNavi}"></div>
+			</div>
         </form>
 	</section>
 </main>

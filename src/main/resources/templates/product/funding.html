@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.title{
+		padding : 10px 5px;
+		padding-top: 30px;
+	}
+	.info{
+		border-bottom: 0.8px solid var(--line1);
+		border-top: 0.8px solid var(--line1);
+		width : 100%;
+		height : 100%;
+		padding : 10px;
+	}
+	.info-tbl{
+		width : 100%;
+		padding : 0 5px;
+	}
+	.product-img>img{
+		width : 150px;
+	}
+	.title{
+		font-weight: 700;
+	}
+	.amount{
+		width : 60px;
+		text-align: center;
+	}
+	.member-info,.delivery-info,.same-info{
+		width: 640px;
+		float: left;
+	}
+	.member-info{
+		margin-right: 20px;
+	}
+	#memberBank{
+		width : 100px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="product-funding-wrap">
+			<div class="product-info">
+				<div class="title">
+					<h3>상품 정보</h3>
+				</div>
+				<div class="info">
+					<table class="info-tbl">
+						<tr>
+							<td style="width: 20%;">
+								<div class="product-img">
+									<img th:src=@{/product/main/}+${p.productImg}>
+								</div>
+							</td>
+							<td style="width: 55%;">
+								<div class="title" th:text=${p.productTitle}></div>
+							</td>
+							<td style="width: 15%;">
+	                            <input class="amount" type="number" name="orderAmount" id="orderAmount" min="1" max="10" value="1" step="1">
+							</td>
+							<td style="width: 10%;">
+								<input type="hidden" name="dcPrice" id="dcPrice" th:value=${p.productDcPrice}>
+								<div class="totalPrice" name="totalPrice" id="totalPrice" th:text=${p.productDcPrice}+원></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="member-info">
+				<div class="title">
+					<h3>주문자 정보</h3>
+				</div>
+				<div class="info">
+					<table class="info-tbl">
+						<tr>
+							<th style="height:40px;">이름</th>
+							<td class="input-item2">
+								<input type="text" name="memberName" id="memberName" th:value="${session.member.memberName}" readonly>
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">전화번호</th>
+							<td class="input-item2">
+								<input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}" readonly>
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">주소</th>
+							<td class="input-item2">
+								<input type="text" name="membeAddr" id="memberAddr" th:value="${session.member.memberAddr}" readonly>
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">환불 정보</th>
+							<td class="input-item2">
+								<input type="text" name="memberBank" id="memberBank" th:value="${session.member.memberBank}" readonly>
+								<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}" readonly>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="delivery-info">
+				<div class="title">
+					<h3>배송지 정보</h3>
+				</div>
+				<div class="info">
+					<table class="info-tbl">
+						<tr>
+							<th style="height:40px;">이름</th>
+							<td class="input-item1">
+								<input type="text" name="memberName" id="memberName" th:value="${session.member.memberName}">
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">전화번호</th>
+							<td class="input-item1">
+								<input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}">
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">주소</th>
+							<td class="input-item1">
+								<input type="text" name="membeAddr" id="memberAddr" th:value="${session.member.memberAddr}">
+							</td>
+						</tr>
+						<tr>
+							<th style="height:40px;">환불 정보</th>
+							<td class="input-item1">
+								<select class="select" name="memberBank" id="memberBank">
+									<option th:text="${session.member.memberBank}" disabled selected></option>
+								</select>
+								<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}">
+								<span></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</section>
+	</main>
+	
+	<script>
+		$(".amount").on("change",function(){
+			const amount = Number($("#orderAmount").val());
+			const price = Number($("#dcPrice").val());
+			const total = amount*price;
+			console.log(total);
+			$("#totalPrice").text(total+'원');
+		});
+
+		let isBankClicked = false; // 생성 여부 저장용 변수
+		$("#memberBank").on("click", function(){
+			const bankArr = ['경남은행', '광주은행', '국민은행', '기업은행', '농협은행', '부산은행', '수협은행', '신한은행', '씨티은행', '우리은행', '우체국', '전북은행', '제주은행', '주택금융공사', '지역농협', '지역수협', '카카오뱅크', '토스뱅크', '케이뱅크', '하나은행', '한국장학재단', 'iM뱅크', 'KDB산업은행', 'SC제일은행'];
+			if(!isBankClicked) {
+				bankArr.forEach(function(bank, index, array){
+					const bankOption = $("<option>");
+					bankOption.val(bank).text(bank);
+					$("#memberBank").append(bankOption);
+				})
+				isBankClicked = true;
+			}
+		})
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>
