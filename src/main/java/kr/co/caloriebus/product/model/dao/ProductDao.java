@@ -27,8 +27,8 @@ public class ProductDao {
 	}
 	
 	public int productInsert(Product p) {
-		String query = "insert into product values(product_seq.nextval,?,?,?,?,?,?,?,?,?)";
-		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductImg()};
+		String query = "insert into product values(product_seq.nextval,?,?,?,?,?,?,?,?,?,?)";
+		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductImg(),p.getProductInfo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

@@ -65,18 +65,15 @@
 		float: left;
 	}
 	.like-box{
-		width : 50px;
+		width : 60px;
 		border : 0.8px solid var(--line1);
 		border-radius:5px;
-		text-align: center;
 		background-color: #ffffff;
+		cursor: pointer;
+		margin: 8px 0;
 	}
 	.like-box>span{
 		font-size : 30px;
-		color : var(--line2);
-	}
-	.like-box>p{
-		font-size : 15px;
 		color : var(--line2);
 	}
 	.button-box>.btn-round{
@@ -85,6 +82,16 @@
 		margin : 5px 20px;
 		font-size: 16px;
 		font-weight: 700;
+	}
+	.detail-view{
+		text-align: center;
+	}
+	.view-title{
+		border-top : 0.8px solid var(--line1);
+		border-bottom: 0.8px solid var(--line1);
+		height : 100px;
+		margin : 50px 0;
+		line-height: 100px;
 	}
 </style>
 <body>
@@ -108,7 +115,7 @@
 				<div class="detail-top right">
 					<div class="info">
 						<div class="pdtitle" th:text=[진행중]+${p.productTitle}></div>
-						<div class="pdcontent" th:text=${p.productContent}></div>
+						<div class="pdcontent" th:text=${p.productInfo}></div>
 						<div class="percent" th:text=${p.productMinAmount}></div>
 						<div class="orderCount"></div>
 						<div class="pddeadline" th:text=${p.endDate}></div>
@@ -118,12 +125,18 @@
 						<div class="button-box">
 							<button class="like-box">
 								<span class="material-symbols-outlined">favorite</span>
-								<p>0</p>
+								<span style="font-size:16px;">0</span>
 							</button>
 							<button class="btn-round">구매 예약하기</button>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="detail-view">
+				<div class="view-title">
+					<h3>상품 상세 설명</h3>
+				</div>
+				<div class="productContent" th:utext="${p.productContent}"></div>
 			</div>
 		</section>
 	</main>
