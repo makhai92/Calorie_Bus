@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <title>상세보기</title>
 <style>
+	.post-title{
+		font-size: 60px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: 'Italianno', cursive;
+        color: rgb(119, 86, 45);
+	}
 	.content>.view-tbl tr>*{
 		font-size : 18px;
 	}
@@ -44,7 +51,7 @@
 <body>
 	<th:block th:include="common/header"></th:block>
 	<main class="content">
-		<div class="page-title">게시물 보기</div>
+		<div class="post-title">Post</div>
 		<table class="tbl view-tbl">
 			<tr>
 				<th colspan="5" th:text=${newsletter.boardTitle}></th>

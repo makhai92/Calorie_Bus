@@ -29,7 +29,7 @@
                     <tbody>
                         <tr th:each="newsletter : ${list}">
                         	<td th:text="${newsletter.rNum}"></td>
-                            <td><a th:href="@{/newsletter/view(boardNo=${newsletter.boardNo})}"><span th:text="${newsletter.boardTitle}"></span>(<span th:text="${newsletter.commentCount}"></span>)</a></td>
+                            <td><a th:href="@{/newsletter/viewForm(boardNo=${newsletter.boardNo})}"><span th:text="${newsletter.boardTitle}"></span>(<span th:text="${newsletter.commentCount}"></span>)</a></td>
                             <td th:text="${newsletter.boardWriter}"></td>
                             <td th:text="${newsletter.regDate}"></td>
                             <td th:text="${newsletter.likeCount}"></td>
