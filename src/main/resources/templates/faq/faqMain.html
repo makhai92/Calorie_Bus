@@ -102,6 +102,9 @@
 	justify-content:center;
 	align-items:center;
 }
+.faqView>* : hover{
+	font-weight: bolder;
+}
 </style>
 </head>
 <body>
@@ -126,14 +129,13 @@
 					</tr>
 					<tr th:each="faq : ${list}">
 						<td th:text = "${faq.faqNo}"></td>
-						<td th:text = "${faq.faqTitle}"></td>
+						<td class="faqView"><a th:href = "@{/faq/faqView(faqNo=${faq.faqNo})}" th:text = "${faq.faqTitle}"></a></td>
 					</tr>
 			</table>
         </div>
         <div class="pageNavi-wrap">
         	<div id="pageNavi" th:utext="${pageNavi}"></div>
         </div>
-        <div id="pageNavi" th:utext="${pageNavi}"></div>
     </div>
 </body>
 <th:block th:include="common/footer"></th:block>
