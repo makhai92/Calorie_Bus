@@ -80,6 +80,19 @@ public class InqueryController {
 		
 		return "redirect:/inquery/inqueryEditor";
 		
+	}
+	/*
+	@GetMapping(value = "/view")
+	public String view(int inqueryNo, Model model, @SessionAttribute(required = false) Member member) {
+		int memberNo = 0;
+		if (member != null) {
+			memberNo = member.getMemberNo();
+		}
+		Inquery i = inqueryService.selectOneInquery(inqueryNo, memberNo);
+		
+		
+		return null;
 		
 	}
+	*/
 }

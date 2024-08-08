@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.caloriebus.inquery.dao.InqueryDao;
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryListData;
+import kr.co.caloriebus.inquery.dto.Reply;
 
 @Service
 public class InqueryService {
@@ -71,7 +73,7 @@ public class InqueryService {
 		
 		return ild;
 	}
-	
+	@Transactional
 	public int insertInquery(Inquery i, List<InqueryFile> fileList) {
 		int result = inqueryDao.insertInquery(i);
 		if(result > 0) {
@@ -84,5 +86,18 @@ public class InqueryService {
 		}
 		return result;
 	}
+	/*
+	@Transactional
+	public Inquery selectOneInquery(int inqueryNo, int memberNo) {
+		Inquery i = inqueryDao.selectOneInquery(inqueryNo);
+		
+		List fileList = inqueryDao.selectInqueryFile(inqueryNo);
+		i.setFileList(fileList);
+		
+		List<Reply> ReplyList = inqueryDao.selectReplyList(inqueryNo, memberNo);
+		
+		return null;
+	}
+	*/
 	
 }
