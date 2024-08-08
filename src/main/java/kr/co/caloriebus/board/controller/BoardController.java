@@ -134,6 +134,23 @@ public class BoardController {
 		return "redirect:/board/view?boardNo="+bc.getBoardRef();
 	}
 	
+	@ResponseBody
+	@PostMapping(value="/boardReCommentList")
+	public List boardReCommentList(int boardCommentNo,int memberNo){
+		List list = boardService.boardReCommentList(boardCommentNo,memberNo);
+		return list;
+	}
+	@PostMapping(value="/updateComment")
+	public String updateComment(BoardComment bc){
+		int result  = boardService.updateComment(bc);
+		return "redirect:/board/view?boardNo="+bc.getBoardRef();
+	}
+	@GetMapping(value="/deleteComment")
+	public String deleteComment(int boardCommentNo,int boardNo) {
+		int result = boardService.deleteComment(boardCommentNo);
+		return "redirect:/board/view?boardNo="+boardNo;
+	}
+	
 	// 마이페이지 용 내 게시글 보기
 	@GetMapping(value="/myboard")
 	public String myboard(Model model, @SessionAttribute Member member, int reqPage) {

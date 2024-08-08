@@ -115,8 +115,8 @@ public class BoardDao {
 		return list;
 	}
 	public List selectBoardCommentList(int boardNo, int memberNo) {
-		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_ref=? and board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null)bc";
-		Object[] params = {memberNo,boardNo,boardNo};
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null order by 1)bc";
+		Object[] params = {memberNo,boardNo};
 		List list = jdbc.query(query, boardCommentRowMapper,params);
 		return list;
 	}
@@ -146,6 +146,12 @@ public class BoardDao {
 		return likeCount;
 	}
 	
+	public List selectBoardReCommentList(int boardCommentNo, int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_comment_ref=? order by 1)bc";
+		Object[] params = {memberNo,boardCommentNo};
+		List list = jdbc.query(query, boardCommentRowMapper,params);
+		return list;
+	}
 	
 	// 마이페이지 용
 	public List selectMyBoardList(int memberNo, int start, int end) {
@@ -160,5 +166,17 @@ public class BoardDao {
 		Object[] params = {memberNo};
 		int totalCount = jdbc.queryForObject(query, Integer.class, params);
 		return totalCount;
+	}
+	public int updateComment(BoardComment bc) {
+		String query = "update board_comment set board_comment_content=? where board_comment_no=?";
+		Object[] params = {bc.getBoardCommentContent(),bc.getBoardCommentNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int deleteComment(int boardCommentNo) {
+		String query = "delete from board_comment where board_comment_no=?";
+		Object[] params = {boardCommentNo};
+		int result = jdbc.update(query,params);
+		return result;
 	}
 }

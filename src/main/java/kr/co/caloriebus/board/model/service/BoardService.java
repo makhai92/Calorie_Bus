@@ -187,4 +187,21 @@ public class BoardService {
 		BoardListData bld = new BoardListData(list, pageNavi);
 		return bld;
 	}
+
+	public List boardReCommentList(int boardCommentNo,int memberNo) {
+		List list = boardDao.selectBoardReCommentList(boardCommentNo, memberNo);
+		return list;
+	}
+
+	@Transactional
+	public int updateComment(BoardComment bc) {
+		int result = boardDao.updateComment(bc);
+		return result;
+	}
+
+	@Transactional
+	public int deleteComment(int boardCommentNo) {
+		int result = boardDao.deleteComment(boardCommentNo);
+		return result;
+	}
 }
