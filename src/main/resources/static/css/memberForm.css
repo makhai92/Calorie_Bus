@@ -1,6 +1,9 @@
 @charset "UTF-8";
 
 /* ------------------------ 회원가입 폼 ------------------------ */
+.member-content{
+	padding: 30px 0px;
+}
 .joinform-wrap{
     border: 1px solid var(--line2);
     border-radius: 15px;
@@ -227,6 +230,7 @@ button[name=login-btn]{
 /* ------------------------ 마이페이지 내 게시글 용 ------------------------ */
 .myboard-tbl{
 	margin: 0 auto;
+	width: 600px;
 	border-collapse: collapse;
 }
 .myboard-tbl tr{
