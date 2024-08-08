@@ -21,6 +21,4 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addResourceHandler("/product/main/**").addResourceLocations("file:///"+root+"/product/main/"); 
 		registry.addResourceHandler("/inquery/inqueryEditor/**").addResourceLocations("file:///"+root+"/inquery/inqueryEditor/");
 	}
-	
-	
 }
