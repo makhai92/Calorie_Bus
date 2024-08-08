@@ -10,7 +10,7 @@ import kr.co.caloriebus.inquery.dao.InqueryDao;
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryListData;
-import kr.co.caloriebus.inquery.dto.Reply;
+import kr.co.caloriebus.inquery.dto.InqueryReply;
 
 @Service
 public class InqueryService {
@@ -99,5 +99,12 @@ public class InqueryService {
 		return null;
 	}
 	*/
+	public Inquery selectOneInquery(int inqueryNo, String check, int memberNo) {
+		Inquery i = inqueryDao.selectOneInquery(inqueryNo);
+		List fileList = inqueryDao.selectInqueryFile(inqueryNo);
+		List<InqueryReply> ReplyList = inqueryDao.selectReplyList(inqueryNo, memberNo);
+		i.setReplyList(ReplyList);
+		return i;
+	}
 	
 }

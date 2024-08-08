@@ -17,9 +17,11 @@ public class Inquery {
 	private String inqueryDate;
 	private int memberNo;
 	private List<InqueryFile> fileList;
-	//private List<inqueryComment> commentList;
-	//private List<inqueryComment> reCommentList;
+	private List<InqueryReply> replyList;
+	
+		
+	}
 
 		
-}
+
 

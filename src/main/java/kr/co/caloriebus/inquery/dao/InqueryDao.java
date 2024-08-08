@@ -11,7 +11,7 @@ import kr.co.caloriebus.inquery.dto.InqueryReplyRowMapper;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryFileRowMapper;
 import kr.co.caloriebus.inquery.dto.InqueryRowMapper;
-import kr.co.caloriebus.inquery.dto.Reply;
+import kr.co.caloriebus.inquery.dto.InqueryReply;
 
 @Repository
 public class InqueryDao {
@@ -22,7 +22,8 @@ public class InqueryDao {
 	@Autowired
 	private InqueryFileRowMapper inqueryFileRowMapper;
 	@Autowired
-	private InqueryReplyRowMapper inqueryCommentRowMapper;
+	private InqueryReplyRowMapper inqueryReplyRowMapper;
+	
 
 	public List selectInqueryList(int start, int end) {
 		String query ="select * from (select rownum as rnum ,n.* from (select * from inquery order by 1 desc)n) where rnum between ? and ?";
@@ -77,17 +78,17 @@ public class InqueryDao {
 		List list = jdbc.query(query, inqueryFileRowMapper, params);
 		return list;
 	}
-	/*
-	public List<Reply> selectReplyList(int inqueryNo, int memberNo) {
-		String query = "select\r\n" + 
-				"    nc.*"+
-				"from reply nc\r\n" + 
-				"where notice_ref=? and notice_comment_ref is null order by 1";
-		Object[] params = {memberNo, inqueryNo};
+
+	public List<InqueryReply> selectReplyList(int inqueryNo, int memberNo) {
+		String query = "select * from reply where inquery_no = ?";
+		Object[] params = {inqueryNo};
 		List list = jdbc.query(query, inqueryReplyRowMapper, params);
 		return list;
-		return null;
 	}
-	*/
+
+
+	
+
+	
 	
 }
