@@ -224,13 +224,22 @@ button[name=login-btn]{
 	margin: 0 auto;
 	border-collapse: collapse;
 }
-	
 .myboard-tbl tr{
 	padding: 10px;
 	height: 30px;
 }
-
 .myboard-tbl tr:first-child{
 	border-bottom: 0.8px solid var(--line1);
 }
-
+.myboard-tbl td{
+	text-align: center;
+}
+.pageNavi-ul{
+	display: flex;
+	justify-content: center;
+}
+.pageNavi-li{
+	display: inline-block;
+	padding: 10px;
+	text-align: center;
+}

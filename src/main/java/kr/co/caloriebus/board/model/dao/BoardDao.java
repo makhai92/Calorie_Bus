@@ -145,4 +145,20 @@ public class BoardDao {
 		int likeCount = jdbc.queryForObject(query, Integer.class,params);
 		return likeCount;
 	}
+	
+	
+	// 마이페이지 용
+	public List selectMyBoardList(int memberNo, int start, int end) {
+		String query = "select * from (select rownum rnum, b.* from ((select board_no, member_no, board_title, board_category, read_count, reg_date, member_id as board_writer, (select count(*) from board_comment where board_ref=board.board_no) as comment_count, (select count(*) from board_like where board_no=board.board_no) as like_count from board join member using(member_no) where member_no=? order by 1 desc)b)) where rnum between ? and ?";
+		Object[] params = {memberNo, start, end};
+		List list = jdbc.query(query, boardListRowMapper, params);
+		return list;
+	}
+	
+	public int selectMyBoardTotalCount(int memberNo) {
+		String query = "select count(*) from board where member_no = ?";
+		Object[] params = {memberNo};
+		int totalCount = jdbc.queryForObject(query, Integer.class, params);
+		return totalCount;
+	}
 }
