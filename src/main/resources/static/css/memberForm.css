@@ -191,7 +191,12 @@ button[name=login-btn]{
 	width: 121px;
 	box-sizing: border-box;
 }
-
+#memberPostcode{
+	width:100px;
+}
+#addr{
+	width: 260px;
+}
 
 /* ------------------------ 마이페이지 카테고리 용 ------------------------ */
 .my-category-wrap{
@@ -242,4 +247,12 @@ button[name=login-btn]{
 	display: inline-block;
 	padding: 10px;
 	text-align: center;
+}
+.info-text-box{
+	height: 100px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 30px;
 }

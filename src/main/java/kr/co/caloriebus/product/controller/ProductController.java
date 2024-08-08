@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.caloriebus.member.model.dto.Member;
+import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.service.ProductService;
 import kr.co.caloriebus.util.FileUtils;
@@ -124,14 +126,34 @@ public class ProductController {
 	}
 	
 	@GetMapping(value="/fundingFrm")
-	public String funding(int productNo,Model model) {
+	public String fundingFrm(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		model.addAttribute("p",p);
 		return "/product/fundingFrm";
 	}
 	
-	@GetMapping(value="/addressPlus")
-	public String addressPlus() {
-		return "/product/addressPlus";
+	@PostMapping(value="funding")
+	public String funding(Funding f,Model model) {
+		int result = productService.insertFunding(f);
+		if(result>0) {
+			model.addAttribute("title","구매 예약 완료");
+			model.addAttribute("msg","구매 예약이 완료되었습니다. 24시간 내로 미입금 시 자동 취소됩니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","구매 예약 실패");
+			model.addAttribute("msg","문제가 발생하였습니다.관리자에게 문의하세요.");
+			model.addAttribute("icon","error");
+		}
+		model.addAttribute("loc","/product/list");
+		return "common/msg";
+	}
+	
+	@GetMapping(value="review")
+	public String review(int productNo,Model model) {
+		Product p = productService.selectOneProduct(productNo);
+		List list = productService.selectAllProductReview();
+		model.addAttribute("p",p);
+		model.addAttribute("list",list);
+		return "/product/reviewList";
 	}
 }

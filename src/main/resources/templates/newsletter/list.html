@@ -39,7 +39,9 @@
                 </table>
                 <a th:if="${session.member != null && session.member.memberLevel ==1}" class="btn-point" id="write-btn" href="/newsletter/writeForm">글쓰기</a>
             </div>
+            <div class="pageNavi-wrap">
             <div id="pageNavi" th:utext="${pageNavi}"></div>
+            </div>
             <div class="search-write-container">
                 <form action="/newsletter/search" method="get" id="searchFrm" class="search-form">
                     <div class="input-item">

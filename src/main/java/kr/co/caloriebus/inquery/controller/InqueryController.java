@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.caloriebus.util.FileUtils;
+import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryListData;
@@ -80,6 +81,35 @@ public class InqueryController {
 		
 		return "redirect:/inquery/inqueryEditor";
 		
+	}
+	@GetMapping(value = "/inqueryView")
+	public String view(int inqueryNo,String check, Model model, @SessionAttribute(required = false) Member member) {
+		int memberNo = 0;
+		if (member != null) {
+			memberNo = member.getMemberNo();
+		}
 		
+		Inquery i = inqueryService.selectOneInquery(inqueryNo, check ,memberNo);
+		if (i == null) {
+			model.addAttribute("title", "조회 실패");
+			model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
+			model.addAttribute("icon", "info");
+			model.addAttribute("loc", "/inquery/inqueryMain?reqPage=1");
+			return "common/msg";
+		} else {
+			model.addAttribute("i", i);
+			return "inquery/inqueryView";
+		}
+	}
+	
+	// 마이페이지 용 문의 내역 조회
+	@GetMapping(value="/myinquery")
+	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		// InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
+		// model.addAttribute("list", ild.getList());
+		// model.addAttribute("pageNavi",ild.getPageNavi());
+		// model.addAttribute("category", "myboard");
+		return "member/myinquery";
 	}
 }

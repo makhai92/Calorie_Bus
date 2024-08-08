@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.caloriebus.product.model.dao.ProductDao;
+import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
 
@@ -56,6 +57,17 @@ public class ProductService {
 	public int update2Product(Product p) {
 		int result = productDao.update2Product(p);
 		return result;
+	}
+	
+	@Transactional
+	public int insertFunding(Funding f) {
+		int result = productDao.insertFunding(f);
+		return result;
+	}
+
+	public List selectAllProductReview() {
+		List list = productDao.selectAllProductReview();
+		return list;
 	}
 
 

@@ -14,6 +14,7 @@ import kr.co.caloriebus.faq.model.dto.Faq;
 import kr.co.caloriebus.faq.model.dto.FaqListData;
 import kr.co.caloriebus.faq.model.service.FaqService;
 
+
 @Controller
 @RequestMapping(value="/faq")
 public class FaqController {
@@ -81,4 +82,5 @@ public String delete(int faqNo, Model model) {
 	return "common/msg";
 }
 
+	
 }

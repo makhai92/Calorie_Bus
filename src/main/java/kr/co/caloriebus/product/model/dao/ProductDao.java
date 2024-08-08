@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
 import kr.co.caloriebus.product.model.dto.ProductFileRowMapper;
+import kr.co.caloriebus.product.model.dto.ProductReviewRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductRowMapper;
 
 @Repository
@@ -18,7 +20,7 @@ public class ProductDao {
 	@Autowired
 	private ProductRowMapper productRowMapper;
 	@Autowired
-	private ProductFileRowMapper productFileRowMapper;
+	private ProductReviewRowMapper productReviewRowMapper;
 	
 	public List selectAllProduct() {
 		String query="select * from product order by 1 desc";
@@ -71,6 +73,19 @@ public class ProductDao {
 		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductImg(),p.getProductInfo(),p.getProductNo()};
 		int result = jdbc.update(query,params);
 		return result;
+	}
+
+	public int insertFunding(Funding f) {
+		String query = "insert into funding values(FUNDING_SEQ.nextval,?,?,to_char(sysdate,'yyyy-mm-dd'),1,?,?,?,?,?)";
+		Object[] params = {f.getMemberNo(),f.getProductNo(),f.getOrderAmount(),f.getFundingName(),f.getFundingPhone(),f.getFundingAddr(),f.getFundingPostcode()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public List selectAllProductReview() {
+		String query = "select * from product_review order by 1 desc";
+		List list = jdbc.query(query, productReviewRowMapper);
+		return list;
 	}
 	
 

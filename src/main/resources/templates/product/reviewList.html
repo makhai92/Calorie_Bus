@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>상품 후기</title>
+<style>
+	.product-review-wrap{
+		margin : 30px auto;
+	}
+	.review-header {
+		text-align: right;
+	}
+	.review-header>.btn-square{
+		display : inline-block;
+		width : 130px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<main class="content">
+		<section class="product-review-wrap">
+			<div class="page-title">공구 상품 후기</div>
+			<div class="review-header">
+				<a class="btn-square w" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
+				<a class="btn-square" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
+			</div>
+			<div class="detail-content">
+				<div>
+				<h3 th:text=${p.productTitle}></h3>
+				</div>
+				<div>
+					<table class="tbl">
+						<tr th:each="pr : ${list}">
+							<td>
+								<div>
+									<img>
+								</div>
+							</td>
+							<td>
+								<div>
+									<button>수정</button>
+									<span>|</span>
+									<button>삭제</button>
+								</div>
+								<p id="memberId" th:text=${pr.memberId}></p>
+								<textarea th:text=${pr.reviewContent}></textarea>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</section>
+	</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

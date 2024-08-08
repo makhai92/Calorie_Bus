@@ -42,16 +42,16 @@ public class FaqService {
 		
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class = 'page-item' href='/faq/list?reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<a class = 'page-item' href='/faq/faqMain?reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		for(int i=0;i<pageNaviSize;i++) {
-			pageNavi += "<a class='page-item' href='/faq/list?reqPage="+pageNo+"'>";
+			pageNavi += "<a class='page-item' href='/faq/faqMain?reqPage="+pageNo+"'>";
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='page-item active-page href='/faq/list?reqPage="+pageNo+"'>";
+				pageNavi += "<a class='page-item active-page href='/faq/faqMain?reqPage="+pageNo+"'>";
 			}else {
-				pageNavi += "<a class='page-item' href='/faq/list?reqPage="+pageNo+"'>";
+				pageNavi += "<a class='page-item' href='/faq/faqMain?reqPage="+pageNo+"'>";
 			}
 			pageNavi += "<li>";
 			pageNavi += pageNo;
@@ -64,7 +64,7 @@ public class FaqService {
 		//다음버튼(최종페이지를 출력하지 않으면)
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi +=	"<a class='page-item' href='/faq/list?reqPage="+pageNo+"'>";
+			pageNavi +=	"<a class='page-item' href='/faq/faqMain?reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 			pageNo++;
@@ -89,4 +89,6 @@ public class FaqService {
 		}
 		return result;
 	}
+
+
 }
