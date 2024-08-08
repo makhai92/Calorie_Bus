@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
 import kr.co.caloriebus.product.model.dto.ProductFileRowMapper;
@@ -69,6 +70,13 @@ public class ProductDao {
 	public int update2Product(Product p) {
 		String query = "update product set product_title=?,product_content=?,product_price=?,product_dc_price=?,product_min_amount=?,product_max_amount=?,start_date=?,end_date=?,product_img=?,product_info=? where product_no=?";
 		Object[] params = {p.getProductTitle(),p.getProductContent(),p.getProductPrice(),p.getProductDcPrice(),p.getProductMinAmount(),p.getProductMaxAmount(),p.getStartDate(),p.getEndDate(),p.getProductImg(),p.getProductInfo(),p.getProductNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int insertFunding(Funding f) {
+		String query = "insert into funding values(FUNDING_SEQ.nextval,?,?,to_char(sysdate,'yyyy-mm-dd'),1,?,?,?,?,?)";
+		Object[] params = {f.getMemberNo(),f.getProductNo(),f.getOrderAmount(),f.getFundingName(),f.getFundingPhone(),f.getFundingAddr(),f.getFundingPostcode()};
 		int result = jdbc.update(query,params);
 		return result;
 	}
