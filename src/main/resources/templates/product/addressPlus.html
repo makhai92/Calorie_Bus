@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>배송지 변경</title>
+<style>
+	.addressPlus-wrap{
+		width:600px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex-grow: 1;
+		padding : 50px 0;
+	}
+	.addressPlus-wrap>div>input{
+		font-size: 16px;
+    	border: 0.8px solid #d9d9d9;
+    	padding: 3px 3px;
+    	margin : 3px 0;
+	}
+	.addressPlus-wrap>button{
+		width: 110px;
+		cursor: pointer;
+	    border-radius: 30px;
+	    border: none;
+	    background-color: rgba(241, 229, 215, 1);
+	    padding: 3px 0;
+	}
+	
+</style>
+</head>
+<body>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<form action="/product/addressPlus" method="post">
+		<div class="addressPlus-wrap">
+			<div class="input-item1">
+				<input type="text" name="postcode" id="postcode" readonly>
+			</div>
+			<div class="input-item1">
+				<input type="text" name="address" id="address" readonly>
+			</div>
+			<div class="input-item1">
+				<input type="text" name="detailAddress" id="detailAddress">
+			</div>
+			<button type="button" class="btn-round" id="searchBtn">주소찾기</button>
+		</div>
+	</form>
+	<script>
+		$("#searchBtn").on("click", function() {
+			new daum.Postcode({
+				oncomplete : function(data) {
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+					// 예제를 참고하여 다양한 활용법을 확인해 보세요.
+					$("#postcode").val(data.zonecode);
+					$("#address").val(data.roadAddress);
+					$("#detailAddress").focus();
+				}
+			}).open();
+		});
+	</script>
+</body>
+</html>
