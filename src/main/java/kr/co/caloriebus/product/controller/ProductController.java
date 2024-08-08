@@ -76,7 +76,7 @@ public class ProductController {
 		return "/product/view";
 	}
 	
-	@GetMapping(value="delete")
+	@GetMapping(value="/delete")
 	public String delete(int productNo,Model model) {
 		int result = productService.deleteProduct(productNo);
 		if(result>0) {
@@ -92,14 +92,14 @@ public class ProductController {
 		return "common/msg";
 	}
 	
-	@GetMapping(value="updateFrm")
+	@GetMapping(value="/updateFrm")
 	public String updateFrm(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		model.addAttribute("p",p);
 		return "/product/updateFrm";
 	}
 		
-	@PostMapping(value="update")
+	@PostMapping(value="/update")
 	public String update(Product p, MultipartFile upfile,Model model) {
 		int result = 0;
 		if(upfile.isEmpty()) {
@@ -123,10 +123,15 @@ public class ProductController {
 		return "common/msg";
 	}
 	
-	@GetMapping(value="funding")
+	@GetMapping(value="/fundingFrm")
 	public String funding(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		model.addAttribute("p",p);
-		return "/product/funding";
+		return "/product/fundingFrm";
+	}
+	
+	@GetMapping(value="/addressPlus")
+	public String addressPlus() {
+		return "/product/addressPlus";
 	}
 }
