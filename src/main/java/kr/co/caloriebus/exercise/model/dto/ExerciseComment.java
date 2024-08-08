@@ -17,5 +17,5 @@ public class ExerciseComment {
 	private String board_comment_writer;
 	private int isLike;
 	private int likeCount;
-	
+	private int reCommentCount;
 }
