@@ -188,7 +188,6 @@ public class MemberController {
 	// 회원 정보 수정
 	@PostMapping(value="/updateMember")
 	public String updateMember(Member m, Model model, @SessionAttribute Member member) {
-		System.out.println(m.getMemberBank());
 		int result = memberService.updateMember(m);
 		Message data = new Message();
 		if (result > 0) {
@@ -196,6 +195,7 @@ public class MemberController {
 			member.setMemberEmail(m.getMemberEmail());
 			member.setMemberPhone(m.getMemberPhone());
 			member.setMemberAddr(m.getMemberAddr());
+			member.setMemberPostcode(m.getMemberPostcode());
 			member.setMemberBirth(m.getMemberBirth());
 			member.setMemberAccount(m.getMemberAccount());
 			member.setMemberBank(m.getMemberBank());
@@ -239,13 +239,6 @@ public class MemberController {
 	public String mylike(Model model) {
 		model.addAttribute("category", "mylike");
 		return "member/mylike";
-	}
-	
-	// 내 게시글 보기
-	@GetMapping(value="/myboard")
-	public String myboard(Model model) {
-		model.addAttribute("category", "myboard");
-		return "member/myboard";
 	}
 	
 	// 내 문의 내역 보기
