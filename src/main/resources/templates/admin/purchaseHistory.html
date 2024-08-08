@@ -50,35 +50,44 @@
 					
 				</tr>
 				<tr th:each="f : ${list}">
-					<td th:text="${f.fundingNo}">1</td>
-					<td th:text="${f.productNo}">21</td>
-					<td th:text="${f.memberNo}">27</td>
-                    <td th:text="${f.orderDate}">2024-08-08</td>
-					<td th:text="${f.orderAmount}">1</td>
-                    <td th:text="${f.fundingName}">양창모</td>
-					<td th:text="${f.fundingPhone}">01012345678</td>
-                    <td th:text="${f.fundingAddr}">서울시 영등포구 도신로15나길 3201동302호</td>
-                    <td th:text="${f.fundingPostcode}">07374</td>
+					<td th:text="${f.fundingNo}"></td>
+					<td th:text="${f.productNo}"></td>
+					<td th:text="${f.memberNo}"></td>
+                    <td th:text="${f.orderDate}"></td>
+					<td th:text="${f.orderAmount}"></td>
+                    <td th:text="${f.fundingName}"></td>
+					<td th:text="${f.fundingPhone}"></td>
+                    <td th:text="${f.fundingAddr}"></td>
+                    <td th:text="${f.fundingPostcode}"></td>
 					<td>
 						<div class="select" th:switch="${f.orderState}">
 							<select th:case="1">
-								<option value="1" selected>O</option>
-								<option value="2" >X</option>
+								<option value="1" selected>1</option>
+								<option value="2" >2</option>
 							</select >
 							<select th:case="2">
-									<option value="1">O</option>
-									<option value="2" selected>X</option>
+									<option value="1">1</option>
+									<option value="2" selected>2</option>
 								</select>
 						</div>
 					</td>
 					<td>
 						<button class="changeOrderState">확인</button>
-					</td>	
-				
+					</td>
+				</tr>
 			</table>
 		</section>
 		</main>
-	
+		<script>
+			$(".changeOrderState").on("click",function(){
+				
+				const fundingNo = $(this).parent().parent().children().eq(0).text();
+				const orderState = $(this).parent().prev().children().children().val();
+				console.log(orderState);
+				location.href="/admin/changeOrderState?fundingNo="+fundingNo+"&orderState="+orderState;
+			});
+			
+		</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>
