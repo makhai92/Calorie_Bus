@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.caloriebus.admin.model.service.AdminService;
 import kr.co.caloriebus.faq.model.service.FaqService;
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 
 @Controller
@@ -41,7 +42,15 @@ public String adminMain() {
 			model.addAttribute("loc", "/admin/purchaseHistory");
 			return "common/"; 
 		}
+	    }
+	/*
+	@GetMapping("/gradeChange")
+	public String getGradeChange(Model model) {
+		List<Member> memberList = adminService.getAllMember();
+		
+		return "admin/gradeChange";
 		
 	}
+	*/
 
 }
