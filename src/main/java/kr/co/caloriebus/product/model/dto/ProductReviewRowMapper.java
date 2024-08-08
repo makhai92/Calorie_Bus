@@ -16,6 +16,7 @@ public class ProductReviewRowMapper implements RowMapper<ProductReview> {
 		pr.setMemberId(rs.getString("member_id"));
 		pr.setReviewContent(rs.getString("review_content"));
 		pr.setReviewImg(rs.getString("review_img"));
+		pr.setProductNo(rs.getInt("product_no"));
 		return pr;
 	}
 

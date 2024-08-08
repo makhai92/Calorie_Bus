@@ -44,9 +44,12 @@
 
 
 
-
-
-
+.content {
+    width: 100%;
+    max-width: 1300px;
+    margin: 30px auto;
+    flex: 1;
+}
 
 /*Header, Footer*/
 a {
@@ -260,6 +263,7 @@ marquee img {
 .comu-menu li {
     margin-right: 20px;
 }
+
 .footer {
     color: #141414;
     padding: 40px 20px;
