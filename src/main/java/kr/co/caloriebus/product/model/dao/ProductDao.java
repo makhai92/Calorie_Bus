@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.caloriebus.admin.model.dto.PurchaseRowMapper;
 import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
-import kr.co.caloriebus.product.model.dto.ProductFileRowMapper;
+import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.dto.ProductReviewRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductRowMapper;
 
@@ -21,6 +22,8 @@ public class ProductDao {
 	private ProductRowMapper productRowMapper;
 	@Autowired
 	private ProductReviewRowMapper productReviewRowMapper;
+	@Autowired
+	private PurchaseRowMapper purchaseRowMapper;
 	
 	public List selectAllProduct() {
 		String query="select * from product order by 1 desc";
@@ -87,6 +90,21 @@ public class ProductDao {
 		Object[] params = {productNo};
 		List list = jdbc.query(query, productReviewRowMapper, params);
 		return list;
+	}
+
+	public int selectFundingNo(int productNo) {
+		String query = "select funding_no from funding where product_no=?";
+		Object[] params = {productNo};
+		int fundingNo = jdbc.queryForObject(query, Integer.class,params);
+		System.out.println(fundingNo);
+		return fundingNo;
+	}
+
+	public int reviewInsert(ProductReview pr) {
+		String query = "insert into product_review values(?,?,?,?,?)";
+		Object[] params = {pr.getFundingNo(),pr.getReviewContent(),pr.getReviewImg(),pr.getMemberId(),pr.getProductNo()};
+		int result = jdbc.update(query, params);
+		return result;
 	}
 	
 
