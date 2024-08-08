@@ -82,9 +82,10 @@ public class ProductDao {
 		return result;
 	}
 
-	public List selectAllProductReview() {
-		String query = "select * from product_review order by 1 desc";
-		List list = jdbc.query(query, productReviewRowMapper);
+	public List selectAllProductReview(int productNo) {
+		String query = "select * from product_review where product_no=? order by 1 desc";
+		Object[] params = {productNo};
+		List list = jdbc.query(query, productReviewRowMapper, params);
 		return list;
 	}
 	

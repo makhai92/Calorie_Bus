@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
+import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.service.ProductService;
 import kr.co.caloriebus.util.FileUtils;
 
@@ -151,9 +152,35 @@ public class ProductController {
 	@GetMapping(value="review")
 	public String review(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
-		List list = productService.selectAllProductReview();
+		List list = productService.selectAllProductReview(productNo);
 		model.addAttribute("p",p);
 		model.addAttribute("list",list);
 		return "/product/reviewList";
+	}
+	
+	@GetMapping(value="reviewFrm")
+	public String reviewFrm(int productNo,Model model) {
+		Product p = productService.selectOneProduct(productNo);
+		model.addAttribute("p",p);
+		return "/product/reviewFrm";
+	}
+	
+	@PostMapping(value="reviewInsert")
+	public String reviewInsert(ProductReview pr,MultipartFile upfile,Model model) {
+		String savepath = root+"/product/review/";
+		String filepath = fileUtils.upload(savepath, upfile);
+		pr.setReviewImg(filepath);
+		int result = productService.reviewInsert(pr);
+		if(result>0) {
+			model.addAttribute("title","작성완료");
+			model.addAttribute("msg","게시글이 작성되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","작성실패");
+			model.addAttribute("msg","문제가 발생하였습니다.");
+			model.addAttribute("icon","error");
+		}
+		model.addAttribute("loc","/product/list");
+		return "common/msg";
 	}
 }

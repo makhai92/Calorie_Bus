@@ -65,10 +65,11 @@ public class ProductService {
 		return result;
 	}
 
-	public List selectAllProductReview() {
-		List list = productDao.selectAllProductReview();
+	public List selectAllProductReview(int productNo) {
+		List list = productDao.selectAllProductReview(productNo);
 		return list;
 	}
+
 
 
 }

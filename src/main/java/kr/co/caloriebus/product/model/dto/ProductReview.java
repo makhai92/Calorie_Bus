@@ -12,5 +12,5 @@ public class ProductReview {
 	private	String reviewContent;
 	private String reviewImg;
 	private String memberId;
-
+	private int productNo;
 }
