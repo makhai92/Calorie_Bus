@@ -133,4 +133,11 @@ public class BoardController {
 		int result = boardService.insertBoardComment(bc);
 		return "redirect:/board/view?boardNo="+bc.getBoardRef();
 	}
+	
+	// 내 게시글 보기
+	@GetMapping(value="/myboard")
+	public String myboard(Model model) {
+		model.addAttribute("category", "myboard");
+		return "member/myboard";
+	}
 }

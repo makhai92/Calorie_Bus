@@ -13,7 +13,6 @@
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
-<th:block th:if="${session.member == null}">
 <main class="content">
     <section class="joinform-wrap">
         <div class="page-title">
@@ -68,6 +67,7 @@
            </form>
 	</section>
 </main>
+<th:block th:include="common/footer"></th:block>
 <script>
 
 	//이메일

@@ -17,13 +17,13 @@
         <form class="joinform-tbl">
         	<th:block th:include="member/category"></th:block>
 			<div class="content myboard-content">
-				<table class="joinform-tbl">
+				<table class="myboard-tbl">
 					<tr>
-						<th style="width:10%;">카테고리</th>
-						<th style="width:40%;">제목</th>
+						<th style="width:15%;">카테고리</th>
+						<th style="width:45%;">제목</th>
 						<th style="width:20%;">작성일</th>
-						<th style="width:15%">좋아요수</th>
-						<th style="width:15%">조회수</th>
+						<th style="width:10%">좋아요수</th>
+						<th style="width:10%">조회수</th>
 					</tr>
 					<tr th:each="board : ${list}">
 						<th:block th:switch="${board.boardCategory}">
@@ -33,7 +33,6 @@
 							<td th:case="B4">운동토크</td>
 						</th:block>
 						<td><a th:href="@{/board/view(boardNo=${board.boardNo})}"><span th:text="${board.boardTitle}"></span>(<span th:text="${board.commentCount}"></span>)</a></td>
-						<td th:text="${board.boardWriter}"></td>
 						<td th:text="${board.regDate}"></td>
 						<td th:text="${board.likeCount}"></td>
 						<td th:text="${board.readCount}"></td>

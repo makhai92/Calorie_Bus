@@ -7,7 +7,6 @@
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
-<th:block th:if="${session.member == null}">
 <main class="content">
     <section class="joinform-wrap">
         <div class="page-title">
@@ -145,6 +144,7 @@
           </form>
 	</section>
 </main>
+<th:block th:include="common/footer"></th:block>
 <script>
 
 // 아이디 정규 표현식 확인
@@ -311,6 +311,5 @@ function checkValid(){
 	return true;
 }
 </script>
-<th:block th:include="common/footer"></th:block>
 </body>
 </html>

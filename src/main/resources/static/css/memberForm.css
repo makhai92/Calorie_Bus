@@ -220,7 +220,17 @@ button[name=login-btn]{
 
 
 /* ------------------------ 마이페이지 내 게시글 용 ------------------------ */
-.myboard-content>table tr:first-child{
-	background-color: grey;
+.myboard-tbl{
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+	
+.myboard-tbl tr{
+	padding: 10px;
+	height: 30px;
+}
+
+.myboard-tbl tr:first-child{
+	border-bottom: 0.8px solid var(--line1);
 }
 
