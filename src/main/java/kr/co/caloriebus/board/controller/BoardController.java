@@ -131,7 +131,7 @@ public class BoardController {
 	public String insertBoardComment(BoardComment bc,@SessionAttribute(required=false)Member member) {
 		bc.setMemberNo(member.getMemberNo());
 		int result = boardService.insertBoardComment(bc);
-		return "redirect:/board/view?boardNo="+bc.getBoardRef();
+		return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
 	}
 	
 	@ResponseBody
@@ -143,12 +143,12 @@ public class BoardController {
 	@PostMapping(value="/updateComment")
 	public String updateComment(BoardComment bc){
 		int result  = boardService.updateComment(bc);
-		return "redirect:/board/view?boardNo="+bc.getBoardRef();
+		return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
 	}
 	@GetMapping(value="/deleteComment")
 	public String deleteComment(int boardCommentNo,int boardNo) {
 		int result = boardService.deleteComment(boardCommentNo);
-		return "redirect:/board/view?boardNo="+boardNo;
+		return "redirect:/board/view?boardNo="+boardNo+"&check=1";
 	}
 	
 	// 마이페이지 용 내 게시글 보기
