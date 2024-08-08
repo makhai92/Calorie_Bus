@@ -18,4 +18,9 @@ public class AdminService {
 		List list = adminDao.getAllFunding();
 		return list;
 	}
+
+	public int changeOrderState(Funding f) {
+		int result = adminDao.changeOrderState(f);
+		return result;
+	}
 }

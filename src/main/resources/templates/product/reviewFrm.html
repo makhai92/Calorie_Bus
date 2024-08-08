@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.btn-box{
+		text-align: center;
+		padding: 30px 0;
+	}
+	.btn-box>button{
+		width : 400px;
+		margin : 5px 20px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+		<main class="content">
+			<section class="product-reviewFrm-wrap">
+				<div class="page-title">후기 작성</div>
+				<form action="/product/reviewInsert" method="post">
+					<table class="tbl">
+						<tr>
+							<th>작성자</th>
+							<td class="input-item2">
+								<input name="memberId" th:value=${session.member.memberId}>
+							</td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td class="input-item1">
+								<textarea name="reviewContent"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>첨부 파일</th>
+							<td>
+								<input type="file" name="upfile" multiple>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="productNo" th:value=${p.productNo}>
+					<div class="btn-box">
+						<button type="submit" class="btn-round">후기 작성 완료</button>
+					</div>
+				</form>
+			</section>
+		</main>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

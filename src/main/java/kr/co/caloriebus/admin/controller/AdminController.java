@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.caloriebus.admin.model.service.AdminService;
 import kr.co.caloriebus.faq.model.service.FaqService;
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 
 @Controller
@@ -29,5 +30,27 @@ public String adminMain() {
         System.out.println(purchaseList);
         return "admin/purchaseHistory";
     }
+	@GetMapping(value="/changeOrderState")
+	public String changeOrderState(Funding f, Model model) {
+		int result = adminService.changeOrderState(f);
+		if(result>0) {
+			return "redirect:/admin/purchaseHistory";
+		}else {
+			model.addAttribute("title", "변경 실패");
+			model.addAttribute("msg", "창모형에게 문의하세요");
+			model.addAttribute("icon", "warning");
+			model.addAttribute("loc", "/admin/purchaseHistory");
+			return "common/"; 
+		}
+	    }
+	/*
+	@GetMapping("/gradeChange")
+	public String getGradeChange(Model model) {
+		List<Member> memberList = adminService.getAllMember();
+		
+		return "admin/gradeChange";
+		
+	}
+	*/
 
 }

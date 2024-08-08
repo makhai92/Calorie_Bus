@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.co.caloriebus.admin.model.dto.PurchaseRowMapper;
+import kr.co.caloriebus.product.model.dto.Funding;
 
 
 
@@ -22,5 +23,13 @@ public class AdminDao {
 		
 		List list = jdbc.query(query, purchaseRowMapper);
 		return list;
+	}
+
+	public int changeOrderState(Funding f) {
+		String query = "update funding set order_state = ? where funding_no = ?";
+		Object[] params = {f.getOrderState(),f.getFundingNo()};
+		System.out.println(query);
+		int result = jdbc.update(query,params);
+		return result;
 	}
 }
