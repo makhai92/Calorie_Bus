@@ -29,7 +29,7 @@ public class MemberDao {
 	}
 
 	public int insertMember(Member m) {
-		String query = "insert into member values(member_seq.nextval, ?, ?, ?, ?, ?, ?, ?, 2, 0, null, null)";
+		String query = "insert into member values(member_seq.nextval, ?, ?, ?, ?, ?, ?, ?, 2, 0, null, null, null)";
 		Object[] params = { m.getMemberId(), m.getMemberPw(), m.getMemberName(), m.getMemberPhone(), m.getMemberAddr(),
 				m.getMemberEmail(), m.getMemberBirth() };
 		int result = jdbc.update(query, params);
@@ -90,8 +90,8 @@ public class MemberDao {
 	}
 
 	public int updateMember(Member m) {
-		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_birth = ?, member_account = ?, member_bank = ? where member_id = ?";
-		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberId()};
+		String query = "update member set member_name = ?, member_email = ?, member_phone = ?, member_addr = ?, member_postcode = ?, member_birth = ?, member_account = ?, member_bank = ? where member_id = ?";
+		Object[] params = {m.getMemberName(), m.getMemberEmail(), m.getMemberPhone(), m.getMemberAddr(), m.getMemberPostcode(), m.getMemberBirth(), m.getMemberAccount(), m.getMemberBank(), m.getMemberId()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

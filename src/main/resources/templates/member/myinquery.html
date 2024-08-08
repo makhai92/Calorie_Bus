@@ -13,7 +13,7 @@
         	<p>마이페이지<p>
         </div>
         
-        <!-- 내 게시글 보기 양식 -->
+        <!-- 내 문의글 보기 양식 -->
         <form class="joinform-tbl">
         	<th:block th:include="member/category"></th:block>
         	<th:block th:if="${!#lists.isEmpty(list)}">
@@ -44,7 +44,7 @@
 			</th:block>
 			<th:block th:if="${#lists.isEmpty(list)}">
 				<div class="info-text-box">
-					<h4>작성한 게시글이 없습니다.</h4>
+					<h4>작성한 문의글이 없습니다.</h4>
 				</div>
 			</th:block>
         </form>

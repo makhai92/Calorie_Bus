@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.caloriebus.util.FileUtils;
+import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryListData;
@@ -101,4 +102,14 @@ public class InqueryController {
 		}
 	}
 	
+	// 마이페이지 용 문의 내역 조회
+	@GetMapping(value="/myinquery")
+	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		// InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
+		// model.addAttribute("list", ild.getList());
+		// model.addAttribute("pageNavi",ild.getPageNavi());
+		// model.addAttribute("category", "myboard");
+		return "member/myinquery";
+	}
 }

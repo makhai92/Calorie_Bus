@@ -59,29 +59,31 @@
 </main>
 <th:block th:include="common/footer"></th:block>
 <script>
-	
+
+	var isPwValid = false;
 	//비밀번호 정규 표현식 확인
 	$("#memberPw").on("keyup", function(){
-		$(this).removeClass("valid");
+		isPwValid = false;
 		const memberPwVal = $(this).val();
 		const pwReg = /^[a-zA-Z0-9]{8,20}$/;
 		if(pwReg.test(memberPwVal)){
 			$(".check-msg-pw").css("visibility", "hidden");
-			$(this).addClass("valid");
+			isPwValid = true;
 		}
 		else {
 			$(".check-msg-pw").text("비밀번호는 영문자와 숫자를 8~20글자로 조합해야 합니다.").css("visibility", "visible").css("color", "var(--point1)");
 		}
 	})
-		
+
+	var isPwReValid = false;
 	// 비밀번호 일치 여부 확인 (비밀번호, 비밀번호 확인에 입력될 때마다 실행)
 	function pwCheck(){
-		$("#memberPwRe").removeClass("valid");
+		isPwReValid = false;
 		const pwValue = $("#memberPw").val();
 		const pwReValue = $("#memberPwRe").val();
 		if(pwValue === pwReValue){
 			$(".check-msg-pwre").css("visibility", "hidden");
-			$("#memberPwRe").addClass("valid");
+			isPwReValid = true;
 		} else {
 			$(".check-msg-pwre").text("비밀번호가 일치하지 않습니다.").css("visibility", "visible").css("color", "var(--point1)");
 		}
@@ -95,9 +97,11 @@
 
 	//입력값 확인
 	function checkValid(){
-		const valid = $(".valid");
-		if(valid.length != 2){ // 비번 정규식, 일치 여부
-			alert("비밀번호가 일치하는지 확인해 주세요.")
+		if(!isPwValid) {
+			alert("비밀번호가 올바르지 않습니다.");
+			return false;
+		} else if (!isPwReValid){
+			alert("비밀번호가 일치하지 않습니다.")
 			return false;
 		}
 		return true;
