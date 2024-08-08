@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.service.ProductService;
@@ -145,5 +146,14 @@ public class ProductController {
 		}
 		model.addAttribute("loc","/product/list");
 		return "common/msg";
+	}
+	
+	@GetMapping(value="review")
+	public String review(int productNo,Model model) {
+		Product p = productService.selectOneProduct(productNo);
+		List list = productService.selectAllProductReview();
+		model.addAttribute("p",p);
+		model.addAttribute("list",list);
+		return "/product/reviewList";
 	}
 }
