@@ -7,7 +7,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
+import kr.co.caloriebus.newslatter.model.dto.NewsLetterComment;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterCommentRowMapper;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFile;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFileRowMapper;
@@ -16,6 +18,7 @@ import kr.co.caloriebus.newslatter.model.dto.NewsLetterListRowMapper;
 
 @Repository
 public class NewsLetterDao {
+	
 	@Autowired
 	private JdbcTemplate jdbc;
 	
@@ -27,6 +30,9 @@ public class NewsLetterDao {
 	
 	@Autowired
 	private NewsLetterFileRowMapper newsletterFileRowMapper;
+	
+	@Autowired
+	private NewsLetterCommentRowMapper newsletterCommentRowMapper;
 
 	public List selectNewsLetterList(int start, int end) {
 		String query = "select * from (select rownum rnum, b.*\r\n" + 
@@ -102,4 +108,54 @@ public class NewsLetterDao {
 		List list = jdbc.query(query, newsletterFileRowMapper, params);
 		return list;
 	}
+	public List selectNewsLetterCommentList(int boardNo, int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_ref=? and board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null)bc";
+		Object[] params = {memberNo,boardNo,boardNo};
+		List list = jdbc.query(query, newsletterCommentRowMapper,params);
+		return list;
+	}
+	public int insertNewsLetterComment(NewsLetterComment nlc) {
+		String query = "insert into board_comment values(board_comment_seq.nextval,?,?,?,?,to_char(sysdate,'YYYY-MM-DD'))";
+		String boardCommentRef = nlc.getBoardCommentRef() == 0 ? null : String.valueOf(nlc.getBoardCommentRef());
+		Object[] params = {nlc.getBoardCommentContent(),nlc.getMemberNo(),nlc.getBoardRef(),boardCommentRef};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int deleteNewsLetterCommentLike(int boardCommentNo, int memberNo) {
+		String query = "delete from board_comment_like where board_comment_no=? and member_no=?";
+		Object[] params = {boardCommentNo,memberNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int insertNewsLetterCommentLike(int boardCommentNo, int memberNo) {
+		String query = "insert into board_comment_like values(?,?)";
+		Object[] params = {boardCommentNo,memberNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int selectNewsLetterCommentLikeCount(int boardCommentNo) {
+		String query = "select count(*) from board_comment_like where board_comment_no=?";
+		Object[] params = {boardCommentNo};
+		int likeCount = jdbc.queryForObject(query, Integer.class,params);
+		return likeCount;
+	}
+	
+	public int updateNewsLetter(NewsLetter nl) {
+        String query = "update board set board_title=?, board_content=? where board_no=?";
+        Object[] params = {nl.getBoardTitle(), nl.getBoardContent(), nl.getBoardNo()};
+        return jdbc.update(query, params);
+    }
+
+    public int deleteNewsLetter(int boardNo) {
+        String query = "delete from board where board_no=?";
+        Object[] params = {boardNo};
+        return jdbc.update(query, params);
+    }
+
+    public int deleteNewsLetterFiles(int boardNo) {
+        String query = "delete from board_file where board_no=?";
+        Object[] params = {boardNo};
+        return jdbc.update(query, params);
+    }
+
 }

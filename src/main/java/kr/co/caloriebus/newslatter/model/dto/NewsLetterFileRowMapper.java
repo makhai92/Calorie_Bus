@@ -12,9 +12,9 @@ public class NewsLetterFileRowMapper implements RowMapper<NewsLetterFile>{
 	@Override
 	public NewsLetterFile mapRow(ResultSet rs, int rowNum) throws SQLException {
 		NewsLetterFile newsletterFile = new NewsLetterFile();
+		newsletterFile.setFilename(rs.getString("filename"));
 		newsletterFile.setFileNo(rs.getInt("file_no"));
 		newsletterFile.setFilepath(rs.getString("filepath"));
-		newsletterFile.setFilename(rs.getString("filename"));
 		newsletterFile.setBoardNo(rs.getInt("board_no"));
 		return newsletterFile;
 	}

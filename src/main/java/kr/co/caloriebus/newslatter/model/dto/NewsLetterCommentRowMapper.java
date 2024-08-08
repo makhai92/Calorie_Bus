@@ -23,5 +23,4 @@ public class NewsLetterCommentRowMapper implements RowMapper<NewsLetterComment>{
 		comment.setBoard_comment_writer(rs.getString("board_comment_writer"));
 		return comment;
 	}
-
 }

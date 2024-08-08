@@ -24,5 +24,4 @@ public class NewsLetterInfoRowMapper implements RowMapper<NewsLetter>{
 		nl.setLikeCount(rs.getInt("like_count"));
 		return nl;
 	}
-
 }

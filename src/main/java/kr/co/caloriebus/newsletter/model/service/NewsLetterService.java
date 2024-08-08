@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.caloriebus.board.model.dto.Board;
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
+import kr.co.caloriebus.newslatter.model.dto.NewsLetterComment;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFile;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterListData;
 import kr.co.caloriebus.newsletter.model.dao.NewsLetterDao;
@@ -113,4 +115,44 @@ public class NewsLetterService {
 			return -1;
 		}
 	}
-}
+	@Transactional
+	public int insertNewsLetterComment(NewsLetterComment nlc) {
+		int result = newsletterDao.insertNewsLetterComment(nlc);
+		return result;
+	}
+
+	@Transactional
+	public int newsletterCommentLikePush(int boardCommentNo, int isLike, int memberNo) {
+		int result = 0;
+		if(isLike==1) {
+			result = newsletterDao.deleteNewsLetterCommentLike(boardCommentNo,memberNo);
+		}else {
+			result = newsletterDao.insertNewsLetterCommentLike(boardCommentNo,memberNo);
+		}
+		if(result >0) {
+			int likeCount = newsletterDao.selectNewsLetterCommentLikeCount(boardCommentNo);
+			return likeCount;
+		}else {
+			return -1;
+		}
+	}
+	 @Transactional
+	    public int updateNewsLetter(NewsLetter nl, ArrayList<NewsLetterFile> fileList) {
+	        int result = newsletterDao.updateNewsLetter(nl);
+	        if (result > 0) {
+	            newsletterDao.deleteNewsLetterFiles(nl.getBoardNo());
+	            for (NewsLetterFile newsletterFile : fileList) {
+	                newsletterFile.setBoardNo(nl.getBoardNo());
+	                result += newsletterDao.insertNewsLetterFile(newsletterFile);
+	            }
+	        }
+	        return result;
+	    }
+
+	    @Transactional
+	    public int deleteNewsLetter(int boardNo) {
+	        newsletterDao.deleteNewsLetterFiles(boardNo);
+	        return newsletterDao.deleteNewsLetter(boardNo);
+	    }
+	}
+

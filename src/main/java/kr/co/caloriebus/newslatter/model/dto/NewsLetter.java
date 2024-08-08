@@ -2,6 +2,7 @@ package kr.co.caloriebus.newslatter.model.dto;
 
 import java.util.List;
 
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,14 +20,10 @@ public class NewsLetter {
 	private int memberNo;
 	private String regDate;
 	private List<BoardFile> fileList;
+	private List<BoardComment> boardCommentList;
 	private int rNum;
-	
 	private String boardCategory;
-	
-	
-	
 	private int likeCount;
 	private int isLike;
 	private int commentCount;
-	
 }
