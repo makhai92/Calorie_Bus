@@ -10,6 +10,7 @@ import kr.co.caloriebus.product.model.dao.ProductDao;
 import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
+import kr.co.caloriebus.product.model.dto.ProductReview;
 
 @Service
 public class ProductService {
@@ -68,6 +69,17 @@ public class ProductService {
 	public List selectAllProductReview(int productNo) {
 		List list = productDao.selectAllProductReview(productNo);
 		return list;
+	}
+
+	public int selectFundingNo(int productNo) {
+		int fundingNo = productDao.selectFundingNo(productNo);
+		return fundingNo;
+	}
+	
+	@Transactional
+	public int reviewInsert(ProductReview pr) {
+		int result = productDao.reviewInsert(pr);
+		return result;
 	}
 
 

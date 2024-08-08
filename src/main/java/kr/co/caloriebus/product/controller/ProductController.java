@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductReview;
@@ -170,6 +169,8 @@ public class ProductController {
 		String savepath = root+"/product/review/";
 		String filepath = fileUtils.upload(savepath, upfile);
 		pr.setReviewImg(filepath);
+		int fundingNo = productService.selectFundingNo(pr.getProductNo());
+		pr.setFundingNo(fundingNo);
 		int result = productService.reviewInsert(pr);
 		if(result>0) {
 			model.addAttribute("title","작성완료");
