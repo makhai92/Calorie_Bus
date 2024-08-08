@@ -39,6 +39,12 @@
 	#memberBank{
 		width : 100px;
 	}
+	#memberAddr{
+		width : 400px;
+	}
+	.input-item1>.btn-round{
+		padding : 8px 0;
+	}
 </style>
 </head>
 <body>
@@ -127,14 +133,16 @@
 							<th style="height:40px;">주소</th>
 							<td class="input-item1">
 								<input type="text" name="membeAddr" id="memberAddr" th:value="${session.member.memberAddr}">
+								<button class="btn-round">배송지 변경</button>
 							</td>
 						</tr>
 						<tr>
 							<th style="height:40px;">환불 정보</th>
 							<td class="input-item1">
-								<select class="select" name="memberBank" id="memberBank">
-									<option th:text="${session.member.memberBank}" disabled selected></option>
-								</select>
+								<select class="select" id="selectBank" name="memberBank">
+                        			<option disabled selected th:if="${session.member.memberBank}!=null"><span th:text="${session.member.memberBank}"></span></option>
+                        			<option disabled selected th:if="${session.member.memberBank}==null">은행선택</option>
+                    			</select>
 								<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}">
 								<span></span>
 							</td>
@@ -155,13 +163,15 @@
 		});
 
 		let isBankClicked = false; // 생성 여부 저장용 변수
-		$("#memberBank").on("click", function(){
+
+		// 맨 처음 클릭 시 옵션 생성
+		$("#selectBank").on("click", function(){
 			const bankArr = ['경남은행', '광주은행', '국민은행', '기업은행', '농협은행', '부산은행', '수협은행', '신한은행', '씨티은행', '우리은행', '우체국', '전북은행', '제주은행', '주택금융공사', '지역농협', '지역수협', '카카오뱅크', '토스뱅크', '케이뱅크', '하나은행', '한국장학재단', 'iM뱅크', 'KDB산업은행', 'SC제일은행'];
 			if(!isBankClicked) {
 				bankArr.forEach(function(bank, index, array){
 					const bankOption = $("<option>");
 					bankOption.val(bank).text(bank);
-					$("#memberBank").append(bankOption);
+					$("#selectBank").append(bankOption);
 				})
 				isBankClicked = true;
 			}
