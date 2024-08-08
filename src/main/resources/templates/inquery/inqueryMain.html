@@ -119,7 +119,7 @@
 					</tr>
 					<tr th:each="inquery : ${list}" >
 						<td th:text = "${inquery.inqueryNo}"></td>
-						<td class="inqueryView"><a th:href = "@{/inquery/inqueryView}" th:text = "${inquery.inqueryTitle}"></a></td>
+						<td class="inqueryView"><a th:href = "@{/inquery/inqueryView(inqueryNo=${inquery.inqueryNo})}" th:text = "${inquery.inqueryTitle}"></a></td>
 						<td th:text = "${inquery.memberNo}"></td>
 						<td th:text = "${inquery.inqueryDate}"></td>
 					</tr>

@@ -5,8 +5,9 @@
 <title>Insert title here</title>
 <style>
 	.title{
-		padding : 10px 5px;
-		padding-top: 30px;
+		magin : 5px 5px;
+		margin-top : 30px;
+		height: 30px;
 	}
 	.info{
 		border-bottom: 0.8px solid var(--line1);
@@ -29,21 +30,50 @@
 		width : 60px;
 		text-align: center;
 	}
-	.member-info,.delivery-info,.same-info{
+	.member-delivery {
+		overflow: hidden;
+	}
+	.member-info,.delivery-info{
 		width: 640px;
 		float: left;
 	}
 	.member-info{
 		margin-right: 20px;
 	}
-	#memberBank{
+	#memberBank, #bank{
+		width : 100px;
+		text-align: center;
+	}
+	#memberPostcode,#postcode{
 		width : 100px;
 	}
-	#memberAddr{
-		width : 400px;
+	#memberroadAddr,#addr{
+		width : 420px;
+		display: inline-block;
 	}
-	.input-item1>.btn-round{
-		padding : 8px 0;
+	.delivery-info>.title>h3{
+		display: inline-block;	
+	}
+	.title>button{
+		padding : 6px 0;
+		float: right;
+	}
+	.input-item1>.address-change {
+		padding : 6px 0;
+	}
+	.input-item1>input{
+		margin: 1px 0;
+	}
+	.button-box{
+		text-align: center;
+		padding: 20px 0;
+	}
+	.button-box>button{
+		width : 500px;
+		height : 40px;
+		margin : 5px 20px;
+		font-size: 16px;
+		font-weight: 700;
 	}
 </style>
 </head>
@@ -79,83 +109,109 @@
 						</table>
 					</div>
 				</div>
-				<div class="member-info">
+				<div class="member-delivery">
+					<div class="member-info">
+						<div class="title">
+							<h3>주문자 정보</h3>
+						</div>
+						<div class="info">
+							<table class="info-tbl">
+								<tr>
+									<th style="width : 80px; height:40px;">이름</th>
+									<td class="input-item2">
+										<input type="text" id="name" th:value="${session.member.memberName}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th style="height:40px;">전화번호</th>
+									<td class="input-item2">
+										<input type="text" id="phone" th:value="${session.member.memberPhone}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th style="height:80px;">주소</th>
+									<td class="input-item2">
+										<input type="text" id="postcode" th:value="${session.member.memberPostcode}" readonly>
+										<input type="text" id="addr" th:value="${session.member.memberAddr}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th style="height:40px;">환불 정보</th>
+									<td class="input-item2">
+										<input type="text" id="bank" th:value="${session.member.memberBank}" readonly>
+										<input type="text" th:value="${session.member.memberAccount}" readonly>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="delivery-info">
+						<div class="title">
+							<h3>배송지 정보</h3>
+							<button type="button" class="btn-round sameMember">주문자 동일</button>
+						</div>
+						<div class="info">
+							<table class="info-tbl">
+								<tr>
+									<th style="width : 80px; height:40px;">이름</th>
+									<td class="input-item1">
+										<input type="text" name="fundingName" id="memberName">
+									</td>
+								</tr>
+								<tr>
+									<th style="height:40px;">전화번호</th>
+									<td class="input-item1">
+										<input type="text" name="fundingPhone" id="memberPhone">
+									</td>
+								</tr>
+								<tr>
+									<th style="height:80px;">주소</th>
+									<td class="input-item1">
+										<input type="text" name="fundingPostcode" id="memberPostcode">
+										<input type="text" name="memberAddr" id="memberroadAddr">
+										<input type="text" name="memberAddr" id="memberdetailAddr" placeholder="상세주소">
+										<input type="hidden" name="fundingAddr" id="memberAddr">
+										<button type="button" class="btn-round address-change">주소찾기</button>
+									</td>
+								</tr>
+								<tr>
+									<th style="height:40px;">환불 정보</th>
+									<td class="input-item1">
+										<select class="select" id="selectBank" name="memberBank">
+		                        			<option disabled selected th:if="${session.member.memberBank}!=null"><span th:text="${session.member.memberBank}"></span></option>
+		                        			<option disabled selected th:if="${session.member.memberBank}==null">은행선택</option>
+		                    			</select>
+										<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}">
+										<span></span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="pay-info">
 					<div class="title">
-						<h3>주문자 정보</h3>
+						<h3>결제 정보</h3>
 					</div>
 					<div class="info">
 						<table class="info-tbl">
 							<tr>
-								<th style="height:40px;">이름</th>
-								<td class="input-item2">
-									<input type="text" name="memberName" id="memberName" th:value="${session.member.memberName}" readonly>
-								</td>
+								<th style="float: left;">입금 안내</th>
 							</tr>
 							<tr>
-								<th style="height:40px;">전화번호</th>
-								<td class="input-item2">
-									<input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}" readonly>
-								</td>
+								<td style="height:50px;">우리은행  0000-000-000000</td>
 							</tr>
 							<tr>
-								<th style="height:40px;">주소</th>
-								<td class="input-item2">
-									<input type="text" name="memberPostcode" id="memberPostcode" th:value="${session.member.memberPostcode}" readonly>
-									<input type="text" name="membeAddr" id="memberAddr" th:value="${session.member.memberAddr}" readonly>
-								</td>
-							</tr>
-							<tr>
-								<th style="height:40px;">환불 정보</th>
-								<td class="input-item2">
-									<input type="text" name="memberBank" id="memberBank" th:value="${session.member.memberBank}" readonly>
-									<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}" readonly>
-								</td>
+								<td>*24시간 내 미입금 시 자동으로 취소
+								됩니다.</td>
 							</tr>
 						</table>
 					</div>
 				</div>
-				<div class="delivery-info">
-					<div class="title">
-						<h3>배송지 정보</h3>
-					</div>
-					<div class="info">
-						<table class="info-tbl">
-							<tr>
-								<th style="height:40px;">이름</th>
-								<td class="input-item1">
-									<input type="text" name="memberName" id="memberName" th:value="${session.member.memberName}">
-								</td>
-							</tr>
-							<tr>
-								<th style="height:40px;">전화번호</th>
-								<td class="input-item1">
-									<input type="text" name="memberPhone" id="memberPhone" th:value="${session.member.memberPhone}">
-								</td>
-							</tr>
-							<tr>
-								<th style="height:40px;">주소</th>
-								<td class="input-item1">
-									<input type="text" name="memberPostcode" id="memberPostcode" th:value="${session.member.memberPostcode}">
-									<input type="text" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}">
-									<input type="hidden" name="changePostcode" id="changePostcode">
-									<input type="hidden" name="changeAddr" id="changeAddr">
-									<input type="hidden" name="changeDetailAddr" id="changeDetailAddr">
-									<button type="button" class="btn-round address-change">배송지 변경</button>
-								</td>
-							</tr>
-							<tr>
-								<th style="height:40px;">환불 정보</th>
-								<td class="input-item1">
-									<select class="select" id="selectBank" name="memberBank">
-	                        			<option disabled selected th:if="${session.member.memberBank}!=null"><span th:text="${session.member.memberBank}"></span></option>
-	                        			<option disabled selected th:if="${session.member.memberBank}==null">은행선택</option>
-	                    			</select>
-									<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}">
-									<span></span>
-								</td>
-							</tr>
-						</table>
-					</div>
+				<input type="hidden" name="memberNo" th:value=${session.member.memberNo}>
+				<input type="hidden" name="productNo" th:value=${p.productNo}>
+				<div class="button-box">
+					<button type="submit" class="btn-round">구매 예약하기</button>
 				</div>
 			</form>
 		</section>
@@ -189,11 +245,30 @@
 				oncomplete : function(data) {
 					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
 					// 예제를 참고하여 다양한 활용법을 확인해 보세요.
-					$("#changePostcode").val(data.zonecode);
-					$("#changeAddr").val(data.roadAddress);
-					$("#changeDetailAddr").focus();
+					$("#memberPostcode").val(data.zonecode);
+					$("#memberroadAddr").val(data.roadAddress);
+					$("#detailAddress").focus();
 				}
 			}).open();
+		});
+		$(".sameMember").on("click", function() {
+			const name = $("#name").val();
+			$("#memberName").val(name);
+			const phone = $("#phone").val();
+			$("#memberPhone").val(phone);
+			const postcode = $("#postcode").val();
+			$("#memberPostcode").val(postcode);
+			const addr = $("#addr").val();
+			$("#memberroadAddr").val(addr);
+			
+			$("#memberdetailAddr").remove();
+			$(".address-change").remove();
+		})
+		
+		$("#memberdetailAddr").on("change",function addr(){
+			const roadAddr = $("#memberroadAddr").val();
+			const detailAddr = $("#memberdetailAddr").val();
+			$("#memberAddr").val(roadAddr+detailAddr);
 		});
 		
 	</script>

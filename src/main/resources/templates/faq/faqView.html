@@ -59,14 +59,13 @@
           	</table>
           	<div class="option-button">
           		<button class="update-btn">수정</button>
-          		<button class="del-btn" th:onclick="faqDelete([[${f.faqNo}]]);">삭제</button>
+          		<button class="del-btn" onclick="faqDelete([[${f.faqNo}]])">삭제</button>
           	</div>
       	</div>
 	</div>
 </div>
 <script>
 	const faqNo = "[[${f.faqNo}]]";
-	location.href ="/faq/deleteFaq?faqNo="+faqNo;
 </script>
 </body>
 <th:block th:include="common/footer"></th:block>

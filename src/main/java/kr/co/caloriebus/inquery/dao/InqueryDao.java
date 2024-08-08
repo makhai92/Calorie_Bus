@@ -7,10 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.co.caloriebus.inquery.dto.Inquery;
-import kr.co.caloriebus.inquery.dto.InqueryCommentRowMapper;
+import kr.co.caloriebus.inquery.dto.InqueryReplyRowMapper;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryFileRowMapper;
 import kr.co.caloriebus.inquery.dto.InqueryRowMapper;
+import kr.co.caloriebus.inquery.dto.InqueryReply;
 
 @Repository
 public class InqueryDao {
@@ -21,7 +22,8 @@ public class InqueryDao {
 	@Autowired
 	private InqueryFileRowMapper inqueryFileRowMapper;
 	@Autowired
-	private InqueryCommentRowMapper inqueryCommentRowMapper;
+	private InqueryReplyRowMapper inqueryReplyRowMapper;
+	
 
 	public List selectInqueryList(int start, int end) {
 		String query ="select * from (select rownum as rnum ,n.* from (select * from inquery order by 1 desc)n) where rnum between ? and ?";
@@ -57,5 +59,36 @@ public class InqueryDao {
 		int result = jdbc.update(query,params);
 		return result;
 	}
+
+	public Inquery selectOneInquery(int inqueryNo) {
+		String query = "select * from inquery where inquery_no = ?";
+		Object[] params = {inqueryNo};
+		List list = jdbc.query(query, inqueryRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			
+			return (Inquery)list.get(0);
+		}
+	}
+
+	public List selectInqueryFile(int inqueryNo) {
+		String query = "select * from inquery_file where inquery_no=?";
+		Object[] params = {inqueryNo};
+		List list = jdbc.query(query, inqueryFileRowMapper, params);
+		return list;
+	}
+
+	public List<InqueryReply> selectReplyList(int inqueryNo, int memberNo) {
+		String query = "select * from reply where inquery_no = ?";
+		Object[] params = {inqueryNo};
+		List list = jdbc.query(query, inqueryReplyRowMapper, params);
+		return list;
+	}
+
+
+	
+
+	
 	
 }

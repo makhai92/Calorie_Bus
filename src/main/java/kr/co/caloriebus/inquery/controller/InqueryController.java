@@ -82,7 +82,25 @@ public class InqueryController {
 		return "redirect:/inquery/inqueryEditor";
 		
 	}
-	
+	@GetMapping(value = "/inqueryView")
+	public String view(int inqueryNo,String check, Model model, @SessionAttribute(required = false) Member member) {
+		int memberNo = 0;
+		if (member != null) {
+			memberNo = member.getMemberNo();
+		}
+		
+		Inquery i = inqueryService.selectOneInquery(inqueryNo, check ,memberNo);
+		if (i == null) {
+			model.addAttribute("title", "조회 실패");
+			model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
+			model.addAttribute("icon", "info");
+			model.addAttribute("loc", "/inquery/inqueryMain?reqPage=1");
+			return "common/msg";
+		} else {
+			model.addAttribute("i", i);
+			return "inquery/inqueryView";
+		}
+	}
 	
 	// 마이페이지 용 문의 내역 조회
 	@GetMapping(value="/myinquery")
