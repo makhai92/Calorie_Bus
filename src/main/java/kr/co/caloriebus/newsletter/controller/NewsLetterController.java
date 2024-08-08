@@ -61,13 +61,13 @@ public class NewsLetterController {
 	}
 	
 	@PostMapping(value="/write")
-	public String write(NewsLetter nl,MultipartFile[] files, Model model) {
+	public String write(NewsLetter nl,MultipartFile[] upFile, Model model) {
 		ArrayList<NewsLetterFile> fileList = new ArrayList<NewsLetterFile>();
-		if(!files[0].isEmpty()) {
+		if(!upFile[0].isEmpty()) {
 			String savepath = root+"/newsletter/";
-			for(int i=0;i<files.length;i++) {
-				String filename = files[i].getOriginalFilename();
-				String filepath = fileUtils.upload(savepath, files[i]);
+			for(int i=0;i<upFile.length;i++) {
+				String filename = upFile[i].getOriginalFilename();
+				String filepath = fileUtils.upload(savepath, upFile[i]);
 				NewsLetterFile newsletterFile = new NewsLetterFile();
 				newsletterFile.setFilepath(filepath);
 				newsletterFile.setFilename(filename);
@@ -84,7 +84,7 @@ public class NewsLetterController {
 			model.addAttribute("msg","게시글 작성 실패");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/newsletter/listForm?reqPage=1");
+		model.addAttribute("loc","/newsletter/list?reqPage=1");
 		return "common/msg"; 
 	}
 	@GetMapping(value="/viewForm")
@@ -98,6 +98,7 @@ public class NewsLetterController {
 			model.addAttribute("memberNo",-1);
 		}
 		model.addAttribute("newsletter",n);
+		model.addAttribute("fileList",n.getFileList());
 		return "newsletter/viewForm";
 	}
 	
@@ -122,12 +123,12 @@ public class NewsLetterController {
 		}
 	}
 	@GetMapping(value="/filedown")
-	public void filedown(BoardFile bf,HttpServletResponse response) {
+	public void filedown(NewsLetterFile nlf,HttpServletResponse response) {
 		String savepath = root+"/newsletter/";
-		fileUtils.downloadFile(savepath, bf.getFilename(), bf.getFilepath(), response);
+		fileUtils.downloadFile(savepath, nlf.getFilename(), nlf.getFilepath(), response);
 	}
 	@PostMapping(value="/insertNewsLetterComment")
-	public String insertNewsLetterComment(NewsLetterComment nlc,@SessionAttribute(required=false)Member member) {
+	public String insertNewsLetterComment(NewsLetterComment nlc,String boardCommentContent,@SessionAttribute(required=false)Member member) {
 		if (member != null) {
 	        nlc.setMemberNo(member.getMemberNo());
 	        int result = newsletterService.insertNewsLetterComment(nlc);
@@ -189,6 +190,7 @@ public class NewsLetterController {
         }
         NewsLetter n = newsletterService.selectNewsLetter(member.getMemberNo(), boardNo, null);
         if (n != null && n.getMemberNo() == member.getMemberNo()) {
+        	System.out.println(boardNo);
             int result = newsletterService.deleteNewsLetter(boardNo);
             if (result > 0) {
                 model.addAttribute("title", "게시글 삭제 성공");

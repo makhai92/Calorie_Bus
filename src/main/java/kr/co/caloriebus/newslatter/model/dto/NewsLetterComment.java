@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class NewsLetterComment {
 	private int boardCommentNo;
-	private String board_comment_writer;
+	private String boardCommentWriter;
 	private String boardCommentContent;
 	private String boardCommentDate;
 	private int boardRef;

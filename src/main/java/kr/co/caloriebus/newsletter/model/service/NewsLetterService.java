@@ -23,7 +23,6 @@ public class NewsLetterService {
 	private NewsLetterDao newsletterDao;
 
 	public NewsLetterListData selectNewsLetterList(int reqPage) {
-		System.out.println(1);
 		int numPerPage = 10;
 		int end = reqPage*numPerPage;
 		int start = end-numPerPage+1;

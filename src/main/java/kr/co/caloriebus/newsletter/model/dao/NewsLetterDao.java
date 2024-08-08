@@ -50,7 +50,6 @@ public class NewsLetterDao {
 
 	public int insertNewsLetter(NewsLetter nl) {
 		String query = "insert into board values(board_seq.nextval,?,'N1',?,?,1,to_char(sysdate,'YYYY-MM-DD'))";
-		System.out.println(nl);
 		Object[] params = {nl.getMemberNo(),nl.getBoardTitle(),nl.getBoardContent()};
 		int result = jdbc.update(query, params);
 		return result;
