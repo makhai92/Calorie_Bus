@@ -20,4 +20,5 @@ public class Member {
 	private int eventCount;
 	private String memberAccount;
 	private String memberBank;
+	private String memberPostcode;
 }

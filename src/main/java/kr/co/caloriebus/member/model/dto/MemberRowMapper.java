@@ -23,6 +23,7 @@ public class MemberRowMapper implements RowMapper<Member>{
 		m.setMemberPw(rs.getString("member_pw"));
 		m.setMemberAccount(rs.getString("member_account"));
 		m.setMemberBank(rs.getString("member_bank"));
+		m.setMemberPostcode(rs.getString("member_postcode"));
 		return m;
 	}
 
