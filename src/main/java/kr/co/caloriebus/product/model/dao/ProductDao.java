@@ -10,6 +10,7 @@ import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
 import kr.co.caloriebus.product.model.dto.ProductFileRowMapper;
+import kr.co.caloriebus.product.model.dto.ProductReviewRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductRowMapper;
 
 @Repository
@@ -19,7 +20,7 @@ public class ProductDao {
 	@Autowired
 	private ProductRowMapper productRowMapper;
 	@Autowired
-	private ProductFileRowMapper productFileRowMapper;
+	private ProductReviewRowMapper productReviewRowMapper;
 	
 	public List selectAllProduct() {
 		String query="select * from product order by 1 desc";
@@ -79,6 +80,12 @@ public class ProductDao {
 		Object[] params = {f.getMemberNo(),f.getProductNo(),f.getOrderAmount(),f.getFundingName(),f.getFundingPhone(),f.getFundingAddr(),f.getFundingPostcode()};
 		int result = jdbc.update(query,params);
 		return result;
+	}
+
+	public List selectAllProductReview() {
+		String query = "select * from product_review order by 1 desc";
+		List list = jdbc.query(query, productReviewRowMapper);
+		return list;
 	}
 	
 

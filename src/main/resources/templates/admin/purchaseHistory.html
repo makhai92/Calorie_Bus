@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <link rel="stylesheet" href="css/headfooter.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="Semi_Project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+<style>
+.purchase-title{
+    font-size: 30px;
+    font-weight: bolder;  
+      
+}
+.admin-wrap>div{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.adminPage{
+    padding: 50px 0;
+    width: 1300px;
+    height: 800px;
+    margin: 0 auto;
+}
+
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	
+ <main class="adminPage">
+		<section class="section admin-wrap">
+			<div class = "purchase-title">회원 관리 페이지</div>
+			<table class="tbl tbl-hover">
+				<tr>
+					<th style="width:5%;">구매번호</th>
+					<th style="width:10%;">제품번호</th>
+					<th style="width:10%;">회원번호</th>
+					<th style="width:10%;">주문일자</th>
+					<th style="width:10%;">주문개수</th>
+                    <th style="width:10%;">구매자</th>
+					<th style="width:10%;">전화번호</th>
+					<th style="width:20%;">주소</th>
+                    <th style="width:5%;">우편번호</th>
+					<th style="width:10%;">변경</th>
+					<th style="width:5%;">변경확인</th>
+					
+				</tr>
+				<tr th:each="f : ${list}">
+					<td th:text="${f.fundingNo}">1</td>
+					<td th:text="${f.productNo}">21</td>
+					<td th:text="${f.memberNo}">27</td>
+                    <td th:text="${f.orderDate}">2024-08-08</td>
+					<td th:text="${f.orderAmount}">1</td>
+                    <td th:text="${f.fundingName}">양창모</td>
+					<td th:text="${f.fundingPhone}">01012345678</td>
+                    <td th:text="${f.fundingAddr}">서울시 영등포구 도신로15나길 3201동302호</td>
+                    <td th:text="${f.fundingPostcode}">07374</td>
+					<td>
+						<div class="select" th:switch="${f.orderState}">
+							<select th:case="1">
+								<option value="1" selected>O</option>
+								<option value="2" >X</option>
+							</select >
+							<select th:case="2">
+									<option value="1">O</option>
+									<option value="2" selected>X</option>
+								</select>
+						</div>
+					</td>
+					<td>
+						<button class="changeOrderState">확인</button>
+					</td>	
+				
+			</table>
+		</section>
+		</main>
+	
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

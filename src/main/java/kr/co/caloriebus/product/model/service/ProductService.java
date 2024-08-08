@@ -65,5 +65,10 @@ public class ProductService {
 		return result;
 	}
 
+	public List selectAllProductReview() {
+		List list = productDao.selectAllProductReview();
+		return list;
+	}
+
 
 }

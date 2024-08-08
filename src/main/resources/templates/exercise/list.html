@@ -24,7 +24,28 @@
 		height: 30px;
 		border: 0.8px solid #D9D9D9;
 	}
-	
+	.page-ul{
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 40px;	
+	}
+	.page-ul *{
+		display: block;
+	}
+	.page-item{
+		height:40px;
+		line-height:40px;
+		list-style: none;
+		text-align: center;
+	}
+	.page-item>span{
+		line-height:40px;
+	}
+	#pageNavi{
+		margin-top: 30px;
+	}
 </style>
 </head>
 <body>
@@ -33,8 +54,7 @@
 		<section class="section product-list-wrap">
 			<div class="page-title">운동정보</div>
 			<div class="list-header">
-			<!--th:if="${session.member != null && session.member.memberLevel == 1}"-->
-			<a class="btn-square" id="write-btn" href="/exercise/editFrm">글쓰기</a>
+			<a th:if="${session.member != null && session.member.memberLevel == 1}" class="btn-square" id="write-btn" href="/exercise/editFrm">글쓰기</a>
 				<form action="/exercise/search" method="get" id="searchFrm">
 					<div class="input-item">
 						<input type="text" name="keyword">
@@ -45,17 +65,17 @@
 			<div>
 				<table class="tbl">
 					<tr>
-						<th style="width:10%;">글번호</th>
 						<th style="width:45%;">제목</th>
 						<th style="width:15%;">작성자</th>
 						<th style="width:20%;">작성일</th>
+						<th style="width:10%;">좋아요</th>
 						<th style="width:10%;">조회수</th>
 					</tr>
 					<tr th:each="exercise : ${list}">
-						<td th:text="${exercise.boardNo}"></td>
 						<td><a th:href="@{/exercise/viewFrm(boardNo=${exercise.boardNo})}"><span th:text="${exercise.boardTitle}"></span>(<span th:text="${exercise.commentCount}"></span>)</a></td>
 						<td th:text="${exercise.boardWriter}"></td>
 						<td th:text="${exercise.regDate}"></td>
+						<td th:text="${exercise.likeCount}"></td>
 						<td th:text="${exercise.readCount}"></td>	
 					</tr>
 				</table>

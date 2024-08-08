@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>운동정보 작성</title>
+<style>
+	#memberId{
+		border: none;
+		font-size: medium;
+	}
+</style>
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
@@ -26,8 +32,8 @@
 						<tr>
 							<th style="width: 10%">작성자</th>
 							<td style="width: 40%">
-								<input style="border: none;" type="text" name="memberId" th:value="${session.member?.memberId}" readonly>
-								
+								<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
+                            	<input type="text" id="memberId" name="memberId" th:value="${session.member.memberId}" readonly> 
 							</td>
 							<th style="width: 10%">첨부파일</th>
 							<td style="width: 40%">
