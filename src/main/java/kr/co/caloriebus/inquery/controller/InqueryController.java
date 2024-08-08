@@ -106,10 +106,10 @@ public class InqueryController {
 	@GetMapping(value="/myinquery")
 	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
 		int memberNo = member.getMemberNo();
-		// InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
-		// model.addAttribute("list", ild.getList());
-		// model.addAttribute("pageNavi",ild.getPageNavi());
-		// model.addAttribute("category", "myboard");
+		InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
+		model.addAttribute("list", ild.getList());
+		model.addAttribute("pageNavi",ild.getPageNavi());
+		model.addAttribute("category", "myinquery");
 		return "member/myinquery";
 	}
 }
