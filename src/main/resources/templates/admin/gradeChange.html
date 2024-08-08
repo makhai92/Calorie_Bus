@@ -17,7 +17,7 @@
 <body>
 <th:block th:include="common/header"></th:block>
 
-<main class="adminPage">
+<main class="content">
 		<section class="section admin-wrap">
 			<div class = "page-title">회원 관리 페이지</div>
 			<table class="tbl tbl-hover">
@@ -28,45 +28,64 @@
 					<th style="width:10%;">이름</th>
 					<th style="width:10%;">전화번호</th>
 					<th style="width:20%;">주소</th>
-                    <th style="width:5%;">우편번호</th>
+                    <th style="width:3%;">우편번호</th>
 					<th style="width:15%;">생년월일</th>
 					<th style="width:5%;">회원등급</th>
                     <th style="width:5%;">이벤트 참여 기회</th>
-					<th style="width:5%;">등급변경</th>
+					<th style="width:7%;">등급변경</th>
+					<th style="width:7%;">등급적용</th>
 				</tr>
-				<tr th:each="m,status : ${list}">
-					<td th:text="${m.memberNo}">10</td>
-					<td th:text="${m.memberId}">ljh0523</td>
-					<td th:text="${m.memberPw}">aaaaaaaaaa</td>
-                    <td th:text="${m.memberName}">이재호</td>
-					<td th:text="${m.memberPhone}">01085795748</td>
-					<td th:text="${m.memberAddr}">서울시 강남구 도곡동 920-1</td>
-                    <td th:text="${m.memberAddrNo}">45666</td>
-					<td th:text="${m.enrollDate}">2024-01-01</td>
-					
-					<td>
-						<div class="select" th:switch="${m.memberLevel}">
+				<tr th:each="m : ${list}">
+					<td th:text="${m.memberNo}"></td>
+					<td th:text="${m.memberId}"></td>
+					<td th:text="${m.memberPw}"></td>
+                    <td th:text="${m.memberName}"></td>
+					<td th:text="${m.memberPhone}"></td>
+					<td th:text="${m.memberAddr}"></td>
+                    <td th:text="${m.memberPostcode}"></td>
+					<td th:text="${m.memberBirth}"></td>
+					<td th:text="${m.memberLevel}">
+					</td>
+                    <td>
+                    	<div class="select" th:switch="${m.eventCount}">
+                    		<select th:case="0">
+								<option value="0" selected>X</option>
+								<option value="1" >O</option>
+							</select >
 							<select th:case="1">
-								<option value="1" selected>관리자</option>
-								<option value="2" >회원</option>
+								<option value="0">X</option>
+								<option value="1"selected>O</option>
+							</select >
+                    	</div>
+                    </td>
+					<td>
+					<div class="select" th:switch="${m.memberLevel}">
+							<select th:case="1">
+								<option value="1" selected>1</option>
+								<option value="2" >2</option>
 							</select >
 							<select th:case="2">
-									<option value="1">관리자</option>
-									<option value="2" selected>회원</option>
-								</select>
+								<option value="1">1</option>
+								<option value="2"selected>2</option>
+							</select >
 						</div>
-					</td>
-                    <td th:text="${m.event}">O,X</td>
-					<td>
-						<button class="btn-primary changeLevel">등급변경</button>
 					</td>	
-				</tr>
-				<tr>
-					
+					<td>
+						<button class="memberLevelChange">등급변경</button>
+					</td>
 				</tr>
 			</table>
 		</section>
 </main>
+<script>
+	$(".memberLevelChange").on("click",function(){
+				const memberNo = $(this).parent().parent().children().eq(0).text();
+				const memberLevel = $(this).parent().prev().children().children().val();
+				location.href="/admin/memberLevelChange?memberNo="+memberNo+"&memberLevel="+memberLevel;
+				console.log(memberLevel);
+			});
+			
+</script>
 <th:block th:include="common/footer"></th:block>
 </body>
 </html>

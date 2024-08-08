@@ -43,14 +43,27 @@ public String adminMain() {
 			return "common/"; 
 		}
 	    }
-	/*
+	
 	@GetMapping("/gradeChange")
 	public String getGradeChange(Model model) {
-		List<Member> memberList = adminService.getAllMember();
-		
+		List list = adminService.getAllMember();
+		model.addAttribute("list" , list);
 		return "admin/gradeChange";
 		
 	}
-	*/
+	@GetMapping("/memberLevelChange")	
+	public String memberLevelChange(Member m,Model model) {
+		int result = adminService.memberLevelChange(m);
+		if(result>0) {
+			return "redirect:/admin/gradeChange";
+		}else {
+			model.addAttribute("title", "등급 변경 실패");
+			model.addAttribute("msg", "개발자에게 문의하세요");
+			model.addAttribute("icon", "warning");
+			model.addAttribute("loc", "/admin/gradeChange");
+				return "common/msg";
+		}
+	}
+	
 
 }

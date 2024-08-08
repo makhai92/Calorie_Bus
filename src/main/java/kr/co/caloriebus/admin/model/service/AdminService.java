@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.caloriebus.admin.model.dao.AdminDao;
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 
 @Service
@@ -21,6 +22,16 @@ public class AdminService {
 
 	public int changeOrderState(Funding f) {
 		int result = adminDao.changeOrderState(f);
+		return result;
+	}
+
+	public List getAllMember() {
+		List list = adminDao.selectAllMember();
+		return list;
+	}
+	
+	public int memberLevelChange(Member m) {
+		int result = adminDao.memberLevelChange(m);
 		return result;
 	}
 }
