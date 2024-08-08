@@ -139,6 +139,7 @@
             const isLike = likeSpan.hasClass("favorite") ? 1 : 0;
             $.ajax({
                 url: "/newsletter/boardLikePush",
+                
                 data: { boardNo: boardNo, isLike: isLike },
                 type: "post",
                 success: function(data) {
