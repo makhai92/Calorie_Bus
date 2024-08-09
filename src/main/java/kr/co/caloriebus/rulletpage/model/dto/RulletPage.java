@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class RulletPage {
 	private int memberNo;
 	private String eventState;
-	private String eventitemName;
+	private String eventItemName;
 	
 }

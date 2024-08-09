@@ -127,8 +127,8 @@
 						<div class="orderCount"></div>
 						<div class="pddeadline" th:text=${p.endDate}></div>
 						<div class="remainingAmount" th:text=잔여수량+':'+${p.productMaxAmount}></div>
-						<div class=" price" th:text=정상가+${p.productPrice}+원></div>
-						<div class=" dcPrice" th:text=${p.productDcPrice}+원></div>
+						<div class="price" th:text=${p.productPrice}></div>
+						<div class="dcPrice" th:text=${p.productDcPrice}></div>
 						<div class="button-box">
 							<button class="like-box">
 								<span class="material-symbols-outlined">favorite</span>
@@ -148,6 +148,19 @@
 		</section>
 	</main>
 	<script>
+		function addCommasToNumber(number) {
+	    	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		function changeNum(){
+			const price = $(".price").text();
+			const krtotalPrice = addCommasToNumber(price);
+			$(".price").text('정상가 '+krtotalPrice+'원');
+			const dcPrice = $(".dcPrice").text();
+			const krtotalPrice2 = addCommasToNumber(dcPrice);
+			$(".dcPrice").text(krtotalPrice2+'원');
+		}
+		changeNum();
+		
 		function productDelete(productNo){
 			swal({
 				title:"게시글 삭제",

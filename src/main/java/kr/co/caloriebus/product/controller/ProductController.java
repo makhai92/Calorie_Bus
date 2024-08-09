@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
+import kr.co.caloriebus.product.model.dto.Myfunding;
+import kr.co.caloriebus.product.model.dto.MyfundingListData;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.service.ProductService;
 import kr.co.caloriebus.util.FileUtils;
+import kr.co.caloriebus.util.Message;
 
 @Controller
 @RequestMapping(value="/product")
@@ -132,7 +137,7 @@ public class ProductController {
 		return "/product/fundingFrm";
 	}
 	
-	@PostMapping(value="funding")
+	@PostMapping(value="/funding")
 	public String funding(Funding f,Model model) {
 		int result = productService.insertFunding(f);
 		if(result>0) {
@@ -148,7 +153,7 @@ public class ProductController {
 		return "common/msg";
 	}
 	
-	@GetMapping(value="review")
+	@GetMapping(value="/review")
 	public String review(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		List list = productService.selectAllProductReview(productNo);
@@ -157,20 +162,19 @@ public class ProductController {
 		return "/product/reviewList";
 	}
 	
-	@GetMapping(value="reviewFrm")
-	public String reviewFrm(int productNo,Model model) {
-		Product p = productService.selectOneProduct(productNo);
+	@GetMapping(value="/reviewFrm")
+	public String reviewFrm(int productNo,int fundingNo,Model model) {
+		Product p = productService.selectOneProduct(productNo); 
 		model.addAttribute("p",p);
+		model.addAttribute("fundingNo",fundingNo);
 		return "/product/reviewFrm";
 	}
 	
-	@PostMapping(value="reviewInsert")
+	@PostMapping(value="/reviewInsert")
 	public String reviewInsert(ProductReview pr,MultipartFile upfile,Model model) {
 		String savepath = root+"/product/review/";
 		String filepath = fileUtils.upload(savepath, upfile);
 		pr.setReviewImg(filepath);
-		int fundingNo = productService.selectFundingNo(pr.getProductNo());
-		pr.setFundingNo(fundingNo);
 		int result = productService.reviewInsert(pr);
 		if(result>0) {
 			model.addAttribute("title","작성완료");
@@ -184,4 +188,74 @@ public class ProductController {
 		model.addAttribute("loc","/product/list");
 		return "common/msg";
 	}
+	
+	
+	// 마이페이지 용 공구 내역 조회
+	@GetMapping(value="/myfunding")
+	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		MyfundingListData mld = productService.selectMyfundingList(memberNo, reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
+		model.addAttribute("category", "myfunding");
+		return "member/myfunding";
+	}
+	
+	@GetMapping(value="/reviewUpdateFrm")
+	public String reviewUpdateFrm(int fundingNo,Model model) {
+		ProductReview pr = productService.selecOneProductReview(fundingNo);
+		model.addAttribute("pr",pr);
+		return "/product/reviewUpdateFrm";
+	}
+	
+	@PostMapping(value="/reviewUpdate")
+	public String reviewUpdate(ProductReview pr,MultipartFile upfile,Model model) {
+		String savepath = root+"/product/review/";
+		String filepath = fileUtils.upload(savepath, upfile);
+		pr.setReviewImg(filepath);
+		int result = productService.reviewUpdate(pr);
+		if(result>0) {
+			model.addAttribute("title","수정완료");
+			model.addAttribute("msg","후기가 수정되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","수정실패");
+			model.addAttribute("msg","문제가 발생하였습니다.");
+			model.addAttribute("icon","error");
+		}
+		System.out.println(pr.getProductNo());
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		return "common/msg";
+	}
+
+	@GetMapping(value="/myfundingView")
+	public String myinquery(int fundingNo, Model model) {
+		Myfunding myfunding = productService.selectMyfunding(fundingNo);
+		if(myfunding != null) {			
+			model.addAttribute("myfunding", myfunding);
+			return "member/myfundingView";
+		}
+		else {
+			Message data = new Message();
+			data.setMessage("구매 정보 상세 조회에 실패했습니다.");
+			data.setRedirectUrl("/product/myfunding?reqPage=1");
+			return alertMsg(data, model);
+		}
+	}
+	
+	// 마이페이지 용 내 찜 목록 조회
+	@GetMapping(value="/mylike")
+	public String mylike(@SessionAttribute Member member, int reqPage, Model model) {
+		MyfundingListData mld = productService.selectMylike(member.getMemberNo(), reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
+		model.addAttribute("category", "mylike");
+		return "member/mylike";
+	}
+	
+	@GetMapping(value="alertMsg")
+	private String alertMsg(Message data, Model model) {
+        model.addAttribute("data", data);
+        return "etc/alertMsg";
+    }
 }
