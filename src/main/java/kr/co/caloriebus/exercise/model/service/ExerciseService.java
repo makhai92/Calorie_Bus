@@ -140,6 +140,25 @@ public class ExerciseService {
 		return result;
 	}
 
+
+	public List exerciseReCommentList(int boardCommentNo, int memberNo) {
+		List list = exerciseDao.selectExerciseReCommentList(boardCommentNo,memberNo);
+		return list;
+	}
+	
+	@Transactional
+	public int updateComment(ExerciseComment ec) {
+		int result = exerciseDao.updateComment(ec);
+		return result;
+	}	
+	
+	@Transactional
+	public int deleteComment(int boardCommentNo) {
+		int result = exerciseDao.deleteComment(boardCommentNo);
+		return result;
+	}
+	
+	//삭제
 	public List<ExerciseFile> deleteExercise(int boardNo) {
 		List list = exerciseDao.selectExerciseFile(boardNo);
 		int result = exerciseDao.deleteExercise(boardNo);
@@ -148,17 +167,40 @@ public class ExerciseService {
 		}
 		return null;
 	}
+	
+	//수정
+	public Exercise getOneExercise(int boardNo) {
+		Exercise e = exerciseDao.selectOneExercise(boardNo);
+		List list = exerciseDao.selectExerciseFile(boardNo);
+		e.setFileList(list);
+		return e;
+	}
+	
+	@Transactional
+	public List<ExerciseFile> updateExercise(Exercise e, List<ExerciseFile> fileList, int[] delFileNo) {
+		List<ExerciseFile> delFileList = new ArrayList<ExerciseFile>();
+		int result  = exerciseDao.updateExercise(e);
+		if(result > 0) {
+			for(ExerciseFile exerciseFile : fileList) {
+				result += exerciseDao.insertExerciseFile(exerciseFile);
+			}
+			if(delFileNo != null) {
+				for(int fileNo : delFileNo) {
+					ExerciseFile exerciseFile = exerciseDao.selectOneExerciseFile(fileNo);
+					delFileList.add(exerciseFile);
+					result += exerciseDao.deleteExerciseFile(fileNo);
+				}
+			}
+		}
+		int updateTotal = delFileNo==null?fileList.size()+1 :fileList.size()+1+delFileNo.length;
+		if(updateTotal == result) {
+			return delFileList;
+		}else {
+			return null;			
+		}
+	}
 
 
-	
-
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

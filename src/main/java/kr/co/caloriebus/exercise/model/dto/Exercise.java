@@ -18,11 +18,9 @@ public class Exercise {
 	private int readCount;			//조회수
 	private String regDate;			//작성일	
 	private int memberNo;			//회원번호
-	private List<ExerciseFile> fileList;	
-	private int Rnum;
-	
 	private int likeCount;
 	private int isLike;
 	private int commentCount;
+	private List<ExerciseFile> fileList;	
 	private List<ExerciseComment> boardCommentList;
 }

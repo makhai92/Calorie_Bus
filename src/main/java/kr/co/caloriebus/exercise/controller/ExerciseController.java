@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.board.model.dto.BoardFile;
 import kr.co.caloriebus.exercise.model.dto.Exercise;
 import kr.co.caloriebus.exercise.model.dto.ExerciseComment;
@@ -24,6 +25,7 @@ import kr.co.caloriebus.exercise.model.dto.ExerciseListData;
 import kr.co.caloriebus.exercise.model.service.ExerciseService;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.util.FileUtils;
+
 
 
 @Controller
@@ -62,6 +64,7 @@ public class ExerciseController {
 		return "/exercise/editor/"+filepath;
 	}
 
+
 	@PostMapping(value="/write")
 	public String write(Exercise e, MultipartFile[] upfile, Model model) {
 		ArrayList<ExerciseFile> fileList = new ArrayList<ExerciseFile>();
@@ -87,7 +90,7 @@ public class ExerciseController {
 			model.addAttribute("msg","게시글 작성 실패");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/exercise/list?&reqPage=1");
+		model.addAttribute("loc","/exercise/list?reqPage=1");
 		return "common/msg"; 
 	}
 	
@@ -136,10 +139,27 @@ public class ExerciseController {
 	}
 	
 	@PostMapping(value="/insertExerciseComment")
-	public String insertBoardComment(ExerciseComment ec,@SessionAttribute(required=false)Member member) {
+	public String insertExerciseComment(ExerciseComment ec,@SessionAttribute(required=false)Member member) {
 		ec.setMemberNo(member.getMemberNo());
 		int result = exerciseService.insertExerciseComment(ec);
-		return "redirect:/board/view?boardNo="+ec.getBoardRef();
+		return "redirect:/exercise/viewFrm?boardNo="+ec.getBoardRef();
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/exerciseReCommentList")
+	public List exerciseCommentList(int boardCommentNo,int memberNo){
+		List list = exerciseService.exerciseReCommentList(boardCommentNo,memberNo);
+		return list;
+	}
+	@PostMapping(value="/updateComment")
+	public String updateComment(ExerciseComment ec){
+		int result  = exerciseService.updateComment(ec);
+		return "redirect:/exercise/viewFrm?boardNo="+ec.getBoardRef()+"&check=1";
+	}
+	@GetMapping(value="/deleteComment")
+	public String deleteComment(int boardCommentNo,int boardNo) {
+		int result = exerciseService.deleteComment(boardCommentNo);
+		return "redirect:/exercise/viewFrm?boardNo="+boardNo+"&check=1";
 	}
 	
 	//삭제
@@ -165,9 +185,47 @@ public class ExerciseController {
 		return "common/msg";
 	}
 	
+	//수정
 	@GetMapping(value = "/updateFrm")
 	public String updateFrm(int boardNo, Model model) {
+		Exercise e = exerciseService.getOneExercise(boardNo);
+		model.addAttribute("exercise", e);
 		return "exercise/updateFrm";
+	}
+	
+	@PostMapping(value = "/update")
+	public String update(Exercise e, MultipartFile[] upfile, int[] delFileNo, Model model) {
+		//새로 추가된 파일을 업로드 작업
+		List<ExerciseFile> fileList = new ArrayList<ExerciseFile>();  
+		String savepath = root+"/exercise/";
+		if(!upfile[0].isEmpty()) {
+			for(MultipartFile file : upfile) {
+				String filename = file.getOriginalFilename();
+				String filepath = fileUtils.upload(savepath, file);
+				ExerciseFile exerciseFile = new ExerciseFile();
+				exerciseFile.setFilename(filename);
+				exerciseFile.setFilepath(filepath);
+				exerciseFile.setBoardNo(e.getBoardNo());
+				fileList.add(exerciseFile);
+				System.out.println();
+			}
+		}
+		//수정요청하면서 데이터 3개 전달 (e:board테이블 수정, fileList: exercise_file추가, delFileNo: exercise_file 삭제용)
+		List<ExerciseFile> delFileList = exerciseService.updateExercise(e,fileList,delFileNo);
+		if(delFileList == null) {
+			model.addAttribute("title", "수정실패");
+			model.addAttribute("msg", "처리중");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/exercise/list?reqPage=1");
+			return "common/msg";
+		}else {
+			
+			for(ExerciseFile exerciseFile : delFileList) {
+				File delFile = new File(savepath+exerciseFile.getFilepath());
+				delFile.delete();
+			}
+			return "redirect:/exercise/viewFrm?boardNo="+e.getBoardNo();
+		}
 	}
 	
 	
