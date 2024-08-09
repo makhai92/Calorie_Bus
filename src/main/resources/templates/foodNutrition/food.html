@@ -33,7 +33,7 @@
 			let pageNo = 1;
 			$("#more-btn").on("click",function(){
 				$.ajax({
-					url :"api/foodTotal",
+					url :"/api/foodTotal",
 					data:{pageNo : pageNo},
 					type : "get",
 					success : function(data){
