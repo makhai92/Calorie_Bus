@@ -72,11 +72,6 @@ public class ProductService {
 		List list = productDao.selectAllProductReview(productNo);
 		return list;
 	}
-
-	public int selectFundingNo(int productNo) {
-		int fundingNo = productDao.selectFundingNo(productNo);
-		return fundingNo;
-	}
 	
 	@Transactional
 	public int reviewInsert(ProductReview pr) {
@@ -189,6 +184,16 @@ public class ProductService {
 		pageNavi += "</ul>";
 		MyfundingListData mld = new MyfundingListData(list, pageNavi);
 		return mld;
+	}
+
+	public ProductReview selecOneProductReview(int fundingNo) {
+		ProductReview pr = productDao.selecOneProductReview(fundingNo);
+		return pr;
+	}
+	@Transactional
+	public int reviewUpdate(ProductReview pr) {
+		int result = productDao.reviewUpdate(pr);
+		return result;
 	}
 	
 

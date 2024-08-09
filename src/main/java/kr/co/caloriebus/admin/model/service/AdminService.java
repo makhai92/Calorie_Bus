@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.caloriebus.admin.model.dao.AdminDao;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
+import kr.co.caloriebus.rulletpage.model.dto.RulletPage;
 
 @Service
 public class AdminService {
@@ -32,6 +33,16 @@ public class AdminService {
 	
 	public int memberLevelChange(Member m) {
 		int result = adminDao.memberLevelChange(m);
+		return result;
+	}
+
+	public List getAllDetails() {
+		List list = adminDao.getAllDetails();
+		return list;
+	}
+
+	public int eventStateUpdate(RulletPage r) {
+		int result = adminDao.eventStateUpdate(r);
 		return result;
 	}
 }

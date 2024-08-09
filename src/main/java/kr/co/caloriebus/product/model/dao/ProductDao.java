@@ -102,14 +102,6 @@ public class ProductDao {
 		return list;
 	}
 
-	public int selectFundingNo(int productNo) {
-		String query = "select funding_no from funding where product_no=?";
-		Object[] params = {productNo};
-		int fundingNo = jdbc.queryForObject(query, Integer.class,params);
-		System.out.println(fundingNo);
-		return fundingNo;
-	}
-
 	public int reviewInsert(ProductReview pr) {
 		String query = "insert into product_review values(?,?,?,?,?)";
 		Object[] params = {pr.getFundingNo(),pr.getReviewContent(),pr.getReviewImg(),pr.getMemberId(),pr.getProductNo()};
@@ -131,6 +123,23 @@ public class ProductDao {
 		int totalCount = jdbc.queryForObject(query, Integer.class, params);
 		return totalCount;
 	}
+
+	public ProductReview selecOneProductReview(int fundingNo) {
+		String query = "select * from product_review where funding_no=?";
+		Object[] params = {fundingNo};
+		List list = jdbc.query(query, productReviewRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (ProductReview)list.get(0);
+		}
+	}
+
+	public int reviewUpdate(ProductReview pr) {
+		String query = "update product_review set review_content=?,review_img=? where funding_no=?";
+		Object[] params = {pr.getReviewContent(),pr.getReviewImg(),pr.getFundingNo()};
+		int result = jdbc.update(query, params);
+		return result;
 
 	public Myfunding selectMyfunding(int fundingNo) {
 		String query = "select funding_no, member_no, f.product_no, product_title, product_dc_price, order_date, order_state, order_amount, funding_name, funding_phone, funding_addr, funding_postcode from (funding)f join (product)p on (f.product_no = p.product_no) where funding_no = ?";

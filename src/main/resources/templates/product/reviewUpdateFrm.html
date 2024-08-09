@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.btn-box{
+		text-align: center;
+		padding: 30px 0;
+	}
+	.btn-box>button{
+		width : 400px;
+		margin : 5px 20px;
+	}
+	.material-symbols-outlined{
+		color : #ff0000;
+		cursor : pointer;
+		font-size : 10px;
+	 	font-variation-settings:
+	  		'opsz' 18;
+	}
+	.delFilename{
+		font-size : 16px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<script src="/js/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<main class="content">
+			<section class="product-reviewUpdate-wrap">
+				<div class="page-title">후기 수정</div>
+				<form action="/product/reviewUpdate" method="post" enctype="multipart/form-data">
+					<table class="tbl">
+						<tr>
+							<th>작성자</th>
+							<td class="input-item2">
+								<input name="memberId" th:value=${pr.memberId}>
+							</td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td class="input-item1">
+								<textarea name="reviewContent" th:text="${pr.reviewContent}"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>첨부 파일</th>
+							<td>
+								<div>
+									<span class="delFilename" th:text="${pr.reviewImg}"></span>
+									<span class="material-symbols-outlined" th:onclick="deleteFile(this,[[${pr.fundingNo}]])">close</span>
+								</div>
+								<input type="hidden" name="upfile" id="reviewImg" multiple>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="productNo" th:value=${pr.productNo}>
+					<input type="hidden" name="fundingNo" th:value=${pr.fundingNo}>
+					<div class="btn-box">
+						<button type="submit" class="btn-round">후기 수정 완료</button>
+					</div>
+				</form>
+			</section>
+		</main>
+		<script>
+			function deleteFile(obj,fundingNo){
+				 swal({
+						title:"파일 삭제",
+						text:"메인 사진을 삭제하시겠습니까?",
+						icon:"info",
+						buttons:{
+							cancel:{
+								text : "취소",
+								value : false,
+								visible : true,
+								className : "btn-round",
+								closeModal : true
+							},
+							confirm:{
+								text : "삭제",
+								value : true,
+								visible : true,
+								className : "btn-round",
+								closeModal : true
+							}
+						}
+					}).then(function(isConfirm){
+						if(isConfirm){
+							$(obj).parent().remove();
+							$("#reviewImg").attr('type','file')
+						}
+					});
+			 }
+		</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

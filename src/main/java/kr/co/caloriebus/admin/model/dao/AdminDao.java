@@ -10,6 +10,8 @@ import kr.co.caloriebus.admin.model.dto.PurchaseRowMapper;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.member.model.dto.MemberRowMapper;
 import kr.co.caloriebus.product.model.dto.Funding;
+import kr.co.caloriebus.rulletpage.model.dto.RulletPage;
+import kr.co.caloriebus.rulletpage.model.dto.RulletPageRowMapper;
 
 
 
@@ -21,6 +23,8 @@ public class AdminDao {
 	private PurchaseRowMapper purchaseRowMapper;
 	@Autowired
 	private MemberRowMapper memberRowMapper;
+	@Autowired
+	private RulletPageRowMapper eventRowMapper;
 
 	public List getAllFunding() {
 		String query = "select * from funding order by 1";
@@ -46,6 +50,19 @@ public class AdminDao {
 	public int memberLevelChange(Member m) {
 		String query = "update member set member_level = ? where member_no=?";
 		Object[] params = {m.getMemberLevel(),m.getMemberNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public List getAllDetails() {
+		String query = "select * from event_item order by 1";
+		List list = jdbc.query(query, eventRowMapper);
+		return list;
+	}
+
+	public int eventStateUpdate(RulletPage r) {
+		String query = "update event_item set event_state = ? where member_no = ?";
+		Object [] params = {r.getEventState() , r.getMemberNo()};
 		int result = jdbc.update(query,params);
 		return result;
 	}
