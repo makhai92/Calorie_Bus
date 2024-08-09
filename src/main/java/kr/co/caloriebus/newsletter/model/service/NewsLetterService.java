@@ -153,5 +153,42 @@ public class NewsLetterService {
 	        newsletterDao.deleteNewsLetterFiles(boardNo);
 	        return newsletterDao.deleteNewsLetter(boardNo);
 	    }
+
+		public NewsLetterListData searchNewsLetterList(String keyword, int reqPage) {
+			int numPerPage = 10;
+	        int end = reqPage * numPerPage;
+	        int start = end - numPerPage + 1;
+
+	        List<NewsLetter> list = newsletterDao.searchNewsLetterList(keyword, start, end);
+	        int totalCount = newsletterDao.searchNewsLetterTotalCount(keyword);
+
+	        int rNum = totalCount - (reqPage - 1) * 10;
+	        for (NewsLetter nl : list) {
+	            nl.setRNum(rNum--);
+	        }
+
+	        int totalPage = (totalCount % numPerPage == 0) ? totalCount / numPerPage : totalCount / numPerPage + 1;
+	        int pageNaviSize = 5;
+	        int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+
+	        StringBuilder pageNavi = new StringBuilder("<ul class='page-ul'>");
+	        if (pageNo != 1) {
+	            pageNavi.append("<li><a class='page-item' href='/newsletter/search?keyword=").append(keyword).append("&reqPage=").append(pageNo - 1).append("'><span class='material-icons'>chevron_left</span></a></li>");
+	        }
+	        for (int i = 0; i < pageNaviSize && pageNo <= totalPage; i++) {
+	            if (pageNo == reqPage) {
+	                pageNavi.append("<li><a class='page-item active' href='/newsletter/search?keyword=").append(keyword).append("&reqPage=").append(pageNo).append("'>").append(pageNo).append("</a></li>");
+	            } else {
+	                pageNavi.append("<li><a class='page-item' href='/newsletter/search?keyword=").append(keyword).append("&reqPage=").append(pageNo).append("'>").append(pageNo).append("</a></li>");
+	            }
+	            pageNo++;
+	        }
+	        if (pageNo <= totalPage) {
+	            pageNavi.append("<li><a class='page-item' href='/newsletter/search?keyword=").append(keyword).append("&reqPage=").append(pageNo).append("'><span class='material-icons'>chevron_right</span></a></li>");
+	        }
+	        pageNavi.append("</ul>");
+
+	        return new NewsLetterListData(list, pageNavi.toString());
+	    }
 	}
 

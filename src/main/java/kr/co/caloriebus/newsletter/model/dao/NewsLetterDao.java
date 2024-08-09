@@ -157,4 +157,21 @@ public class NewsLetterDao {
         return jdbc.update(query, params);
     }
 
+	public List<NewsLetter> searchNewsLetterList(String keyword, int start, int end) {
+		String query = "select * from (select rownum rnum, b.* from ("
+                + "select board_no, member_no, board_title, board_category, read_count, reg_date, member_id as board_writer, "
+                + "(select count(*) from board_comment where board_ref = board.board_no) as comment_count, "
+                + "(select count(*) from board_like where board_no = board.board_no) as like_count "
+                + "from board join member using(member_no) "
+                + "where board_category = 'N1' and board_title like ? order by 1 desc)b)bb "
+                + "where rnum between ? and ?";
+        Object[] params = {"%" + keyword + "%", start, end};
+        return jdbc.query(query, new NewsLetterListRowMapper(), params);
+    }
+
+    public int searchNewsLetterTotalCount(String keyword) {
+        String query = "select count(*) from board where board_category = 'N1' and board_title like ?";
+        return jdbc.queryForObject(query, Integer.class, "%" + keyword + "%");
+    }
+
 }

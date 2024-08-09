@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -155,36 +156,36 @@ public class NewsLetterController {
         return "redirect:/newsletter/list?reqPage=1";
     }
 
-    @PostMapping(value="/editForm")
-    public String edit(NewsLetter nl, MultipartFile[] upfiles, @SessionAttribute(required=false) Member member, Model model) {
-        if (member == null || nl.getMemberNo() != member.getMemberNo()) {
-            return "redirect:/newsletter/list?reqPage=1";
-        }
-        ArrayList<NewsLetterFile> fileList = new ArrayList<>();
-        if (!upfiles[0].isEmpty()) {
-            String savepath = root + "/newsletter/";
-            for (int i = 0; i < upfiles.length; i++) {
-                String filename = upfiles[i].getOriginalFilename();
-                String filepath = fileUtils.upload(savepath, upfiles[i]);
-                NewsLetterFile newsletterFile = new NewsLetterFile();
-                newsletterFile.setFilepath(filepath);
-                newsletterFile.setFilename(filename);
-                fileList.add(newsletterFile);
-            }
-        }
-        int result = newsletterService.updateNewsLetter(nl, fileList);
-        if (result > 0) {
-            model.addAttribute("title", "게시글 수정 성공");
-            model.addAttribute("msg", "게시글 수정 성공");
-            model.addAttribute("icon", "success");
-        } else {
-            model.addAttribute("title", "게시글 수정 실패");
-            model.addAttribute("msg", "게시글 수정 실패");
-            model.addAttribute("icon", "error");
-        }
-        model.addAttribute("loc", "/newsletter/viewForm?boardNo=" + nl.getBoardNo());
-        return "common/msg";
-    }
+	@PostMapping(value="/editForm")
+	public String edit(NewsLetter nl, MultipartFile[] upFile, @SessionAttribute(required=false) Member member, Model model) {
+	    if (member == null || nl.getMemberNo() != member.getMemberNo()) {
+	        return "redirect:/newsletter/list?reqPage=1";
+	    }
+	    ArrayList<NewsLetterFile> fileList = new ArrayList<>();
+	    if (!upFile[0].isEmpty()) {
+	        String savepath = root + "/newsletter/";
+	        for (int i = 0; i < upFile.length; i++) {
+	            String filename = upFile[i].getOriginalFilename();
+	            String filepath = fileUtils.upload(savepath, upFile[i]);
+	            NewsLetterFile newsletterFile = new NewsLetterFile();
+	            newsletterFile.setFilepath(filepath);
+	            newsletterFile.setFilename(filename);
+	            fileList.add(newsletterFile);
+	        }
+	    }
+	    int result = newsletterService.updateNewsLetter(nl, fileList);
+	    if (result > 0) {
+	        model.addAttribute("title", "게시글 수정 성공");
+	        model.addAttribute("msg", "게시글 수정 성공");
+	        model.addAttribute("icon", "success");
+	    } else {
+	        model.addAttribute("title", "게시글 수정 실패");
+	        model.addAttribute("msg", "게시글 수정 실패");
+	        model.addAttribute("icon", "error");
+	    }
+	    model.addAttribute("loc", "/newsletter/viewForm?boardNo=" + nl.getBoardNo());
+	    return "common/msg";
+	}
 
     @GetMapping(value="/delete")
     public String delete(int boardNo, @SessionAttribute(required=false) Member member, Model model) {
@@ -207,5 +208,14 @@ public class NewsLetterController {
         }
         model.addAttribute("loc", "/newsletter/list?reqPage=1");
         return "common/msg";
+    }
+    
+    @GetMapping(value="/search")
+    public String search(@RequestParam(defaultValue = "1") int reqPage, String keyword, Model model) {
+        NewsLetterListData bld = newsletterService.searchNewsLetterList(keyword, reqPage);
+        model.addAttribute("list", bld.getList());
+        model.addAttribute("pageNavi", bld.getPageNavi());
+        model.addAttribute("keyword", keyword);
+        return "newsletter/list";
     }
 }
