@@ -70,11 +70,6 @@ public class ProductService {
 		List list = productDao.selectAllProductReview(productNo);
 		return list;
 	}
-
-	public int selectFundingNo(int productNo) {
-		int fundingNo = productDao.selectFundingNo(productNo);
-		return fundingNo;
-	}
 	
 	@Transactional
 	public int reviewInsert(ProductReview pr) {
