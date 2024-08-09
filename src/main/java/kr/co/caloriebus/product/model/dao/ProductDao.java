@@ -140,7 +140,7 @@ public class ProductDao {
 		Object[] params = {pr.getReviewContent(),pr.getReviewImg(),pr.getFundingNo()};
 		int result = jdbc.update(query, params);
 		return result;
-
+	}
 	public Myfunding selectMyfunding(int fundingNo) {
 		String query = "select funding_no, member_no, f.product_no, product_title, product_dc_price, order_date, order_state, order_amount, funding_name, funding_phone, funding_addr, funding_postcode from (funding)f join (product)p on (f.product_no = p.product_no) where funding_no = ?";
 		Object[] params = {fundingNo};
