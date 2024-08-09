@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.caloriebus.admin.model.dto.PurchaseRowMapper;
 import kr.co.caloriebus.product.model.dto.Funding;
+import kr.co.caloriebus.product.model.dto.Myfunding;
 import kr.co.caloriebus.product.model.dto.MyfundingListRowMapper;
+import kr.co.caloriebus.product.model.dto.MyfundingRowMapper;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
+import kr.co.caloriebus.product.model.dto.MylikeRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.dto.ProductReviewRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductRowMapper;
@@ -27,6 +30,10 @@ public class ProductDao {
 	private PurchaseRowMapper purchaseRowMapper;
 	@Autowired
 	private MyfundingListRowMapper myfundingListRowMapper;
+	@Autowired
+	private MyfundingRowMapper myfundingRowMapper;
+	@Autowired
+	private MylikeRowMapper mylikeRowMapper;
 	
 	public List selectAllProduct() {
 		String query="select * from product order by 1 desc";
@@ -111,15 +118,40 @@ public class ProductDao {
 	}
 	
 	// 마이페이지 용
-	public List selectMyFundingList(int memberNo, int start, int end) {
+	public List selectMyfundingList(int memberNo, int start, int end) {
 		String query = "select * from (select rownum rnum, m.*, review_content from (select funding_no, member_no, f.product_no, product_title, product_dc_price, product_img, order_date, order_state, order_amount from (funding)f left join (product)p on (f.product_no = p.product_no) where member_no = ? order by 1 desc)m left join (product_review)r on (m.funding_no = r.funding_no)) where rnum between ? and ?";
 		Object[] params = {memberNo, start, end};
 		List list = jdbc.query(query, myfundingListRowMapper, params);
 		return list;
 	}
 	
-	public int selectMyFundingTotalCount(int memberNo) {
+	public int selectMyfundingTotalCount(int memberNo) {
 		String query = "select count(*) from funding where member_no = ?";
+		Object[] params = {memberNo};
+		int totalCount = jdbc.queryForObject(query, Integer.class, params);
+		return totalCount;
+	}
+
+	public Myfunding selectMyfunding(int fundingNo) {
+		String query = "select funding_no, member_no, f.product_no, product_title, product_dc_price, order_date, order_state, order_amount, funding_name, funding_phone, funding_addr, funding_postcode from (funding)f join (product)p on (f.product_no = p.product_no) where funding_no = ?";
+		Object[] params = {fundingNo};
+		List list = jdbc.query(query, myfundingRowMapper, params);
+		if (list.isEmpty()) {			
+			return null;
+		} else {
+			return (Myfunding)list.get(0);
+		}
+	}
+
+	public List selectMylike(int memberNo, int start, int end) {
+		String query = "select product_no, product_dc_price, product_price, product_title, product_img, end_date from product where product_no in (select product_no from product_like where member_no = ?)";
+		Object[] params = {memberNo};
+		List list = jdbc.query(query, mylikeRowMapper, params);
+		return list;
+	}
+
+	public int selectMylikeTotalCount(int memberNo) {
+		String query = "select count(*) from product_like where member_no = ?";
 		Object[] params = {memberNo};
 		int totalCount = jdbc.queryForObject(query, Integer.class, params);
 		return totalCount;

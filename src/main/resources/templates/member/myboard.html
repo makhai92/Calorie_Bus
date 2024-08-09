@@ -23,8 +23,8 @@
 							<th style="width:15%;">카테고리</th>
 							<th style="width:40%;">제목</th>
 							<th style="width:20%;">작성일</th>
-							<th style="width:15%">좋아요수</th>
-							<th style="width:10%">조회수</th>
+							<th style="width:15%;">좋아요수</th>
+							<th style="width:10%; padding: 0;">조회수</th>
 						</tr>
 						<tr th:each="board : ${list}">
 							<th:block th:switch="${board.boardCategory}">

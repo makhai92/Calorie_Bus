@@ -17,7 +17,6 @@ public class MyfundingListRowMapper implements RowMapper<MyfundingList> {
 		myfundingList.setProductNo(rs.getInt("product_no"));
 		myfundingList.setProductTitle(rs.getString("product_title"));
 		myfundingList.setProductDcPrice(rs.getInt("product_dc_price"));
-		myfundingList.setProductImg(rs.getString("product_img"));
 		myfundingList.setOrderDate(rs.getString("order_date"));
 		myfundingList.setOrderState(rs.getInt("order_state"));
 		myfundingList.setOrderAmount(rs.getInt("order_amount"));

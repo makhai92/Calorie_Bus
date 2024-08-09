@@ -221,6 +221,10 @@ button[name=login-btn]{
 	width: 600px;
 	border-collapse: collapse;
 }
+.myboard-tbl th{	
+	padding: 10px;
+	height: 30px;
+}
 .myboard-tbl tr{
 	padding: 10px;
 	height: 30px;
@@ -229,6 +233,7 @@ button[name=login-btn]{
 	border-bottom: 0.8px solid var(--line1);
 }
 .myboard-tbl td{
+	padding: 10px;
 	text-align: center;
 }
 .pageNavi-ul{
@@ -247,4 +252,37 @@ button[name=login-btn]{
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 30px;
+}
+
+/* ------------------------ 마이페이지 내 찜 목록 용 ------------------------ */
+.mylike-list{
+	display: flex;
+	justify-content: space-around;	
+	align-items: center;
+}
+.product{
+	width : 200px;
+	box-sizing: border-box;
+	margin: 30px;
+}
+.product>a{
+	background-color : #ffffff;
+	display: block;
+}
+.product-img-box{
+	height: 200px;	
+}
+.product-img-box>img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+.product-title{
+	height: 50px;
+}
+.end-date{
+	text-align: right;
+}
+#pageNavi{
+	margin: 20px;
 }

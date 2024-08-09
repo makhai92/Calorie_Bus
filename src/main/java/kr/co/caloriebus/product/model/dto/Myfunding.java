@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class MyfundingList {
+public class Myfunding {
 	private int fundingNo;
 	private int memberNo;
 	private int productNo;
@@ -16,5 +16,8 @@ public class MyfundingList {
 	private String orderDate;
 	private int orderState;
 	private int orderAmount;
-	private String reviewContent;
+	private String fundingName;
+	private String fundingPhone;
+	private String fundingAddr;
+	private String fundingPostcode;
 }

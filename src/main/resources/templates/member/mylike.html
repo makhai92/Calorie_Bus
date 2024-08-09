@@ -2,9 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
+<link href="/css/memberForm.css" rel="stylesheet">
 </head>
 <body>
-
+<th:block th:include="common/header"></th:block>
+<main class="member-content">
+    <section class="joinform-wrap">
+        <div class="page-title">
+        	<p>마이페이지<p>
+        </div>
+        
+        <!-- 내 찜 목록 보기 양식 -->
+        <form class="joinform-tbl">
+        	<th:block th:include="member/category"></th:block>
+        	<th:block th:if="${!#lists.isEmpty(list)}">
+				<ul class="mylike-list">
+					<li class="product" th:each="product : ${list}">
+						<a th:href="@{/product/view(productNo=${product.productNo})} ">
+							<div class="product-img-box">
+								<img th:src=@{/product/main/}+${product.productImg}>
+							</div>
+							<div class="product-info-box">
+								<div class="product-title" th:text=${product.productTitle}></div>
+								<div class="end-date" th:text=${product.endDate}></div>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<div id="pageNavi" th:utext="${pageNavi}"></div>
+			</th:block>
+			<th:block th:if="${#lists.isEmpty(list)}">
+				<div class="info-text-box">
+					<h4>찜한 공구가 없습니다.</h4>
+				</div>
+			</th:block>
+        </form>
+	</section>
+</main>
 </body>
 </html>

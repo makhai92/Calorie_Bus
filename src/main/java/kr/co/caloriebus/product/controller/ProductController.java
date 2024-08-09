@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.co.caloriebus.inquery.dto.InqueryListData;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
+import kr.co.caloriebus.product.model.dto.Myfunding;
+import kr.co.caloriebus.product.model.dto.MyfundingListData;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.service.ProductService;
 import kr.co.caloriebus.util.FileUtils;
+import kr.co.caloriebus.util.Message;
 
 @Controller
 @RequestMapping(value="/product")
@@ -188,14 +190,46 @@ public class ProductController {
 		return "common/msg";
 	}
 	
+	
 	// 마이페이지 용 공구 내역 조회
 	@GetMapping(value="/myfunding")
 	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
 		int memberNo = member.getMemberNo();
-		InqueryListData ild = productService.selectMyFundingList(memberNo, reqPage);
-		model.addAttribute("list", ild.getList());
-		model.addAttribute("pageNavi",ild.getPageNavi());
+		MyfundingListData mld = productService.selectMyfundingList(memberNo, reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
 		model.addAttribute("category", "myfunding");
 		return "member/myfunding";
 	}
+	
+	@GetMapping(value="/myfundingView")
+	public String myinquery(int fundingNo, Model model) {
+		Myfunding myfunding = productService.selectMyfunding(fundingNo);
+		if(myfunding != null) {			
+			model.addAttribute("myfunding", myfunding);
+			return "member/myfundingView";
+		}
+		else {
+			Message data = new Message();
+			data.setMessage("구매 정보 상세 조회에 실패했습니다.");
+			data.setRedirectUrl("/product/myfunding?reqPage=1");
+			return alertMsg(data, model);
+		}
+	}
+	
+	// 마이페이지 용 내 찜 목록 조회
+	@GetMapping(value="/mylike")
+	public String mylike(@SessionAttribute Member member, int reqPage, Model model) {
+		MyfundingListData mld = productService.selectMylike(member.getMemberNo(), reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
+		model.addAttribute("category", "mylike");
+		return "member/mylike";
+	}
+	
+	@GetMapping(value="alertMsg")
+	private String alertMsg(Message data, Model model) {
+        model.addAttribute("data", data);
+        return "etc/alertMsg";
+    }
 }
