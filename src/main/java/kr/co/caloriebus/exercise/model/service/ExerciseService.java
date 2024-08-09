@@ -140,7 +140,7 @@ public class ExerciseService {
 		return result;
 	}
 
-
+	@Transactional
 	public List exerciseReCommentList(int boardCommentNo, int memberNo) {
 		List list = exerciseDao.selectExerciseReCommentList(boardCommentNo,memberNo);
 		return list;

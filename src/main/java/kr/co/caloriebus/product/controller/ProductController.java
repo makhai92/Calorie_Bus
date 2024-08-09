@@ -79,7 +79,9 @@ public class ProductController {
 	@GetMapping(value="/view")
 	public String view(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
+		int totalAmount = productService.orderAmount(productNo);
 		model.addAttribute("p", p);
+		model.addAttribute("totalAmount",totalAmount);
 		return "/product/view";
 	}
 	
@@ -190,17 +192,6 @@ public class ProductController {
 	}
 	
 	
-	// 마이페이지 용 공구 내역 조회
-	@GetMapping(value="/myfunding")
-	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
-		int memberNo = member.getMemberNo();
-		MyfundingListData mld = productService.selectMyfundingList(memberNo, reqPage);
-		model.addAttribute("list", mld.getList());
-		model.addAttribute("pageNavi",mld.getPageNavi());
-		model.addAttribute("category", "myfunding");
-		return "member/myfunding";
-	}
-	
 	@GetMapping(value="/reviewUpdateFrm")
 	public String reviewUpdateFrm(int fundingNo,Model model) {
 		ProductReview pr = productService.selecOneProductReview(fundingNo);
@@ -208,12 +199,10 @@ public class ProductController {
 		return "/product/reviewUpdateFrm";
 	}
 	
-	@PostMapping(value="/reviewUpdate")
-	public String reviewUpdate(ProductReview pr,MultipartFile upfile,Model model) {
-		String savepath = root+"/product/review/";
-		String filepath = fileUtils.upload(savepath, upfile);
-		pr.setReviewImg(filepath);
-		int result = productService.reviewUpdate(pr);
+	@PostMapping(value="/reviewUpdate1")
+	public String reviewUpdate(ProductReview pr,Model model) {
+		int result = productService.reviewUpdate1(pr);
+		
 		if(result>0) {
 			model.addAttribute("title","수정완료");
 			model.addAttribute("msg","후기가 수정되었습니다.");
@@ -226,6 +215,56 @@ public class ProductController {
 		System.out.println(pr.getProductNo());
 		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
 		return "common/msg";
+	}
+
+		@PostMapping(value="/reviewUpdate2")
+	public String reviewUpdate2(ProductReview pr,MultipartFile upfile,Model model) {
+			String savepath = root+"/product/review/";
+			String filepath = fileUtils.upload(savepath, upfile);
+			pr.setReviewImg(filepath);
+			int result = productService.reviewUpdate2(pr);			
+		
+		if(result>0) {
+			model.addAttribute("title","수정완료");
+			model.addAttribute("msg","후기가 수정되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","수정실패");
+			model.addAttribute("msg","문제가 발생하였습니다.");
+			model.addAttribute("icon","error");
+		}
+		System.out.println(pr.getProductNo());
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		return "common/msg";
+	}
+	
+	@GetMapping(value="/reviewDelete")
+	public String reviewDelete(int fundingNo,Model model) {
+		ProductReview pr = productService.selecOneProductReview(fundingNo);
+		int result = productService.reviewDelete(fundingNo);
+		if(result>0) {
+			model.addAttribute("title","삭제 완료");
+			model.addAttribute("msg","게시물이 삭제되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","삭제 실패");
+			model.addAttribute("msg","게시물 삭제 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+			model.addAttribute("icon","warning");
+		}
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		return "common/msg";
+	}
+
+
+	// 마이페이지 용 공구 내역 조회
+	@GetMapping(value="/myfunding")
+	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		MyfundingListData mld = productService.selectMyfundingList(memberNo, reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
+		model.addAttribute("category", "myfunding");
+		return "member/myfunding";
 	}
 
 	@GetMapping(value="/myfundingView")

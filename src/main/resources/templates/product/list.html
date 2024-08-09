@@ -46,6 +46,21 @@
 		object-fit: cover;
 		border-radius: 10px;
 	}
+	.title{
+		margin: 7px 0;
+	}
+	.dcPrice,.text{
+		display: inline-block;
+		font-weight: 700;
+		color : var(--point1);
+	}
+	.deadline{
+		display: inline-block;
+		font-size: 12px;
+		background: var(--point2);
+		border-radius: 50px;
+		padding: 1px 5px;
+	}
 </style>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -55,21 +70,36 @@
 				<a class="btn-square w" href="#">오픈 예정</a>
 				<a class="btn-square" href="#">진행중</a>
 				<a class="btn-square w" href="#">종료/마감</a>
-				<a class="btn-round" href="/product/writerFrm">상품 등록</a>
+				<a class="btn-round" href="/product/writerFrm" th:if="${session.member != null && session.member.memberLevel == 1}">상품 등록</a>
 			</div>
 			<div class="list-content">
 				<ul>
 					<li class="product" th:each="product : ${list}">
-						<a th:href="@{/product/view(productNo=${product.productNo})} ">
+						<a th:href="@{/product/view(productNo=${product.productNo})}">
 							<div class="product-img">
 								<img th:src=@{/product/main/}+${product.productImg}>
 							</div>
 							<div class="product-info">
 								<div class="title" th:text=${product.productTitle}></div>
-								<div class="percent" th:text=${product.productMinAmount}></div>
-								<div class="deadline" th:text=${product.endDate}></div>
+								<div class="dcPrice" th:text=${product.productDcPrice}></div>
+								<div class="text">원</div>
+								<div class="deadline" th:text="${product.endDate}+' '+까지+' '+구매가능"></div>
 							</div>
 						</a>
+						<script>
+							function addCommasToNumber(number) {
+						    	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+							}
+							function changeNum(){
+								const dcPrice = $(".dcPrice")
+								for(let i=0;i<dcPrice.length;i++){
+									const krtotalPrice = addCommasToNumber(dcPrice.eq(i).text());
+									dcPrice.eq(i).text(krtotalPrice);
+								}
+							}
+							changeNum();
+							
+						</script>
 					</li>
 				</ul>
 			</div>
