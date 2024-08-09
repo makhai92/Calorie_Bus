@@ -63,7 +63,11 @@
 			resize : false,
 			callbacks :{
 				onImageUpload : function(files){
-					uploadImage(files[0],this);
+					//이미지를 선택하면 해당 파일을 매개변수로 받음
+					//이미지를 처리할 함수를 실행 -> 이때 매개변수로 첨부한 파일, 에디터 객체를 전송
+					for(let i=0;i<files.length;i++){
+						uploadImage(files[i],this);
+					}
 				}
 			}
 		});

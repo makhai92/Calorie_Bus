@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class ProductReview {
-	private int fundingNo;
-	private	String reviewContent;
-	private String reviewImg;
-	private String memberId;
+public class Mylike {
 	private int productNo;
+	private int productDcPrice;
+	private int productPrice;
+	private String productTitle;
+	private String productImg;
+	private String endDate;
 }

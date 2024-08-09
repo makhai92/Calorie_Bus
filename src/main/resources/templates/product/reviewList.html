@@ -14,37 +14,61 @@
 		display : inline-block;
 		width : 130px;
 	}
+	.review-product-title{
+		margin: 20px 10px;
+	}
+	.review-product-title>h3{
+		display: inline-block;
+	}
+	.review-product-title>a{
+		float: right;
+	}
+	#memberId,.update-item{
+		display : inline-block;
+		margin-bottom: 10px;
+		font-size: 15px;
+	}
+	#memberId{
+		float: left;
+	}
+	.update-item{
+		float: right;
+	}
+	.input-item1>textarea{
+		height: 80px;
+	}
 </style>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
 	<main class="content">
 		<section class="product-review-wrap">
-			<div class="page-title">공구 상품 후기</div>
 			<div class="review-header">
 				<a class="btn-square w" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
 				<a class="btn-square" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
 			</div>
-			<div class="detail-content">
-				<div>
-				<h3 th:text=${p.productTitle}></h3>
+			<div class="review-content">
+				<div class="review-product-title">
+					<h3 th:text=${p.productTitle}></h3>
 				</div>
 				<div>
 					<table class="tbl">
 						<tr th:each="pr : ${list}">
-							<td>
+							<td style="width:150px;">
 								<div>
-									<img>
+									<img style="width:100px;" th:src=@{/product/review/}+${pr.reviewImg}>
 								</div>
 							</td>
 							<td>
-								<div>
-									<button>수정</button>
-									<span>|</span>
-									<button>삭제</button>
-								</div>
 								<p id="memberId" th:text=${pr.memberId}></p>
-								<textarea th:text=${pr.reviewContent}></textarea>
+								<div class="update-item">
+									<a th:href="@{/product/reviewUpdateFrm(fundingNo=${pr.fundingNo})}">수정</a>
+									<span>|</span>
+									<a>삭제</a>
+								</div>
+								<div class="input-item1">
+									<textarea th:text=${pr.reviewContent} readonly></textarea>								
+								</div>
 							</td>
 						</tr>
 					</table>

@@ -7,10 +7,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProductReview {
+public class MyfundingList {
 	private int fundingNo;
-	private	String reviewContent;
-	private String reviewImg;
-	private String memberId;
+	private int memberNo;
 	private int productNo;
+	private String productTitle;
+	private int productDcPrice;
+	private String orderDate;
+	private int orderState;
+	private int orderAmount;
+	private String reviewContent;
 }

@@ -1,5 +1,6 @@
 package kr.co.caloriebus.board.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,16 @@ public class BoardController {
 		model.addAttribute("category",category);
 		return "board/list";
 	}
+	@GetMapping(value="/search")
+	public String search(String category,String type,String keyword,int reqPage,Model model) {
+		BoardListData bld = boardService.searchBoardList(category,type,keyword,reqPage);
+		model.addAttribute("list",bld.getList());
+		model.addAttribute("pageNavi",bld.getPageNavi());
+		model.addAttribute("category",category);
+		model.addAttribute("type",type);
+		model.addAttribute("keyword",keyword);
+		return "board/list";
+	}
 	
 	@GetMapping(value="/writeFrm")
 	public String writeFrm() {
@@ -62,7 +73,6 @@ public class BoardController {
 	public String write(Board b,MultipartFile[] upfile, Model model) {
 		ArrayList<BoardFile> fileList = new ArrayList<BoardFile>();
 		if(!upfile[0].isEmpty()) {
-			System.out.println(1);
 			String savepath = root+"/board/";
 			for(int i=0;i<upfile.length;i++) {
 				String filename = upfile[i].getOriginalFilename();
@@ -131,7 +141,84 @@ public class BoardController {
 	public String insertBoardComment(BoardComment bc,@SessionAttribute(required=false)Member member) {
 		bc.setMemberNo(member.getMemberNo());
 		int result = boardService.insertBoardComment(bc);
-		return "redirect:/board/view?boardNo="+bc.getBoardRef();
+		return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/boardReCommentList")
+	public List boardReCommentList(int boardCommentNo,int memberNo){
+		List list = boardService.boardReCommentList(boardCommentNo,memberNo);
+		return list;
+	}
+	@PostMapping(value="/updateComment")
+	public String updateComment(BoardComment bc){
+		int result  = boardService.updateComment(bc);
+		return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
+	}
+	@GetMapping(value="/deleteComment")
+	public String deleteComment(int boardCommentNo,int boardNo) {
+		int result = boardService.deleteComment(boardCommentNo);
+		return "redirect:/board/view?boardNo="+boardNo+"&check=1";
+	}
+	@GetMapping(value="/deleteBoard")
+	public String deleteBoard(int boardNo,Model model) {
+		System.out.println(1);
+		List<BoardFile> list = boardService.deleteBoard(boardNo);
+		if(list == null) {
+			model.addAttribute("title","삭제 실패");
+			model.addAttribute("msg","존재하지 않는 게시물입니다.");
+			model.addAttribute("icon","error");
+		}else {
+			String savepath = root+"/board/";
+			for(BoardFile file : list) {
+				File delFile = new File(savepath+file.getFilepath());
+				delFile.delete();
+			}
+			model.addAttribute("title","삭제 성공");
+			model.addAttribute("msg","게시물이 삭제되었습니다..");
+			model.addAttribute("icon","success");
+		}
+		model.addAttribute("loc","/board/list?category=all&reqPage=1");
+		return "common/msg";
+	}
+	@GetMapping(value="/updateFrm")
+	public String updateFrm(int boardNo,Model model) {
+		Board board = boardService.selectOneBoard(boardNo);
+		model.addAttribute("board",board);
+		return "board/updateFrm";
+	}
+	@PostMapping(value="/updateBoard")
+	public String updateBoard(Board b,MultipartFile[] upfile,int[] delFileNo, Model model) {
+		System.out.println(delFileNo.length);
+		ArrayList<BoardFile> fileList = new ArrayList<BoardFile>();
+		if(!upfile[0].isEmpty()) {
+			String savepath = root+"/board/";
+			for(int i=0;i<upfile.length;i++) {
+				String filename = upfile[i].getOriginalFilename();
+				String filepath = fileUtils.upload(savepath, upfile[i]);
+				BoardFile boardFile = new BoardFile();
+				boardFile.setFilepath(filepath);
+				boardFile.setFilename(filename);
+				fileList.add(boardFile);
+			}
+		}
+		List<BoardFile> delFileList = boardService.updateBoard(b,fileList,delFileNo);
+		if(delFileList != null) {
+			for(BoardFile boardFile : delFileList) {
+				String savepath = root+"/board/";
+				File delFile = new File(savepath+boardFile.getFilepath());
+				delFile.delete();
+			}
+			model.addAttribute("title","게시글 수정 성공");
+			model.addAttribute("msg","게시글 수정 성공");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","게시글 수정 실패");
+			model.addAttribute("msg","게시글 수정 실패");
+			model.addAttribute("icon","error");
+		}
+		model.addAttribute("loc","/board/view?boardNo="+b.getBoardNo());
+		return "common/msg"; 
 	}
 	
 	// 마이페이지 용 내 게시글 보기

@@ -27,6 +27,9 @@
     font-size: 30px;
     font-weight: bolder;    
 }
+.faqContent{
+	min-height: 300px;
+}
 </style>
 <th:block th:include="common/header"></th:block>
 </head>
@@ -34,7 +37,7 @@
 
 <div class="faqview">
         <div class="faqView-title">
-            <span>FAQ</span>
+            <span>자주 묻는 질문</span>
         </div>
 	<div class="container">
      	<div class="wrap">
@@ -58,14 +61,20 @@
                </tr>          
           	</table>
           	<div class="option-button">
-          		<button class="update-btn">수정</button>
-          		<button class="del-btn" onclick="faqDelete([[${f.faqNo}]])">삭제</button>
+          		<button class="btn-primary" th:href="@{/faq/faqUpdate(faqNo=${f.faqNo})}">수정</button>
+          		<button class="btn-secondary" th:onclick="faqDelete([[${f.faqNo}]])">삭제</button>
           	</div>
       	</div>
 	</div>
 </div>
 <script>
 	const faqNo = "[[${f.faqNo}]]";
+	function faqDelete(faqNo) {
+		if(confirm("faq를 삭제하시겠습니까?")) {
+			location.href = "/faq/faqDelete?faqNo="+faqNo
+		}
+	}
+	
 </script>
 </body>
 <th:block th:include="common/footer"></th:block>

@@ -81,6 +81,12 @@ public String delete(int faqNo, Model model) {
 	}
 	return "common/msg";
 }
-
-	
+@GetMapping(value = "faqUpdate")
+public String updateFrm(int faqNo , Model model) {
+	Faq f = faqService.getOneFaq(faqNo);
+	model.addAttribute("f", f);
+	return "faq/faqUpdate";
 }
+}
+	
+

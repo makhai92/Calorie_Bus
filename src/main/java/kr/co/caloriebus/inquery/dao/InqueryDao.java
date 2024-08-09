@@ -87,7 +87,20 @@ public class InqueryDao {
 	}
 
 
+	// 마이페이지 용
+	public List selectMyInqueryList(int memberNo, int start, int end) {
+		String query = "select * from (select rownum rnum, i.* from ((select inquery_no, inquery_title, reply_no as inquery_content, inquery_date, member_no from inquery left join reply using (inquery_no) where member_no = ?) order by 1 desc)i) where rnum between ? and ?";
+		Object[] params = {memberNo, start, end};
+		List list = jdbc.query(query, inqueryRowMapper, params);
+		return list;
+	}
 	
+	public int selectMyInqueryTotalCount(int memberNo) {
+		String query = "select count(*) from inquery where member_no = ?";
+		Object[] params = {memberNo};
+		int totalCount = jdbc.queryForObject(query, Integer.class, params);
+		return totalCount;
+	}
 
 	
 	

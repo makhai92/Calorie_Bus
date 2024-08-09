@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<title>구매 내역 관리</title>
     <link rel="stylesheet" href="css/headfooter.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -15,6 +16,27 @@
     font-weight: bolder;  
       
 }
+#pageNavi>ul{
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	gap : 10px;
+}
+
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+ 	margin-top : 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.adminPage{
+    padding: 50px 0;
+    width: 1300px;
+    margin: 0 auto;
+}
 .admin-wrap>div{
     text-align: center;
     margin-bottom: 30px;
@@ -22,7 +44,6 @@
 .adminPage{
     padding: 50px 0;
     width: 1300px;
-    height: 800px;
     margin: 0 auto;
 }
 
@@ -33,7 +54,7 @@
 	
  <main class="adminPage">
 		<section class="section admin-wrap">
-			<div class = "purchase-title">회원 관리 페이지</div>
+			<div class = "purchase-title">구매 내역 관리</div>
 			<table class="tbl tbl-hover">
 				<tr>
 					<th style="width:5%;">구매번호</th>
@@ -50,35 +71,73 @@
 					
 				</tr>
 				<tr th:each="f : ${list}">
-					<td th:text="${f.fundingNo}">1</td>
-					<td th:text="${f.productNo}">21</td>
-					<td th:text="${f.memberNo}">27</td>
-                    <td th:text="${f.orderDate}">2024-08-08</td>
-					<td th:text="${f.orderAmount}">1</td>
-                    <td th:text="${f.fundingName}">양창모</td>
-					<td th:text="${f.fundingPhone}">01012345678</td>
-                    <td th:text="${f.fundingAddr}">서울시 영등포구 도신로15나길 3201동302호</td>
-                    <td th:text="${f.fundingPostcode}">07374</td>
+					<td th:text="${f.fundingNo}"></td>
+					<td th:text="${f.productNo}"></td>
+					<td th:text="${f.memberNo}"></td>
+                    <td th:text="${f.orderDate}"></td>
+					<td th:text="${f.orderAmount}"></td>
+                    <td th:text="${f.fundingName}"></td>
+					<td th:text="${f.fundingPhone}"></td>
+                    <td th:text="${f.fundingAddr}"></td>
+                    <td th:text="${f.fundingPostcode}"></td>
 					<td>
 						<div class="select" th:switch="${f.orderState}">
 							<select th:case="1">
-								<option value="1" selected>O</option>
-								<option value="2" >X</option>
+								<option value="1" selected>미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" >배송완료</option>
 							</select >
 							<select th:case="2">
-									<option value="1">O</option>
-									<option value="2" selected>X</option>
-								</select>
+								<option value="1" >미입금</option>
+								<option value="2" selected>입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" >배송완료</option>
+							</select >
+							<select th:case="3">
+								<option value="1" >미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" selected>배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" >배송완료</option>
+							</select >
+							<select th:case="4">
+								<option value="1" >미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" selected>배송중</option>
+								<option value="5" >배송완료</option>
+							</select >
+							<select th:case="5">
+								<option value="1" >미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" selected>배송완료</option>
+							</select >
 						</div>
 					</td>
 					<td>
-						<button class="changeOrderState">확인</button>
-					</td>	
-				
+						<button class="changeOrderState">
+							<span class="material-icons">done_outline</span>
+						</button>
+					</td>
+				</tr>
 			</table>
 		</section>
+		<div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
 		</main>
-	
+<script>
+$(".changeOrderState").on("click",function(){
+const fundingNo = $(this).parent().parent().children().eq(0).text();
+const orderState = $(this).parent().prev().children().children().val();
+location.href="/admin/changeOrderState?fundingNo="+fundingNo+"&orderState="+orderState;
+});		
+</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

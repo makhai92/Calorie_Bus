@@ -84,12 +84,15 @@ public class InqueryController {
 	}
 	@GetMapping(value = "/inqueryView")
 	public String view(int inqueryNo,String check, Model model, @SessionAttribute(required = false) Member member) {
+		System.out.println(1);
 		int memberNo = 0;
 		if (member != null) {
 			memberNo = member.getMemberNo();
+			System.out.println(memberNo);
 		}
 		
 		Inquery i = inqueryService.selectOneInquery(inqueryNo, check ,memberNo);
+		System.out.println(i);
 		if (i == null) {
 			model.addAttribute("title", "조회 실패");
 			model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
@@ -98,6 +101,7 @@ public class InqueryController {
 			return "common/msg";
 		} else {
 			model.addAttribute("i", i);
+			System.out.println("move to inquery view");
 			return "inquery/inqueryView";
 		}
 	}
@@ -106,10 +110,10 @@ public class InqueryController {
 	@GetMapping(value="/myinquery")
 	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
 		int memberNo = member.getMemberNo();
-		// InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
-		// model.addAttribute("list", ild.getList());
-		// model.addAttribute("pageNavi",ild.getPageNavi());
-		// model.addAttribute("category", "myboard");
+		InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
+		model.addAttribute("list", ild.getList());
+		model.addAttribute("pageNavi",ild.getPageNavi());
+		model.addAttribute("category", "myinquery");
 		return "member/myinquery";
 	}
 }

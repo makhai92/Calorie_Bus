@@ -103,7 +103,7 @@
 								</td>
 								<td style="width: 10%;">
 									<input type="hidden" name="dcPrice" id="dcPrice" th:value=${p.productDcPrice}>
-									<div class="totalPrice" name="totalPrice" id="totalPrice" th:text=${p.productDcPrice}+원></div>
+									<div class="totalPrice" name="totalPrice" id="totalPrice" th:text=${p.productDcPrice}></div>
 								</td>
 							</tr>
 						</table>
@@ -168,9 +168,9 @@
 									<th style="height:80px;">주소</th>
 									<td class="input-item1">
 										<input type="text" name="fundingPostcode" id="memberPostcode">
-										<input type="text" name="memberAddr" id="memberroadAddr">
+										<input type="text" name="fundingAddr" id="memberroadAddr">
 										<input type="text" name="memberAddr" id="memberdetailAddr" placeholder="상세주소">
-										<input type="hidden" name="fundingAddr" id="memberAddr">
+										<input type="hidden" id="memberAddr">
 										<button type="button" class="btn-round address-change">주소찾기</button>
 									</td>
 								</tr>
@@ -218,12 +218,17 @@
 	</main>
 	
 	<script>
+		function addCommasToNumber(number) {
+	    	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+	
 		$(".amount").on("change",function(){
 			const amount = Number($("#orderAmount").val());
 			const price = Number($("#dcPrice").val());
 			const total = amount*price;
+			const krtotalPrice = addCommasToNumber(total);
 			console.log(total);
-			$("#totalPrice").text(total+'원');
+			$("#totalPrice").text(krtotalPrice+'원');
 		});
 
 		let isBankClicked = false; // 생성 여부 저장용 변수
@@ -268,9 +273,17 @@
 		$("#memberdetailAddr").on("change",function addr(){
 			const roadAddr = $("#memberroadAddr").val();
 			const detailAddr = $("#memberdetailAddr").val();
-			$("#memberAddr").val(roadAddr+detailAddr);
+			$("#memberAddr").val(roadAddr+', '+detailAddr);
+			$("#memberAddr").attr('name','fundingAddr');
+			$("#memberroadAddr").attr('name','memberAddr');
 		});
 		
+		function changeNum(){
+			const totalPrice = $("#totalPrice").text();
+			const krtotalPrice = addCommasToNumber(totalPrice);
+			$("#totalPrice").text(krtotalPrice+'원');
+		}
+		changeNum();
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

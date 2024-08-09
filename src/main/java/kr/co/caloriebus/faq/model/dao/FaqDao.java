@@ -24,7 +24,8 @@ public class FaqDao {
 	}
 
 	public List selectAllFaq(int start, int end) {
-		String query = "select * from (select rownum as rnum ,n.* from (select * from faq order by 1 desc)n) where rnum between ? and ?";
+		String query =
+		"select * from (select rownum as rnum ,n.* from (select * from faq order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start,end};
 		List list = jdbc.query(query, faqRowMapper,params);
 		return list;

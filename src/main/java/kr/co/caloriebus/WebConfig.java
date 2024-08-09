@@ -18,7 +18,9 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addResourceHandler("/board/editor/**").addResourceLocations("file:///"+root+"/board/editor/");
 		registry.addResourceHandler("/newsletter/**").addResourceLocations("file:///"+root+"/newsletter/");
 		registry.addResourceHandler("/product/detail/**").addResourceLocations("file:///"+root+"/product/detail/");
-		registry.addResourceHandler("/product/main/**").addResourceLocations("file:///"+root+"/product/main/"); 
+		registry.addResourceHandler("/product/main/**").addResourceLocations("file:///"+root+"/product/main/");
+		registry.addResourceHandler("/product/review/**").addResourceLocations("file:///"+root+"/product/review/"); 
 		registry.addResourceHandler("/inquery/inqueryEditor/**").addResourceLocations("file:///"+root+"/inquery/inqueryEditor/");
+		registry.addResourceHandler("/exercise/editor/**").addResourceLocations("file:///"+root+"/exercise/editor/");
 	}
 }

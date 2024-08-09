@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경품내역관리</title>
+    <link rel="stylesheet" href="css/purchaseHistory.css">
+    <link rel="stylesheet" href="css/headfooter.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="Semi_Project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+<style>
+.prizeDetails-title {
+    font-size: 30px;
+    font-weight: bolder;  
+      
+}
+.admin-wrap>div {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.adminPage {
+    padding: 50px 0;
+    width: 1000px;
+    height: 800px;
+    margin: 0 auto;
+}
+#pageNavi>ul{
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	gap : 10px;
+}
+
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+ 	margin-top : 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+</style>
+</head>
+<body>
+
+<th:block th:include="common/header"></th:block>
+
+ <main class="adminPage">
+		<section class="section admin-wrap">
+			<div class = "prizeDetails-title">경품관리내역</div>
+			<table class="tbl tbl-hover">
+				<tr>
+					<th style="width:20%;">회원번호</th>
+					<th style="width:30%;">경품이름</th>
+					<th style="width:30%;">이벤트 경품 지급여부</th>
+					<th style="width:20%;">지급확인</th>
+				</tr>
+				<tr th:each="e : ${list}">
+					<td th:text="${e.memberNo}">1</td>
+					<td th:text="${e.eventItemName}">21</td>
+					
+					<td>
+						<div class="select" th:switch="${e.eventState}">
+							<select th:case="Y">
+								<option value="Y" selected>경품 지급 완료</option>
+								<option value="N" >경품 미지급</option>
+							</select >
+							<select th:case="N">
+								<option value="Y" >경품 지급 완료</option>
+								<option value="N" selected>경품 미지급</option>
+							</select >
+						</div>
+					</td>
+					<td>
+						<button type="submit" class="eventStateUpdate">
+							<span class="material-icons">done_outline</span>
+						</button>
+					</td>
+			</table>
+		</section>
+		<div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
+	</main>
+	<script>
+	$(".eventStateUpdate").on("click", function() {
+        const memberNo = $(this).parent().prev().prev().prev().text();
+        const eventState = $(this).parent().prev().find("select").val();
+		location.href="/admin/eventStateUpdate?memberNo="+memberNo+"&eventState="+eventState;
+		console.log(eventState);
+	});
+     
+		
+	</script>
+</body>
+<th:block th:include="common/footer"></th:block>
+</html>
