@@ -161,9 +161,10 @@ public class ProductController {
 	}
 	
 	@GetMapping(value="reviewFrm")
-	public String reviewFrm(int productNo,Model model) {
-		Product p = productService.selectOneProduct(productNo);
+	public String reviewFrm(int productNo,int fundingNo,Model model) {
+		Product p = productService.selectOneProduct(productNo); 
 		model.addAttribute("p",p);
+		model.addAttribute("fundingNo",fundingNo);
 		return "/product/reviewFrm";
 	}
 	
@@ -172,8 +173,8 @@ public class ProductController {
 		String savepath = root+"/product/review/";
 		String filepath = fileUtils.upload(savepath, upfile);
 		pr.setReviewImg(filepath);
-		int fundingNo = productService.selectFundingNo(pr.getProductNo());
-		pr.setFundingNo(fundingNo);
+		
+		System.out.println(pr.getFundingNo());
 		int result = productService.reviewInsert(pr);
 		if(result>0) {
 			model.addAttribute("title","작성완료");

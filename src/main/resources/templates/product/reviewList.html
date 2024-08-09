@@ -26,17 +26,16 @@
 	#memberId,.update-item{
 		display : inline-block;
 		margin-bottom: 10px;
+		font-size: 15px;
 	}
 	#memberId{
 		float: left;
-		font-size: 15px;
 	}
 	.update-item{
 		float: right;
 	}
-	.update-item>button{
-		border: none;
-		background-color: #ffffff;
+	.input-item1>textarea{
+		height: 80px;
 	}
 </style>
 </head>
@@ -51,7 +50,6 @@
 			<div class="review-content">
 				<div class="review-product-title">
 					<h3 th:text=${p.productTitle}></h3>
-					<a class="btn-round" th:href="@{/product/reviewFrm(productNo=${p.productNo})}">후기 작성</a>
 				</div>
 				<div>
 					<table class="tbl">
@@ -64,9 +62,9 @@
 							<td>
 								<p id="memberId" th:text=${pr.memberId}></p>
 								<div class="update-item">
-									<button>수정</button>
+									<a th:href="@{/product/reviewUpdate(reviewContent=${pr.reviewContent})}">수정</a>
 									<span>|</span>
-									<button>삭제</button>
+									<a>삭제</a>
 								</div>
 								<div class="input-item1">
 									<textarea th:text=${pr.reviewContent} readonly></textarea>								

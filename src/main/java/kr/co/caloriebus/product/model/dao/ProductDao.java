@@ -95,14 +95,6 @@ public class ProductDao {
 		return list;
 	}
 
-	public int selectFundingNo(int productNo) {
-		String query = "select funding_no from funding where product_no=?";
-		Object[] params = {productNo};
-		int fundingNo = jdbc.queryForObject(query, Integer.class,params);
-		System.out.println(fundingNo);
-		return fundingNo;
-	}
-
 	public int reviewInsert(ProductReview pr) {
 		String query = "insert into product_review values(?,?,?,?,?)";
 		Object[] params = {pr.getFundingNo(),pr.getReviewContent(),pr.getReviewImg(),pr.getMemberId(),pr.getProductNo()};
