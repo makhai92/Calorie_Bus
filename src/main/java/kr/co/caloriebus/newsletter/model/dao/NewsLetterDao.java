@@ -107,9 +107,17 @@ public class NewsLetterDao {
 		List list = jdbc.query(query, newsletterFileRowMapper, params);
 		return list;
 	}
-	public List selectNewsLetterCommentList(int boardNo, int memberNo) {
-		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_ref=? and board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null)bc";
-		Object[] params = {memberNo,boardNo,boardNo};
+	public List selectNewsLetterCommentList(int boardNo,int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,"
+				+ "to_char(board_comment_date,'yyyy-mm-dd')as board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null order by 1)bc";
+		Object[] params = {memberNo,boardNo};
+		List list = jdbc.query(query, newsletterCommentRowMapper,params);
+		return list;
+	}
+	public List selectNewsLetterReCommentList(int boardNo,int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,"
+				+ "to_char(board_comment_date,'yyyy-mm-dd')as board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is not null order by 1)bc";
+		Object[] params = {memberNo,boardNo};
 		List list = jdbc.query(query, newsletterCommentRowMapper,params);
 		return list;
 	}

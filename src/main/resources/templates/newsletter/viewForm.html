@@ -155,8 +155,17 @@
                 </a>
             </th:block>
         </div>
+        <form action="/newsletter/insertNewsLetterComment" method="post">
+            <div th:if="${session.member} != null" class="input-item1 input-comment-box">
+                <span class="material-icons">person</span>
+                <span th:text="${session.member.memberId}"></span>
+                <textarea name="boardCommentContent" style="resize:none;"></textarea>
+                <button type="submit" class="btn-square" style="height:50px">댓글작성</button>
+                <input type="hidden" name="boardRef" th:value="${newsletter.boardNo}">
+            </div>
+        </form>
         <div class="comment-wrap">
-            <span>댓글수 : <span th:text="${newsletter.commentCount}"></span></span>
+        	<span th:text="'댓글수 : '+${newsletter.commentCount}"></span>
             <ul th:each="newsletterComment : ${newsletter.boardCommentList}">
                 <li>
                     <p class="comment-info">
@@ -166,18 +175,43 @@
                         좋아요수 : <span th:text="${newsletterComment.likeCount}"></span>
                         <span th:if="${newsletterComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${newsletterComment.boardCommentNo}]]);">thumb_down</span>
                         <span th:if="${newsletterComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${newsletterComment.boardCommentNo}]]);">thumb_up</span>
-                        <a th:if="${session.member != null && session.member.memberNo == newsletterComment.memberNo}" href="javascript:void(0)" class="updateComment">수정</a>
-                        <a th:if="${session.member != null && session.member.memberNo == newsletterComment.memberNo}" href="javascript:void(0)" class="deleteComment">삭제</a>
+                        <a th:if="${session.member != null && session.member.memberNo == newsletterComment.memberNo}" href="javascript:void(0)" th:onclick="updateShow(this)">수정</a>
+						<a th:if="${session.member != null && session.member.memberNo == newsletterComment.memberNo}" href="javascript:void(0)" th:onclick="deleteComment([[${newsletterComment.boardCommentNo}]])">삭제</a>
                     </p>
                     <p th:text="${newsletterComment.boardCommentContent}"></p>
-                    <div class="reComment-box">
-                        <span th:text="'답글수 ' +${newsletterComment.reCommentCount}"></span>
+                    <form action="/newsletter/updateComment"
+						method="post" style="display: none;">
+						<div class="input-item1 input-comment-box">
+							<textarea name="boardCommentContent" style="resize: none;"
+								th:text="${newsletterComment.boardCommentContent}"></textarea>
+							<button type="submit" class="btn-square" style="height: 50px">수정</button>
+							<input type="hidden" name="boardCommentNo"
+								th:value="${newsletterComment.boardCommentNo}"> <input
+								type="hidden" name="boardRef" th:value="${newsletter.boardNo}">
+						</div>
+					</form>
+
+
+					<div class="reComment-box">
                         <div>
-                            <a th:if="${newsletterComment.reCommentCount > 0}" href="javascript:void(0)" th:onclick="commentShow(this,[[${newsletterComment.boardCommentNo}]]);">답글보기</a>
                             <a href="javascript:void(0)" class="recShow">답글달기</a>
                         </div>
+                        
                     </div>
-                    <ul th:each="reComment : ${newsletterComment.reComments}" style="margin-left: 20px;">
+                    
+                    <form action="/newsletter/insertNewsLetterComment" method="post" style="display: none;">
+                        <div th:if="${session.member} != null" class="input-item1 input-comment-box">
+                            <span class="material-icons">person</span>
+                            <span th:text="${session.member.memberId}"></span>
+                            <input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
+                            <textarea name="boardCommentContent" style="resize:none;"></textarea>
+                            <button type="submit" class="btn-square" style="height:50px">댓글작성</button>
+                            <input type="hidden" name="boardRef" th:value="${newsletter.boardNo}">
+                            <input type="hidden" name="boardCommentRef" th:value="${newsletterComment.boardCommentNo}">
+                        </div>
+                    </form>
+                    <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
+                    <ul th:each="reComment : ${newsletter.boardReCommentList}" style="margin-left: 20px;">
                         <li>
                             <p class="comment-info">
                                 <span class="material-icons">person</span>
@@ -191,8 +225,13 @@
                             </p>
                             <p th:text="${reComment.boardCommentContent}"></p>
                         </li>
-                    </ul>
-                    <form action="/newsletter/insertNewsLetterComment" method="post" style="display: none;">
+                        <div class="reComment-box">
+                        <div>
+                            <a href="javascript:void(0)" class="recShow">답글달기</a>
+                        </div>
+                        
+                    </div>
+                        <form action="/newsletter/insertNewsLetterComment" method="post" style="display: none;">
                         <div th:if="${session.member} != null" class="input-item1 input-comment-box">
                             <span class="material-icons">person</span>
                             <span th:text="${session.member.memberId}"></span>
@@ -203,18 +242,13 @@
                             <input type="hidden" name="boardCommentRef" th:value="${newsletterComment.boardCommentNo}">
                         </div>
                     </form>
+                        <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
+                    </ul>
+                    
                 </li>
             </ul>
         </div>
-        <form action="/newsletter/insertNewsLetterComment" method="post">
-            <div th:if="${session.member} != null" class="input-item1 input-comment-box">
-                <span class="material-icons">person</span>
-                <span th:text="${session.member.memberId}"></span>
-                <textarea name="boardCommentContent" style="resize:none;"></textarea>
-                <button type="submit" class="btn-square" style="height:50px">댓글작성</button>
-                <input type="hidden" name="boardRef" th:value="${newsletter.boardNo}">
-            </div>
-        </form>
+        
     </main>
     <script>
         const boardNo = "[[${newsletter.boardNo}]]";
@@ -240,7 +274,7 @@
                             likeSpan.addClass("favorite");
                             likeSpan.text("thumb_down");
                         }
-                        $(".view-tbl tr>td>span").eq(1).text(data);
+                        $(".stats").children().eq(1).text(data);
                         likeSpan.prev().text(data);
                     }
                 },
@@ -286,7 +320,8 @@
             } else {
                 $(this).text("답글달기");
             }
-            $(this).parent().parent().next("form").toggle();
+            $(this).parent().parent().next().toggle();
+            
         });
         function commentShow(obj, boardCommentNo) {
             $.ajax({
@@ -309,9 +344,45 @@
                 }
             });
         }
-        function deleteNewsletter(boardNo) {
-            location.href = "/newsletter/delete?boardNo=" + boardNo;
-        }
+        function deleteComment(boardCommentNo){
+			location.href = "/newsletter/deleteComment?boardCommentNo="+boardCommentNo+"&boardNo="+boardNo;
+		}
+        function updateShow(obj){
+			if($(obj).text()=='수정'){
+				$(obj).text("취소");
+			}else{
+				$(obj).text("수정");
+			}
+			$(obj).parent().next().next().toggle();
+		}
+        function deleteNewsLetter(boardNo){
+			swal({
+				title:"게시글 삭제",
+				text :"게시글을 삭제하시겠습니까?",
+				icon :"warning",
+				buttons:{
+						cancel:{
+							text:"취소",
+							value:false,
+							visible:true,
+							className:"btn-round",
+							closeModal:true
+						},
+						confirm:{
+							text:"삭제",
+							value:true,
+							visible:true,
+							className:"btn-round",
+							closeModal:true
+						}
+					}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					location.href="/newsletter/deleteBoard?boardNo="+boardNo;
+				}
+			});
+		}
+        
     </script>
     <th:block th:include="common/footer"></th:block>
 </body>

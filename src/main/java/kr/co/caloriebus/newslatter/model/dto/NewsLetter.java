@@ -21,6 +21,7 @@ public class NewsLetter {
 	private String regDate;
 	private List<BoardFile> fileList;
 	private List<BoardComment> boardCommentList;
+	private List<BoardComment> boardReCommentList;
 	private int rNum;
 	private String boardCategory;
 	private int likeCount;

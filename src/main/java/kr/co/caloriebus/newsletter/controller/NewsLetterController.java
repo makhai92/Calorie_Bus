@@ -106,6 +106,7 @@ public class NewsLetterController {
 			model.addAttribute("memberNo",-1);
 		}
 		model.addAttribute("newsletter",n);
+		System.out.println(n);
 		model.addAttribute("fileList",n.getFileList());
 		return "newsletter/viewForm";
 	}

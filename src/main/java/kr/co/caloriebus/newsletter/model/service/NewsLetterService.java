@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.caloriebus.board.model.dto.Board;
-import kr.co.caloriebus.board.model.dto.BoardComment;
-import kr.co.caloriebus.board.model.dto.BoardFile;
-import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterComment;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFile;
@@ -95,6 +91,10 @@ public class NewsLetterService {
 			}
 			List fileList = newsletterDao.selectNewsLetterFileList(boardNo);
 			n.setFileList(fileList);
+			List commentList = newsletterDao.selectNewsLetterCommentList(boardNo, memberNo);
+			n.setBoardCommentList(commentList);
+			List reCommentList = newsletterDao.selectNewsLetterReCommentList(boardNo, memberNo);
+			n.setBoardReCommentList(reCommentList);
 		}
 		return n;
 	}
