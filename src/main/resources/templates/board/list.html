@@ -58,14 +58,13 @@
 		font-weight: 800;
 	}
 	.board-list:hover{
-		background-color: #ccc; 
+		background-color: var(--bg2);
 	}
 </style>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
 	<main class="content">
-		<div class="page-title">커뮤니티</div>
 		<div class="btn-category">
 			<a class="btn-round" href="/board/list?category=all&reqPage=1">전체보기</a>
 			<a class="btn-round" href="/board/list?category=B1&reqPage=1">자유글</a>
@@ -74,7 +73,7 @@
 			<a class="btn-round" href="/board/list?category=B4&reqPage=1">운동토크</a>
 		</div>
 		<div class="btn-wrap">
-			<button class="btn-round" id="btn-write">글쓰기</button>
+			<button th:if="${session.member != null}"class="btn-round" id="btn-write">글쓰기</button>
 			<form action="/board/search" method="get">
 				<div class="input-item1">
 					<button class="btn-square">검색</button>
