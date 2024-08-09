@@ -139,7 +139,7 @@
             <th:block th:utext="${newsletter.boardContent}"></th:block>
             <th:block th:each="file : ${fileList}">
                 <img th:if="${#strings.endsWith(file.filename, '.jpg') or #strings.endsWith(file.filename, '.jpeg') or #strings.endsWith(file.filename, '.png') or #strings.endsWith(file.filename, '.gif')}"
-                     th:src="@{/newsletter/}+${file.filepath}" style="max-width: 100%; height: auto; margin-top: 10px;">
+                     th:src="@{/newsletter/${file.filepath}}" style="max-width: 100%; height: auto; margin-top: 10px;">
             </th:block>
         </div>
         <div class="like-wrap">
