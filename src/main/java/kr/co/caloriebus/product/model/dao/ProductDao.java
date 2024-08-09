@@ -128,11 +128,31 @@ public class ProductDao {
 		}
 	}
 
-	public int reviewUpdate(ProductReview pr) {
+	public int reviewUpdate1(ProductReview pr) {
+		String query = "update product_review set review_content=? where funding_no=?";
+		Object[] params = {pr.getReviewContent(),pr.getFundingNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int reviewUpdate2(ProductReview pr) {
 		String query = "update product_review set review_content=?,review_img=? where funding_no=?";
 		Object[] params = {pr.getReviewContent(),pr.getReviewImg(),pr.getFundingNo()};
 		int result = jdbc.update(query, params);
 		return result;
+	}
+
+	public int reviewDelete(int fundingNo) {
+		String query = "delete from product_review where funding_no = ?";
+		Object[] params = {fundingNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int orderAmount(int productNo) {
+		String query = "select sum(order_amount) from funding where product_no=?";
+		Object[] params = {productNo};
+		int totalAmount = jdbc.queryForObject(query, Integer.class, params);
+		return totalAmount;
 	}
 
 }

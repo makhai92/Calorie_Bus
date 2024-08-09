@@ -134,9 +134,24 @@ public class ProductService {
 		return pr;
 	}
 	@Transactional
-	public int reviewUpdate(ProductReview pr) {
-		int result = productDao.reviewUpdate(pr);
+	public int reviewUpdate1(ProductReview pr) {
+		int result = productDao.reviewUpdate1(pr);
 		return result;
+	}
+	@Transactional
+	public int reviewUpdate2(ProductReview pr) {
+		int result = productDao.reviewUpdate2(pr);
+		return result;
+	}
+
+	public int reviewDelete(int fundingNo) {
+		int result = productDao.reviewDelete(fundingNo);
+		return result;
+	}
+
+	public int orderAmount(int productNo) {
+		int totalAmount = productDao.orderAmount(productNo);
+		return totalAmount;
 	}
 	
 
