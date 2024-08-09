@@ -11,15 +11,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
 <style>
-</style>
+.grade-title{
+	font-size : 30px;
+	text-align : center;
+	margin-bottom : 50px;
+	margin-top : 30px;
+}
 
+</style>
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
 
 <main class="content">
 		<section class="section admin-wrap">
-			<div class = "page-title">회원 관리 페이지</div>
+			<div class = "grade-title">회원 관리 페이지</div>
 			<table class="tbl tbl-hover">
 				<tr>
 					<th style="width:5%;">회원번호</th>
@@ -47,17 +53,10 @@
 					<td th:text="${m.memberLevel}">
 					</td>
                     <td>
-                    	<div class="select" th:switch="${m.eventCount}">
-                    		<select th:case="0">
-								<option value="0" selected>X</option>
-								<option value="1" >O</option>
-							</select >
-							<select th:case="1">
-								<option value="0">X</option>
-								<option value="1"selected>O</option>
-							</select >
-                    	</div>
-                    </td>
+					    <div class="select">
+					        <span th:text="${m.eventCount == 0 ? 'X' : 'O'}"></span>
+					    </div>
+					</td>
 					<td>
 					<div class="select" th:switch="${m.memberLevel}">
 							<select th:case="1">
@@ -71,7 +70,9 @@
 						</div>
 					</td>	
 					<td>
-						<button class="memberLevelChange">등급변경</button>
+						<button class="memberLevelChange">
+								<span class="material-icons">done_outline</span>
+						</button>
 					</td>
 				</tr>
 			</table>
@@ -82,7 +83,6 @@
 				const memberNo = $(this).parent().parent().children().eq(0).text();
 				const memberLevel = $(this).parent().prev().children().children().val();
 				location.href="/admin/memberLevelChange?memberNo="+memberNo+"&memberLevel="+memberLevel;
-				console.log(memberLevel);
 			});
 			
 </script>

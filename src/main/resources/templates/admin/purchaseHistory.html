@@ -16,6 +16,26 @@
     font-weight: bolder;  
       
 }
+#pageNavi>ul{
+	text-align : center;
+	width : 500px;
+}
+#pageNavi>ul>li{
+	position : relative;
+	left : 100px;
+	display : flex;
+	float : left;
+	margin-left : 50px;
+}
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+ 	margin-top : 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
 .admin-wrap>div{
     text-align: center;
     margin-bottom: 30px;
@@ -23,7 +43,6 @@
 .adminPage{
     padding: 50px 0;
     width: 1300px;
-    height: 800px;
     margin: 0 auto;
 }
 
@@ -34,7 +53,7 @@
 	
  <main class="adminPage">
 		<section class="section admin-wrap">
-			<div class = "purchase-title">회원 관리 페이지</div>
+			<div class = "purchase-title">구매 내역 관리</div>
 			<table class="tbl tbl-hover">
 				<tr>
 					<th style="width:5%;">구매번호</th>
@@ -100,22 +119,24 @@
 						</div>
 					</td>
 					<td>
-						<button class="changeOrderState">확인</button>
+						<button class="changeOrderState">
+							<span class="material-icons">done_outline</span>
+						</button>
 					</td>
 				</tr>
 			</table>
 		</section>
+		<div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
 		</main>
-		<script>
-			$(".changeOrderState").on("click",function(){
-				
-				const fundingNo = $(this).parent().parent().children().eq(0).text();
-				const orderState = $(this).parent().prev().children().children().val();
-				console.log(orderState);
-				location.href="/admin/changeOrderState?fundingNo="+fundingNo+"&orderState="+orderState;
-			});
-			
-		</script>
+<script>
+$(".changeOrderState").on("click",function(){
+const fundingNo = $(this).parent().parent().children().eq(0).text();
+const orderState = $(this).parent().prev().children().children().val();
+location.href="/admin/changeOrderState?fundingNo="+fundingNo+"&orderState="+orderState;
+});		
+</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

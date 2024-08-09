@@ -26,10 +26,11 @@ public class AdminDao {
 	@Autowired
 	private RulletPageRowMapper eventRowMapper;
 
-	public List getAllFunding() {
-		String query = "select * from funding order by 1";
-		
-		List list = jdbc.query(query, purchaseRowMapper);
+	public List getAllFunding(int start, int end) {
+		String query = 
+		"select * from (select rownum as rnum ,n.* from (select * from funding order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {start,end};
+		List list = jdbc.query(query, purchaseRowMapper, params);
 		return list;
 	}
 
@@ -65,5 +66,11 @@ public class AdminDao {
 		Object [] params = {r.getEventState() , r.getMemberNo()};
 		int result = jdbc.update(query,params);
 		return result;
+	}
+
+	public int selectAllFundingCount() {
+		String query = "select count(*) from funding";
+		int totalCount = jdbc.queryForObject(query, Integer.class);
+		return totalCount;
 	}
 }

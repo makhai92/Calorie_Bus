@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.co.caloriebus.admin.model.dto.PurchaseListData;
 import kr.co.caloriebus.admin.model.service.AdminService;
 import kr.co.caloriebus.faq.model.service.FaqService;
 import kr.co.caloriebus.member.model.dto.Member;
@@ -25,10 +26,10 @@ public String adminMain() {
 	return "admin/adminMain";
 }
 	@GetMapping("/purchaseHistory")
-    public String getPurchaseHistory(Model model) {
-        List<Funding> purchaseList = adminService.getAllFunding(); // 구매 리스트를 가져오는 서비스 메서드 호출
-        model.addAttribute("list", purchaseList); // 모델에 'list'라는 이름으로 데이터 추가
-        System.out.println(purchaseList);
+    public String getPurchaseHistory(int reqPage,Model model) {
+        PurchaseListData pld = adminService.getAllFunding(reqPage); // 구매 리스트를 가져오는 서비스 메서드 호출
+        model.addAttribute("list", pld.getList()); // 모델에 'list'라는 이름으로 데이터 추가
+        model.addAttribute("pageNavi",pld.getPageNavi());
         return "admin/purchaseHistory";
     }
 	@GetMapping(value="/changeOrderState")
