@@ -89,6 +89,7 @@
 	}
 
 </style>
+<script src="/js/sweetalert.min.js"></script>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -126,15 +127,15 @@
 				</td>
 		</table>
 		<div class="update-btn-wrap" th:if="${session.member != null && session.member.memberNo == board.memberNo}">
-			<a class="btn-round">수정하기</a>
-			<a class="btn-round g">삭제하기</a>
+			<a class="btn-round" th:href="@{/board/updateFrm(boardNo=${board.boardNo})}">수정하기</a>
+			<a class="btn-round g" th:onclick="deleteBoard([[${board.boardNo}]])">삭제하기</a>
 		</div>
 			<form action="/board/insertBoardComment" method="post">
 				<div class="input-item1 input-comment-box">
 					<span class="material-icons">person</span>
 					<span th:if="${session.member} != null" th:text=${session.member.memberId}></span>
 					<textarea name="boardCommentContent"></textarea>
-					<button type="submit" class="btn-square comment-write-btn">댓글작성</button>
+					<button type="submit" class="btn-square comment-write-btn"  th:onclick="return loginCheck([[${session.member == null?-1:session.member.memberNo}]])">댓글작성</button>
 					<input type="hidden" name="boardRef" th:value="${board.boardNo}">
 				</div>
 			</form>
@@ -145,7 +146,7 @@
 					<p class="comment-info">
 						<span class="material-icons">person</span>
 						<span th:text="${boardComment.boardCommentWriter}"></span>
-						<span th:text="'작성일 : '+${boardComment.boardCommentDate}"></span>
+						<span th:text="${boardComment.boardCommentDate}"></span>
 						<span th:text="'좋아요수 : '+${boardComment.likeCount}"></span>
 						<span th:if="${boardComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_down</span>
 						<span th:if="${boardComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_up</span>
@@ -176,7 +177,7 @@
 							<span class="material-icons">person</span>
 							<span th:text=${session.member.memberId}></span>
 							<textarea name="boardCommentContent" style="resize:none;"></textarea>
-							<button type="submit" class="btn-square comment-write-btn">댓글작성</button>
+							<button type="submit" class="btn-square comment-write-btn" th:onclick="return loginCheck([[${session.member == null?-1:session.member.memberNo}]])">댓글작성</button>
 							<input type="hidden" name="boardRef" th:value="${board.boardNo}">
 							<input type="hidden" name="boardCommentRef" th:value="${boardComment.boardCommentNo}">
 						</div>
@@ -240,6 +241,7 @@
 							likeSpan.addClass("favorite");
 							likeSpan.text("thumb_down");
 						}
+						$(obj).prev().text("");
 						$(obj).prev().text("좋아요수 : "+data);
 					}
 				},
@@ -267,7 +269,7 @@
 					for(let i=0;i<data.length;i++){
 						const bc = data[i];
 						const ul = $("<ul>");
-						const li1 = $("<li>");
+						const li1 = $("<li style='width:100%;'>");
 						const commentWrapDiv = $("<div style='overflow:hidden;'>");
 						const iconSpan = $("<span class='material-icons' style='float:left; font-size:40px;'>");
 						iconSpan.text("subdirectory_arrow_right");
@@ -277,7 +279,7 @@
 						const writerSpan = $("<span>");
 						writerSpan.text(bc.boardCommentWriter);
 						const dateSpan = $("<span>");
-						dateSpan.text("작성일 : "+bc.boardCommentDate);
+						dateSpan.text(bc.boardCommentDate);
 						const likeCountSpan = $("<span>");
 						likeCountSpan.text("좋아요수 : "+bc.likeCount);
 						const likeSpan = $("<span class='material-icons' onclick='likePush(this,"+bc.boardCommentNo+");'>");
@@ -307,7 +309,7 @@
 						li1.append(infoP);
 						const contentP = $("<p class='comment-content'>");
 						contentP.text(bc.boardCommentContent);
-						const reCommentDiv = $("<div class='reComment-box' style='border-bottom:1px solid #ccc;'>");
+						const reCommentDiv = $("<div class='reComment-box' style='border-bottom:1px solid #ccc; width:100%;'>");
 						if(i == data.length-1){
 							reCommentDiv.css("border","none");
 						}
@@ -325,7 +327,7 @@
 							div.append(recShowA);
 						}
 						reCommentDiv.append(reCommentCountSpan).append(div);
-						li1.append(contentP).append(updateForm).append(reCommentDiv);
+						li1.append(contentP).append(updateForm);
 						ul.append(li1);
 						if(memberNo != -1){
 							const li2 = $("<li>");
@@ -335,7 +337,7 @@
 							inputIconSpan.text("person");
 							const writerIdSpan = $("<span>").text(memberId);
 							const textarea = $("<textarea name='boardCommentContent'>");
-							const commentWriteBtn = $("<button type='submit' class='btn-square comment-write-btn'>").text("댓글작성");
+							const commentWriteBtn = $("<button type='submit' class='btn-square comment-write-btn' onclick='return loginCheck("+memberNo+")'>").text("댓글작성");
 							const boardRefInput = $("<input type='hidden' name='boardRef' value='"+boardNo+"'>");
 							const boardCommentRefInput = $("<input type='hidden' name='boardCommentRef' value='"+bc.boardCommentNo+"'>");
 							inputDiv.append(inputIconSpan).append(writerIdSpan).append(textarea).append(commentWriteBtn).append(boardRefInput).append(boardCommentRefInput)
@@ -343,8 +345,8 @@
 							li2.append(form);
 							ul.append(li2);
 						}
-							commentWrapDiv.append(iconSpan).append(ul);
-							reCommentBoxDiv.append(commentWrapDiv);
+							commentWrapDiv.append(ul).append(reCommentDiv);
+							reCommentBoxDiv.append(iconSpan).append(commentWrapDiv);
 						
 					}
 					$(obj).parent().parent().parent().parent().append(reCommentBoxDiv);
@@ -365,6 +367,41 @@
 		}
 		function deleteComment(boardCommentNo){
 			location.href = "/board/deleteComment?boardCommentNo="+boardCommentNo+"&boardNo="+boardNo;
+		}
+		function loginCheck(memberNo){
+			if(memberNo == -1){
+				alert("로그인해라");
+				return false;
+			}else{
+				return true;
+			}
+		}
+		function deleteBoard(boardNo){
+			swal({
+				title:"게시글 삭제",
+				text :"게시글을 삭제하시겠습니까?",
+				icon :"warning",
+				buttons:{
+						cancel:{
+							text:"취소",
+							value:false,
+							visible:true,
+							className:"btn-round",
+							closeModal:true
+						},
+						confirm:{
+							text:"삭제",
+							value:true,
+							visible:true,
+							className:"btn-round",
+							closeModal:true
+						}
+					}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					location.href="/board/deleteBoard?boardNo="+boardNo;
+				}
+			});
 		}
 	</script>
 	<th:block th:include="common/footer"></th:block>
