@@ -88,7 +88,10 @@
 		resize:none;
 	}
 
+	
 </style>
+<!-- 삭제 swal -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -147,8 +150,8 @@
 						<span th:text="${exerciseComment.boardCommentWriter}"></span>
 						<span th:text="'작성일 : '+${exerciseComment.boardCommentDate}"></span>
 						<span th:text="'좋아요수 : '+${exerciseComment.likeCount}"></span>
-						<span th:if="${exerciseComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_down</span>
-						<span th:if="${exerciseComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_up</span>
+						<span th:if="${exerciseComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${exerciseComment.boardCommentNo}]]);">thumb_down</span>
+						<span th:if="${exerciseComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${exerciseComment.boardCommentNo}]]);">thumb_up</span>
 						<a th:if="${session.member != null && session.member.memberNo == exerciseComment.memberNo}" href="javascript:void(0)" th:onclick="updateShow(this)">수정</a>
 						<a th:if="${session.member != null && session.member.memberNo == exerciseComment.memberNo}" href="javascript:void(0)" th:onclick="deleteComment([[${exerciseComment.boardCommentNo}]])">삭제</a>
 					</p>
@@ -171,7 +174,7 @@
 					</div>
 				</li>
 				<li>
-					<form action="/exercise/insertBoardComment" method="post">
+					<form action="/exercise/insertExerciseComment" method="post">
 						<div th:if="${session.member != null}" class="input-item1 input-comment-box" style="display:none;">
 							<span class="material-icons">person</span>
 							<span th:text=${session.member.memberId}></span>
@@ -378,7 +381,7 @@
 						text:"취소",
 						value:false,
 						visible:true,
-						className:"btn-round",
+						className:"btn-secondary",
 						closeModel:true
 					},
 					confirm:{
