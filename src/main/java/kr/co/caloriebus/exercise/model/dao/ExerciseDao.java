@@ -13,6 +13,7 @@ import kr.co.caloriebus.exercise.model.dto.ExerciseFile;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFileRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseInfoRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseRowMapper;
+import kr.co.caloriebus.exercise.model.dto.ExerciseupdateRowMapper;
 
 @Repository
 public class ExerciseDao {
@@ -26,7 +27,8 @@ public class ExerciseDao {
 	private ExerciseCommentRowMapper exerciseCommentRowMapper;
 	@Autowired
 	private ExerciseInfoRowMapper exerciseInfoRowMapper;
-	
+	@Autowired
+	private ExerciseupdateRowMapper exerciseupdateRowMapper;
 	
 	public List selectBoardList(int start, int end) {
 		//System.out.println(start);
@@ -43,7 +45,7 @@ public class ExerciseDao {
 		return totalCount;
 	}
 	
-	//등록 //에러
+	//등록 
 	public int insertExercise(Exercise e) {
 		String query = "insert into board values(board_seq.nextval,?,'I1',?,?,1,to_char(sysdate,'yyyy-mm-dd'))";
 		Object[] params = {e.getMemberNo(),e.getBoardTitle(),e.getBoardContent()};
@@ -109,7 +111,8 @@ public class ExerciseDao {
 		int likeCount = jdbc.queryForObject(query, Integer.class, params);
 		return likeCount;
 	}
-
+	
+	//좋아요	
 	public int deleteExerciseCommentLike(int boardCommentNo, int memberNo) {
 		String query = "delete from board_comment_like where board_comment_no=? and member_no=?";
 		Object[] params = {boardCommentNo,memberNo};
@@ -131,11 +134,32 @@ public class ExerciseDao {
 		return likeCount;
 	}
 	
-	//에러
+	//댓글//에러
 	public int insertExerciseComment(ExerciseComment ec) {
 		String query = "insert into board_comment values(board_comment_seq.nextval,?,?,?,?,to_char(sysdate,'YYYY-MM-DD'))";
 		String exerciseCommentRef = ec.getBoardCommentRef() == 0 ? null : String.valueOf(ec.getBoardCommentRef());
 		Object[] params = {ec.getBoardCommentContent(),ec.getMemberNo(),ec.getBoardRef(),exerciseCommentRef};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	
+	public List selectExerciseReCommentList(int boardCommentNo, int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_comment_ref=? order by 1)bc";
+		Object[] params = {memberNo,boardCommentNo};
+		List list = jdbc.query(query, exerciseCommentRowMapper, params);
+		return list;
+	}
+
+	public int updateComment(ExerciseComment ec) {
+		String query = "update board_comment set board_comment_content=? where board_comment_no=?";
+		Object[] params = {ec.getBoardCommentContent(),ec.getBoardCommentNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	
+	public int deleteComment(int boardCommentNo) {
+		String query = "delete from board_comment where board_comment_no=?";
+		Object[] params = {boardCommentNo};
 		int result = jdbc.update(query,params);
 		return result;
 	}
@@ -154,8 +178,50 @@ public class ExerciseDao {
 		int result = jdbc.update(query, params);
 		return result;
 	}
-	
+
 	//수정
+	public Exercise selectOneExercise(int boardNo) {
+		String query = "select * from board where board_no=?";
+		Object[] params = {boardNo};
+		List list = jdbc.query(query, exerciseupdateRowMapper, params);
+		if(list.isEmpty()) {
+			return null;			
+		}
+		return (Exercise)list.get(0);
+	}
+
+	public int updateExercise(Exercise e) {
+		String query = "update board set board_title=?,board_content=?,read_count = read_count-1 where board_no=?";
+		Object[] params = {e.getBoardTitle(),e.getBoardContent(),e.getBoardNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int insertExerciseFile(ExerciseFile exerciseFile) {
+		String query = "insert into board_file values(board_file_seq.nextval,?,?,?)";
+		Object[] params = {exerciseFile.getFilename(),exerciseFile.getFilepath(),exerciseFile.getBoardNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public ExerciseFile selectOneExerciseFile(int fileNo) {
+		String query = "select * from board_file where file_no=?";
+		Object[] params = {fileNo};
+		List list = jdbc.query(query, exerciseFileRowMapper, params);
+		if(list.isEmpty()) {
+			return null;			
+		}
+		return (ExerciseFile)list.get(0);
+	}
+
+	public int deleteExerciseFile(int fileNo) {
+		String query = "delete from board_file where file_no=?";
+		Object[] params = {fileNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+
 	
 
 	
