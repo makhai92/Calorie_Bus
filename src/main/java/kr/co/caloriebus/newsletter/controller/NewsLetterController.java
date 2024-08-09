@@ -54,7 +54,11 @@ public class NewsLetterController {
 	}
 	@GetMapping(value="/privacy")
 	public String privacy() {
-		return "etc/privacy";
+		return "newsletter/privacy";
+	}
+	@GetMapping(value="/terms")
+	public String terms() {
+		return "newsletter/terms";
 	}
 	@ResponseBody
 	@PostMapping(value="/editorImage", produces = "plain/text;charset=utf-8")
