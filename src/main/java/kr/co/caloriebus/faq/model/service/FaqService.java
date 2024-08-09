@@ -90,5 +90,13 @@ public class FaqService {
 		return result;
 	}
 
+	public Faq getOneFaq(int faqNo) {
+		Faq f = faqDao.selectOneFaq(faqNo);
+		return f;
+	}
+
+	
+
+
 
 }
