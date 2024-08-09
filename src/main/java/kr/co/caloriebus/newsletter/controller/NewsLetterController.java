@@ -51,7 +51,10 @@ public class NewsLetterController {
 	public String writeForm() {
 		return "newsletter/writeForm";
 	}
-	
+	@GetMapping(value="/privacy")
+	public String privacy() {
+		return "etc/privacy";
+	}
 	@ResponseBody
 	@PostMapping(value="/editorImage", produces = "plain/text;charset=utf-8")
 	public String editorImage(MultipartFile upfile) {
@@ -153,16 +156,16 @@ public class NewsLetterController {
     }
 
     @PostMapping(value="/editForm")
-    public String edit(NewsLetter nl, MultipartFile[] files, @SessionAttribute(required=false) Member member, Model model) {
+    public String edit(NewsLetter nl, MultipartFile[] upfiles, @SessionAttribute(required=false) Member member, Model model) {
         if (member == null || nl.getMemberNo() != member.getMemberNo()) {
             return "redirect:/newsletter/list?reqPage=1";
         }
         ArrayList<NewsLetterFile> fileList = new ArrayList<>();
-        if (!files[0].isEmpty()) {
+        if (!upfiles[0].isEmpty()) {
             String savepath = root + "/newsletter/";
-            for (int i = 0; i < files.length; i++) {
-                String filename = files[i].getOriginalFilename();
-                String filepath = fileUtils.upload(savepath, files[i]);
+            for (int i = 0; i < upfiles.length; i++) {
+                String filename = upfiles[i].getOriginalFilename();
+                String filepath = fileUtils.upload(savepath, upfiles[i]);
                 NewsLetterFile newsletterFile = new NewsLetterFile();
                 newsletterFile.setFilepath(filepath);
                 newsletterFile.setFilename(filename);
