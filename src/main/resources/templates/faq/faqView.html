@@ -29,6 +29,11 @@
 }
 .faqContent{
 	min-height: 300px;
+	font-size : 15px;
+	text-align : left;
+}
+.wrap>.tbl tr>*{
+	font-size: 17px;
 }
 </style>
 <th:block th:include="common/header"></th:block>
@@ -50,7 +55,7 @@
                <tr>
                   <th style="width:10%;">작성자</th>
                   <td style="width:40%;" >
-                  <span>관리자</span>
+                  <span th:text="${session.member.memberId}"></span>
                   </td>
                </tr>
                <tr>
@@ -61,7 +66,7 @@
                </tr>          
           	</table>
           	<div class="option-button">
-          		<button class="btn-primary" th:href="@{/faq/faqUpdate(faqNo=${f.faqNo})}">수정</button>
+          		<button class="btn-primary"  th:onclick="faqUpdate([[${f.faqNo}]])">수정</button>
           		<button class="btn-secondary" th:onclick="faqDelete([[${f.faqNo}]])">삭제</button>
           	</div>
       	</div>
@@ -74,7 +79,11 @@
 			location.href = "/faq/faqDelete?faqNo="+faqNo
 		}
 	}
-	
+	function faqUpdate(faqNo) {
+		if(confirm("faq를 수정하시겠습니까?")) {
+			location.href = "/faq/faqUpdate?faqNo="+faqNo
+		}
+	}
 </script>
 </body>
 <th:block th:include="common/footer"></th:block>
