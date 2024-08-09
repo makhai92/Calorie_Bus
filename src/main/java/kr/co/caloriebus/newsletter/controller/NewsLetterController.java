@@ -152,7 +152,7 @@ public class NewsLetterController {
         return "redirect:/newsletter/list?reqPage=1";
     }
 
-    @PostMapping(value="/edit")
+    @PostMapping(value="/editForm")
     public String edit(NewsLetter nl, MultipartFile[] files, @SessionAttribute(required=false) Member member, Model model) {
         if (member == null || nl.getMemberNo() != member.getMemberNo()) {
             return "redirect:/newsletter/list?reqPage=1";

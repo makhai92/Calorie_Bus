@@ -38,10 +38,12 @@
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
             </span>
         </marquee>
+		<div class="logo-container">
         <div class="logo">
             <a href="/">Calorie Bus</a>
         </div>
-        <ul class="user-menu">
+    </div>
+		<ul class="user-menu">
             <th:block th:if="${session.member == null}">
                 <li><a href="/member/loginForm">로그인</a></li>
                 <li><a href="/member/joinForm">회원가입</a></li>
