@@ -128,6 +128,16 @@ public class ProductService {
 		InqueryListData ild = new InqueryListData(list, pageNavi);
 		return ild;
 	}
+
+	public ProductReview selecOneProductReview(int fundingNo) {
+		ProductReview pr = productDao.selecOneProductReview(fundingNo);
+		return pr;
+	}
+	@Transactional
+	public int reviewUpdate(ProductReview pr) {
+		int result = productDao.reviewUpdate(pr);
+		return result;
+	}
 	
 
 }

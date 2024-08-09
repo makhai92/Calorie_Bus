@@ -117,4 +117,22 @@ public class ProductDao {
 		return totalCount;
 	}
 
+	public ProductReview selecOneProductReview(int fundingNo) {
+		String query = "select * from product_review where funding_no=?";
+		Object[] params = {fundingNo};
+		List list = jdbc.query(query, productReviewRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return (ProductReview)list.get(0);
+		}
+	}
+
+	public int reviewUpdate(ProductReview pr) {
+		String query = "update product_review set review_content=?,review_img=? where funding_no=?";
+		Object[] params = {pr.getReviewContent(),pr.getReviewImg(),pr.getFundingNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
 }

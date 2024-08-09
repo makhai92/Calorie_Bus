@@ -39,7 +39,7 @@
 								<td th:case="5">배송 완료</td>
 							</th:block>
 							<td th:if="${funding.reviewContent != null}">작성 완료</td>
-							<td th:if="${funding.reviewContent} == null"><a th:href="@{/product/reviewFrm(producNo=${funding.productNo}, fundingNo=${funding.fundingNo})}">작성하기</a></td>
+							<td th:if="${funding.reviewContent} == null"><a th:href="@{/product/reviewFrm(productNo=${funding.productNo}, fundingNo=${funding.fundingNo})}">작성하기</a></td>
 						</tr>
 					</table>
 					<div id="pageNavi" th:utext="${pageNavi}"></div>

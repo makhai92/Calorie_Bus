@@ -135,7 +135,7 @@ public class ProductController {
 		return "/product/fundingFrm";
 	}
 	
-	@PostMapping(value="funding")
+	@PostMapping(value="/funding")
 	public String funding(Funding f,Model model) {
 		int result = productService.insertFunding(f);
 		if(result>0) {
@@ -151,7 +151,7 @@ public class ProductController {
 		return "common/msg";
 	}
 	
-	@GetMapping(value="review")
+	@GetMapping(value="/review")
 	public String review(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		List list = productService.selectAllProductReview(productNo);
@@ -160,7 +160,7 @@ public class ProductController {
 		return "/product/reviewList";
 	}
 	
-	@GetMapping(value="reviewFrm")
+	@GetMapping(value="/reviewFrm")
 	public String reviewFrm(int productNo,int fundingNo,Model model) {
 		Product p = productService.selectOneProduct(productNo); 
 		model.addAttribute("p",p);
@@ -168,13 +168,11 @@ public class ProductController {
 		return "/product/reviewFrm";
 	}
 	
-	@PostMapping(value="reviewInsert")
+	@PostMapping(value="/reviewInsert")
 	public String reviewInsert(ProductReview pr,MultipartFile upfile,Model model) {
 		String savepath = root+"/product/review/";
 		String filepath = fileUtils.upload(savepath, upfile);
 		pr.setReviewImg(filepath);
-		
-		System.out.println(pr.getFundingNo());
 		int result = productService.reviewInsert(pr);
 		if(result>0) {
 			model.addAttribute("title","작성완료");
@@ -198,5 +196,32 @@ public class ProductController {
 		model.addAttribute("pageNavi",ild.getPageNavi());
 		model.addAttribute("category", "myfunding");
 		return "member/myfunding";
+	}
+	
+	@GetMapping(value="/reviewUpdateFrm")
+	public String reviewUpdateFrm(int fundingNo,Model model) {
+		ProductReview pr = productService.selecOneProductReview(fundingNo);
+		model.addAttribute("pr",pr);
+		return "/product/reviewUpdateFrm";
+	}
+	
+	@PostMapping(value="/reviewUpdate")
+	public String reviewUpdate(ProductReview pr,MultipartFile upfile,Model model) {
+		String savepath = root+"/product/review/";
+		String filepath = fileUtils.upload(savepath, upfile);
+		pr.setReviewImg(filepath);
+		int result = productService.reviewUpdate(pr);
+		if(result>0) {
+			model.addAttribute("title","수정완료");
+			model.addAttribute("msg","후기가 수정되었습니다.");
+			model.addAttribute("icon","success");
+		}else {
+			model.addAttribute("title","수정실패");
+			model.addAttribute("msg","문제가 발생하였습니다.");
+			model.addAttribute("icon","error");
+		}
+		System.out.println(pr.getProductNo());
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		return "common/msg";
 	}
 }
