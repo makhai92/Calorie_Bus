@@ -2,9 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
+<link href="/css/memberForm.css" rel="stylesheet">
 </head>
 <body>
-
+<th:block th:include="common/header"></th:block>
+<main class="member-content">
+    <section class="joinform-wrap">
+        <div class="page-title">
+        	<p>마이페이지<p>
+        </div>
+        
+        <!-- 내 공구 목록 보기 양식 -->
+        <form class="joinform-tbl">
+        	<th:block th:include="member/category"></th:block>
+        	<th:block th:if="${!#lists.isEmpty(list)}">
+					<table class="myboard-tbl">
+						<tr>
+							<th style="width:30%;">공구 상품 이름</th>
+							<th style="width:5%;">수량</th>
+							<th style="width:15%">총 금액</th>
+							<th style="width:20%">구매 일자</th>
+							<th style="width:15%">처리 상태</th>
+							<th style="width:15%">내 후기</th>
+						</tr>
+						<tr th:each="funding : ${list}">
+							<td><a style="text-overflow: ellipsis" th:href="@{/funding/myfundingView(fundingNo=${funding.fundingNo})}"><span th:text="${funding.productTitle}"></span></a></td>
+							<td th:text="${funding.orderAmount}"></td>
+							<td th:text="${funding.productDcPrice} * ${funding.orderAmount}"></td>
+							<td th:text="${funding.orderDate}"></td>
+							<th:block th:switch="${funding.orderState}">
+								<td th:case="1">입금 확인 중</td>
+								<td th:case="2">입금 완료</td>
+								<td th:case="3">배송 준비 중</td>
+								<td th:case="4">배송 중</td>
+								<td th:case="5">배송 완료</td>
+							</th:block>
+							<td th:if="${funding.reviewContent != null}">작성 완료</td>
+							<td th:if="${funding.reviewContent} == null"><a th:href="@{/product/reviewFrm(producNo=${funding.productNo}, fundingNo=${funding.fundingNo})}">작성하기</a></td>
+						</tr>
+					</table>
+					<div id="pageNavi" th:utext="${pageNavi}"></div>
+			</th:block>
+			<th:block th:if="${#lists.isEmpty(list)}">
+				<div class="info-text-box">
+					<h4>참여한 공구가 없습니다.</h4>
+				</div>
+			</th:block>
+        </form>
+	</section>
+</main>
 </body>
 </html>

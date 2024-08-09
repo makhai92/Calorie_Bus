@@ -86,12 +86,6 @@ div[id^=join-]{
     text-align: center;
     padding-top: 30px;
 }
-#join-naver{
-    background-color: #03CF5D;
-}
-#join-kakao{
-    background-color: #F9E000;
-}
 .joinform-wrap a{
     text-decoration: none;
     color: var(--main1);
@@ -142,12 +136,6 @@ div[id^=login-]{
 #sns-login-title{
     text-align: center;
     padding-top: 30px;
-}
-#login-naver{
-    background-color: #03CF5D;
-}
-#login-kakao{
-    background-color: #F9E000;
 }
 .input-item1{
 	padding: 10px;

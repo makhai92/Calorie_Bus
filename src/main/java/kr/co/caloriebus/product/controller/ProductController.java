@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.caloriebus.inquery.dto.InqueryListData;
+import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.product.model.dto.Funding;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductReview;
@@ -183,5 +186,16 @@ public class ProductController {
 		}
 		model.addAttribute("loc","/product/list");
 		return "common/msg";
+	}
+	
+	// 마이페이지 용 공구 내역 조회
+	@GetMapping(value="/myfunding")
+	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		InqueryListData ild = productService.selectMyFundingList(memberNo, reqPage);
+		model.addAttribute("list", ild.getList());
+		model.addAttribute("pageNavi",ild.getPageNavi());
+		model.addAttribute("category", "myfunding");
+		return "member/myfunding";
 	}
 }

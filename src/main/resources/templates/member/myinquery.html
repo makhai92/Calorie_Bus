@@ -24,14 +24,13 @@
 							<th style="width:25%">처리 상태</th>
 						</tr>
 						<tr th:each="inquery : ${list}">
-							<td><a th:href="@{/inquery/inquieryView(inqueryNo=${inquery.inqueryNo})}"><span th:text="${inquery.inqueryTitle}"></span></a></td>
+							<td><a th:href="@{/inquery/inqueryView(inqueryNo=${inquery.inqueryNo})}"><span th:text="${inquery.inqueryTitle}"></span></a></td>
 							<td th:text="${inquery.inqueryDate}"></td>
 							<td th:if="${inquery.inqueryContent != null}">답변 완료</td>
 							<td th:if="${inquery.inqueryContent} == null">답변 대기 중</td>
 						</tr>
 					</table>
 					<div id="pageNavi" th:utext="${pageNavi}"></div>
-				</div>
 			</th:block>
 			<th:block th:if="${#lists.isEmpty(list)}">
 				<div class="info-text-box">

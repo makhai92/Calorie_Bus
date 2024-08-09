@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.caloriebus.admin.model.dto.PurchaseRowMapper;
 import kr.co.caloriebus.product.model.dto.Funding;
+import kr.co.caloriebus.product.model.dto.MyfundingListRowMapper;
 import kr.co.caloriebus.product.model.dto.Product;
 import kr.co.caloriebus.product.model.dto.ProductFile;
 import kr.co.caloriebus.product.model.dto.ProductReview;
@@ -24,6 +25,8 @@ public class ProductDao {
 	private ProductReviewRowMapper productReviewRowMapper;
 	@Autowired
 	private PurchaseRowMapper purchaseRowMapper;
+	@Autowired
+	private MyfundingListRowMapper myfundingListRowMapper;
 	
 	public List selectAllProduct() {
 		String query="select * from product order by 1 desc";
@@ -107,6 +110,19 @@ public class ProductDao {
 		return result;
 	}
 	
-
+	// 마이페이지 용
+	public List selectMyFundingList(int memberNo, int start, int end) {
+		String query = "select * from (select rownum rnum, m.*, review_content from (select funding_no, member_no, f.product_no, product_title, product_dc_price, product_img, order_date, order_state, order_amount from (funding)f left join (product)p on (f.product_no = p.product_no) where member_no = ? order by 1 desc)m left join (product_review)r on (m.funding_no = r.funding_no)) where rnum between ? and ?";
+		Object[] params = {memberNo, start, end};
+		List list = jdbc.query(query, myfundingListRowMapper, params);
+		return list;
+	}
+	
+	public int selectMyFundingTotalCount(int memberNo) {
+		String query = "select count(*) from funding where member_no = ?";
+		Object[] params = {memberNo};
+		int totalCount = jdbc.queryForObject(query, Integer.class, params);
+		return totalCount;
+	}
 
 }
