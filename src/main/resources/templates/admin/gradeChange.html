@@ -17,6 +17,22 @@
 	margin-bottom : 50px;
 	margin-top : 30px;
 }
+#pageNavi>ul{
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	gap : 10px;
+}
+
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+ 	margin-top : 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
 
 </style>
 </head>
@@ -60,12 +76,12 @@
 					<td>
 					<div class="select" th:switch="${m.memberLevel}">
 							<select th:case="1">
-								<option value="1" selected>1</option>
-								<option value="2" >2</option>
+								<option value="1" selected>관리자</option>
+								<option value="2" >회원</option>
 							</select >
 							<select th:case="2">
-								<option value="1">1</option>
-								<option value="2"selected>2</option>
+								<option value="1">관리자</option>
+								<option value="2"selected>회원</option>
 							</select >
 						</div>
 					</td>	
@@ -77,6 +93,9 @@
 				</tr>
 			</table>
 		</section>
+		<div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
 </main>
 <script>
 	$(".memberLevelChange").on("click",function(){
@@ -88,4 +107,5 @@
 </script>
 <th:block th:include="common/footer"></th:block>
 </body>
+
 </html>

@@ -28,6 +28,22 @@
     height: 800px;
     margin: 0 auto;
 }
+#pageNavi>ul{
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	gap : 10px;
+}
+
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+ 	margin-top : 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
 </style>
 </head>
 <body>
@@ -67,6 +83,9 @@
 					</td>
 			</table>
 		</section>
+		<div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
 	</main>
 	<script>
 	$(".eventStateUpdate").on("click", function() {

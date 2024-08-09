@@ -42,9 +42,11 @@ public class AdminDao {
 		return result;
 	}
 
-	public List selectAllMember() {
-		String query = "select * from member order by 1";
-		List list = jdbc.query(query , memberRowMapper);
+	public List selectAllMember(int start, int end) {
+		String query =
+		"select * from (select rownum as rnum ,n.* from (select * from member order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {start,end};
+		List list = jdbc.query(query , memberRowMapper, params);
 		return list;
 	}
 
@@ -55,9 +57,11 @@ public class AdminDao {
 		return result;
 	}
 
-	public List getAllDetails() {
-		String query = "select * from event_item order by 1";
-		List list = jdbc.query(query, eventRowMapper);
+	public List selectAllDetail(int start, int end) {
+		String query =
+		"select * from (select rownum as rnum ,n.* from (select * from event_item order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {start,end};
+		List list = jdbc.query(query , eventRowMapper, params);
 		return list;
 	}
 
@@ -73,4 +77,19 @@ public class AdminDao {
 		int totalCount = jdbc.queryForObject(query, Integer.class);
 		return totalCount;
 	}
+
+	public int selectAllMemberCount() {
+		String query = "select count(*) from member";
+		int totalCount = jdbc.queryForObject(query, Integer.class);
+		return totalCount;
+	}
+
+	public int selectAllDetailCount() {
+		String query = "select count(*) from event_item";
+		int totalCount = jdbc.queryForObject(query, Integer.class);
+		return totalCount;
+	}
+
+	
+
 }
