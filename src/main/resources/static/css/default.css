@@ -111,14 +111,16 @@ marquee img {
 
 .header > div {
     width: 100%;
-    max-width: 1300px;
+    max-width: 400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     flex-direction: column;
     z-index: 1000;
 }
-
+.logo-container{
+	height: 100px;
+}
 .logo {
     margin-bottom: 10px;
 }

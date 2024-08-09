@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class NewsLetterFile {
 	private int fileNo;
+	private int boardNo;
 	private String filename;
 	private String filepath;
-	private int boardNo;
+	
 }

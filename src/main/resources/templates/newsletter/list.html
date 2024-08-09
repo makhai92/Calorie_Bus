@@ -44,11 +44,11 @@
             </div>
             <div class="search-write-container">
                 <form action="/newsletter/search" method="get" id="searchFrm" class="search-form">
-                    <div class="input-item">
-                        <input type="text" name="keyword" placeholder="Search">
-                        <button type="submit" class="search-button"><span class="material-icons">search</span></button>
-                    </div>
-                </form>
+    <div class="input-item">
+        <input type="text" name="keyword" placeholder="Search" th:value="${keyword}">
+        <button type="submit" class="search-button"><span class="material-icons">search</span></button>
+    </div>
+</form>
             </div>
         </section>
     </main>
