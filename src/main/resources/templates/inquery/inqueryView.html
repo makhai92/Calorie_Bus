@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
+    
     <link rel="stylesheet" href="css/headfooter.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -12,6 +13,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
 <style>
+
+.posting-comment {
+  display: flex;
+  border-top: 2px solid #ccc;
+
+  list-style-type: none;
+}
+.posting-comment > li {
+  box-sizing: border-box;
+}
+.posting-comment > li:first-child {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  border-right: 1px solid #ccc;
+}
+.posting-comment.reply > li:first-child {
+  width: 20%;
+}
+
+.comment-info{
+	display : flex;
+}
 .inquery-content{
     padding: 50px 0;
     width: 1000px;
@@ -69,14 +95,14 @@
 				</tr>
 			</table>
 			<!-- 댓글 입력 -->
-			<div th:if="${session.member.member_level == 1}" class="inputCommentBox">
-				<form action="/inquery/insertComment" method="post">
+			<div th:if="${session.member.memberLevel == 1}" class="inputCommentBox">
+				<form action="/inquery/insertReply" method="post">
 					<ul>
 						<li><span class="material-icons">account_box</span></li>
-						<li><input type="hidden" name="inqueryReplyWriter" th:value="${session.member.memberName}"> 
+						<li><!--<input type="hidden" name="inqueryReply" th:value="${session.member.memberName}"> -->
 							<input type="hidden" name="inqueryRef" th:value="${i.inqueryNo}">
 							<div class="input-item">
-								<textarea name="inqueryReplyContent"></textarea>
+								<textarea name="replyContent"></textarea>
 							</div></li>
 						<li>
 							<button type="submit" class="btn-primary">등록</button>
@@ -91,22 +117,22 @@
 						<li><span class="material-icons">account_box</span></li>
 						<li>
 							<p class="comment-info">
-								<span th:text="${ir.inqueryReplyWriter}"></span> <span th:text="${ir.inqueryReplyDate}"></span> 
+								<span th:text="${session.member.memberName}"></span> <span th:text="${ir.replyDate}"></span> 
 							</p>
-							<p class="comment-content" th:text="${ir.inqueryReplyContent}"></p>
+							<p class="comment-content" th:text="${ir.replyContent}"></p>
 							<div class="input-item" style="display: none;">
 								<textarea name="inqueryReplyContent"
-									th:text="${ir.inqueryReplyContent}"></textarea>
+									th:text="${ir.replyContent}"></textarea>
 							</div>
 							<p class="comment-link">
 
 								<th:block th:if="${session.member != null}">
-									<th:block
-										th:if="${session.member.memberId == ir.inqueryReplyWriter}">
+									<!--<th:block
+										th:if="${session.member.memberId == ir.inqueryReplyWriter}">-->
 										<a href="javascript:void(0)"
-											th:onclick="modifyReply(this,[[${ir.inqueryReplyNo}]],[[${i.inqueryNo}]]);">수정</a>
+											th:onclick="modifyReply(this,[[${ir.ReplyNo}]],[[${i.inqueryNo}]]);">수정</a>
 										<a href="javascript:void(0)"
-											th:onclick="deleteReply(this,[[${ir.inqueryReplyNo}]],[[${i.inqueryNo}]]);">삭제</a>
+											th:onclick="deleteReply(this,[[${ir.ReplyNo}]],[[${i.inqueryNo}]]);">삭제</a>
 									</th:block>
 									<a href="javascript:void(0)" class="recShow">답글 달기</a>
 								</th:block>

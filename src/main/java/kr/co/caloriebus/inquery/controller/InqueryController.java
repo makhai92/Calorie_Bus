@@ -111,12 +111,24 @@ public class InqueryController {
 		String savepath = root + "/inquery/";
 		FileUtils.downloadFile(savepath, inqueryFile.getFileName(), inqueryFile.getFilePath(), response);
 	}
-	/*
+	
 	@PostMapping(value = "/insertReply")
 	public String insertReply(InqueryReply ir,Model model) {
-		int reuslt = inqueryService.insertReply(ir);
-	}
-	*/
+		int result = inqueryService.insertReply(ir);
+		if (result > 0) {
+			model.addAttribute("title", "답변 작성 성공");
+			model.addAttribute("msg", "답변이 작성 되었습니다");
+			model.addAttribute("icon", "success");
+		} else {
+			model.addAttribute("title", "답변 작성 실패");
+			model.addAttribute("msg", "답변 작성 중 문제가 발생했습니다.");
+			model.addAttribute("icon", "warning");
+		}
+		model.addAttribute("loc", "/inquery/inqueryView?inqeuryNo=" + ir.getInqueryNo());
+		return "common/msg";
+}
+
+	
 	
 	
 	

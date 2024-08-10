@@ -102,6 +102,14 @@ public class InqueryDao {
 		return totalCount;
 	}
 
+	public int insertReply(InqueryReply ir) {
+		String query = "insert into inqueryReply values(?,?,to_char(sysdate,'yyyy-mm-dd'),?)";
+		String inqueryReplyRef = ir.getInqueryReplyRef() == 0? null :String.valueOf(ir.getInqueryReplyRef());
+		Object[] params = {ir.getReplyNo(),ir.getReplyContent(),ir.getInqueryNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
 	
 
 	
