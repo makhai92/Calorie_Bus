@@ -108,12 +108,27 @@
         margin: 5px 0;
         font-size: 14px;
     }
-    .comment-btn-squre{
-    	border-radius: 10px;
-    	width: 130px;
-    	border: 0.8px solid var(--line1);
-    	background-color: var(--main2);
-    }
+    .comment-btn-square {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--line1);
+    background-color: var(--main2);
+    color: #141414;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+	}
+
+	.comment-btn-square:hover {
+    background-color: rgb(198, 182, 164);
+	}
+
+	.comment-btn-square:active {
+    background-color: rgb(180, 119, 49);
+	}
 </style>
 </head>
 <body>
