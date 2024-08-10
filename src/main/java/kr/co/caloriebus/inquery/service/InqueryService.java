@@ -103,6 +103,7 @@ public class InqueryService {
 	public Inquery selectOneInquery(int inqueryNo, String check, int memberNo) {
 		Inquery i = inqueryDao.selectOneInquery(inqueryNo);
 		List fileList = inqueryDao.selectInqueryFile(inqueryNo);
+		i.setFileList(fileList);
 		List<InqueryReply> ReplyList = inqueryDao.selectReplyList(inqueryNo, memberNo);
 		i.setReplyList(ReplyList);
 		return i;

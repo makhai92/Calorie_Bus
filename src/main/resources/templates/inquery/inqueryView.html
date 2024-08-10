@@ -15,7 +15,6 @@
 .inquery-content{
     padding: 50px 0;
     width: 1000px;
-    height: 800px;
     margin: 0 auto;
 }
 .page-title{
@@ -37,7 +36,8 @@
 			<div class="page-title">1 : 1 문의 상세보기</div>
 			<table class="tbl inquery-view">
 				<tr>
-					<th colspan="6" th:text="${i.inqueryTitle}">글 제목</th>
+					<th style="width: 20%;">제목</th>
+					<td style="width: 80%;" th:text="${i.inqueryTitle}"></td>
 				</tr>
 				<tr>
 					<th style="width: 15%;">작성자</th>
@@ -47,18 +47,73 @@
 				</tr>
 				<tr>
 					<th>첨부파일</th>
-					<td colspan="5"><th:block th:each="file : ${i.fileList}">
-							<img src="/image/file.png" width="16px">
-							<a th:href="@{/inquery/filedown(fileName=${file.fileName},filePath=${file.filePath})}" th:text="${file.fileName}"></a>
-						</th:block></td>
+					<td colspan="5">
+					<th:block th:each="file : ${i.fileList}">
+					<img src="/image/file.png" width="16px">
+					<a th:href="@{/inquery/filedown(fileName=${file.fileName},filePath=${file.filePath})}" th:text="${file.fileName}"></a>
+					</th:block>
+					</td>
 				</tr>
 				<tr>
 					<td class="left" colspan="6">
 						<div class="inqueryContent" th:utext="${i.inqueryContent}"></div>
 					</td>
 				</tr>
-				
+				<tr th:if="${session.member != null && session.member.memberNo == i.memberNo}">
+				<td colspan="6">
+			<button class="btn-primary"
+					th:onclick="inqueryUpdate([[${i.inqueryNo}]]);">수정</button>
+			<button class="btn-secondary"
+					th:onclick="inqueryDelete([[${i.inqueryNo}]]);">삭제</button>
+				</td>
+				</tr>
 			</table>
+			<!-- 댓글 입력 -->
+			<div th:if="${session.member.member_level == 1}" class="inputCommentBox">
+				<form action="/inquery/insertComment" method="post">
+					<ul>
+						<li><span class="material-icons">account_box</span></li>
+						<li><input type="hidden" name="inqueryReplyWriter" th:value="${session.member.memberName}"> 
+							<input type="hidden" name="inqueryRef" th:value="${i.inqueryNo}">
+							<div class="input-item">
+								<textarea name="inqueryReplyContent"></textarea>
+							</div></li>
+						<li>
+							<button type="submit" class="btn-primary">등록</button>
+						</li>
+					</ul>
+				</form>
+			</div>
+			<!-- 댓글 출력 -->
+			<div class="commentBox">
+				<th:block th:each="ir : ${i.replyList}">
+					<ul class="posting-comment">
+						<li><span class="material-icons">account_box</span></li>
+						<li>
+							<p class="comment-info">
+								<span th:text="${ir.inqueryReplyWriter}"></span> <span th:text="${ir.inqueryReplyDate}"></span> 
+							</p>
+							<!-- 댓글 출력 --><!-- 댓글 출력 --><!-- 댓글 출력 --><!-- 댓글 출력 --><!-- 댓글 출력 -->
+							<p class="comment-content" th:text="${nc.noticeCommentContent}"></p>
+							<div class="input-item" style="display: none;">
+								<textarea name="noticeCommentContent"
+									th:text="${nc.noticeCommentContent}"></textarea>
+							</div>
+							<p class="comment-link">
+
+								<th:block th:if="${session.member != null}">
+									<th:block
+										th:if="${session.member.memberId == nc.noticeCommentWriter}">
+										<a href="javascript:void(0)"
+											th:onclick="modifyComment(this,[[${nc.noticeCommentNo}]],[[${n.noticeNo}]]);">수정</a>
+										<a href="javascript:void(0)"
+											th:onclick="deleteComment(this,[[${nc.noticeCommentNo}]],[[${n.noticeNo}]]);">삭제</a>
+									</th:block>
+									<a href="javascript:void(0)" class="recShow">답글 달기</a>
+								</th:block>
+							</p>
+						</li>
+					</ul>
 	</section>
 	</main>
 </body>

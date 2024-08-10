@@ -95,6 +95,11 @@ public class FaqService {
 		return f;
 	}
 
+	public int updateFaq(Faq f) {
+		int result = faqDao.updateFaq(f);
+		return result;
+	}
+
 	
 
 

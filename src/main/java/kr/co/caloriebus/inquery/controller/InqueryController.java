@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kr.co.caloriebus.util.FileUtils;
 import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.inquery.dto.Inquery;
@@ -78,7 +79,6 @@ public class InqueryController {
 			model.addAttribute("loc", "/inquery/inqueryMain?reqPage=1");
 			return "common/msg";
 		}
-		
 		return "redirect:/inquery/inqueryEditor";
 		
 	}
@@ -105,6 +105,28 @@ public class InqueryController {
 			return "inquery/inqueryView";
 		}
 	}
+	@GetMapping(value = "/filedown")
+	public void filedown(InqueryFile inqueryFile, HttpServletResponse response) {
+		String savepath = root + "/inquery/";
+		FileUtils.downloadFile(savepath, inqueryFile.getFileName(), inqueryFile.getFilePath(), response);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 마이페이지 용 문의 내역 조회
 	@GetMapping(value="/myinquery")
