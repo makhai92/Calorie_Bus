@@ -214,7 +214,18 @@ public class NewsLetterController {
         model.addAttribute("loc", "/newsletter/list?reqPage=1");
         return "common/msg";
     }
-    
+    @PostMapping(value="/updateComment")
+	public String updateComment(NewsLetterComment nlc){
+		int result  = newsletterService.updateComment(nlc);
+		System.out.println(nlc);
+		System.out.println(result);
+		return "redirect:/newsletter/viewForm?boardNo="+nlc.getBoardRef()+"&check=1";
+	}
+	@GetMapping(value="/deleteComment")
+	public String deleteComment(int boardCommentNo,int boardNo) {
+		int result = newsletterService.deleteComment(boardCommentNo);
+		return "redirect:/newsletter/viewForm?boardNo="+boardNo+"&check=1";
+	}
     @GetMapping(value="/search")
     public String search(@RequestParam(defaultValue = "1") int reqPage, String keyword, Model model) {
         NewsLetterListData bld = newsletterService.searchNewsLetterList(keyword, reqPage);

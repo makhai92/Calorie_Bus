@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.caloriebus.board.model.dto.BoardComment;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetter;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterComment;
 import kr.co.caloriebus.newslatter.model.dto.NewsLetterFile;
@@ -95,6 +96,8 @@ public class NewsLetterService {
 			n.setBoardCommentList(commentList);
 			List reCommentList = newsletterDao.selectNewsLetterReCommentList(boardNo, memberNo);
 			n.setBoardReCommentList(reCommentList);
+			int commentCount = commentList.size()+reCommentList.size();
+			n.setCommentCount(commentCount);
 		}
 		return n;
 	}
@@ -147,7 +150,17 @@ public class NewsLetterService {
 	        }
 	        return result;
 	    }
-
+	 	@Transactional
+		public int updateComment(NewsLetterComment nlc) {
+			int result = newsletterDao.updateComment(nlc);
+			return result;
+		}
+	 	
+		@Transactional
+		public int deleteComment(int boardCommentNo) {
+			int result = newsletterDao.deleteComment(boardCommentNo);
+			return result;
+		}
 	    @Transactional
 	    public int deleteNewsLetter(int boardNo) {
 	        newsletterDao.deleteNewsLetterFiles(boardNo);
@@ -190,5 +203,7 @@ public class NewsLetterService {
 
 	        return new NewsLetterListData(list, pageNavi.toString());
 	    }
+
+		
 	}
 

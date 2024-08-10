@@ -152,7 +152,18 @@ public class NewsLetterDao {
         Object[] params = {nl.getBoardTitle(), nl.getBoardContent(), nl.getBoardNo()};
         return jdbc.update(query, params);
     }
-
+	public int updateComment(NewsLetterComment nlc) {
+		String query = "update board_comment set board_comment_content=? where board_comment_no=?";
+		Object[] params = {nlc.getBoardCommentContent(),nlc.getBoardCommentNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	public int deleteComment(int boardCommentNo) {
+		String query = "delete from board_comment where board_comment_no=?";
+		Object[] params = {boardCommentNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
     public int deleteNewsLetter(int boardNo) {
         String query = "delete from board where board_no=?";
         Object[] params = {boardNo};
