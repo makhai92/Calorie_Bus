@@ -161,5 +161,11 @@ public class InqueryService {
 		InqueryListData ild = new InqueryListData(list, pageNavi);
 		return ild;
 	}
+	/*
+	public int insertReply(InqueryReply ir) {
+		int result = inqueryDao.insertReply(ir);
+		return result;
+	}
+	*/
 	
 }

@@ -22,6 +22,7 @@ import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryListData;
+import kr.co.caloriebus.inquery.dto.InqueryReply;
 import kr.co.caloriebus.inquery.service.InqueryService;
 import kr.co.caloriebus.member.model.dto.Member;
 
@@ -110,6 +111,12 @@ public class InqueryController {
 		String savepath = root + "/inquery/";
 		FileUtils.downloadFile(savepath, inqueryFile.getFileName(), inqueryFile.getFilePath(), response);
 	}
+	/*
+	@PostMapping(value = "/insertReply")
+	public String insertReply(InqueryReply ir,Model model) {
+		int reuslt = inqueryService.insertReply(ir);
+	}
+	*/
 	
 	
 	
