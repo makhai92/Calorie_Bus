@@ -165,7 +165,7 @@ public class InqueryController {
 		return "common/msg";
 	}	
 	@PostMapping(value = "/updateReply")
-	public String updateReply(InqueryReply ir, Model model) {
+	public String updateReply(@SessionAttribute(required=false)Member member, InqueryReply ir, Model model) {
 		int result = inqueryService.updateReply(ir);
 	if(result>0) {
 		model.addAttribute("title", "성공");

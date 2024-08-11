@@ -127,7 +127,7 @@ public class InqueryDao {
 	}
 
 	public int updateReply(InqueryReply ir) {
-		String query = "update reply set reply_content=? where reply_no=?";
+		String query = "update reply set reply_content=? where reply_no=? and member_level=1";
 		Object [] params = {ir.getReplyContent(), ir.getReplyNo()};
 		int result = jdbc.update(query,params);
 		return result;
