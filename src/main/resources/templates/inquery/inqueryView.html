@@ -88,11 +88,11 @@
 							<p class="comment-link">
 
 								<th:block th:if="${session.member != null}">
-									<!--<th:block
-										th:if="${session.member.memberId == ir.inqueryReplyWriter}">-->
-										<button th:onclick="modifyReply([[${ir.replyNo}]], [[${ir.inqueryNo}]]);">수정</button>
+									<th:block th:if="${session.member.memberLevel == 1}">
+
+										<!-- <button th:onclick="modifyReply([[${ir.replyNo}]], [[${ir.inqueryNo}]]);">수정</button>-->
+										<a th:onclick="modifyComment(this,[[${ir.replyNo}]],[[${ir.inqueryNo}]]);">수정</a>
 										<button th:onclick="deleteReply([[${ir.inqueryNo}]]);">삭제</button>
-									
 								</th:block>
 							</p>
 						</li>
@@ -152,26 +152,28 @@
 		});
 	}
 	
-	function modifyReply(obj, replyNo, inqueryNo) {
-	    // 숨겨놓은 textarea를 화면에 보여줌
-	    $(obj).parent().prev().show();
-	    // 화면에 보이던 댓글내용을 숨김
-	    $(obj).parent().prev().prev().hide();
+	function modifyComment(obj, replyNo, inqueryNo) {
+		//숨겨놓은 textarea를 화면에 보여줌
+		$(obj).parent().prev().show();
+		//화면에 보이던 댓글내용을 숨김
+		$(obj).parent().prev().prev().hide();
 
-	    // 수정버튼 -> 수정완료버튼으로
-	    $(obj).text("수정완료");
-	    $(obj).on("click", function() {
-	        modifyComplete(this, replyNo, inqueryNo);
-	    });
+		//수정버튼 -> 수정완료버튼으로
+		$(obj).text("수정완료");
+		$(obj).attr(
+				"onclick",
+				"modifyComplete(this," + replyNo + "," + inqueryNo
+						+ ");")
 
-	    // 삭제버튼 -> 수정취소버튼으로
-	    $(obj).next().text("수정취소");
-	    $(obj).next().on("click", function() {
-	        modifyCancel(this, replyNo, inqueryNo);
-	    });
+		//삭제버튼 -> 수정취소버튼으로
+		$(obj).next().text("수정취소");
+		$(obj).next().attr(
+				"onclick",
+				"modifyCancel(this," + replyNo + "," + inqueryNo
+						+ ");")
 
-	    // 답글달기버튼이 있는경우 화면에서 안보이게 처리
-	    $(obj).next().next().hide();
+		//답글달기버튼이 있는경우 화면에서 안보이게 처리
+		$(obj).next().next().hide();
 	}
 	
 	</script>
