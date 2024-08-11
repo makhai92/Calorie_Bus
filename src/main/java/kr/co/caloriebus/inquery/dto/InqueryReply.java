@@ -16,4 +16,4 @@ public class InqueryReply {
 	private int inqueryNo;
 	private int inqueryRef;
 	private int inqueryReplyRef;
-	}
+}

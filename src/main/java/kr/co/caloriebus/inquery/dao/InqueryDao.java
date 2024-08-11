@@ -103,9 +103,32 @@ public class InqueryDao {
 	}
 
 	public int insertReply(InqueryReply ir) {
-		String query = "insert into inqueryReply values(?,?,to_char(sysdate,'yyyy-mm-dd'),?)";
+		String query = "insert into Reply values(reply_seq.nextval ,?,to_char(sysdate,'yyyy-mm-dd'),?)";
 		String inqueryReplyRef = ir.getInqueryReplyRef() == 0? null :String.valueOf(ir.getInqueryReplyRef());
-		Object[] params = {ir.getReplyNo(),ir.getReplyContent(),ir.getInqueryNo()};
+		System.out.println(ir);
+		System.out.println(query);
+		Object[] params = {ir.getReplyContent(),ir.getInqueryRef()};	
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int deleteReply(InqueryReply ir) {
+		String query = "delete from reply where reply_no=?";
+		Object[] params = {ir.getReplyNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int deleteInquery(int inqueryNo) {
+		String query = "delete from inquery where inquery_no=?";
+		Object[] params = {inqueryNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int updateReply(InqueryReply ir) {
+		String query = "update reply set reply_content=? where reply_no=?";
+		Object [] params = {ir.getReplyContent(), ir.getReplyNo()};
 		int result = jdbc.update(query,params);
 		return result;
 	}

@@ -2,6 +2,7 @@ package kr.co.caloriebus.inquery.controller;
 
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,9 +125,63 @@ public class InqueryController {
 			model.addAttribute("msg", "답변 작성 중 문제가 발생했습니다.");
 			model.addAttribute("icon", "warning");
 		}
-		model.addAttribute("loc", "/inquery/inqueryView?inqeuryNo=" + ir.getInqueryNo());
+		model.addAttribute("loc", "/inquery/inqueryView?inqueryNo=" + ir.getInqueryRef());
 		return "common/msg";
+	}
+	@GetMapping(value = "/deleteReply")
+	public String deleteReply(InqueryReply ir, Model model) {
+		int result = inqueryService.deleteReply(ir);
+		if (result > 0) {
+			model.addAttribute("title", "삭제 성공");
+			model.addAttribute("msg", "댓글이 삭제되었습니다!");
+			model.addAttribute("icon", "success");
+		} else {
+			model.addAttribute("title", "삭제 실패");
+			model.addAttribute("title", "잠시 후 다시 시도해주세요..");
+			model.addAttribute("title", "warning");
+		}
+		model.addAttribute("loc", "/inquery/inqueryView?inqueryNo=" + ir.getInqueryRef());
+		return "common/msg";
+	}
+	@GetMapping(value = "/delete")
+	public String delete(int inqueryNo, Model model) {
+		List<InqueryFile> list = inqueryService.deleteInquery(inqueryNo);
+		if (list == null) {
+			model.addAttribute("title", "삭제 실패");
+			model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/inquery/inqueryMain?reqPage=1");
+		} else {
+			String savepath = root + "/notice/";
+			for (InqueryFile file : list) {
+				File delFile = new File(savepath + file.getFilePath());
+				delFile.delete();
+			}
+			model.addAttribute("title", "삭제 성공");
+			model.addAttribute("msg", "게시글이 삭제되었습니다..");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "/inquery/inqueryMain?reqPage=1");
+		}
+		return "common/msg";
+	}	
+	@PostMapping(value = "/updateReply")
+	public String updateReply(InqueryReply ir, Model model) {
+		int result = inqueryService.updateReply(ir);
+	if(result>0) {
+		model.addAttribute("title", "성공");
+		model.addAttribute("msg", "답변이 수정되었습니다!");
+		model.addAttribute("icon", "success");
+	} else {
+		model.addAttribute("title", "실패");
+		model.addAttribute("title", "잠시 후 다시 시도해주세요..");
+		model.addAttribute("title", "warning");
+	}
+	model.addAttribute("loc", "/inquery/inqueryView?inqueryNo=" + ir.getInqueryRef());
+	return "common/msg";
+
 }
+
+
 
 	
 	
