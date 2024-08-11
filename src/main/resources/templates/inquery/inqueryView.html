@@ -86,35 +86,36 @@
 									th:text="${ir.replyContent}"></textarea>
 							</div>
 							<p class="comment-link">
-
 								<th:block th:if="${session.member != null}">
 									<th:block th:if="${session.member.memberLevel == 1}">
-
-										<!-- <button th:onclick="modifyReply([[${ir.replyNo}]], [[${ir.inqueryNo}]]);">수정</button>-->
 										<a th:onclick="modifyComment(this,[[${ir.replyNo}]],[[${ir.inqueryNo}]]);">수정</a>
 										<button th:onclick="deleteReply([[${ir.inqueryNo}]]);">삭제</button>
+									</th:block>
 								</th:block>
 							</p>
 						</li>
 					</ul>
-			<!-- 댓글 입력 -->
+				</th:block>
+			</div>
+			
+			<!-- 댓글 입력창 맨 아래 -->
 			<div th:if="${session.member.memberLevel == 1}" class="inputCommentBox">
 				<form action="/inquery/insertReply" method="post">
 					<ul>
 						<li><span class="material-icons">support_agent</span></li>
-						<li><!--<input type="hidden" name="inqueryReply" th:value="${session.member.memberName}"> -->
-							
+						<li>
 							<input type="hidden" name="inqueryRef" th:value="${i.inqueryNo}">
 							<div class="input-item">
 								<textarea name="replyContent"></textarea>
-							</div></li>
+							</div>
+						</li>
 						<li>
 							<button type="submit" class="btn-primary">등록</button>
 						</li>
 					</ul>
 				</form>
 			</div>
-			</section>
+		</section>
 	 </main>
 	<script>
 	function deleteReply(replyNo , inqueryNo) {
