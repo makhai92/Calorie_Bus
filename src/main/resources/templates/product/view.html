@@ -142,12 +142,12 @@
 	<main class="content">
 		<section class="product-detail-wrap">
 			<div class="detail-header">
-				<a class="btn-square" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
-				<a class="btn-square w" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
+				<a class="btn-square" th:href="@{/product/view(productNo=${p.productNo},state=${state})}">상품 상세보기</a>
+				<a class="btn-square w" th:href="@{/product/review(productNo=${p.productNo},state=${state})}">상품 후기</a>
 			</div>
 			<div class="detail-content">
 				<div class="top" th:if="${session.member != null && session.member.memberLevel == 1}">
-					<a th:href="@{/product/updateFrm(productNo=${p.productNo})}">수정</a>
+					<a th:href="@{/product/updateFrm(productNo=${p.productNo},state=${state})}">수정</a>
 					<span>|</span>
 					<a th:onclick="productDelete([[${p.productNo}]]);">삭제</a>
 				</div>
@@ -172,7 +172,7 @@
 						<div class="button-box">
 							<button class="like-box">
 								<span th:if="${p.isLike == 0}" class="material-icons" th:onclick="likePush(this,[[${p.productNo}]]);">favorite_border</span>
-								<span th:if="${p.isLike == 1}" class="material-icons" th:onclick="likePush(this,[[${p.productNo}]]);">favorite</span>
+								<span th:if="${p.isLike == 1}" class="material-icons" style="color:#EA3323" th:onclick="likePush(this,[[${p.productNo}]]);">favorite</span>
 								<span class="like-count" style="font-size:16px;" th:text=${p.likeCount}></span>
 							</button>
 							<div th:switch="${state}">
@@ -286,6 +286,11 @@
 			//현재 상태를 구분 -> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
 			const currentText = $(obj).text();
 			const isLike = (currentText == "favorite_border")?0:1;
+			if(isLike == 0){
+				$(obj).css('color','#EA3323');
+			}else{
+				$(obj).css('color','#d9d9d9')
+			}
 			console.log(isLike);
 			$.ajax({
 				url : "/product/likePush",

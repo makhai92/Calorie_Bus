@@ -48,8 +48,8 @@
 	<main class="content">
 		<section class="product-review-wrap">
 			<div class="review-header">
-				<a class="btn-square w" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
-				<a class="btn-square" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
+				<a class="btn-square w" th:href="@{/product/view(productNo=${p.productNo},state=${state})}">상품 상세보기</a>
+				<a class="btn-square" th:href="@{/product/review(productNo=${p.productNo},state=${state})}">상품 후기</a>
 			</div>
 			<div class="review-content">
 				<div class="review-product-title">
@@ -66,9 +66,9 @@
 							<td>
 								<p id="memberId" th:text=${pr.memberId}></p>
 								<div class="update-item" th:if="${session.member != null && session.member.memberId == pr.memberId}">
-									<a th:href="@{/product/reviewUpdateFrm(fundingNo=${pr.fundingNo})}">수정</a>
+									<a th:href="@{/product/reviewUpdateFrm(fundingNo=${pr.fundingNo},state=${state})}">수정</a>
 									<span>|</span>
-									<a th:onclick="reviewDelete([[${pr.fundingNo}]]);">삭제</a>
+									<a th:onclick="reviewDelete([[${pr.fundingNo}]],[[${state}]]);">삭제</a>
 								</div>
 								<div class="input-item1">
 									<textarea th:text=${pr.reviewContent} readonly></textarea>								
@@ -81,7 +81,7 @@
 		</section>
 	</main>
 	<script>
-		function reviewDelete(fundingNo){
+		function reviewDelete(fundingNo,state){
 			swal({
 				title:"후기 삭제",
 				text:"해당 후기를 삭제하시겠습니까?",
@@ -104,7 +104,7 @@
 				}
 			}).then(function(isConfirm){
 				if(isConfirm){
-					location.href="/product/reviewDelete?fundingNo="+fundingNo;
+					location.href="/product/reviewDelete?fundingNo="+fundingNo+"&state="+state;
 				}
 			});
 		}

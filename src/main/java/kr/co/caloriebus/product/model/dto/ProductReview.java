@@ -13,4 +13,5 @@ public class ProductReview {
 	private String reviewImg;
 	private String memberId;
 	private int productNo;
+	private int state;
 }
