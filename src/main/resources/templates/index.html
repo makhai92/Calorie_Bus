@@ -50,8 +50,8 @@
         </div>
         <div class="swiper content-swiper-gongu">
             <div class="swiper-wrapper">
-                <th:block th:each="product : ${list}">
-                    <div class="swiper-slide"><img th:src="@{/product/main}+${product.productImg}"><span th:text="${product.productTitle}"></span></div>
+                <th:block th:each="product1 : ${list}">
+                    <div class="swiper-slide"><img th:src="@{/product1/main}+${product1.productImg}"><span th:text="${product1.productTitle}"></span></div>
                 </th:block>
             </div>
             <div class="swiper-button-prev"></div>

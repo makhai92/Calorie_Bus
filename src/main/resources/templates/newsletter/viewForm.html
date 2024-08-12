@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>상세보기</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 <style>
     body {
         font-family: 'Pretendard-Regular', sans-serif;
@@ -171,7 +173,7 @@
             <div>첨부파일</div>
             <th:block th:each="file : ${fileList}">
                 <a th:href="@{/newsletter/filedown(filename=${file.filename},filepath=${file.filepath})}">
-                    <span class="material-icons">description</span>
+                    <span class="material-icons-outlined">description</span>
                     <span th:text="${file.filename}"></span>
                 </a>
             </th:block>
@@ -190,7 +192,7 @@
             <ul th:each="newsletterComment : ${newsletter.boardCommentList}">
                 <li>
                     <p class="comment-info">
-                        <span class="material-icons"></span>
+                        <span class="material-icons">account_circle</span>
                         <span th:text="${newsletterComment.boardCommentWriter}"></span>
                         작성일 : <span th:text="${newsletterComment.boardCommentDate}"></span>
                         좋아요수 : <span th:text="${newsletterComment.likeCount}"></span>
