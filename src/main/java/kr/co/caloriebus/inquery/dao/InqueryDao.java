@@ -156,9 +156,22 @@ public class InqueryDao {
 		int result = jdbc.update(query,params);
 		return result;
 	}
+	/*
+	public List selectReplyCount(int inqueryNo) {
+		String query = "select inquery_no from reply where reply_content is not null";
+		List list = jdbc.query(query);
+	return list;
+	}
+	*/
 
-	
-
-	
-	
+	public List<Integer> selectReplyCount(int inqueryNo) {
+		 String query = "SELECT inquery_no FROM reply WHERE reply_content IS NOT NULL AND inquery_no = ?";
+		    return jdbc.query(query, new Object[]{inqueryNo}, (rs, rowNum) -> rs.getInt("inquery_no"));
+	}
 }
+
+	
+
+	
+	
+

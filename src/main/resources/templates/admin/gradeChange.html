@@ -33,6 +33,11 @@
 	justify-content:center;
 	align-items:center;
 }
+#eventCount{
+	width : 50px;
+	height : 30px;
+	font-size : 15px; 
+}
 
 </style>
 </head>
@@ -49,9 +54,8 @@
 					<th style="width:10%;">이름</th>
 					<th style="width:10%;">전화번호</th>
 					<th style="width:25%;">주소</th>
-                    <th style="width:3%;">우편번호</th>
+                    <th style="width:8%;">우편번호</th>
 					<th style="width:15%;">생년월일</th>
-					<th style="width:5%;">회원등급</th>
                     <th style="width:10%;">이벤트 참여 기회</th>
 					<th style="width:7%;">등급변경</th>
 					<th style="width:7%;">적용</th>
@@ -64,11 +68,10 @@
 					<td th:text="${m.memberAddr}"></td>
                     <td th:text="${m.memberPostcode}"></td>
 					<td th:text="${m.memberBirth}"></td>
-					<td th:text="${m.memberLevel}">
 					</td>
                     <td>
 					    <div class="select" >
-					        <input type="number" name="eventCount" th:value="${m.eventCount}">
+					        <input type="number" name="eventCount" id="eventCount"th:value="${m.eventCount}">
 					    </div>
 					</td>
 					<td>

@@ -16,11 +16,11 @@ public class Inquery {
 	private String inqueryContent;
 	private String inqueryDate;
 	private int memberNo;
+	private boolean hasReply;
+	
 	private List<InqueryFile> fileList;
 	private List<InqueryReply> replyList;
-	
-		
-	}
+}
 
 		
 
