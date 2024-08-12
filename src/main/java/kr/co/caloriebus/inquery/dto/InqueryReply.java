@@ -14,4 +14,6 @@ public class InqueryReply {
 	private String replyContent;
 	private String replyDate;
 	private int inqueryNo;
+	private int inqueryRef;
+	private int inqueryReplyRef;
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class InqueryFile {
 	private int fileNo;
+	private int inqueryNo;
 	private String filePath;
 	private String fileName;
-	private int inqueryNo;
 }

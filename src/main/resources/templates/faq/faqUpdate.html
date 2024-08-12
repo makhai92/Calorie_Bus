@@ -42,6 +42,11 @@
 .faq-write-wrap {
 width: 1000px;
 }
+#titleFaq{
+	width: 800px;
+    height: 30px;
+    font-size: 18px;
+}
 .faq-write-wrap .input-item>textarea{
     width: 900px;
     height: 500px;
@@ -71,23 +76,22 @@ width: 1000px;
         </div>
  <div class="faq-write-container">
     <div class="faq-write-wrap">
-    	<form action="/faq/write" method="post">
+    	<form action="/faq/update" method="post">
             <table class="tbl">
 	    	<tr>
 			<th>제목</th>
-				<td colspan="3">
-				<div class="input-item">
-					<input type="text" name="faqTitle"><!-- name으로 써야 값 받아올수있음 제발 -->
+				<td colspan="3" >
+				<div class="input-item" >
+				<input type="hidden" name="faqNo" th:value="${f.faqNo}">
+					<textarea id="titleFaq" name="faqTitle" th:utext = "${f.faqTitle}"></textarea><!-- name으로 써야 값 받아올수있음 제발 -->
 				</div>
 			</tr>
 			<tr>
             <th style="width:10%;">작성자</th>
             <td style="width:40%;">
-            	<span th:text="${session.member.memberId}"></span>
+            	<span>관리자</span>
 				<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
             </td>
-
-			
         	</tr>
         <tr>
             <td colspan="4">

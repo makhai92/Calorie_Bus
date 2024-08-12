@@ -87,22 +87,11 @@ public class InqueryService {
 		}
 		return result;
 	}
-	/*
-	@Transactional
-	public Inquery selectOneInquery(int inqueryNo, int memberNo) {
-		Inquery i = inqueryDao.selectOneInquery(inqueryNo);
-		
-		List fileList = inqueryDao.selectInqueryFile(inqueryNo);
-		i.setFileList(fileList);
-		
-		List<Reply> ReplyList = inqueryDao.selectReplyList(inqueryNo, memberNo);
-		
-		return null;
-	}
-	*/
+	
 	public Inquery selectOneInquery(int inqueryNo, String check, int memberNo) {
 		Inquery i = inqueryDao.selectOneInquery(inqueryNo);
 		List fileList = inqueryDao.selectInqueryFile(inqueryNo);
+		i.setFileList(fileList);
 		List<InqueryReply> ReplyList = inqueryDao.selectReplyList(inqueryNo, memberNo);
 		i.setReplyList(ReplyList);
 		return i;
@@ -160,5 +149,27 @@ public class InqueryService {
 		InqueryListData ild = new InqueryListData(list, pageNavi);
 		return ild;
 	}
+	
+	public int insertReply(InqueryReply ir) {
+		int result = inqueryDao.insertReply(ir);
+		return result;
+	}
+	public int deleteReply(InqueryReply ir) {
+		int result = inqueryDao.deleteReply(ir);
+		return result;
+	}
+	public List<InqueryFile> deleteInquery(int inqueryNo) {
+		List list = inqueryDao.selectInqueryFile(inqueryNo);
+		int result = inqueryDao.deleteInquery(inqueryNo);
+		if(result > 0) {
+			return list;
+		}
+		return null;
+	}
+	public int updateReply(InqueryReply ir) {
+		int result = inqueryDao.updateReply(ir);
+		return result;
+	}
+	
 	
 }
