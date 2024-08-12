@@ -51,59 +51,63 @@
 						<td th:text="${food.fat}"></td>
 						<td th:text="${food.card}"></td>	
 						<td th:text="${food.sugar}"></td>
-						<td th:text="${food.nat}"></td>		
-							
+						<td th:text="${food.nat}"></td>			
 					</tr>
 				</table>
+				
 				<div class="btn-zone">
 					<button id="more-btn" class="btn-round">더보기</button>
 				</div>
 			</section>
 		</main>
 		<script>
-			let pageNo = 1;
-			$("#more-btn").on("click",function(){
-				$.ajax({
-					url :"/foodNutrition/foodTotal",
-					data:{pageNo : pageNo},
-					type : "get",
-					success : function(data){
-						for(let i=0;i<data.length;i++){
-							const f = data[i];
-							const tr = $("<tr>");
-							
-							const foodNameTd = $("<td>");
-							foodNameTd .text(f.foodName);
-							
-							const kcalTd = $("<td>");
-							kcalTd.text(f.kcal);
-							
-							const protTd = $("<td>");
-							protTd.text(f.prot);
-							
-							const fatTd = $("<td>");
-							fatTd.text(f.fat);
-							
-							const cardTd = $("<td>");
-							cardTd.text(f.card);
-							
-							const sugarTd = $("<td>");
-							sugarTd.text(f.sugar);
-							
-							const natTd = $("<td>");
-							natTd.text(f.nat);
-							
-							tr.append(foodNameTd).append(kcalTd).append(protTd).append(fatTd).append(cardTd).append(sugarTd).append(natTd);
-							
-							$(".food").append(tr);	
-						}
-						pageNo++;
-					},
-					error : function(){
-					console.log("에러");						
-					}
-				});
+				$(document).ready(function() {
+			    let pageNo = 1;       // Initialize page number
+			    const pageSize = 10; // Set page size to 10
+
+			    function loadMoreData() {
+			        $.ajax({
+			            url: "/foodNutrition/foodTotal",
+			            data: { pageNo: pageNo, pageSize: pageSize },
+			            type: "get",
+			            success: function(data) {
+			                if (data.length > 0) {
+			                    for (let i = 0; i < data.length; i++) {
+			                        const f = data[i];
+			                        const tr = $("<tr>");
+			                        
+			                        const foodNameTd = $("<td>").text(f.foodName);
+			                        const kcalTd = $("<td>").text(f.kcal);
+			                        const protTd = $("<td>").text(f.prot);
+			                        const fatTd = $("<td>").text(f.fat);
+			                        const cardTd = $("<td>").text(f.card);
+			                        const sugarTd = $("<td>").text(f.sugar);
+			                        const natTd = $("<td>").text(f.nat);
+			                        
+			                        tr.append(foodNameTd, kcalTd, protTd, fatTd, cardTd, sugarTd, natTd);
+			                        $(".food").append(tr);
+			                    }
+			                    pageNo++; // Increment page number for next call
+			                } else {
+			                    console.log("No more data to load");
+			                    $("#more-btn").hide(); // Hide the button if no more data
+			                }
+			            },
+			            error: function() {
+			                console.log("Error occurred while loading data");
+			            }
+			        });
+			    }
+
+			    // Initial load of 10 items when the page is ready
+			    loadMoreData();
+
+			    // Load more items when the "more" button is clicked
+			    $("#more-btn").on("click", function() {
+			        loadMoreData();
+			    });
 			});
+			
 		</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
