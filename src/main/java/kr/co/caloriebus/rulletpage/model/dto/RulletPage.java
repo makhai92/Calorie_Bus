@@ -11,5 +11,4 @@ public class RulletPage {
 	private int memberNo;
 	private String eventState;
 	private String eventItemName;
-	
 }

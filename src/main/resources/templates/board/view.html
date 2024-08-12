@@ -125,8 +125,8 @@
 					</div>
 				</td>
 		</table>
-		<div class="update-btn-wrap" th:if="${session.member != null && session.member.memberNo == board.memberNo}">
-			<a class="btn-round" th:href="@{/board/updateFrm(boardNo=${board.boardNo})}">수정하기</a>
+		<div class="update-btn-wrap" th:if="${session.member != null && (session.member.memberNo == board.memberNo || session.member.memberLevel == 1)}">
+			<a th:if="${session.member.memberNo == board.memberNo}" class="btn-round" th:href="@{/board/updateFrm(boardNo=${board.boardNo})}">수정하기</a>
 			<a class="btn-round g" th:onclick="deleteBoard([[${board.boardNo}]])">삭제하기</a>
 		</div>
 			<form action="/board/insertBoardComment" method="post">
@@ -150,7 +150,7 @@
 						<span th:if="${boardComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_down</span>
 						<span th:if="${boardComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_up</span>
 						<a th:if="${session.member != null && session.member.memberNo == boardComment.memberNo}" href="javascript:void(0)" th:onclick="updateShow(this)">수정</a>
-						<a th:if="${session.member != null && session.member.memberNo == boardComment.memberNo}" href="javascript:void(0)" th:onclick="deleteComment([[${boardComment.boardCommentNo}]])">삭제</a>
+						<a th:if="${session.member != null && (session.member.memberNo == boardComment.memberNo || session.member.memberLevel == 1)}" href="javascript:void(0)" th:onclick="deleteComment([[${boardComment.boardCommentNo}]])">삭제</a>
 					</p>
 					<p class="comment-content"th:text="${boardComment.boardCommentContent}"></p>
 					
@@ -165,7 +165,7 @@
 					<div class="reComment-box">
 						<span th:text="'답글수 : '+${boardComment.reCommentCount}"></span>
 						<div>
-							<a th:if="${boardComment.reCommentCount > 0}" href="javascript:void(0)" th:onclick="commentShow(this,[[${boardComment.boardCommentNo}]],[[${session.member==null?-1:session.member.memberNo}]],[[${session.member==null?null:session.member.memberId}]],1);">답글보기</a>
+							<a th:if="${boardComment.reCommentCount > 0}" href="javascript:void(0)" th:onclick="commentShow(this,[[${boardComment.boardCommentNo}]],[[${session.member==null?-1:session.member.memberNo}]],[[${session.member==null?null:session.member.memberId}]],1,[[${session.member==null?0:session.member.memberLevel}]]);">답글보기</a>
 							<a th:if="${session.member != null}" href="javascript:void(0)" class="recShow" onclick="recShow(this);">답글달기</a>
 						</div>
 					</div>
@@ -187,7 +187,6 @@
 	</main>
 	<script>
 		const boardNo = "[[${board.boardNo}]]";
-		
 		$(".like-wrap>.favorite,.like-wrap>.notFavorite").on("click",function(){
 			const likeSpan = $(this);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
@@ -261,7 +260,7 @@
 			}
 			$(".input-comment-box").eq(index+1).toggle();
 		}
-		function commentShow(obj,boardCommentNo,memberNo,memberId,level){
+		function commentShow(obj,boardCommentNo,memberNo,memberId,level,memberLevel){
 			$.ajax({
 				url : "/board/boardReCommentList",
 				data : {boardCommentNo : boardCommentNo,memberNo : memberNo},
@@ -296,8 +295,7 @@
 						const updateForm = $("<form action='/board/updateComment' method='post' style='display:none;'>");
 						if(memberNo == bc.memberNo){
 							const updateA = $("<a href='javascript:void(0)' onclick='updateShow(this);'>").text("수정");
-							const deleteA = $("<a href='javascript:void(0)' onclick='deleteComment("+bc.boardCommentNo+");'>").text("삭제");
-							infoP.append(updateA).append(deleteA);
+							infoP.append(updateA);
 							const commentContentDiv = $("<div class='input-item1 commentContent'>");
 							const updateTextarea = $("<textarea name='boardCommentContent'>");
 							const commentNoInput = $("<input type='hidden' name='boardCommentNo' value='"+bc.boardCommentNo+"'>");
@@ -307,6 +305,10 @@
 							updateBtn.text("수정");
 							commentContentDiv.append(updateTextarea).append(updateBtn).append(commentNoInput).append(boardNoInput);
 							updateForm.append(commentContentDiv);
+						}
+						if(memberNo == bc.memberNo || memberLevel == 1){
+							const deleteA = $("<a href='javascript:void(0)' onclick='deleteComment("+bc.boardCommentNo+");'>").text("삭제");
+							infoP.append(deleteA);
 						}
 						li1.append(infoP);
 						const contentP = $("<p class='comment-content'>");
@@ -319,7 +321,7 @@
 						reCommentCountSpan.text("답글수 : "+bc.reCommentCount);
 						const div = $("<div>");
 						if(bc.reCommentCount > 0){
-							const commentShowA = $("<a href='javascript:void(0)' onclick='commentShow(this,"+bc.boardCommentNo+","+memberNo+",\""+memberId+"\","+(level+1)+");')'>");
+							const commentShowA = $("<a href='javascript:void(0)' onclick='commentShow(this,"+bc.boardCommentNo+","+memberNo+",\""+memberId+"\","+(level+1)+","+memberLevel+");')'>");
 							commentShowA.text("답글보기 ");
 							div.append(commentShowA);
 						}
