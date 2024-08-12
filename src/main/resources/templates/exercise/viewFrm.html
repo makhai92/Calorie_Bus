@@ -300,10 +300,10 @@
 						const likeSpan = $("<span class='material-icons' onclick='likePush(this,"+bc.boardCommentNo+");'>");
 						if(bc.isLike == 1){
 							likeSpan.addClass("favorite");
-							likeSpan.text("thumb_down");
+							likeSpan.text("favorite");
 						}else{
 							likeSpan.addClass("notFavorite");
-							likeSpan.text("thumb_up");
+							likeSpan.text("favorite_border");
 						}
 						infoP.append(iconSpan2).append(writerSpan).append(dateSpan).append(likeCountSpan).append(likeSpan);
 						const updateForm = $("<form action='/exercise/updateComment' method='post' style='display:none;'>");
