@@ -220,7 +220,12 @@ th {
 			}
 		});
 	}
-	
+	window.addEventListener('scroll', function() {
+	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+	        // 페이지 하단에 도달했을 때 실행할 코드
+	        console.log('페이지 하단에 도달했습니다.');
+	    }
+	});
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
