@@ -86,15 +86,12 @@ public class InqueryController {
 	}
 	@GetMapping(value = "/inqueryView")
 	public String view(int inqueryNo,String check, Model model, @SessionAttribute(required = false) Member member) {
-		System.out.println(1);
 		int memberNo = 0;
 		if (member != null) {
 			memberNo = member.getMemberNo();
-			System.out.println(memberNo);
 		}
 		
 		Inquery i = inqueryService.selectOneInquery(inqueryNo, check ,memberNo);
-		System.out.println(i);
 		if (i == null) {
 			model.addAttribute("title", "조회 실패");
 			model.addAttribute("msg", "해당 게시글이 존재하지 않습니다..");
@@ -103,7 +100,6 @@ public class InqueryController {
 			return "common/msg";
 		} else {
 			model.addAttribute("i", i);
-			System.out.println("move to inquery view");
 			return "inquery/inqueryView";
 		}
 	}
@@ -165,21 +161,59 @@ public class InqueryController {
 		return "common/msg";
 	}	
 	@PostMapping(value = "/updateReply")
-	public String updateReply(@SessionAttribute(required=false)Member member, InqueryReply ir, Model model) {
+	public String updateReply(InqueryReply ir, Model model) {
 		int result = inqueryService.updateReply(ir);
+		System.out.println(result);
 	if(result>0) {
 		model.addAttribute("title", "성공");
 		model.addAttribute("msg", "답변이 수정되었습니다!");
 		model.addAttribute("icon", "success");
 	} else {
 		model.addAttribute("title", "실패");
-		model.addAttribute("title", "잠시 후 다시 시도해주세요..");
-		model.addAttribute("title", "warning");
+		model.addAttribute("msg", "잠시 후 다시 시도해주세요..");
+		model.addAttribute("icon", "warning");
 	}
 	model.addAttribute("loc", "/inquery/inqueryView?inqueryNo=" + ir.getInqueryRef());
 	return "common/msg";
 
 }
+	@GetMapping(value = "inqueryUpdateFrm")
+	public String updateFrm(int inqueryNo, Model model) {
+		Inquery i = inqueryService.getOneInquery(inqueryNo);
+		model.addAttribute("i", i);
+		return "inquery/inqueryUpdateFrm";
+	}
+	@PostMapping(value="/inqueryUpdate")
+	public String update(Inquery i, MultipartFile[] upfile, int[] delFileNo, Model model) {
+	List<InqueryFile> fileList = new ArrayList<InqueryFile>();
+	String savepath = root + "/inquery/";
+	if(!upfile[0].isEmpty()) {
+		for (MultipartFile file : upfile) {
+			String fileName = file.getOriginalFilename();
+			String filePath = FileUtils.upload(savepath, file);
+			InqueryFile inqueryFile = new InqueryFile();
+			inqueryFile.setFileName(fileName);
+			inqueryFile.setFilePath(filePath);
+			inqueryFile.setInqueryNo(i.getInqueryNo());
+			fileList.add(inqueryFile);
+		}
+	}
+	List<InqueryFile> delFileList = inqueryService.inqueryUpdate(i,fileList,delFileNo);
+	if (delFileList == null) {
+		model.addAttribute("title", "수정 실패");
+		model.addAttribute("msg", "처리중 문제가 발생했습니다.. 잠시후 다시 시도해주세요..");
+		model.addAttribute("icon", "error");
+		model.addAttribute("loc", "/notice/list?reqPage=1");
+		return "common/msg";
+	} else {
+		for (InqueryFile inqueryFile : delFileList) {
+			File delFile = new File(savepath + inqueryFile.getFilePath());
+			delFile.delete();
+		}
+		return "redirect:/inquery/inqueryView?inqueryNo="+i.getInqueryNo();
+	}
+	}
+	
 
 
 
