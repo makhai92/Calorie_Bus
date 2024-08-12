@@ -256,4 +256,9 @@ public class ProductService {
 		}
 	}
 
+	public int searchState(int productNo) {
+		int state = productDao.searchState(productNo);
+		return state;
+	}
+
 }

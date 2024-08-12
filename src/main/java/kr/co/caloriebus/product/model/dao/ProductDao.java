@@ -13,7 +13,6 @@ import kr.co.caloriebus.product.model.dto.Myfunding;
 import kr.co.caloriebus.product.model.dto.MyfundingListRowMapper;
 import kr.co.caloriebus.product.model.dto.MyfundingRowMapper;
 import kr.co.caloriebus.product.model.dto.Product;
-import kr.co.caloriebus.product.model.dto.ProductFile;
 import kr.co.caloriebus.product.model.dto.MylikeRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.dto.ProductReviewRowMapper;
@@ -35,7 +34,7 @@ public class ProductDao {
 	private MyfundingRowMapper myfundingRowMapper;
 	@Autowired
 	private MylikeRowMapper mylikeRowMapper;
-	
+		
 	public List selectAllProduct1() {
 		String query="select * from product where (END_DATE>=SYSDATE and START_DATE<=SYSDATE) order by 1 desc";
 		List list = jdbc.query(query, productRowMapper);
@@ -226,5 +225,17 @@ public class ProductDao {
 		Object[] params = {memberNo,productNo};
 		int result = jdbc.update(query, params);
 		return result;
+	}
+
+	public int searchState(int productNo) {
+		String query = "select state from\r\n" + 
+				"(select p.*,(case \r\n" + 
+				"when END_DATE>=SYSDATE and START_DATE<=SYSDATE then 1\r\n" + 
+				"when END_DATE<SYSDATE then 2\r\n" + 
+				"when START_DATE>SYSDATE then 3\r\n" + 
+				"end) as state from(select * from product where product_no=?)p)";
+		Object[] params = {productNo};
+		int state = jdbc.queryForObject(query, Integer.class, params);
+		return state;
 	}
 }
