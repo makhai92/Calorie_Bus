@@ -61,9 +61,9 @@
 			</section>
 		</main>
 		<script>
-				$(document).ready(function() {
-			    let pageNo = 1;       // Initialize page number
-			    const pageSize = 10; // Set page size to 10
+			$(document).ready(function() {
+			    let pageNo = 1;       
+			    const pageSize = 10; 
 
 			    function loadMoreData() {
 			        $.ajax({
@@ -87,22 +87,18 @@
 			                        tr.append(foodNameTd, kcalTd, protTd, fatTd, cardTd, sugarTd, natTd);
 			                        $(".food").append(tr);
 			                    }
-			                    pageNo++; // Increment page number for next call
+			                    pageNo++; 
 			                } else {
 			                    console.log("No more data to load");
-			                    $("#more-btn").hide(); // Hide the button if no more data
+			                    $("#more-btn").hide(); 
 			                }
 			            },
 			            error: function() {
-			                console.log("Error occurred while loading data");
+			                console.log("Error");
 			            }
 			        });
 			    }
-
-			    // Initial load of 10 items when the page is ready
 			    loadMoreData();
-
-			    // Load more items when the "more" button is clicked
 			    $("#more-btn").on("click", function() {
 			        loadMoreData();
 			    });
