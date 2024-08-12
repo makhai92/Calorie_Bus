@@ -15,6 +15,7 @@
 .faq{
     padding: 50px 0;
     width: 1200px;
+    height: 800px;
     margin: 0 auto;
     
 }
@@ -110,28 +111,12 @@
             <span>자주 묻는 질문</span>
         </div>
         <div class="faq-search-box">
-            <form action="/faq/faqSearch" method="get">
+            <form action="faqSearch.html" method="get">
                 <span class="material-icons" id="search-icon">search</span>
-              <div class="search-option">
-              
-                 	<select class="form-control" name="searchField" >
-							<th:block th:if="${searchField == 'sTitle' || searchField == null}">
-								<option value="sTitle" selected>제목</option>
-								<option value="sContent">내용</option>
-							</th:block>
-							<th:block th:if="${searchField == 'sContent'}">
-								<option value="sTitle">제목</option>
-								<option value="sContent" selected>내용</option>
-							</th:block>
-					</select>
-              </div>
-                <input type="text" name="keyword" id="keyword" placeholder="궁금한 점을 검색해보세요 !" th:value="${keyword}">
-                <input type="hidden" name="reqPage" value="1">
+                <input type="text" id="keyword" placeholder="궁금한 점을 검색해보세요 !">
             </form>
-        </div>
-          
-                
                 <button  th:if="${session.member != null && session.member.memberLevel == 1}" type="button" class="writeFaq" onclick = "location.href ='/faq/faqWriter'">FAQ 작성하기</button>
+        </div>
         <div class="faq-list">
             <table class="tbl tbl-hover">
 					<tr>

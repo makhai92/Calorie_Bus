@@ -74,7 +74,7 @@ public String adminMain() {
 		if(result>0) {
 			return "redirect:/admin/gradeChange?reqPage=1";
 		}else {
-			model.addAttribute("title", "등급 변경 실패");
+			model.addAttribute("title", "변경 실패");
 			model.addAttribute("msg", "개발자에게 문의하세요");
 			model.addAttribute("icon", "warning");
 			model.addAttribute("loc", "/admin/gradeChange");
@@ -89,7 +89,7 @@ public String adminMain() {
 			model.addAttribute("title", "지급 완료");
 			model.addAttribute("msg", "개발자에게 문의하세요");
 			model.addAttribute("icon", "success");
-			return "redirect:/admin/prizeDetails";
+			return "redirect:/admin/prizeDetails?reqPage=1";
 		}else {
 			model.addAttribute("title", "지급 실패");
 			model.addAttribute("msg", "개발자에게 문의하세요");

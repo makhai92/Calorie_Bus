@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.caloriebus.faq.model.dao.FaqDao;
 import kr.co.caloriebus.faq.model.dto.Faq;
 import kr.co.caloriebus.faq.model.dto.FaqListData;
+import kr.co.caloriebus.faq.model.dto.FaqSearch;
 
 @Service
 public class FaqService {
@@ -100,6 +101,64 @@ public class FaqService {
 		return result;
 	}
 
+	public FaqListData searchAllFaq(FaqSearch fs,int reqPage) {
+		int numPerPage = 10;
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		List list = null;
+		if(fs.getSearchField().equals("sTitle")) {
+			list = faqDao.searchFaqTitle(fs.getKeyword(),start, end);
+		}else {
+			list = faqDao.searchFaqContent(fs.getKeyword(),start, end);
+		}
+		int totalCount = faqDao.selectAllFaqCount();
+		int totalPage =0;
+		if(totalCount%numPerPage == 0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int pageNaviSize = 5;
+		int pageNo = (reqPage-1)/pageNaviSize*pageNaviSize + 1;
+		
+		String pageNavi= "<ul class='pagination circle-style'>";
+		
+		if(pageNo != 1) {
+			pageNavi += "<li>";
+			pageNavi += "<a class = 'page-item' href='/faq/faqMain?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<span class='material-icons'>chevron_left</span>";
+			pageNavi += "</a></li>";
+		}
+		for(int i=0;i<pageNaviSize;i++) {
+			pageNavi += "<a class='page-item' href='faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			if(pageNo == reqPage) {
+				pageNavi += "<a class='page-item active-page href='/faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			}else {
+				pageNavi += "<a class='page-item' href='/faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			}
+			pageNavi += "<li>";
+			pageNavi += pageNo;
+			pageNavi += "</a></li>";
+			pageNo++;
+			if(pageNo > totalPage) {
+			break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<li>";
+			pageNavi +=	"<a class='page-item' href='/faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<span class='material-icons'>chevron_right</span>";
+			pageNavi += "</a></li>";
+			pageNo++;
+		}
+		pageNavi += "</ul>";
+		
+		FaqListData fld = new FaqListData(list,pageNavi);
+		
+		return fld;
+	
+	}
+	
 	
 
 

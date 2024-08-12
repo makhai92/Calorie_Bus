@@ -46,21 +46,19 @@
 				<tr>
 					<th style="width:5%;">회원번호</th>
 					<th style="width:10%;">아이디</th>
-					<th style="width:10%;">비밀번호</th>
 					<th style="width:10%;">이름</th>
 					<th style="width:10%;">전화번호</th>
-					<th style="width:20%;">주소</th>
+					<th style="width:25%;">주소</th>
                     <th style="width:3%;">우편번호</th>
 					<th style="width:15%;">생년월일</th>
 					<th style="width:5%;">회원등급</th>
-                    <th style="width:5%;">이벤트 참여 기회</th>
+                    <th style="width:10%;">이벤트 참여 기회</th>
 					<th style="width:7%;">등급변경</th>
-					<th style="width:7%;">등급적용</th>
+					<th style="width:7%;">적용</th>
 				</tr>
 				<tr th:each="m : ${list}">
 					<td th:text="${m.memberNo}"></td>
 					<td th:text="${m.memberId}"></td>
-					<td th:text="${m.memberPw}"></td>
                     <td th:text="${m.memberName}"></td>
 					<td th:text="${m.memberPhone}"></td>
 					<td th:text="${m.memberAddr}"></td>
@@ -69,8 +67,8 @@
 					<td th:text="${m.memberLevel}">
 					</td>
                     <td>
-					    <div class="select">
-					        <span th:text="${m.eventCount == 0 ? 'X' : 'O'}"></span>
+					    <div class="select" >
+					        <input type="number" name="eventCount" th:value="${m.eventCount}">
 					    </div>
 					</td>
 					<td>
@@ -101,7 +99,8 @@
 	$(".memberLevelChange").on("click",function(){
 				const memberNo = $(this).parent().parent().children().eq(0).text();
 				const memberLevel = $(this).parent().prev().children().children().val();
-				location.href="/admin/memberLevelChange?memberNo="+memberNo+"&memberLevel="+memberLevel;
+				const eventCount = $(this).parent().prev().prev().children().children().val();
+				location.href="/admin/memberLevelChange?memberNo="+memberNo+"&memberLevel="+memberLevel+"&eventCount="+eventCount;
 			});
 			
 </script>
