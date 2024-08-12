@@ -95,13 +95,15 @@
     }
     .like-wrap span {
         cursor: pointer;
-        font-size: 36px;
+        font-size: 26px;
     }
     .favorite {
         color: var(--point1);
+        cursor: pointer;
     }
     .notFavorite {
-        color: #ccc;
+        color:var(--point1);
+		cursor: pointer;
     }
     .file-list {
         margin-top: 20px;
@@ -171,8 +173,9 @@
             </th:block>
         </div>
         <div class="like-wrap">
+        	<span th:text="${newsletter.likeCount}"></span>
             <span th:if="${newsletter.isLike}==1" class="material-icons favorite">thumb_down</span>
-            <span th:if="${newsletter.isLike}==0" class="material-icons notFavorite">thumb_up</span>
+			<span th:if="${newsletter.isLike}==0" class="material-icons notFavorite">thumb_up</span>
         </div>
         <div class="file-list">
             <div>첨부파일</div>
