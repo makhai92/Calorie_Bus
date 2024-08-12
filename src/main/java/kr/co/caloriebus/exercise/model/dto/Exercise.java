@@ -23,4 +23,5 @@ public class Exercise {
 	private int commentCount;
 	private List<ExerciseFile> fileList;	
 	private List<ExerciseComment> boardCommentList;
+	private List<ExerciseComment> boardReCommentList;
 }
