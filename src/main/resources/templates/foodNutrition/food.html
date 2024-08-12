@@ -6,6 +6,7 @@
 <style>
 
 </style>
+
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -33,7 +34,7 @@
 			let pageNo = 1;
 			$("#more-btn").on("click",function(){
 				$.ajax({
-					url :"/api/foodTotal",
+					url :"/foodNutrition/foodTotal",
 					data:{pageNo : pageNo},
 					type : "get",
 					success : function(data){

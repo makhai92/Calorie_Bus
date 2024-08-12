@@ -127,8 +127,32 @@ public class InqueryDao {
 	}
 
 	public int updateReply(InqueryReply ir) {
-		String query = "update reply set reply_content=? where reply_no=? and member_level=1";
+		String query = "update reply set reply_content=? where reply_no=?";
 		Object [] params = {ir.getReplyContent(), ir.getReplyNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int inqueryUpdate(Inquery i) {
+		String query = "update inquery set inquery_title=?, inquery_content=? where inquery_no=?";
+		Object[] params = {i.getInqueryTitle(),i.getInqueryContent(), i.getInqueryNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public InqueryFile selectOneInqueryFile(int fileNo) {
+		String query = "select * from inquery_file where file_no=?";
+		Object[] params = {fileNo};
+		List list = jdbc.query(query, inqueryFileRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}
+		return (InqueryFile)list.get(0);
+	}
+
+	public int deleteInqueryFile(int fileNo) {
+		String query = "delete from inquery_file where file_no=?";
+		Object[] params = {fileNo};
 		int result = jdbc.update(query,params);
 		return result;
 	}

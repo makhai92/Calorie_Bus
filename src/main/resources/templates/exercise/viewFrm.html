@@ -87,8 +87,6 @@
 		width: 500px;
 		resize:none;
 	}
-
-	
 </style>
 <!-- 삭제 swal -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -123,8 +121,8 @@
 					<div class="content-wrap" th:utext="${exercise.boardContent}"></div>
 					<div class="like-wrap">
 			    		<span th:text="${exercise.likeCount}"></span>
-						<span th:if="${exercise.isLike}==1" class="material-icons favorite">thumb_down</span>
-						<span th:if="${exercise.isLike}==0" class="material-icons notFavorite">thumb_up</span>
+						<span th:if="${exercise.isLike}==1" class="material-icons favorite" style="font-size: 25px;">favorite</span>
+						<span th:if="${exercise.isLike}==0" class="material-icons notFavorite" style="font-size: 25px;">favorite_border</span>
 					</div>
 				</td>
 		</table>
@@ -133,7 +131,7 @@
 			<a class="btn-round g" th:onclick="exerciseDelete([[${exercise.boardNo}]])">삭제하기</a>
 		</div>
 			<form action="/exercise/insertExerciseComment" method="post">
-				<div class="input-item1 input-comment-box">
+				<div th:if="${session.member} != null"  class="input-item1 input-comment-box">
 					<span class="material-icons">person</span>
 					<span th:if="${session.member} != null" th:text=${session.member.memberId}></span>
 					<textarea name="boardCommentContent"></textarea>
@@ -145,13 +143,14 @@
 		<div class="comment-wrap">
 			<ul th:each="exerciseComment : ${exercise.boardCommentList}">
 				<li>
+				 <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
 					<p class="comment-info">
 						<span class="material-icons">person</span>
 						<span th:text="${exerciseComment.boardCommentWriter}"></span>
-						<span th:text="'작성일 : '+${exerciseComment.boardCommentDate}"></span>
+						<span th:text="${exerciseComment.boardCommentDate}"></span>
 						<span th:text="'좋아요수 : '+${exerciseComment.likeCount}"></span>
-						<span th:if="${exerciseComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${exerciseComment.boardCommentNo}]]);">thumb_down</span>
-						<span th:if="${exerciseComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${exerciseComment.boardCommentNo}]]);">thumb_up</span>
+						<span th:if="${exerciseComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${exerciseComment.boardCommentNo}]]);">favorite</span>
+						<span th:if="${exerciseComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${exerciseComment.boardCommentNo}]]);">favorite_border</span>
 						<a th:if="${session.member != null && session.member.memberNo == exerciseComment.memberNo}" href="javascript:void(0)" th:onclick="updateShow(this)">수정</a>
 						<a th:if="${session.member != null && session.member.memberNo == exerciseComment.memberNo}" href="javascript:void(0)" th:onclick="deleteComment([[${exerciseComment.boardCommentNo}]])">삭제</a>
 					</p>
@@ -166,24 +165,39 @@
 						</div>
 					</form>
 					<div class="reComment-box">
-						<span th:text="'답글수 : '+${exerciseComment.reCommentCount}"></span>
 						<div>
 							<a th:if="${exerciseComment.reCommentCount > 0}" href="javascript:void(0)" th:onclick="commentShow(this,[[${exerciseComment.boardCommentNo}]],[[${session.member==null?-1:session.member.memberNo}]],[[${session.member==null?null:session.member.memberId}]],1);">답글보기</a>
-							<a th:if="${session.member != null}" href="javascript:void(0)" class="recShow" onclick="recShow(this);">답글달기</a>
+							<a th:if="${session.member != null}" href="javascript:void(0)" class="recShow" onclick="recShow(this);" style="color:green;">답글달기</a>
 						</div>
 					</div>
 				</li>
 				<li>
 					<form action="/exercise/insertExerciseComment" method="post">
-						<div th:if="${session.member != null}" class="input-item1 input-comment-box" style="display:none;">
+						<div th:if="${session.member != null}" class="input-item1 input-comment-box"  style="display:none;">
 							<span class="material-icons">person</span>
 							<span th:text=${session.member.memberId}></span>
+							<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
 							<textarea name="boardCommentContent" style="resize:none;"></textarea>
 							<button type="submit" class="btn-square comment-write-btn">댓글작성</button>
 							<input type="hidden" name="boardRef" th:value="${exercise.boardNo}">
 							<input type="hidden" name="boardCommentRef" th:value="${exerciseComment.boardCommentNo}">
 						</div>
 					</form>
+                     <th:block th:each="reComment : ${exercise.boardReCommentList}" >
+	                    <ul th:if="${reComment.boardCommentRef}==${exerciseComment.boardCommentNo}">
+	                        <li style="margin-left: 20px;">
+	                            <p class="comment-info">
+	                                <span class="material-icons">person</span>
+	                                <span th:text="${reComment.boardCommentWriter}"></span>
+	                                <span th:text="${reComment.boardCommentDate}"></span>
+	                                <span th:text="${reComment.likeCount}"></span>
+	                                <span th:if="${reComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${reComment.boardCommentNo}]]);">favorite</span>
+	                                <span th:if="${reComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${reComment.boardCommentNo}]]);">favorite_border</span>
+	                                <a th:if="${session.member != null && session.member.memberNo == reComment.memberNo}" href="javascript:void(0)" class="updateComment" th:onclick="updateShowRe(this)">수정</a>
+	                                <a th:if="${session.member != null && session.member.memberNo == reComment.memberNo}" href="javascript:void(0)" class="deleteComment" th:onclick="deleteComment([[${reComment.boardCommentNo}]])">삭제</a>
+	                            </p>
+	                            <p th:text="${reComment.boardCommentContent}"></p>
+	                        </li>
 				</li>
 			</ul>
 		</div>
@@ -206,11 +220,11 @@
 						if(isLike === 1){
 							likeSpan.removeClass("favorite");		
 							likeSpan.addClass("notFavorite");
-							likeSpan.text("thumb_up");
+							likeSpan.text("favorite_border");
 						}else{
 							likeSpan.removeClass("notFavorite");
 							likeSpan.addClass("favorite");
-							likeSpan.text("thumb_down");
+							likeSpan.text("favorite");
 						}
 						$(".view-tbl tr>td>span").eq(1).text(data);
 						likeSpan.prev().text(data);
@@ -237,11 +251,11 @@
 						if(isLike === 1){
 							likeSpan.removeClass("favorite");		
 							likeSpan.addClass("notFavorite");
-							likeSpan.text("thumb_up");
+							likeSpan.text("favorite_border");
 						}else{
 							likeSpan.removeClass("notFavorite");
 							likeSpan.addClass("favorite");
-							likeSpan.text("thumb_down");
+							likeSpan.text("favorite");
 						}
 						$(obj).prev().text("좋아요수 : "+data);
 					}
@@ -270,7 +284,7 @@
 					for(let i=0;i<data.length;i++){
 						const bc = data[i];
 						const ul = $("<ul>");
-						const li1 = $("<li>");
+						const li1 = $("<li style='width:100%;'>");
 						const commentWrapDiv = $("<div style='overflow:hidden;'>");
 						const iconSpan = $("<span class='material-icons' style='float:left; font-size:40px;'>");
 						iconSpan.text("subdirectory_arrow_right");
@@ -310,7 +324,7 @@
 						li1.append(infoP);
 						const contentP = $("<p class='comment-content'>");
 						contentP.text(bc.boardCommentContent);
-						const reCommentDiv = $("<div class='reComment-box' style='border-bottom:1px solid #ccc;'>");
+						const reCommentDiv = $("<div class='reComment-box' style='border-bottom:1px solid #ccc; width:100%;'>");
 						if(i == data.length-1){
 							reCommentDiv.css("border","none");
 						}
