@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.co.caloriebus.admin.model.dto.MemberListRowMapper;
 import kr.co.caloriebus.admin.model.dto.PurchaseRowMapper;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.member.model.dto.MemberRowMapper;
@@ -25,6 +26,8 @@ public class AdminDao {
 	private MemberRowMapper memberRowMapper;
 	@Autowired
 	private RulletPageRowMapper eventRowMapper;
+	@Autowired
+	private MemberListRowMapper memberListRowMapper;
 
 	public List getAllFunding(int start, int end) {
 		String query = 
@@ -46,13 +49,13 @@ public class AdminDao {
 		String query =
 		"select * from (select rownum as rnum ,n.* from (select * from member order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start,end};
-		List list = jdbc.query(query , memberRowMapper, params);
+		List list = jdbc.query(query , memberListRowMapper, params);
 		return list;
 	}
 
 	public int memberLevelChange(Member m) {
-		String query = "update member set member_level = ? where member_no=?";
-		Object[] params = {m.getMemberLevel(),m.getMemberNo()};
+		String query = "update member set member_level = ?,event_count = ? where member_no=?";
+		Object[] params = {m.getMemberLevel(),m.getEventCount(),m.getMemberNo()};
 		int result = jdbc.update(query,params);
 		return result;
 	}

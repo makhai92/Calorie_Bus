@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.caloriebus.faq.model.dto.Faq;
 import kr.co.caloriebus.faq.model.dto.FaqListData;
+import kr.co.caloriebus.faq.model.dto.FaqSearch;
 import kr.co.caloriebus.faq.model.service.FaqService;
 
 
@@ -105,8 +106,16 @@ public String update(Faq f, Model model) {
         model.addAttribute("loc", "/faq/faqMain?reqPage=1");
         return "common/msg";
     }
-    
-    
+}	
+
+@GetMapping(value="/faqSearch")
+public String faqSearch(FaqSearch fs,int reqPage,Model model) {
+	FaqListData fld = faqService.searchAllFaq(fs,reqPage);
+	model.addAttribute("list", fld.getList());
+	model.addAttribute("pageNavi", fld.getPageNavi());
+	model.addAttribute("searchField",fs.getSearchField());
+	model.addAttribute("keyword",fs.getKeyword());
+	return "faq/faqMain";
 }
 
 	

@@ -36,11 +36,29 @@ public class ProductController {
 	@Autowired
 	private FileUtils fileUtils;
 	
-	@GetMapping(value="/list")
-	public String list(Model model) {
-		List list = productService.selectAllProduct();
+	@GetMapping(value="/ingList")
+	public String list1(Model model) {
+		List list = productService.selectAllProduct1();
+		int state = 1;
 		model.addAttribute("list",list);
-		return "/product/list";
+		model.addAttribute("state",state);
+		return "/product/ingList";
+	}
+	@GetMapping(value="/endList")
+	public String list2(Model model) {
+		List list = productService.selectAllProduct2();
+		int state = 2;
+		model.addAttribute("list",list);
+		model.addAttribute("state",state);
+		return "/product/endList";
+	}
+	@GetMapping(value="/notStartList")
+	public String list3(Model model) {
+		List list = productService.selectAllProduct3();
+		int state = 3;
+		model.addAttribute("list",list);
+		model.addAttribute("state",state);
+		return "/product/notStartList";
 	}
 	
 	@GetMapping(value="/writerFrm")
@@ -77,14 +95,31 @@ public class ProductController {
 	}
 	
 	@GetMapping(value="/view")
-	public String view(int productNo,Model model) {
+	public String view(int productNo,int state,Model model,@SessionAttribute(required=false) Member member) {
+		Product p = productService.selectOneProduct(productNo);
+		int totalAmount = productService.orderAmount(productNo);
+		int likeCount = productService.selectProductLikeCount(productNo);
+		int isLike = 0;
+		if(member != null) {
+			isLike = productService.selectIsCount(member.getMemberNo(),productNo);
+		}
+		System.out.println(isLike);
+		p.setIsLike(isLike);
+		p.setLikeCount(likeCount);
+		model.addAttribute("p", p);
+		model.addAttribute("totalAmount",totalAmount);
+		model.addAttribute("state", state);
+		return "/product/view";
+	}
+	
+	@GetMapping(value="/beforeView")
+	public String beforeView(int productNo,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		int totalAmount = productService.orderAmount(productNo);
 		model.addAttribute("p", p);
 		model.addAttribute("totalAmount",totalAmount);
-		return "/product/view";
+		return "/product/beforeView";
 	}
-	
 	@GetMapping(value="/delete")
 	public String delete(int productNo,Model model) {
 		int result = productService.deleteProduct(productNo);
@@ -297,4 +332,20 @@ public class ProductController {
         model.addAttribute("data", data);
         return "etc/alertMsg";
     }
+	
+	@ResponseBody
+	@PostMapping(value="/likePush")
+	public int likePush(int productNo, int isLike, @SessionAttribute(required=false) Member member)  {
+		//@SessionAttribute에서 로그인정보를 가지고 올때 required옵션을 명시하지않으면 기본적으로 true
+		// -> 로그인이 되어있지 않으면 에러 발생
+		// -> 로그인이 되어있지 않은 상태에서 에러를 발생시키지 않으려면(required = false)옵션을 추가
+		//		-> 로그인이 되어있으면 로그인한 회원정보/로그인이 되어잇지 않으면 null
+		if(member == null) {
+			return -10;
+		}else {
+			int memberNo = member.getMemberNo();
+			int result = productService.likePush(productNo,isLike,memberNo);
+			return result;
+		}	
+	}
 }

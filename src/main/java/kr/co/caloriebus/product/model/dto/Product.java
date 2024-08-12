@@ -1,7 +1,5 @@
 package kr.co.caloriebus.product.model.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +19,6 @@ public class Product {
 	private String endDate;
 	private String productImg;
 	private String productInfo;
+	private int likeCount;
+	private int isLike;
 }
