@@ -125,16 +125,16 @@ public class FaqService {
 		
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class = 'page-item' href='/faq/faqMain?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<a class = 'page-item' href='/faq/faqMain?searchField="+fs.getSearchField()+"&keyword="+fs.getKeyword()+"&reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		for(int i=0;i<pageNaviSize;i++) {
-			pageNavi += "<a class='page-item' href='faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<a class='page-item' href='faq/faqSearch?searchField="+fs.getSearchField()+"&keyword="+fs.getKeyword()+"&reqPage="+pageNo+"'>";
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='page-item active-page href='/faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+				pageNavi += "<a class='page-item active-page href='/faq/faqSearch?searchField="+fs.getSearchField()+"&keyword="+fs.getKeyword()+"&reqPage="+pageNo+"'>";
 			}else {
-				pageNavi += "<a class='page-item' href='/faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+				pageNavi += "<a class='page-item' href='/faq/faqSearch?searchField="+fs.getSearchField()+"&keyword="+fs.getKeyword()+"&reqPage="+pageNo+"'>";
 			}
 			pageNavi += "<li>";
 			pageNavi += pageNo;
@@ -146,7 +146,7 @@ public class FaqService {
 		}
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi +=	"<a class='page-item' href='/faq/faqSearch?searchField="+fs.getSearchField()+"keyword="+fs.getKeyword()+"reqPage="+(pageNo-1)+"'>";
+			pageNavi +=	"<a class='page-item' href='/faq/faqSearch?searchField="+fs.getSearchField()+"&keyword="+fs.getKeyword()+"&reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 			pageNo++;
