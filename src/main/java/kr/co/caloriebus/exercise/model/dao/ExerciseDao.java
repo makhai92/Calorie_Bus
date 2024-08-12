@@ -12,9 +12,9 @@ import kr.co.caloriebus.exercise.model.dto.ExerciseCommentRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFile;
 import kr.co.caloriebus.exercise.model.dto.ExerciseFileRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseInfoRowMapper;
+import kr.co.caloriebus.exercise.model.dto.ExerciseListRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseRowMapper;
 import kr.co.caloriebus.exercise.model.dto.ExerciseupdateRowMapper;
-
 @Repository
 public class ExerciseDao {
 	@Autowired
@@ -29,6 +29,9 @@ public class ExerciseDao {
 	private ExerciseInfoRowMapper exerciseInfoRowMapper;
 	@Autowired
 	private ExerciseupdateRowMapper exerciseupdateRowMapper;
+	@Autowired
+	private ExerciseListRowMapper exerciseListRowMapper;
+	
 	
 	public List selectBoardList(int start, int end) {
 		//System.out.println(start);
@@ -134,7 +137,7 @@ public class ExerciseDao {
 		return likeCount;
 	}
 	
-	//댓글//에러
+	//댓글
 	public int insertExerciseComment(ExerciseComment ec) {
 		String query = "insert into board_comment values(board_comment_seq.nextval,?,?,?,?,to_char(sysdate,'YYYY-MM-DD'))";
 		String exerciseCommentRef = ec.getBoardCommentRef() == 0 ? null : String.valueOf(ec.getBoardCommentRef());
@@ -143,9 +146,17 @@ public class ExerciseDao {
 		return result;
 	}
 	
-	public List selectExerciseReCommentList(int boardCommentNo, int memberNo) {
-		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like,(select count(*) from board_comment where board_comment_ref=bc.board_comment_no) as re_comment_count from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,board_comment_date,member_no from board_comment join member using (member_no) where board_comment_ref=? order by 1)bc";
-		Object[] params = {memberNo,boardCommentNo};
+	public List selectExerciseCommentList(int boardNo, int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,"
+				+ "to_char(board_comment_date,'yyyy-mm-dd')as board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is null order by 1)bc";
+		Object[] params = {memberNo,boardNo};
+		List list = jdbc.query(query, exerciseCommentRowMapper,params);
+		return list;
+	}
+	public List selectExerciseReCommentList(int boardNo, int memberNo) {
+		String query = "select bc.*,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no) as like_count,(select count(*) from board_comment_like where board_comment_no=bc.board_comment_no and member_no=?) as is_like from (select board_comment_no,board_comment_content,member_id as board_comment_writer, board_ref,board_comment_ref,"
+				+ "to_char(board_comment_date,'yyyy-mm-dd')as board_comment_date,member_no from board_comment join member using (member_no) where board_ref=? and board_comment_ref is not null order by 1)bc";
+		Object[] params = {memberNo,boardNo};
 		List list = jdbc.query(query, exerciseCommentRowMapper, params);
 		return list;
 	}
@@ -221,6 +232,23 @@ public class ExerciseDao {
 		return result;
 	}
 
+
+	public List<Exercise> searchExerciseList(String keyword, int start, int end) {
+		String query = "select * from (select rownum rnum, b.* from ("
+                + "select board_no, member_no, board_title, board_category, read_count, reg_date, member_id as board_writer, "
+                + "(select count(*) from board_comment where board_ref = board.board_no) as comment_count, "
+                + "(select count(*) from board_like where board_no = board.board_no) as like_count "
+                + "from board join member using(member_no) "
+                + "where board_category = 'I1' and board_title like ? order by 1 desc)b)bb "
+                + "where rnum between ? and ?";
+        Object[] params = {"%" + keyword + "%", start, end};
+        return jdbc.query(query, exerciseListRowMapper, params);
+    }
+
+    public int searchExerciseTotalCount(String keyword) {
+        String query = "select count(*) from board where board_category = 'I1' and board_title like ?";
+        return jdbc.queryForObject(query, Integer.class, "%" + keyword + "%");
+    }
 
 	
 
