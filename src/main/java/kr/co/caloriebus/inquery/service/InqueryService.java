@@ -1,5 +1,6 @@
 package kr.co.caloriebus.inquery.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,6 +170,35 @@ public class InqueryService {
 	public int updateReply(InqueryReply ir) {
 		int result = inqueryDao.updateReply(ir);
 		return result;
+	}
+	public List<InqueryFile> inqueryUpdate(Inquery i, List<InqueryFile> fileList, int[] delFileNo) {
+		List <InqueryFile> delFileList = new ArrayList <InqueryFile> ();
+		int result = inqueryDao.inqueryUpdate(i);
+		if(result > 0) {
+			for (InqueryFile inqueryFile : fileList) {
+				result += inqueryDao.insertInqueryFile(inqueryFile);
+			}
+			if(delFileNo != null) {
+				for(int fileNo : delFileNo) {
+					System.out.println("fileNo : "+fileNo);
+					InqueryFile inqueryFile = inqueryDao.selectOneInqueryFile(fileNo);
+					delFileList.add(inqueryFile);
+					result += inqueryDao.deleteInqueryFile(fileNo);
+				}
+			}
+		}
+		int updateTotal = delFileNo == null?fileList.size()+1 : fileList.size()+1+delFileNo.length;
+		if(updateTotal == result) {
+			return delFileList;
+		}else {
+			return null;
+		}
+	}
+	public Inquery getOneInquery(int inqueryNo) {
+		Inquery i = inqueryDao.selectOneInquery(inqueryNo);
+		List list = inqueryDao.selectInqueryFile(inqueryNo);
+		i.setFileList(list);
+		return i;
 	}
 	
 	
