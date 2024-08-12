@@ -14,7 +14,7 @@ public class ExerciseComment {
 	private int boardRef;
 	private int boardCommentRef;
 	private String boardCommentDate;
-	private String board_comment_writer;
+	private String boardCommentWriter;
 	private int isLike;
 	private int likeCount;
 	private int reCommentCount;

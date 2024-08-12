@@ -142,18 +142,40 @@ const rRotate = () => {
 
 // 정해진 alert띄우기, custom modal등
 const rLayerPopup = (num) => {
+  let eventItemName = ""; 
   switch (num) {
     case 1:
       alert("당첨!! 스타벅스 아메리카노");
+      eventItemName = "스타벅스 아메리카노";
       break;
     case 3:
       alert("당첨!! 햄버거 세트 교환권");
+      eventItemName = "햄버거 세트 교환권";
       break;
     case 5:
       alert("당첨!! CU 3,000원 상품권");
+      eventItemName = "CU 3000원 상품권";
       break;
     default:
       alert("꽝! 다음기회에");
+      eventItemName = null;
+  }
+  if(eventItemName != null){
+  	$.ajax({
+  		url : "/rulletPage/insertEventItem",
+  		data : {eventItemName : eventItemName},
+  		type : "post",
+  		success : function(data){
+  			if(data == -1){
+  				alert("에러, 당첨 정보를 캡쳐해 고객센터에 문의하세요.");
+  			}else{
+  				alert("상품은 관리자를 통해 지급됩니다.");
+  			}
+  		},
+  		error : function(){
+  			alert("에러, 당첨 정보를 캡쳐해 고객센터에 문의하세요.");
+  		}
+  	})
   }
 };
 
@@ -171,12 +193,25 @@ const rReset = (ele) => {
 document.addEventListener("click", function (e) {
   var target = e.target;
   if (target.tagName === "BUTTON") {
-    if (!isSpun) { // 룰렛이 아직 돌아가지 않았다면
-      rRotate();
-      rReset(target);
-    } else {
-      alert("룰렛은 한 번만 돌릴 수 있습니다.");
-    }
+  	$.ajax({
+  		url : "/rulletPage/getRulletCount",
+  		type : "post",
+  		success : function(data){
+  			 if (data > 0) {
+			      rRotate();
+			      rReset(target);
+			 }else if(data == -10){
+			 	alert("로그인해");
+			 }else if(data == -1){
+			 	alert("서버 오류입니다. 잠시후 다시 이용해주세요.");
+			 }else{
+			      alert("룰렛 이벤트 참여 기회가 없습니다.");
+			 }
+  		},
+  		error : function(){
+  			console.log("error");
+		}  		
+  	});
   }
 });
 
@@ -187,6 +222,6 @@ document.getElementById("app").innerHTML = `
         <div class="rouletter-wacu"></div>
     </div>
     <div class="rouletter-arrow"></div>
-    <button class="rouletter-btn">start</button>
+    <div class="rouletter-btn"></button>
 </div>
 `;
