@@ -64,6 +64,9 @@ public class FoodController {
 			return list;
 		}
 		
-		
+		@GetMapping(value = "/search")
+		public String search() {
+			return "/foodNutrition/food";
+		}
 
 }
