@@ -28,7 +28,6 @@
 #search-icon{
     font-size: 40px;
     position: relative;
-    top: 15px;
 }
 #keyword{
     width: 600px;
@@ -89,6 +88,15 @@
 	float : left;
 	margin-left : 50px;
 }
+.search--btn{
+	border : none;
+	background-color: transparent;
+}
+#faq-search-box{
+	display : flex;
+	justify-content:center;
+	align-items:center;
+}
 .pageNavi-wrap : hover{
      font-weight: bolder;
 }
@@ -110,8 +118,7 @@
             <span>자주 묻는 질문</span>
         </div>
         <div class="faq-search-box">
-            <form action="/faq/faqSearch" method="get">
-                <span class="material-icons" id="search-icon">search</span>
+            <form action="/faq/faqSearch" method="get" id="faq-search-box">
               <div class="search-option">
               
                  	<select class="form-control" name="searchField" >
@@ -127,6 +134,9 @@
               </div>
                 <input type="text" name="keyword" id="keyword" placeholder="궁금한 점을 검색해보세요 !" th:value="${keyword}">
                 <input type="hidden" name="reqPage" value="1">
+                <button class="search--btn">
+                <span class="material-icons" id="search-icon">search</span>
+                </button>
             </form>
         </div>
           
