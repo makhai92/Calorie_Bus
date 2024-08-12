@@ -88,12 +88,23 @@ th {
 							<tr>
 								<th style="width: 40px;">상태</th>
 								<td style="width: 15%;">
-									<div class="select">
-										<select name="" id="">
-											<option>준비중</option>
+									<div class="select" th:switch="${state}">
+										<select th:case="1" disabled>
+											<option>오픈 예정</option>
+											<option selected>진행중</option>
+											<option>종료/마감</option>
+										</select>
+										<select th:case="2" disabled>
+											<option>오픈 예정</option>
+											<option>진행중</option>
+											<option selected>종료/마감</option>
+										</select>
+										<select th:case="3" disabled>
+											<option selected>오픈 예정</option>
 											<option>진행중</option>
 											<option>종료/마감</option>
 										</select>
+										<input type="hidden" name="state" th:value="${state}">
 									</div>
 								</td>
 								<th style="width: 12%;">판매 시작일</th>

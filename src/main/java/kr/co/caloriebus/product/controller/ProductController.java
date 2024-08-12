@@ -82,7 +82,7 @@ public class ProductController {
 			model.addAttribute("msg","문제가 발생하였습니다.");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/product/list");
+		model.addAttribute("loc","/product/notStartList");
 		return "common/msg";
 	}
 	
@@ -112,14 +112,6 @@ public class ProductController {
 		return "/product/view";
 	}
 	
-	@GetMapping(value="/beforeView")
-	public String beforeView(int productNo,Model model) {
-		Product p = productService.selectOneProduct(productNo);
-		int totalAmount = productService.orderAmount(productNo);
-		model.addAttribute("p", p);
-		model.addAttribute("totalAmount",totalAmount);
-		return "/product/beforeView";
-	}
 	@GetMapping(value="/delete")
 	public String delete(int productNo,Model model) {
 		int result = productService.deleteProduct(productNo);
@@ -132,19 +124,20 @@ public class ProductController {
 			model.addAttribute("msg","게시물 삭제 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
 			model.addAttribute("icon","warning");
 		}
-		model.addAttribute("loc","/product/list");
+		model.addAttribute("loc","/product/ingList");
 		return "common/msg";
 	}
 	
 	@GetMapping(value="/updateFrm")
-	public String updateFrm(int productNo,Model model) {
+	public String updateFrm(int productNo,int state,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		model.addAttribute("p",p);
+		model.addAttribute("state",state);
 		return "/product/updateFrm";
 	}
 		
 	@PostMapping(value="/update")
-	public String update(Product p, MultipartFile upfile,Model model) {
+	public String update(Product p,int state, MultipartFile upfile,Model model) {
 		int result = 0;
 		if(upfile.isEmpty()) {
 			result = productService.update1Product(p);
@@ -163,7 +156,7 @@ public class ProductController {
 			model.addAttribute("msg","게시물 수정 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/product/view?productNo="+p.getProductNo());
+		model.addAttribute("loc","/product/view?productNo="+p.getProductNo()+"&state="+state);
 		return "common/msg";
 	}
 	
@@ -181,21 +174,23 @@ public class ProductController {
 			model.addAttribute("title","구매 예약 완료");
 			model.addAttribute("msg","구매 예약이 완료되었습니다. 24시간 내로 미입금 시 자동 취소됩니다.");
 			model.addAttribute("icon","success");
+			model.addAttribute("loc","/product/myfunding?reqPage=1");
 		}else {
 			model.addAttribute("title","구매 예약 실패");
 			model.addAttribute("msg","문제가 발생하였습니다.관리자에게 문의하세요.");
 			model.addAttribute("icon","error");
+			model.addAttribute("loc","/product/inglist");
 		}
-		model.addAttribute("loc","/product/list");
 		return "common/msg";
 	}
 	
 	@GetMapping(value="/review")
-	public String review(int productNo,Model model) {
+	public String review(int productNo,int state,Model model) {
 		Product p = productService.selectOneProduct(productNo);
 		List list = productService.selectAllProductReview(productNo);
 		model.addAttribute("p",p);
 		model.addAttribute("list",list);
+		model.addAttribute("state",state);
 		return "/product/reviewList";
 	}
 	
@@ -213,7 +208,9 @@ public class ProductController {
 		String filepath = fileUtils.upload(savepath, upfile);
 		pr.setReviewImg(filepath);
 		int result = productService.reviewInsert(pr);
+		int state=0;
 		if(result>0) {
+			state = productService.searchState(pr.getProductNo());
 			model.addAttribute("title","작성완료");
 			model.addAttribute("msg","게시글이 작성되었습니다.");
 			model.addAttribute("icon","success");
@@ -222,20 +219,21 @@ public class ProductController {
 			model.addAttribute("msg","문제가 발생하였습니다.");
 			model.addAttribute("icon","error");
 		}
-		model.addAttribute("loc","/product/list");
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo()+"&state="+state);
 		return "common/msg";
 	}
 	
 	
 	@GetMapping(value="/reviewUpdateFrm")
-	public String reviewUpdateFrm(int fundingNo,Model model) {
+	public String reviewUpdateFrm(int fundingNo,int state,Model model) {
 		ProductReview pr = productService.selecOneProductReview(fundingNo);
 		model.addAttribute("pr",pr);
+		model.addAttribute("state",state);
 		return "/product/reviewUpdateFrm";
 	}
 	
 	@PostMapping(value="/reviewUpdate1")
-	public String reviewUpdate(ProductReview pr,Model model) {
+	public String reviewUpdate(ProductReview pr,int state,Model model) {
 		int result = productService.reviewUpdate1(pr);
 		
 		if(result>0) {
@@ -247,13 +245,12 @@ public class ProductController {
 			model.addAttribute("msg","문제가 발생하였습니다.");
 			model.addAttribute("icon","error");
 		}
-		System.out.println(pr.getProductNo());
-		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo()+"&state="+state);
 		return "common/msg";
 	}
 
 		@PostMapping(value="/reviewUpdate2")
-	public String reviewUpdate2(ProductReview pr,MultipartFile upfile,Model model) {
+	public String reviewUpdate2(ProductReview pr,int state,MultipartFile upfile,Model model) {
 			String savepath = root+"/product/review/";
 			String filepath = fileUtils.upload(savepath, upfile);
 			pr.setReviewImg(filepath);
@@ -269,12 +266,12 @@ public class ProductController {
 			model.addAttribute("icon","error");
 		}
 		System.out.println(pr.getProductNo());
-		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo()+"&state="+state);
 		return "common/msg";
 	}
 	
 	@GetMapping(value="/reviewDelete")
-	public String reviewDelete(int fundingNo,Model model) {
+	public String reviewDelete(int fundingNo,int state,Model model) {
 		ProductReview pr = productService.selecOneProductReview(fundingNo);
 		int result = productService.reviewDelete(fundingNo);
 		if(result>0) {
@@ -286,7 +283,7 @@ public class ProductController {
 			model.addAttribute("msg","게시물 삭제 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
 			model.addAttribute("icon","warning");
 		}
-		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo());
+		model.addAttribute("loc","/product/review?productNo="+pr.getProductNo()+"&state="+state);
 		return "common/msg";
 	}
 
