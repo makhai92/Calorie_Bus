@@ -146,7 +146,7 @@
 						<span class="material-icons">person</span>
 						<span th:text="${boardComment.boardCommentWriter}"></span>
 						<span th:text="${boardComment.boardCommentDate}"></span>
-						<span th:text="'좋아요수 : '+${boardComment.likeCount}"></span>
+						<span class="test-class" th:text="'좋아요수 : '+${boardComment.likeCount}"></span>
 						<span th:if="${boardComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_down</span>
 						<span th:if="${boardComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${boardComment.boardCommentNo}]]);">thumb_up</span>
 						<a th:if="${session.member != null && session.member.memberNo == boardComment.memberNo}" href="javascript:void(0)" th:onclick="updateShow(this)">수정</a>
@@ -187,7 +187,8 @@
 	</main>
 	<script>
 		const boardNo = "[[${board.boardNo}]]";
-		$(".like-wrap>.favorite,.notFavorite").on("click",function(){
+		
+		$(".like-wrap>.favorite,.like-wrap>.notFavorite").on("click",function(){
 			const likeSpan = $(this);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
 			$.ajax({
@@ -218,9 +219,11 @@
 				}
 			});
 		});
+		
 		function likePush(obj, boardCommentNo){
 			const likeSpan = $(obj);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
+			console.log("isLike : "+isLike);
 			$.ajax({
 				url : "/board/boardCommentLikePush",
 				data : {boardCommentNo : boardCommentNo, isLike : isLike},
@@ -240,8 +243,8 @@
 							likeSpan.addClass("favorite");
 							likeSpan.text("thumb_down");
 						}
-						$(obj).prev().text("");
-						$(obj).prev().text("좋아요수 : "+data);
+						$(obj).prev().text("좋아요수 : " + data);
+						
 					}
 				},
 				error : function(){

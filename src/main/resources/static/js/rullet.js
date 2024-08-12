@@ -1,4 +1,4 @@
-var rolLength = 6; // 해당 룰렛 콘텐츠 갯수
+/*var rolLength = 6; // 해당 룰렛 콘텐츠 갯수
 var setNum; // 랜덤숫자 담을 변수
 var hiddenInput = document.createElement("input");
 hiddenInput.className = "hidden-input";
@@ -85,7 +85,7 @@ document.getElementById("app").innerHTML = `
     <button class="rouletter-btn">start</button>
 </div>
 `;
-
+*/
 
 
 

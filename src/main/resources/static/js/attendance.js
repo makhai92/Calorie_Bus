@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
             todayStamp.classList.add("active");
         }
     });
-
+	/*
     resetButton.addEventListener("click", function() {
         localStorage.clear();
         attendanceCount = 0;
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
         modalMessage.textContent = "출석 데이터가 리셋되었습니다.";
         modal.style.display = "block"; // Show modal after reset
     });
-
+	*/
     prevMonthButton.addEventListener("click", function() {
         if (currentMonth === 0) {
             currentMonth = 11;
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     const checkInButton = document.getElementById("check-in-button");
     const resetButton = document.getElementById("reset-button");
     const attendanceResult = document.getElementById("attendance-result");
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function() {
         message.textContent = "";
 
         if (attendanceCount % 10 === 0 && attendanceCount > 0) {
-            // 10회 출석 체크마다 모달 창을 띄웁니다.
+            // 10회 출석 체크마다 모달 창을 띄움
             modal.style.display = "block";
         }
     }
@@ -330,3 +330,4 @@ document.addEventListener("DOMContentLoaded", function() {
     generateCalendar(currentYear, currentMonth);
     updateAttendanceStatus();
 });
+*/
