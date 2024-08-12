@@ -1,5 +1,6 @@
 package kr.co.caloriebus.product.model.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,17 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 	
-	public List selectAllProduct() {
-		List list = productDao.selectAllProduct();
+	public List selectAllProduct1() {
+		List list = productDao.selectAllProduct1();
+		return list;
+	}
+	
+	public List selectAllProduct2() {
+		List list = productDao.selectAllProduct2();
+		return list;
+	}
+	public List selectAllProduct3() {
+		List list = productDao.selectAllProduct3();
 		return list;
 	}
 	
@@ -34,7 +44,7 @@ public class ProductService {
 		Product p = productDao.selectOneProduct(productNo);
 		return p;
 	}
-
+	/*
 	@Transactional
 	public int productFileInsert(List<ProductFile> fileList) {
 		int result = 0;
@@ -43,6 +53,7 @@ public class ProductService {
 		}
 		return result;
 	}
+	*/
 	
 	@Transactional
 	public int deleteProduct(int productNo) {
@@ -211,5 +222,38 @@ public class ProductService {
 		return totalAmount;
 	}
 	
+	@Transactional
+	public int likePush(int productNo, int isLike, int memberNo) {
+		int result = 0;
+		if(isLike == 0) {
+			//찜을 할 때 insert
+			result = productDao.insertProductLike(productNo,memberNo);
+		}else if(isLike == 1) {
+			//찜을 취소할 때 delete
+			result = productDao.deleteProductLike(productNo,memberNo);
+		}
+		//찜 갯수 조회해서 리턴
+		if(result>0) {
+			int likeCount = productDao.selectProductLikeCount(productNo);
+			return likeCount;
+		}else {			
+			return -1;
+		}
+	}
+
+	public int selectProductLikeCount(int productNo) {
+		int likeCount = productDao.selectProductLikeCount(productNo);
+		return likeCount;
+	}
+
+	public int selectIsCount(int memberNo,int productNo) {
+		int result = 0;
+		int isLike = productDao.selectIsCount(memberNo,productNo);
+		if(isLike>0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
 
 }
