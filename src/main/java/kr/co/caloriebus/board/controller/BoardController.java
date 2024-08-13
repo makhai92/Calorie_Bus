@@ -161,24 +161,25 @@ public class BoardController {
 		return "redirect:/board/view?boardNo="+boardNo+"&check=1";
 	}
 	@GetMapping(value="/deleteBoard")
-	public String deleteBoard(int boardNo,Model model) {
-		System.out.println(1);
-		List<BoardFile> list = boardService.deleteBoard(boardNo);
-		if(list == null) {
-			model.addAttribute("title","삭제 실패");
-			model.addAttribute("msg","존재하지 않는 게시물입니다.");
-			model.addAttribute("icon","error");
-		}else {
-			String savepath = root+"/board/";
-			for(BoardFile file : list) {
-				File delFile = new File(savepath+file.getFilepath());
-				delFile.delete();
+	public String deleteBoard(int boardNo,@SessionAttribute(required=false) Member member,Model model) {
+		if(member != null) {
+			List<BoardFile> list = boardService.deleteBoard(boardNo,member.getMemberNo());
+			if(list == null) {
+				model.addAttribute("title","삭제 실패");
+				model.addAttribute("msg","존재하지 않는 게시물입니다.");
+				model.addAttribute("icon","error");
+			}else {
+				String savepath = root+"/board/";
+				for(BoardFile file : list) {
+					File delFile = new File(savepath+file.getFilepath());
+					delFile.delete();
+				}
+				model.addAttribute("title","삭제 성공");
+				model.addAttribute("msg","게시물이 삭제되었습니다..");
+				model.addAttribute("icon","success");
 			}
-			model.addAttribute("title","삭제 성공");
-			model.addAttribute("msg","게시물이 삭제되었습니다..");
-			model.addAttribute("icon","success");
+			model.addAttribute("loc","/board/list?category=all&reqPage=1");
 		}
-		model.addAttribute("loc","/board/list?category=all&reqPage=1");
 		return "common/msg";
 	}
 	@GetMapping(value="/updateFrm")

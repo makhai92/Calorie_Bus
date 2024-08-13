@@ -247,9 +247,9 @@ public class BoardDao {
 		int result = jdbc.update(query,params);
 		return result;
 	}
-	public int deleteBoard(int boardNo) {
-		String query = "delete from board where board_no=?";
-		Object[] params = {boardNo};
+	public int deleteBoard(int boardNo, int memberNo) {
+		String query = "delete from board where board_no=? and member_no=?";
+		Object[] params = {boardNo,memberNo};
 		int result = jdbc.update(query,params);
 		return result;
 	}

@@ -217,9 +217,9 @@ public class BoardService {
 	}
 
 	@Transactional
-	public List<BoardFile> deleteBoard(int boardNo) {
+	public List<BoardFile> deleteBoard(int boardNo, int memberNo) {
 		List list = boardDao.selectBoardFileList(boardNo);
-		int result = boardDao.deleteBoard(boardNo);
+		int result = boardDao.deleteBoard(boardNo,memberNo);
 		if(result > 0) {
 			return list;
 		}

@@ -305,7 +305,9 @@
 						swal({
 							title : "로그인 필요",				
 							text : "로그인이 필요한 서비스입니다.",
-							icon : "info"
+							icon : "info",
+						}).then(function(){
+							location.href="/member/loginForm";
 						});
 					}else if(data == -1){
 						swal({
