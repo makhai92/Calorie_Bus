@@ -138,10 +138,17 @@ public class BoardController {
 	}
 	
 	@PostMapping(value="/insertBoardComment")
-	public String insertBoardComment(BoardComment bc,@SessionAttribute(required=false)Member member) {
+	public String insertBoardComment(BoardComment bc,@SessionAttribute(required=false)Member member,Model model) {
 		bc.setMemberNo(member.getMemberNo());
 		int result = boardService.insertBoardComment(bc);
-		return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
+		if(result > 0) {
+			return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
+		}else {
+			model.addAttribute("title","댓글 작성 실패");
+			model.addAttribute("msg","댓글 작성 실패");
+			model.addAttribute("icon","error");
+			return "common/msg";
+		}
 	}
 	
 	@ResponseBody
@@ -151,14 +158,28 @@ public class BoardController {
 		return list;
 	}
 	@PostMapping(value="/updateComment")
-	public String updateComment(BoardComment bc){
+	public String updateComment(BoardComment bc,Model model){
 		int result  = boardService.updateComment(bc);
-		return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
+		if(result > 0) {
+			return "redirect:/board/view?boardNo="+bc.getBoardRef()+"&check=1";
+		}else {
+			model.addAttribute("title","댓글 수정 실패");
+			model.addAttribute("msg","댓글 수정 실패");
+			model.addAttribute("icon","error");
+			return "common/msg";
+		}
 	}
 	@GetMapping(value="/deleteComment")
-	public String deleteComment(int boardCommentNo,int boardNo) {
+	public String deleteComment(int boardCommentNo,int boardNo,Model model) {
 		int result = boardService.deleteComment(boardCommentNo);
-		return "redirect:/board/view?boardNo="+boardNo+"&check=1";
+		if(result > 0) {
+			return "redirect:/board/view?boardNo="+boardNo+"&check=1";
+		}else {
+			model.addAttribute("title","댓글 삭제 실패");
+			model.addAttribute("msg","댓글 삭제 실패");
+			model.addAttribute("icon","error");
+			return "common/msg";
+		}
 	}
 	@GetMapping(value="/deleteBoard")
 	public String deleteBoard(int boardNo,@SessionAttribute(required=false) Member member,Model model) {
