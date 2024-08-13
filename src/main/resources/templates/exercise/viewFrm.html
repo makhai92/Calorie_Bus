@@ -190,13 +190,22 @@
 	                                <span class="material-icons">person</span>
 	                                <span th:text="${reComment.boardCommentWriter}"></span>
 	                                <span th:text="${reComment.boardCommentDate}"></span>
-	                                <span th:text="${reComment.likeCount}"></span>
+	                                <span th:text="'좋아요수 : '+${reComment.likeCount}"></span>
 	                                <span th:if="${reComment.isLike}==1" class="material-icons favorite" th:onclick="likePush(this,[[${reComment.boardCommentNo}]]);">favorite</span>
 	                                <span th:if="${reComment.isLike}==0" class="material-icons notFavorite" th:onclick="likePush(this,[[${reComment.boardCommentNo}]]);">favorite_border</span>
 	                                <a th:if="${session.member != null && session.member.memberNo == reComment.memberNo}" href="javascript:void(0)" class="updateComment" th:onclick="updateShowRe(this)">수정</a>
 	                                <a th:if="${session.member != null && session.member.memberNo == reComment.memberNo}" href="javascript:void(0)" class="deleteComment" th:onclick="deleteComment([[${reComment.boardCommentNo}]])">삭제</a>
 	                            </p>
-	                            <p th:text="${reComment.boardCommentContent}"></p>
+	                            <p th:text="${reComment.boardCommentContent}">
+	                            <form action="/exercise/updateComment" method='post' style="display:none;">
+									<div class="input-item1 commentContent">
+										<textarea name="boardCommentContent" th:text="${reComment.boardCommentContent}"></textarea>
+										<button type="submit" class="btn-square">수정</button>
+										<input type="hidden" name="boardCommentNo" th:value="${reComment.boardCommentNo}"> 
+										<input type="hidden" name="boardRef" th:value="${exercise.boardNo}">
+									</div>
+								</form>
+	                            </p>
 	                        </li>
 				</li>
 			</ul>
@@ -204,7 +213,7 @@
 	</main>
 	<script>
 		const boardNo = "[[${exercise.boardNo}]]";
-		$(".like-wrap>.favorite,.notFavorite").on("click",function(){
+		$(".like-wrap>.favorite,.like-wrap>.notFavorite").on("click",function(){
 			const likeSpan = $(this);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
 			$.ajax({
@@ -235,6 +244,7 @@
 				}
 			});
 		});
+		
 		function likePush(obj, boardCommentNo){
 			const likeSpan = $(obj);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
@@ -274,105 +284,21 @@
 			}
 			$(".input-comment-box").eq(index+1).toggle();
 		}
-		function commentShow(obj,boardCommentNo,memberNo,memberId,level){
-			$.ajax({
-				url : "/exercise/exerciseReCommentList",
-				data : {boardCommentNo : boardCommentNo,memberNo : memberNo},
-				type : "post",
-				success : function(data){
-					const reCommentBoxDiv = $("<div style='border-top:1px solid #ccc; margin-left:"+(level*10)+"px;'>");
-					for(let i=0;i<data.length;i++){
-						const bc = data[i];
-						const ul = $("<ul>");
-						const li1 = $("<li style='width:100%;'>");
-						const commentWrapDiv = $("<div style='overflow:hidden;'>");
-						const iconSpan = $("<span class='material-icons' style='float:left; font-size:40px;'>");
-						iconSpan.text("subdirectory_arrow_right");
-						const infoP = $("<p class='comment-info'>");
-						const iconSpan2 = $("<span class='material-icons'>");
-						iconSpan2.text("person");
-						const writerSpan = $("<span>");
-						writerSpan.text(bc.boardCommentWriter);
-						const dateSpan = $("<span>");
-						dateSpan.text("작성일 : "+bc.boardCommentDate);
-						const likeCountSpan = $("<span>");
-						likeCountSpan.text("좋아요수 : "+bc.likeCount);
-						const likeSpan = $("<span class='material-icons' onclick='likePush(this,"+bc.boardCommentNo+");'>");
-						if(bc.isLike == 1){
-							likeSpan.addClass("favorite");
-							likeSpan.text("favorite");
-						}else{
-							likeSpan.addClass("notFavorite");
-							likeSpan.text("favorite_border");
-						}
-						infoP.append(iconSpan2).append(writerSpan).append(dateSpan).append(likeCountSpan).append(likeSpan);
-						const updateForm = $("<form action='/exercise/updateComment' method='post' style='display:none;'>");
-						if(memberNo == bc.memberNo){
-							const updateA = $("<a href='javascript:void(0)' onclick='updateShow(this);'>").text("수정");
-							const deleteA = $("<a href='javascript:void(0)' onclick='deleteComment("+bc.boardCommentNo+");'>").text("삭제");
-							infoP.append(updateA).append(deleteA);
-							const commentContentDiv = $("<div class='input-item1 commentContent'>");
-							const updateTextarea = $("<textarea name='boardCommentContent'>");
-							const commentNoInput = $("<input type='hidden' name='boardCommentNo' value='"+bc.boardCommentNo+"'>");
-							const boardNoInput = $("<input type='hidden' name='boardRef' value='"+boardNo+"'>")
-							updateTextarea.text(bc.boardCommentContent);
-							const updateBtn = $("<button type='submit' class='btn-square'>")
-							updateBtn.text("수정");
-							commentContentDiv.append(updateTextarea).append(updateBtn).append(commentNoInput).append(boardNoInput);
-							updateForm.append(commentContentDiv);
-						}
-						li1.append(infoP);
-						const contentP = $("<p class='comment-content'>");
-						contentP.text(bc.boardCommentContent);
-						const reCommentDiv = $("<div class='reComment-box' style='border-bottom:1px solid #ccc; width:100%;'>");
-						if(i == data.length-1){
-							reCommentDiv.css("border","none");
-						}
-						const reCommentCountSpan = $("<span>");
-						reCommentCountSpan.text("답글수 : "+bc.reCommentCount);
-						const div = $("<div>");
-						if(bc.reCommentCount > 0){
-							const commentShowA = $("<a href='javascript:void(0)' onclick='commentShow(this,"+bc.boardCommentNo+","+memberNo+",\""+memberId+"\","+(level+1)+");')'>");
-							commentShowA.text("답글보기 ");
-							div.append(commentShowA);
-						}
-						if(memberNo != -1){
-							const recShowA = $("<a href='javascript:void(0)' class='recShow' onclick='recShow(this);'>");
-							recShowA.text("답글달기");
-							div.append(recShowA);
-						}
-						reCommentDiv.append(reCommentCountSpan).append(div);
-						li1.append(contentP).append(updateForm).append(reCommentDiv);
-						ul.append(li1);
-						if(memberNo != -1){
-							const li2 = $("<li>");
-							const form = $("<form action='/exercise/insertExerciseComment' method='post'>");
-							const inputDiv = $("<div class='input-item1 input-comment-box' style='display:none;'>");
-							const inputIconSpan = $("<span class='material-icons'>")
-							inputIconSpan.text("person");
-							const writerIdSpan = $("<span>").text(memberId);
-							const textarea = $("<textarea name='boardCommentContent'>");
-							const commentWriteBtn = $("<button type='submit' class='btn-square comment-write-btn'>").text("댓글작성");
-							const boardRefInput = $("<input type='hidden' name='boardRef' value='"+boardNo+"'>");
-							const boardCommentRefInput = $("<input type='hidden' name='boardCommentRef' value='"+bc.boardCommentNo+"'>");
-							inputDiv.append(inputIconSpan).append(writerIdSpan).append(textarea).append(commentWriteBtn).append(boardRefInput).append(boardCommentRefInput)
-							form.append(inputDiv)
-							li2.append(form);
-							ul.append(li2);
-						}
-							commentWrapDiv.append(iconSpan).append(ul);
-							reCommentBoxDiv.append(commentWrapDiv);
-						
-					}
-					$(obj).parent().parent().parent().parent().append(reCommentBoxDiv);
-					$(obj).hide();
-				},
-				error : function(){
-					console.log("error");	
-				}
-			});
-		}
+		
+		//수정
 		function updateShow(obj){
+			if($(obj).text()=='수정'){
+				$(obj).text("취소");
+			}else{
+				$(obj).text("수정");
+			}
+			$(obj).parent().next().next().toggle();
+		}
+		function deleteComment(boardCommentNo){
+			location.href = "/exercise/deleteComment?boardCommentNo="+boardCommentNo+"&boardNo="+boardNo;
+		}
+		//대댓글 수정
+		function updateShowRe(obj){
 			if($(obj).text()=='수정'){
 				$(obj).text("취소");
 			}else{

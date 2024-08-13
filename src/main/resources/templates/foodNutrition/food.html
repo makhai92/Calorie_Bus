@@ -27,12 +27,6 @@
 		<main class="content">
 			<section class="section">
 				<div class="page-title">음식칼로리</div>
-				<form action="/foodNutrition/search" method="get" id="searchFrm">
-					<div class="input-item">
-						<input type="text" name="keyword">
-						<button type="submit" class="btn">조회</button>
-					</div>
-				</form>
 				<table class="tbl tbl-border food">
 					<tr>
 						<th style="width: 20%">식품명</th>
@@ -43,18 +37,7 @@
 						<th style="width: 10%">당류(g)</th>
 						<th style="width: 10%">나트륨(mg)</th>
 					</tr>
-					<tr class="board-list" th:each="food : ${food}">
-						<td><a th:href="@{/foodNutrition/food"></td>
-						<td th:text="${food.foodName}"></td>
-						<td th:text="${food.kcal}"></td>
-						<td th:text="${food.prot}"></td>
-						<td th:text="${food.fat}"></td>
-						<td th:text="${food.card}"></td>	
-						<td th:text="${food.sugar}"></td>
-						<td th:text="${food.nat}"></td>			
-					</tr>
 				</table>
-				
 				<div class="btn-zone">
 					<button id="more-btn" class="btn-round">더보기</button>
 				</div>
@@ -62,7 +45,7 @@
 		</main>
 		<script>
 			$(document).ready(function() {
-			    let pageNo = 1;       
+			    let pageNo = 18;       
 			    const pageSize = 10; 
 
 			    function loadMoreData() {
@@ -89,7 +72,7 @@
 			                    }
 			                    pageNo++; 
 			                } else {
-			                    console.log("No more data to load");
+			                    console.log("더 이상 로드할 데이터가 없습니다.");
 			                    $("#more-btn").hide(); 
 			                }
 			            },
@@ -103,7 +86,6 @@
 			        loadMoreData();
 			    });
 			});
-			
 		</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
