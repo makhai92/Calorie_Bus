@@ -98,4 +98,12 @@ public String adminMain() {
 				return "common/msg";
 		}
 	}
+	@GetMapping("/adminMsg")
+	public String adminMsg(Model model) {
+		model.addAttribute("title","접근 불가");
+		model.addAttribute("msg","관리자만 접근 가능한 페이지입니다.");
+		model.addAttribute("icon","warning");
+		model.addAttribute("loc","/");
+		return "common/msg";
+	}
 }
