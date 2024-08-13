@@ -10,7 +10,7 @@
 <style>
     .content-edit {
         width: 100%;
-        max-width: 950px;
+        max-width: 1000px;
         margin: 30px auto;
         flex: 1;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -25,13 +25,16 @@
     }
 
     .custom-edit-form {
-        width: 100%;
-        border-collapse: collapse;
+        width: 90%;
+        margin: 0 auto;
+    	border-collapse: collapse;
     }
 
     .custom-edit-form th, .custom-edit-form td {
         padding: 10px;
         border: 1px solid #ddd;
+        text-align: center;
+    	vertical-align: middle;
     }
 
     .custom-edit-form th {
@@ -106,22 +109,40 @@
                     <th>제목</th>
                     <td>
                         <div class="custom-input-item">                
-                            <input type="text" name="boardTitle">
+                            <input type="text" name="boardTitle" th:value="${newsletter.boardTitle}">
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <th>작성자</th>
-                    <td>
-                        <div class="custom-input-item">
-                        	<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
-                            <input type="text" name="memberId" th:value="${session.member.memberId}" readonly> 
-                        </div>
-                    </td>
-                </tr>
-                <tr>
+				<tr>
+					<th>작성자</th>
+					<td>
+						<div class="custom-input-item">
+							<input type="hidden" name="memberNo"
+								th:value="${session.member.memberNo}"> <input
+								type="text" name="memberId"
+								th:value="${session.member.memberId}" readonly>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>기존파일</th>
+					<td colspan="2">
+						<div th:each="file : ${newsletter.fileList}" class="files">
+							<span class="delFilename" th:text="${file.filename}"></span> <span
+								class="material-icons delBtn"
+								th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>파일 첨부</th>
+					<td colspan="2"><input type="file" name="upfile" multiple>
+					</td>
+				</tr>
+
+				<tr>
                     <td colspan="2" style="text-align: left;">
-                        <textarea name="boardContent" id="boardContent"></textarea>
+                        <textarea name="boardContent" id="boardContent" th:utext="${newsletter.boardContent}"></textarea>
                     </td>
                 </tr>
                 <tr>
