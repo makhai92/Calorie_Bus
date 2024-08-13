@@ -139,16 +139,28 @@
                     <span>7777-7777</span>
                 </div>
             </div>
-            <div class="right">
-            	<button type="button" class="inquery-button" onclick = "location.href ='/inquery/inqueryEditor'">
-                    <span>1대1 문의</span>
-                    <br>
-                    <span>바로가기</span>
-                </button>
-            </div>               
+           <div class=right>
+            <button type="button" class="inquery-button"
+                th:onclick="test([[${session.member == null?0:session.member.level}]])">
+            <span>1대1 문의</span>
+            <br>
+            <span>바로가기</span>
+        </button>
         </div>
     </div>
+</div>
+    <script>
+        function test(memberLevel) {
+            if (memberLevel === 1) {
+                location.href = "/inquery/inqueryMain?reqPage=1";
+            }else if(memberLevel === 0){
+            	location.href = "/member/loginMsg";
+            } else {
+                location.href = "/inquery/inqueryEditor";
+            }
+        }
+    </script>
     <th:block th:include="common/footer"></th:block>
-
+	
 </body>
 </html>

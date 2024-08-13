@@ -42,6 +42,9 @@ margin: 0 auto;
 	border-bottom : none;
 	padding: 0;
 }
+.inquery-noticeMsg{
+	font-size : 15px;
+}
     </style>
 </head>
 <th:block th:include="common/header"></th:block>
@@ -83,6 +86,8 @@ margin: 0 auto;
                 	</tr>
                		 <tr>
                     <td colspan="4">
+                    	<span class="inquery-noticeMsg">작성하신 문의사항은 마이페이지 > 내 문의 현황에서 확인하실 수 있습니다.</span>
+                    	<br>
                     	<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
                         <button type="submit" class="btn-primary lg">1:1문의 작성</button>
                     </td>

@@ -77,7 +77,7 @@
 			<form action="/board/search" method="get">
 				<div class="input-item1">
 					<button class="btn-square">검색</button>
-					<input type="text" name="keyword">
+					<input type="text" name="keyword" th:value="${keyword}">
 					<input type="hidden" name="reqPage" value="1">
 					<input type="hidden" name="category" th:value="${category}">
 					<select name="type">

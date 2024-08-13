@@ -27,7 +27,7 @@
 							<th style="width:15%">내 후기</th>
 						</tr>
 						<tr th:each="funding : ${list}">
-							<td><a th:href="@{/product/myfundingView(fundingNo=${funding.fundingNo})}"><span th:text="${funding.productTitle}"></span></a></td>
+							<td><a th:href="@{/member/myfundingView(fundingNo=${funding.fundingNo})}"><span th:text="${funding.productTitle}"></span></a></td>
 							<td th:text="${funding.orderAmount}"></td>
 							<td th:text="${funding.productDcPrice} * ${funding.orderAmount}"></td>
 							<td th:text="${funding.orderDate}"></td>
