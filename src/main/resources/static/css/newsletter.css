@@ -75,7 +75,20 @@ a {
     border-top: 2px solid #000;
     border-bottom: 2px solid #000;
 }
-
+.pageNavi-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    position: relative;
+}
+#pageNavi {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    justify-content: center;
+}
 #pageNavi>ul{
     display: flex;
     justify-content: center;
@@ -153,9 +166,7 @@ a {
     color: #000;
     transition: background-color 0.3s;
     position: absolute;
-    right: -1%;
-    bottom: -27%;
-    margin: 10px;
+    right: 14%;
 }
 
 #write-btn:hover {
