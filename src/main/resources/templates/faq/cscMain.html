@@ -141,8 +141,7 @@
             </div>
            <div class=right>
             <button type="button" class="inquery-button"
-                th:if="${session.member != null}"
-                th:onclick="'test('+${session.member.memberLevel}+')'">
+                th:onclick="test([[${session.member == null?0:session.member.level}]])">
             <span>1대1 문의</span>
             <br>
             <span>바로가기</span>
@@ -154,6 +153,8 @@
         function test(memberLevel) {
             if (memberLevel === 1) {
                 location.href = "/inquery/inqueryMain?reqPage=1";
+            }else if(memberLevel === 0){
+            	location.href = "/member/loginMsg";
             } else {
                 location.href = "/inquery/inqueryEditor";
             }
