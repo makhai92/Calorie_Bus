@@ -138,7 +138,7 @@
 					<span class="material-icons">person</span>
 					<span th:if="${session.member} != null" th:text=${session.member.memberId}></span>
 					<textarea name="boardCommentContent"></textarea>
-					<button type="submit" class="btn-square comment-write-btn">댓글작성</button>
+					<button type="submit" class="btn-square comment-write-btn" onclick="return contentCheck();">댓글작성</button>
 					<input type="hidden" name="boardRef" th:value="${board.boardNo}">
 				</div>
 			</form>
@@ -180,7 +180,7 @@
 							<span class="material-icons">person</span>
 							<span th:text=${session.member.memberId}></span>
 							<textarea name="boardCommentContent" style="resize:none;"></textarea>
-							<button type="submit" class="btn-square comment-write-btn" th:onclick="return loginCheck([[${session.member == null?-1:session.member.memberNo}]])">댓글작성</button>
+							<button type="submit" class="btn-square comment-write-btn" onclick="return contentCheck();">댓글작성</button>
 							<input type="hidden" name="boardRef" th:value="${board.boardNo}">
 							<input type="hidden" name="boardCommentRef" th:value="${boardComment.boardCommentNo}">
 						</div>
@@ -233,7 +233,6 @@
 		function likePush(obj, boardCommentNo){
 			const likeSpan = $(obj);
 			const isLike = likeSpan.hasClass("favorite")?1:0;
-			console.log("isLike : "+isLike);
 			$.ajax({
 				url : "/board/boardCommentLikePush",
 				data : {boardCommentNo : boardCommentNo, isLike : isLike},
@@ -278,6 +277,10 @@
 			$(".input-comment-box").eq(index+1).toggle();
 		}
 		function commentShow(obj,boardCommentNo,memberNo,memberId,level,memberLevel){
+			console.log(boardCommentNo);
+			console.log(memberNo);
+			console.log(memberId);
+			console.log(memberLevel);
 			$.ajax({
 				url : "/board/boardReCommentList",
 				data : {boardCommentNo : boardCommentNo,memberNo : memberNo},
@@ -358,7 +361,7 @@
 							inputIconSpan.text("person");
 							const writerIdSpan = $("<span>").text(memberId);
 							const textarea = $("<textarea name='boardCommentContent'>");
-							const commentWriteBtn = $("<button type='submit' class='btn-square comment-write-btn' onclick='return loginCheck("+memberNo+")'>").text("댓글작성");
+							const commentWriteBtn = $("<button type='submit' class='btn-square comment-write-btn' onclick='return contentCheck();'>").text("댓글작성");
 							const boardRefInput = $("<input type='hidden' name='boardRef' value='"+boardNo+"'>");
 							const boardCommentRefInput = $("<input type='hidden' name='boardCommentRef' value='"+bc.boardCommentNo+"'>");
 							inputDiv.append(inputIconSpan).append(writerIdSpan).append(textarea).append(commentWriteBtn).append(boardRefInput).append(boardCommentRefInput)
@@ -416,6 +419,14 @@
 					location.href="/board/deleteBoard?boardNo="+boardNo;
 				}
 			});
+		}
+		function contentCheck(){
+			if($(this).prev().text() == ""){
+				alert("내용을 작성해주세요.")
+				return false;
+			}else{
+				return true;
+			}
 		}
 	</script>
 	<th:block th:include="common/footer"></th:block>

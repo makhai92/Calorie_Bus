@@ -201,7 +201,13 @@ document.addEventListener("click", function (e) {
 			      rRotate();
 			      rReset(target);
 			 }else if(data == -10){
-			 	alert("로그인해");
+			 	swal({
+						title : "로그인 필요",
+						text : "로그인 후 이용해 주세요",
+						icon : "info"
+					}).then(function(){
+						location.href = "/member/loginForm";
+					});		
 			 }else if(data == -1){
 			 	alert("서버 오류입니다. 잠시후 다시 이용해주세요.");
 			 }else{

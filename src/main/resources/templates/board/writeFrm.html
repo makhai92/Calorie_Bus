@@ -54,7 +54,7 @@
 				<tr>
 					<td colspan="4">
 						<input type="hidden" name="memberNo" th:value="${session.member.memberNo}" >
-						<button type="submit" class="btn-round" style="width:50%; font-size: 16px;">게시글 작성</button>
+						<button type="submit" class="btn-round" style="width:50%; font-size: 16px;" onclick="return check();">게시글 작성</button>
 					</td>
 				</tr>
 			</table>
@@ -104,6 +104,17 @@
 					console.log("error");
 				}
 			});
+		}
+		function check(){
+			if($("[name=boardTitle]").val() === ""){
+				alert("제목을 입력해주세요.");
+				return false;
+			}else if($("[name=boardContent]").text() === ""){
+				alert("내용을 입력해주세요.");
+				return false;
+			}else{
+				return true;
+			}
 		}
 	</script>
 	<th:block th:include="common/footer"></th:block>

@@ -61,6 +61,7 @@ public class WebConfig implements WebMvcConfigurer{
 									"/board/view",
 									"/board/boardLikePush",
 									"/board/boardCommentLikePush",
+									"/board/boardReCommentList",
 									"/product/likePush",
 									"/inquery/insertReply",
 									"/inquery/deleteReply",
