@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,6 +21,9 @@ public class MemberService {
 	private MemberDao memberDao;
 	@Autowired
 	private JavaMailSenderImpl mailSender;
+	@Autowired
+    private StringEncryptor stringEncryptor;
+	
 
 	// 아이디로 멤버 찾기 (중복 확인 용)
 	public Member selectOneMember(String memberId) {
@@ -30,12 +34,16 @@ public class MemberService {
 	// 회원 등록 (회원 가입 용)
 	@Transactional
 	public int insertMember(Member m) {
+		String encryptedPw = stringEncryptor.encrypt(m.getMemberPw()); // 비밀번호 암호화
+		m.setMemberPw(encryptedPw); // 암호화된 비밀번호 세팅
 		int result = memberDao.insertMember(m);
 		return result;
 	}
 
 	// 멤버 객체로 회원 찾기 (로그인 용)
 	public Member selectOneMember(Member m) {
+		String encryptedPw = stringEncryptor.encrypt(m.getMemberPw()); // 비밀번호 암호화
+		m.setMemberPw(encryptedPw); // 암호화된 비밀번호 세팅
 		Member member = memberDao.selectOneMember(m);
 		return member;
 	}
@@ -123,7 +131,8 @@ public class MemberService {
 	// 비밀번호 재설정
 	@Transactional
 	public int updatePw(int memberNo, String memberPw) {
-		int result = memberDao.updatePw(memberNo, memberPw);
+		String encryptedPw = stringEncryptor.encrypt(memberPw); // 비밀번호 암호화
+		int result = memberDao.updatePw(memberNo, encryptedPw);
 		return result;
 	}
 
@@ -136,9 +145,15 @@ public class MemberService {
 
 	// 회원 삭제
 	@Transactional
-	public int deleteMember(Member member) {
-		int result = memberDao.deleteMember(member);
-		return result;
+	public int deleteMember(Member member, String inputPw) {
+		String encryptedPw = stringEncryptor.encrypt(inputPw); // 입력 받은 비밀번호 암호화
+		if(member.getMemberPw().equals(encryptedPw)) {			
+			int result = memberDao.deleteMember(member);
+			return result; // 회원 삭제 성공 여부에 따라 0이나 1 리턴
+		}
+		else {
+			return -1; // 비밀번호 불일치 시 -1 리턴
+		}
 	}
 
 

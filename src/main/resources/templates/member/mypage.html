@@ -67,7 +67,7 @@
                     <td class="input-item1">
                     	<input type="text" name="memberPostcode" id="memberPostcode" placeholder="우편번호" th:value="${session.member.memberPostcode}" readonly required>
                         <input type="text" name="addr" id="addr" placeholder="주소" th:value="${session.member.memberAddr}" readonly required>
-                        <input type="hidden" name="memberAddr" id="memberAddr">
+                        <input type="hidden" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}">
                     </td>
                     <td class="member-btn-box">
                         <button type="button" class="btn-round g" id="addr-btn">주소 찾기</button>
@@ -87,11 +87,12 @@
                 <tr>
                     <th>환불 받을 계좌</th>
                     <td class="input-item1 bank-no-input">
-                    	<input type="text" id="memberAccount" name="memberAccount">
+                    	<input type="text" id="memberAccount" name="memberAccount" th:value="${session.member.memberAccount}">
                     </td>
                     <td>
                     	<select id="selectBank" name="memberBank" class="select">
-                        	<option disabled selected>은행 선택</option>
+                    		<option th:if="${session.member.memberBank == null}" disabled selected>은행 선택</option>
+                    		<option th:if="${session.member.memberBank != null}" th:text="${session.member.memberBank}" disabled selected></option>
                     	</select>
                     </td>
                 </tr>
@@ -310,19 +311,28 @@ $("#update-pw-btn").on("click", function(){
 
 // 탈퇴 전 비밀번호 받기, confirm까지
 $("#delete-link").on("click", function(){
-	const memberPw = "[[${session.member.memberPw}]]";
 	const inputPw = prompt("탈퇴하시려면 비밀번호를 입력하세요.");
-	if(inputPw === memberPw){
-		if (confirm("정말 탈퇴하시겠습니까?")){
-			location.href="/member/deleteAccount";
+	$.ajax({
+		url: "/member/deleteAccount",
+		type: "post",
+		data: {inputPw : inputPw},
+		success: function(result){
+			// result 값은 비밀번호 불일치 시 -1, dao 수행 실패 시 0, 회원 삭제 성공 시 1
+			if (result > 0) {
+				alert("회원 탈퇴가 완료되었습니다.");				
+				location.href="/member/logout";
+			}
+			else if (result === 0) {
+				alert("처리 중 에러가 발생했습니다.");
+			}
+			else if (result === -1) {
+				alert("비밀번호가 일치하지 않습니다.")
+			}
+		},
+		error: function(){
+			alert("서버 오류입니다.");
 		}
-	}
-	else if (inputPw == null) {
-		
-	}
-	else {
-		alert("비밀번호가 일치하지 않습니다.");
-	}
+	}) // ajax 끝
 })
 
 

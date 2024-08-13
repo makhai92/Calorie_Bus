@@ -18,7 +18,10 @@
 			<table class="myboard-tbl" style="margin-bottom: 30px">
 				<tr style="border: none">
 					<th style="width: 20%;">공구 상품 이름</th>
-					<td><a th:href="@{/product/view(productNo=${myfunding.productNo})}" th:text="${myfunding.productTitle}"></a></td>
+					<td>
+						<input type="hidden" th:value="${myfunding.productNo}">
+						<a id="product-link" th:text="${myfunding.productTitle}"></a>
+					</td>
 				</tr>
 				<tr>
 					<th>공구 상품 가격</th>
@@ -62,5 +65,22 @@
         </form>
 	</section>
 </main>
+<script>
+// 클릭 시 상세보기로 이동
+$("#product-link").on("click", function(){
+	const productNo = $(this).prev().val();
+	$.ajax({
+		url: "/product/searchState",
+		type: "get",
+		data: {productNo, productNo},
+		success: function(state) {
+			location.href="/product/view?productNo="+productNo+"&state="+state;
+		},
+		error: function() {
+			alert("처리 중 에러가 발생했습니다.");
+		}
+	})
+})
+</script>
 </body>
 </html>

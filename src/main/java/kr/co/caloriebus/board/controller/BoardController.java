@@ -243,14 +243,4 @@ public class BoardController {
 		return "common/msg"; 
 	}
 	
-	// 마이페이지 용 내 게시글 보기
-	@GetMapping(value="/myboard")
-	public String myboard(Model model, @SessionAttribute Member member, int reqPage) {
-		int memberNo = member.getMemberNo();
-		BoardListData bld = boardService.selectMyBoardList(memberNo, reqPage);
-		model.addAttribute("list", bld.getList());
-		model.addAttribute("pageNavi",bld.getPageNavi());
-		model.addAttribute("category", "myboard");
-		return "member/myboard";
-	}
 }

@@ -8,44 +8,43 @@
 <body>
 	<th:block th:include="common/header"></th:block>
 	<main class="member-content">
-		<section class="section">
-		    <div class="login-wrap">
-		        <div class="logo-box">
-		            <img src="/image/caloriebus_logo.png" style="width: 200px;">
-		        </div>
-		        <div class="login-box">
-		            <form action="/member/login" method="post">
-		                <table class="loginform-tbl">
-		                    <tr>
-		                        <th style="width: 100px;">아이디</th>
-		                        <td style="width: 260px;" class="input-item1">
-		                        	<input type="text" name="memberId" id="memberId" style="width: 260px">
-		                        </td>
-		                        <td rowspan="2" style="width: 100px;">
-		                        	<button type="submit" name="login-btn" class="btn-square">로그인</button>
-		                        </td>
-		                    </tr>
-		                    <tr>
-		                        <th>비밀번호</th>
-		                        <td class="input-item1">
-		                        	<input type="password" name="memberPw" id="memberPw" style="width: 260px" autoComplete="off">
-		                        </td>
-		                    </tr>
-		            	</table>
-		            </form>
-		        </div>
-		        <div class="link-box">
-		            <div>
-		                <p>아이디/비밀번호를 잊으셨나요?</p>
-		            </div>
-		            <div>
-		                <a href="/member/forgotId">아이디 찾기</a>
-		            </div>
-		            <div>	                
-		                <a href="/member/forgotPw">비밀번호 찾기</a>
-		            </div>
-		        </div>
-		    </div>
+		<section class="joinform-wrap">
+		    <div class="page-title">
+        		<p>로그인<p>
+    	    </div>
+    	    
+            <form action="/member/login" method="post">
+                <table class="loginform-tbl">
+                    <tr>
+                        <th style="width: 100px;">아이디</th>
+                        <td style="width: 260px;" class="input-item1">
+                        	<input type="text" name="memberId" id="memberId" style="width: 260px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td class="input-item1">
+                        	<input type="password" name="memberPw" id="memberPw" style="width: 260px" autoComplete="off">
+                        </td>
+                    </tr>
+                    <tr>
+                              <th colspan="2">
+                                  <button type="submit" name="login-btn" id="join-btn" class="btn-round">로그인</button>                                
+                              </th>
+                          </tr>
+            	</table>
+            </form>
+	        <div class="link-box">
+	            <div>
+	                <p>아이디/비밀번호를 잊으셨나요?</p>
+	            </div>
+	            <div>
+	                <a href="/member/forgotId">아이디 찾기</a>
+	            </div>
+	            <div>	                
+	                <a href="/member/forgotPw">비밀번호 찾기</a>
+	            </div>
+	        </div>
 		</section>
 	</main>    
 	<th:block th:include="common/footer"></th:block>
