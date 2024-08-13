@@ -199,7 +199,11 @@
 				type : "post",
 				success : function(data){
 					if(data == -1){
-						console.log("처리오류");
+						swal({
+							title : "데이터 처리 오류",
+							text : "잠시 후 다시 시도해주세요.",
+							icon : "warning"
+						});
 					}else if(data == -10){
 						swal({
 							title : "로그인 필요",
@@ -238,7 +242,11 @@
 				type : "post",
 				success : function(data){
 					if(data == -1){
-						console.log("처리오류");
+						swal({
+							title : "데이터 처리 오류",
+							text : "잠시 후 다시 시도해주세요.",
+							icon : "warning"
+						});
 					}else if(data == -10){
 						swal({
 							title : "로그인 필요",

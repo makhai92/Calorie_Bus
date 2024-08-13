@@ -101,7 +101,11 @@
 					$(editor).summernote("insertImage",data);
 				},
 				error : function(){
-					console.log("error");
+					swal({
+						title : "데이터 처리 오류",
+						text : "잠시 후 다시 시도해주세요.",
+						icon : "warning"
+					});
 				}
 			});
 		}
