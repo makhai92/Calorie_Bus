@@ -67,7 +67,7 @@
                     <td class="input-item1">
                     	<input type="text" name="memberPostcode" id="memberPostcode" placeholder="우편번호" th:value="${session.member.memberPostcode}" readonly required>
                         <input type="text" name="addr" id="addr" placeholder="주소" th:value="${session.member.memberAddr}" readonly required>
-                        <input type="hidden" name="memberAddr" id="memberAddr">
+                        <input type="hidden" name="memberAddr" id="memberAddr" th:value="${session.member.memberAddr}">
                     </td>
                     <td class="member-btn-box">
                         <button type="button" class="btn-round g" id="addr-btn">주소 찾기</button>
