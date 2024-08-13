@@ -138,7 +138,7 @@ public class InqueryController {
 		model.addAttribute("loc", "/inquery/inqueryView?inqueryNo=" + ir.getInqueryRef());
 		return "common/msg";
 	}
-	@GetMapping(value = "/delete")
+	@GetMapping(value = "/inqueryDelete")
 	public String delete(int inqueryNo, Model model) {
 		List<InqueryFile> list = inqueryService.deleteInquery(inqueryNo);
 		if (list == null) {

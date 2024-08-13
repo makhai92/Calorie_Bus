@@ -26,7 +26,7 @@ public class InqueryDao {
 	
 
 	public List selectInqueryList(int start, int end) {
-		String query ="select * from (select rownum as rnum ,n.* from (select * from inquery order by 1 desc)n) where rnum between ? and ?";
+		String query ="select * from (select rownum as rnum ,n.* from (select inquery_no,inquery_title,inquery_content,inquery_date,member_no,member_id as inquery_writer from inquery join member using(member_no) order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start,end};
 		List list = jdbc.query(query, inqueryRowMapper, params);
 		System.out.println(list);
@@ -61,7 +61,7 @@ public class InqueryDao {
 	}
 
 	public Inquery selectOneInquery(int inqueryNo) {
-		String query = "select * from inquery where inquery_no = ?";
+		String query = "select inquery_no,inquery_title,inquery_content,inquery_date,member_no,member_id as inquery_writer from inquery join member using(member_no) where inquery_no = ?";
 		Object[] params = {inqueryNo};
 		List list = jdbc.query(query, inqueryRowMapper, params);
 		if(list.isEmpty()) {

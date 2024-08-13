@@ -17,7 +17,7 @@ public class Inquery {
 	private String inqueryDate;
 	private int memberNo;
 	private boolean hasReply;
-	
+	private String inqueryWriter;
 	private List<InqueryFile> fileList;
 	private List<InqueryReply> replyList;
 }

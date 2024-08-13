@@ -17,6 +17,7 @@ public class InqueryRowMapper implements RowMapper<Inquery>{
 		i.setInqueryContent(rs.getString("inquery_content"));
 		i.setInqueryDate(rs.getString("inquery_date"));
 		i.setMemberNo(rs.getInt("member_no"));
+		i.setInqueryWriter(rs.getString("inquery_writer"));
 		return i;
 	}
 }

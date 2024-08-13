@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1:1 문의</title>
-    <link rel="stylesheet" href="css/inqueryMain.css">
-    <link rel="stylesheet" href="css/headfooter.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="Semi_Project.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
@@ -119,7 +116,7 @@
 		            <td class="inqueryView">
 		                <a th:href="@{/inquery/inqueryView(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a>
 		            </td>
-		            <td th:text="${inquery.memberNo}"></td>
+		            <td th:text="${inquery.inqueryWriter}"></td>
 		            <td th:text="${inquery.inqueryDate}"></td>
 		            <td>
 		                <p th:text="${inquery.hasReply ? 'O' : 'X'}"></p>

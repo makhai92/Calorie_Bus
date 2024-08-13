@@ -164,7 +164,6 @@ public class InqueryService {
 			}
 			if(delFileNo != null) {
 				for(int fileNo : delFileNo) {
-					System.out.println("fileNo : "+fileNo);
 					InqueryFile inqueryFile = inqueryDao.selectOneInqueryFile(fileNo);
 					delFileList.add(inqueryFile);
 					result += inqueryDao.deleteInqueryFile(fileNo);
