@@ -30,6 +30,18 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!-- 암호화 -->
+	    <dependency>
+	        <groupId>com.github.ulisesbocchio</groupId>
+	        <artifactId>jasypt-spring-boot-starter</artifactId>
+	        <version>3.0.5</version>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15on</artifactId>
+		    <version>1.70</version>
+		</dependency>
+
 		<!-- 이메일 인증을 위한 API -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>

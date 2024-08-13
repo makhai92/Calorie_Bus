@@ -208,21 +208,12 @@ public class MemberController {
 	}
 	
 	// 회원 탈퇴
-	@GetMapping(value="/deleteAccount")
-	public String deleteAccount(HttpSession session, Model model) {
+	@ResponseBody
+	@PostMapping(value="/deleteAccount")
+	public int deleteAccount(HttpSession session, String inputPw) {
 		Member member = (Member)session.getAttribute("member");
-		int result = memberService.deleteMember(member);
-		Message data = new Message();
-		if (result > 0) {			
-			session.invalidate();
-			data.setMessage("탈퇴 완료되었습니다.");
-			data.setRedirectUrl("/");
-		}
-		else {
-			data.setMessage("처리 중 에러가 발생하였습니다.");
-			data.setRedirectUrl("/member/mypage");
-		}
-		return alertMsg(data, model);
+		int result = memberService.deleteMember(member, inputPw);
+		return result;
 	}
 	
 	// 내 공구 내역 보기

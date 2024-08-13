@@ -125,7 +125,7 @@
                         <input type="hidden" name="memberAddr" id="memberAddr">
                     </td>
                     <td>
-                        <button type="button" class="btn-round g" id="addr-btn">주소 찾기</button>
+                        <button type="button" class="btn-round" id="addr-btn">주소 찾기</button>
                     </td>
                 </tr>
                 <tr>
@@ -270,6 +270,7 @@ $("#email-check-btn").on("click", function(){
 				// 인증 코드 발송 성공 시 result는 인증 코드 값
 				if (result > 0) {
 					veriCode = result;
+					console.log(veriCode);
 					alert("입력하신 이메일로 인증 코드가 전송되었습니다.")
 				}
 				// 해당 회원 이미 있을 때
