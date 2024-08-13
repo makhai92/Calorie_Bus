@@ -138,7 +138,7 @@
 					<span class="material-icons">person</span>
 					<span th:if="${session.member} != null" th:text=${session.member.memberId}></span>
 					<textarea name="boardCommentContent"></textarea>
-					<button type="submit" class="btn-square comment-write-btn"  th:onclick="return loginCheck([[${session.member == null?-1:session.member.memberNo}]])">댓글작성</button>
+					<button type="submit" class="btn-square comment-write-btn">댓글작성</button>
 					<input type="hidden" name="boardRef" th:value="${board.boardNo}">
 				</div>
 			</form>
@@ -202,7 +202,13 @@
 					if(data == -1){
 						console.log("처리오류");
 					}else if(data == -10){
-						alert("로그인해라");							
+						swal({
+							title : "로그인 필요",
+							text : "로그인 후 이용해 주세요",
+							icon : "info"
+						}).then(function(){
+							location.href = "/member/loginForm";
+						});
 					}else{
 						if(isLike === 1){
 							likeSpan.removeClass("favorite");		
@@ -213,6 +219,7 @@
 							likeSpan.addClass("favorite");
 							likeSpan.text("thumb_down");
 						}
+						console.log(data);
 						$(".view-tbl tr>td>span").eq(1).text(data);
 						likeSpan.prev().text(data);
 					}
@@ -235,7 +242,13 @@
 					if(data == -1){
 						console.log("처리오류");
 					}else if(data == -10){
-						alert("로그인해라");							
+						swal({
+							title : "로그인 필요",
+							text : "로그인 후 이용해 주세요",
+							icon : "info"
+						}).then(function(){
+							location.href = "/member/loginForm";
+						});							
 					}else{
 						if(isLike === 1){
 							likeSpan.removeClass("favorite");		
@@ -376,14 +389,7 @@
 		function deleteComment(boardCommentNo){
 			location.href = "/board/deleteComment?boardCommentNo="+boardCommentNo+"&boardNo="+boardNo;
 		}
-		function loginCheck(memberNo){
-			if(memberNo == -1){
-				alert("로그인해라");
-				return false;
-			}else{
-				return true;
-			}
-		}
+		
 		function deleteBoard(boardNo){
 			swal({
 				title:"게시글 삭제",
