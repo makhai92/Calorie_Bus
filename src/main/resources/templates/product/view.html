@@ -176,7 +176,7 @@
 								<span class="like-count" style="font-size:16px;" th:text=${p.likeCount}></span>
 							</button>
 							<div th:switch="${state}">
-								<button th:case="1" class="btn-round funding" th:onclick="productFunding([[${p.productNo}]]);">구매 예약하기</button>
+								<button th:case="1" class="btn-round funding" th:onclick="productFunding([[${p.productNo}]],[[${memberNo}]]);">구매 예약하기</button>
 								<button th:case="2" class="btn-round funding g">공구 종료된 상품입니다.</button>
 								<button th:case="3" class="btn-round funding g">현재 공구 오픈 전인 상품입니다.</button>
 							</div>
@@ -273,8 +273,16 @@
 				}
 			});
 		}
-		function productFunding(productNo){
-			location.href="/product/fundingFrm?productNo="+productNo;
+		function productFunding(productNo,memberNo){
+			if(memberNo == -1){
+				swal({
+					title : "로그인 필요",				
+					text : "로그인이 필요한 서비스입니다.",
+					icon : "info"
+				});
+			}else{
+				location.href="/product/fundingFrm?productNo="+productNo;				
+			}
 		}
 		
 		$(".detailMore").on("click",function(){
@@ -286,11 +294,7 @@
 			//현재 상태를 구분 -> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
 			const currentText = $(obj).text();
 			const isLike = (currentText == "favorite_border")?0:1;
-			if(isLike == 0){
-				$(obj).css('color','#EA3323');
-			}else{
-				$(obj).css('color','#d9d9d9')
-			}
+			
 			console.log(isLike);
 			$.ajax({
 				url : "/product/likePush",
@@ -312,8 +316,10 @@
 					}else{
 						if(isLike == 0){
 							$(obj).text("favorite");
+							$(obj).css('color','#EA3323');
 						}else{
 							$(obj).text("favorite_border");
+							$(obj).css('color','#d9d9d9')
 						}
 						//현재 좋아요 갯수 수정
 						$(".like-count").text(data);
