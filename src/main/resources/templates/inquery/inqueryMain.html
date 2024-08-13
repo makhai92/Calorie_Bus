@@ -89,7 +89,10 @@
 	display:flex;
 	justify-content:center;
 	align-items:center;
-	margin-top : 50px;
+}
+.reFaqMain{
+	text-align : center;
+	width : 800px;
 }
 </style>
 <th:block th:include="common/header"></th:block>
@@ -124,14 +127,13 @@
        			 </tr>
    			 </table>
 		</div>
-			</table>
-        </div>
-        <div class="pageNavi-wrap">
-        <div id="pageNavi" th:utext="${pageNavi}"></div>
+    </div>
         <td class="reFaqMain">
-		         <a th:href="@{/admin/adminMain}" th:text="관리자메인"></a>
-		    </td>
-        </div>
+		    <a class="reFaqMain" th:href="@{/admin/adminMain}" th:text="관리자메인"></a>
+		</td>
+      <div class="pageNavi-wrap">
+       	<div id="pageNavi" th:utext="${pageNavi}"></div>
+      </div>
     </div>
     
 </body>
