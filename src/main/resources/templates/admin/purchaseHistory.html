@@ -59,13 +59,12 @@
 				<tr>
 					<th style="width:5%;">구매번호</th>
 					<th style="width:10%;">제품번호</th>
-					<th style="width:10%;">회원번호</th>
 					<th style="width:10%;">주문일자</th>
 					<th style="width:10%;">주문개수</th>
                     <th style="width:10%;">구매자</th>
 					<th style="width:10%;">전화번호</th>
 					<th style="width:20%;">주소</th>
-                    <th style="width:5%;">우편번호</th>
+                    <th style="width:10%;">우편번호</th>
 					<th style="width:10%;">변경</th>
 					<th style="width:5%;">변경확인</th>
 					
@@ -73,7 +72,6 @@
 				<tr th:each="f : ${list}">
 					<td th:text="${f.fundingNo}"></td>
 					<td th:text="${f.productNo}"></td>
-					<td th:text="${f.memberNo}"></td>
                     <td th:text="${f.orderDate}"></td>
 					<td th:text="${f.orderAmount}"></td>
                     <td th:text="${f.fundingName}"></td>

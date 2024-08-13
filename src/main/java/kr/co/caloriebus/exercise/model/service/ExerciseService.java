@@ -208,7 +208,7 @@ public class ExerciseService {
 		}
 	}
 
-	//서치(타이틀로 쳤을 때)
+	//검색(타이틀로 쳤을 때)
 	public ExerciseListData searchExerciseList(String keyword, int reqPage) {
 	    int numPerPage = 10;
 	    int end = reqPage * numPerPage;

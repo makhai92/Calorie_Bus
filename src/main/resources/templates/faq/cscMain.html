@@ -140,7 +140,7 @@
                 </div>
             </div>
             <div class="right">
-            	<button type="button" class="inquery-button" onclick = "location.href ='/inquery/inqueryEditor'">
+            	<button th:if="${session.member != null && session.member.memberLevel == 2}" type="button" class="inquery-button" onclick = "location.href ='/inquery/inqueryEditor'">
                     <span>1대1 문의</span>
                     <br>
                     <span>바로가기</span>

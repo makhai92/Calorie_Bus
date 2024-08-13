@@ -77,7 +77,7 @@ public class InqueryController {
 			model.addAttribute("title", "작성 완료");
 			model.addAttribute("msg", "1:1 문의 작성을 완료하였습니다!");
 			model.addAttribute("icon","success");
-			model.addAttribute("loc", "/inquery/inqueryMain?reqPage=1");
+			model.addAttribute("loc", "/member/myinquery?reqPage=1");
 			return "common/msg";
 		}
 		return "redirect:/inquery/inqueryEditor";
