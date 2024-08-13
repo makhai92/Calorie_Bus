@@ -131,7 +131,7 @@ public class ProductDao {
 	}
 	
 	public int selectMyfundingTotalCount(int memberNo) {
-		String query = "select count(*) from funding where member_no = ?";
+		String query = "select count(*) from funding where member_no = ? and order_state>1";
 		Object[] params = {memberNo};
 		int totalCount = jdbc.queryForObject(query, Integer.class, params);
 		return totalCount;
@@ -193,7 +193,7 @@ public class ProductDao {
 	}
 
 	public int orderAmount(int productNo) {
-		String query = "select nvl(sum(order_amount),0) from funding where product_no=?";
+		String query = "select nvl(sum(order_amount),0) from funding where product_no=? and order_state>1";
 		Object[] params = {productNo};
 		int totalAmount = jdbc.queryForObject(query, Integer.class, params);
 		return totalAmount;

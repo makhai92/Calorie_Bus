@@ -225,7 +225,7 @@ th {
 	$("#productDcPrice").on("change",function(){
 		const price = Number($("#productPrice").val());
 		const dcPrice = Number($("#productDcPrice").val());
-		if(price > dcPrice){
+		if(price < dcPrice){
 			$("#productDcPrice").val('');
 			$("#infoError1").text('*원가보다 금액이 더 높습니다. 다시 작성해주세요.');
 		}else{
