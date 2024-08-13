@@ -50,7 +50,10 @@ th {
 	padding-top : 30px;
 	text-align: center;
 }
-
+#infoError1,#infoError2{
+	vertical-align : middle;
+	padding-left: 20px;
+}
 </style>
 </head>
 <body>
@@ -65,21 +68,20 @@ th {
 			<form action="/product/insert" method="post" enctype="multipart/form-data">
 				<div class="info">
 					<div>
-						<table>
+						<table style="width: 100%;">
 							<tr>
-								<th style="width: 12%;">판매 시작일</th>
+								<th style="width: 10%;">판매 시작일</th>
 								<td style="width: 20%;">
 									<div class="input-item1">
-										<input type="date" name="startDate" id="startDate">
+										<input type="date" name="startDate" id="startDate" required>
 									</div>
 								</td>
-								<th style="width: 12%;">판매 종료일</th>
-								<td style="width: 36%;">
+								<th style="width: 10%;">판매 종료일</th>
+								<td style="width: 60%;">
 									<div class="input-item1">
-										<input type="date" name="endDate" id="endDate">
+										<input type="date" name="endDate" id="endDate" required>
 									</div>
 								</td>
-
 							</tr>
 						</table>
 					</div>
@@ -88,7 +90,7 @@ th {
 							<h4>상품명</h4>
 						</div>
 						<div class="input-item1">
-							<input type="text" style="width:350px;" name="productTitle" id="productTitle">
+							<input type="text" style="width:350px;" name="productTitle" id="productTitle" required>
 							<input type="text" value="0/100" id="unit1" readonly>
 						</div>
 					</div>
@@ -97,7 +99,7 @@ th {
 							<h4>상품 2줄 소개</h4>
 						</div>
 						<div class="input-item1">
-							<textarea name="productInfo" id="productInfo"></textarea>
+							<textarea name="productInfo" id="productInfo" required></textarea>
 						</div>
 					</div>
 					<div>
@@ -109,7 +111,7 @@ th {
 								<td style="width: 100px; height:40px;">상품원가</td>
 								<td>
 									<div class="input-item1">
-										<input type="text" name="productPrice" id="productPrice">
+										<input type="text" name="productPrice" id="productPrice" required>
 										<input type="text" value="원" id="unit2" readonly>
 									</div>
 								</td>
@@ -118,8 +120,9 @@ th {
 								<td style="width: 100px; height:40px;">할인가</td>
 								<td>
 									<div class="input-item1">
-										<input type="text" name="productDcPrice" id="productDcPrice">
+										<input type="text" name="productDcPrice" id="productDcPrice" required>
 										<input type="text" value="원" id="unit2" readonly>
+										<span id="infoError1" style="color:red"></span>
 									</div>
 								</td>
 							</tr>
@@ -134,7 +137,7 @@ th {
 								<td style="width: 40px;">최소</td>
 								<td>
 									<div class="input-item1">
-										<input type="text" class="amoutInput" name="productMinAmount" id="productMinAmount">
+										<input type="text" class="amoutInput" name="productMinAmount" id="productMinAmount" required>
 										<input type="text" value="개" id="unit2" readonly>
 									</div>
 								</td>
@@ -142,8 +145,9 @@ th {
 								<td style="width: 50px;">최대</td>
 								<td>
 									<div class="input-item1">
-										<input type="text" class="amoutInput" name="productMaxAmount" id="productMaxAmount">
+										<input type="text" class="amoutInput" name="productMaxAmount" id="productMaxAmount" required>
 										<input type="text" value="개" id="unit2" readonly>
+										<span id="infoError2" style="color:red"></span>
 									</div>
 								</td>
 							</tr>
@@ -154,7 +158,8 @@ th {
 							<h4>메인 사진</h4>
 						</div>
 						<div>
-							<input type="file" name="upfile" multiple>
+							<input type="file" name="upfile" multiple required>
+							<span>*대표 사진은 1장만 선택 가능합니다.</span>
 						</div>
 					</div>
 					<div>
@@ -215,6 +220,28 @@ th {
 	        // 페이지 하단에 도달했을 때 실행할 코드
 	        console.log('페이지 하단에 도달했습니다.');
 	    }
+	});
+	
+	$("#productDcPrice").on("change",function(){
+		const price = Number($("#productPrice").val());
+		const dcPrice = Number($("#productDcPrice").val());
+		if(price > dcPrice){
+			$("#productDcPrice").val('');
+			$("#infoError1").text('*원가보다 금액이 더 높습니다. 다시 작성해주세요.');
+		}else{
+			$("#infoError1").text('');
+		}
+	});
+	
+	$("#productMaxAmount").on("change",function(){
+		const min = Number($("#productMinAmount").val());
+		const max = Number($("#productMaxAmount").val());
+		if(min > max){
+			$("#productMaxAmount").val('');
+			$("#infoError2").text('*최대 수량보다 최소 수량의 수가 더 큽니다.');
+		}else{
+			$("#infoError2").text('');
+		}
 	});
 	</script>
 	<th:block th:include="common/footer"></th:block>
