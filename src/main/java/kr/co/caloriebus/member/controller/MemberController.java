@@ -268,7 +268,7 @@ public class MemberController {
 		else {
 			Message data = new Message();
 			data.setMessage("구매 정보 상세 조회에 실패했습니다.");
-			data.setRedirectUrl("/product/myfunding?reqPage=1");
+			data.setRedirectUrl("/member/myfunding?reqPage=1");
 			return alertMsg(data, model);
 		}
 	}
