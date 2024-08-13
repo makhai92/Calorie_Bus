@@ -29,6 +29,9 @@
 </head>
 <body>
 <th:block th:include="common/header"></th:block>
+<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 	<main class="content">
 		<section class="section product-list-wrap">
 			<div class="page-title">운동정보 수정</div>
@@ -64,7 +67,7 @@
 							<th>내용</th>
 							<td class="left">
 								<div class="input-item">
-									<textarea name="boardContent" th:text="${exercise.boardContent}" style="width:1000px; height: 300px;"></textarea>
+									<textarea name="boardContent" id="boardContent" th:utext="${exercise.boardContent}" style="width:1000px; height: 300px;"></textarea>
 								
 								</div>
 							</td>
@@ -79,6 +82,70 @@
 		</section>
 	</main>
 	<script>
+	$("#boardContent").summernote({
+		height:500,
+		lang : "ko-KR",
+		disableResize : true,
+		disableResizeEditor:true,
+		resize : false,
+		callbacks :{
+			onImageUpload : function(files){
+				for(let i=0;i<files.length;i++){
+					uploadImage(files[i],this);
+				}
+			}
+		}
+	});
+	
+	function uploadImage(file, editor){
+		const form = new FormData();
+		form.append("upfile",file);
+		$.ajax({
+			url : "/exercise/editorImage",
+			type: "post",
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data){
+				$(editor).summernote("insertImage",data);	
+			},
+			error : function(){
+				console.log("error");
+			}
+		});
+	}
+	
+	function deleteFile(obj,fileNo){
+		swal({
+			title:"파일삭제",
+			text:"첨부파일을 삭제하겠습니까?",
+			icon:"info",
+			buttons:{
+				cancel: {
+					text:"취소",
+					value: false,
+					visible: true,
+					className: "btn-secondary",
+					closeModel:true
+				},
+				confirm:{
+					text:"삭제",
+					value: true,
+					visible: true,
+					className: "btn-primary",
+					closeModel:true
+				}
+			}
+		}).then(function(isConfirm){
+			const input = $("<input>");
+			input.attr("name","delFileNo");
+			input.attr("type","hidden");
+			input.val(fileNo);
+			$(".exerciseUpdateFrm").append(input);
+			$(obj).parent().remove();
+		});
+		
+	}
 	</script>
 <th:block th:include="common/footer"></th:block>
 </body>
