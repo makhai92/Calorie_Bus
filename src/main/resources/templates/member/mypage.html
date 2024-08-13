@@ -87,11 +87,12 @@
                 <tr>
                     <th>환불 받을 계좌</th>
                     <td class="input-item1 bank-no-input">
-                    	<input type="text" id="memberAccount" name="memberAccount">
+                    	<input type="text" id="memberAccount" name="memberAccount" th:value="${session.member.memberAccount}">
                     </td>
                     <td>
                     	<select id="selectBank" name="memberBank" class="select">
-                        	<option disabled selected>은행 선택</option>
+                    		<option th:if="${session.member.memberBank == null}" disabled selected>은행 선택</option>
+                    		<option th:if="${session.member.memberBank != null}" th:text="${session.member.memberBank}" disabled selected></option>
                     	</select>
                     </td>
                 </tr>

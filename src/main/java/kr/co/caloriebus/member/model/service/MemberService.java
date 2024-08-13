@@ -44,7 +44,6 @@ public class MemberService {
 	public Member selectOneMember(Member m) {
 		String encryptedPw = stringEncryptor.encrypt(m.getMemberPw()); // 비밀번호 암호화
 		m.setMemberPw(encryptedPw); // 암호화된 비밀번호 세팅
-		System.out.println(encryptedPw);
 		Member member = memberDao.selectOneMember(m);
 		return member;
 	}
@@ -132,7 +131,8 @@ public class MemberService {
 	// 비밀번호 재설정
 	@Transactional
 	public int updatePw(int memberNo, String memberPw) {
-		int result = memberDao.updatePw(memberNo, memberPw);
+		String encryptedPw = stringEncryptor.encrypt(memberPw); // 비밀번호 암호화
+		int result = memberDao.updatePw(memberNo, encryptedPw);
 		return result;
 	}
 

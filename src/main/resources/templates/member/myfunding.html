@@ -38,8 +38,9 @@
 								<td th:case="4">배송 중</td>
 								<td th:case="5">배송 완료</td>
 							</th:block>
-							<td th:if="${funding.reviewContent != null}" style="color: var(--line2)">작성 완료</td>
-							<td th:if="${funding.reviewContent} == null"><a style="color: var(--point1)" th:href="@{/product/reviewFrm(productNo=${funding.productNo}, fundingNo=${funding.fundingNo})}">작성하기</a></td>
+							<td th:if="${funding.orderState < 5}" style="color: var(--line2)">작성 불가</td>
+							<td th:if="${funding.orderState == 5 && funding.reviewContent != null}" style="color: var(--line2)">작성 완료</td>
+							<td th:if="${funding.orderState == 5 && funding.reviewContent} == null"><a style="color: var(--point1)" th:href="@{/product/reviewFrm(productNo=${funding.productNo}, fundingNo=${funding.fundingNo})}">작성하기</a></td>
 						</tr>
 					</table>
 					<div id="pageNavi" th:utext="${pageNavi}"></div>

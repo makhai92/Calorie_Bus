@@ -10,8 +10,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.caloriebus.board.model.dto.BoardListData;
+import kr.co.caloriebus.board.model.service.BoardService;
+import kr.co.caloriebus.inquery.dto.InqueryListData;
+import kr.co.caloriebus.inquery.service.InqueryService;
 import kr.co.caloriebus.member.model.dto.Member;
 import kr.co.caloriebus.member.model.service.MemberService;
+import kr.co.caloriebus.product.model.dto.Myfunding;
+import kr.co.caloriebus.product.model.dto.MyfundingListData;
+import kr.co.caloriebus.product.model.service.ProductService;
 import kr.co.caloriebus.util.Message;
 
 @Controller
@@ -19,11 +26,12 @@ import kr.co.caloriebus.util.Message;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	
-	@GetMapping(value="/join")
-	public String join() {
-		return "member/join";
-	}
+	@Autowired
+	private BoardService boardService;
+	@Autowired
+	private InqueryService inqueryService;
+	@Autowired
+	private ProductService productService;
 	
 	@GetMapping(value="/joinForm")
 	public String joinForm() {
@@ -216,25 +224,73 @@ public class MemberController {
 		return result;
 	}
 	
-	// 내 공구 내역 보기
+	// 마이페이지 내 게시글 보기
+	@GetMapping(value="/myboard")
+	public String myboard(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		BoardListData bld = boardService.selectMyBoardList(memberNo, reqPage);
+		model.addAttribute("list", bld.getList());
+		model.addAttribute("pageNavi",bld.getPageNavi());
+		model.addAttribute("category", "myboard");
+		return "member/myboard";
+	}
+	
+	// 마이페이지 문의 내역 조회
+	@GetMapping(value="/myinquery")
+	public String myinquery(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		InqueryListData ild = inqueryService.selectMyInqueryList(memberNo, reqPage);
+		model.addAttribute("list", ild.getList());
+		model.addAttribute("pageNavi",ild.getPageNavi());
+		model.addAttribute("category", "myinquery");
+		return "member/myinquery";
+	}
+	
+	// 마이페이지 공구 내역 조회
 	@GetMapping(value="/myfunding")
-	public String myfunding(Model model) {
+	public String myfunding(Model model, @SessionAttribute Member member, int reqPage) {
+		int memberNo = member.getMemberNo();
+		MyfundingListData mld = productService.selectMyfundingList(memberNo, reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
 		model.addAttribute("category", "myfunding");
 		return "member/myfunding";
 	}
+
+	// 마이페이지 내 공구 내역 상세 보기
+	@GetMapping(value="/myfundingView")
+	public String myfundingView(int fundingNo, Model model) {
+		Myfunding myfunding = productService.selectMyfunding(fundingNo);
+		if(myfunding != null) {			
+			model.addAttribute("myfunding", myfunding);
+			return "member/myfundingView";
+		}
+		else {
+			Message data = new Message();
+			data.setMessage("구매 정보 상세 조회에 실패했습니다.");
+			data.setRedirectUrl("/product/myfunding?reqPage=1");
+			return alertMsg(data, model);
+		}
+	}
 	
-	// 내 찜 목록 보기
+	// 마이페이지 내 찜 목록 조회
 	@GetMapping(value="/mylike")
-	public String mylike(Model model) {
+	public String mylike(@SessionAttribute Member member, int reqPage, Model model) {
+		MyfundingListData mld = productService.selectMylike(member.getMemberNo(), reqPage);
+		model.addAttribute("list", mld.getList());
+		model.addAttribute("pageNavi",mld.getPageNavi());
 		model.addAttribute("category", "mylike");
 		return "member/mylike";
 	}
 	
-	// 내 문의 내역 보기
-	@GetMapping(value="/myinquiry")
-	public String myinquiry(Model model) {
-		model.addAttribute("category", "myinquiry");
-		return "member/myinquiry";
+	// 로그인 안 되어 있을 때 인터셉터를 통해 띄울 메시지
+	@RequestMapping(value="/loginMsg")
+	public String loginMsg(Model model) {
+		model.addAttribute("title", "로그인 확인");
+		model.addAttribute("msg", "로그인 후 이용 가능합니다");
+		model.addAttribute("icon", "info");
+		model.addAttribute("loc", "/member/loginForm");
+		return "common/msg";
 	}
 
 }
