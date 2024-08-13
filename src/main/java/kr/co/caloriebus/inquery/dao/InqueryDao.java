@@ -24,7 +24,8 @@ public class InqueryDao {
 	@Autowired
 	private InqueryReplyRowMapper inqueryReplyRowMapper;
 	
-
+	
+	
 	public List selectInqueryList(int start, int end) {
 		String query ="select * from (select rownum as rnum ,n.* from (select inquery_no,inquery_title,inquery_content,inquery_date,member_no,member_id as inquery_writer from inquery join member using(member_no) order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start,end};
@@ -168,6 +169,8 @@ public class InqueryDao {
 		 String query = "SELECT inquery_no FROM reply WHERE reply_content IS NOT NULL AND inquery_no = ?";
 		    return jdbc.query(query, new Object[]{inqueryNo}, (rs, rowNum) -> rs.getInt("inquery_no"));
 	}
+
+	
 }
 
 	
