@@ -193,4 +193,18 @@ public class NewsLetterDao {
         return jdbc.queryForObject(query, Integer.class, "%" + keyword + "%");
     }
 
+	public NewsLetterFile selectOneNewsLetterFile(int fileNo) {
+		String query = "select * from board_file where file_no=?";
+		Object[] params = {fileNo};
+		List list = jdbc.query(query, newsletterFileRowMapper,params);
+		return (NewsLetterFile)list.get(0);
+	}
+
+	public int deleteNewsLetterFile(int fileNo) {
+		String query = "delete from board_file where file_no=?";
+		Object[] params = {fileNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
 }

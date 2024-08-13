@@ -8,8 +8,10 @@
 		font-size: 18px;
 	}
 	.files>span{
-		cursor: pointer;
 		font-size: 18px;
+	}
+	.files>.delBtn{
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -71,7 +73,7 @@
 				<tr>
 					<th>기존파일</th>
 					<td colspan="3">
-						<div th:each="file : ${newsletter.fileList}" class="files">
+						<div th:each="file : ${board.fileList}" class="files">
 							<span class="delFilename" th:text="${file.filename}"></span>
 							<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
 						</div>
@@ -164,8 +166,8 @@
 			}).then(function(isConfirm){
 				if(isConfirm){
 					const input = $("<input type='hidden' name='delFileNo' value='"+fileNo+"'>");
-					$(".updateFrm").append(input);
-					$(obj).parent().hide();				
+					$(obj).parent().parent().append(input);
+					$(obj).parent().remove();				
 				}
 			});
 		}

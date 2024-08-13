@@ -138,18 +138,30 @@ public class NewsLetterService {
 			return -1;
 		}
 	}
-	 @Transactional
-	    public int updateNewsLetter(NewsLetter nl, ArrayList<NewsLetterFile> fileList) {
-	        int result = newsletterDao.updateNewsLetter(nl);
-	        if (result > 0) {
-	            newsletterDao.deleteNewsLetterFiles(nl.getBoardNo());
-	            for (NewsLetterFile newsletterFile : fileList) {
-	                newsletterFile.setBoardNo(nl.getBoardNo());
-	                result += newsletterDao.insertNewsLetterFile(newsletterFile);
-	            }
-	        }
-	        return result;
-	    }
+	@Transactional
+	  public List<NewsLetterFile> updateNewsLetter(NewsLetter nl, ArrayList<NewsLetterFile> fileList, int[] delFileNo) {
+		 List<NewsLetterFile> delFileList = new ArrayList<NewsLetterFile>();  
+		 int result = newsletterDao.updateNewsLetter(nl);
+		  if (result > 0) {
+		   for (NewsLetterFile newsletterFile : fileList) {
+				   newsletterFile.setBoardNo(nl.getBoardNo());
+				   result += newsletterDao.insertNewsLetterFile(newsletterFile);
+			   }
+			   if(delFileNo != null) {
+				   for(int fileNo : delFileNo) {
+					   NewsLetterFile newsletterFile = newsletterDao.selectOneNewsLetterFile(fileNo);
+					   result += newsletterDao.deleteNewsLetterFile(fileNo);
+		               delFileList.add(newsletterFile);
+				   }
+			   }
+		   }
+	       int totalResult = delFileNo == null?fileList.size()+1:fileList.size()+1+delFileNo.length;
+	       if(totalResult == result) {
+	    	   return delFileList;
+	       }else {
+	    	   return null;
+	       }
+	   }
 	 	@Transactional
 		public int updateComment(NewsLetterComment nlc) {
 			int result = newsletterDao.updateComment(nlc);

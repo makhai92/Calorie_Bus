@@ -95,6 +95,12 @@
     .btn-cancel:hover {
         background-color: rgb(198, 182, 164);
     }
+    .files>span{
+		font-size: 18px;
+	}
+	.files>.delBtn{
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
@@ -215,6 +221,35 @@
                 }
             });
         }
+        function deleteFile(obj,fileNo){
+			swal({
+				title: "파일 삭제",
+				text : "첨부파일을 삭제하시겠습니까?",
+				icon : "info",
+				buttons : {
+					cancel : {
+						text : "취소",
+						value : false,
+						visible : true,
+						className : "btn-round",
+						closeModal : true
+					},
+					confirm : {
+						text : "삭제하기",
+						value : true,
+						visible : true,
+						className : "btn-round",
+						closeModal : true
+					}
+				}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					const input = $("<input type='hidden' name='delFileNo' value='"+fileNo+"'>");
+					$(obj).parent().parent().append(input);
+					$(obj).parent().remove();				
+				}
+			});
+		}
     </script>
     <th:block th:include="common/footer"></th:block>
 </body>

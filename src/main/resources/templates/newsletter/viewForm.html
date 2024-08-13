@@ -276,7 +276,7 @@
     </main>
     <script>
         const boardNo = "[[${newsletter.boardNo}]]";
-        $(".like-wrap>.favorite,.notFavorite").on("click", function () {
+        $(".like-wrap>.favorite,.like-wrap>.notFavorite").on("click", function () {
             const likeSpan = $(this);
             const isLike = likeSpan.hasClass("favorite") ? 1 : 0;
             $.ajax({

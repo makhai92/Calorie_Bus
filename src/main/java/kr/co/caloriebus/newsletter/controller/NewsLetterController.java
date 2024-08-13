@@ -1,6 +1,8 @@
 package kr.co.caloriebus.newsletter.controller;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -162,24 +164,29 @@ public class NewsLetterController {
     }
 
 	@PostMapping(value="/editForm")
-	public String edit(NewsLetter nl, MultipartFile[] upFile, @SessionAttribute(required=false) Member member, Model model) {
+	public String edit(NewsLetter nl, MultipartFile[] upfile,int[] delFileNo ,@SessionAttribute(required=false) Member member, Model model) {
 	    if (member == null || nl.getMemberNo() != member.getMemberNo()) {
 	        return "redirect:/newsletter/list?reqPage=1";
 	    }
 	    ArrayList<NewsLetterFile> fileList = new ArrayList<>();
-	    if (!upFile[0].isEmpty()) {
+	    if (!upfile[0].isEmpty()) {
 	        String savepath = root + "/newsletter/";
-	        for (int i = 0; i < upFile.length; i++) {
-	            String filename = upFile[i].getOriginalFilename();
-	            String filepath = fileUtils.upload(savepath, upFile[i]);
+	        for (int i = 0; i < upfile.length; i++) {
+	            String filename = upfile[i].getOriginalFilename();
+	            String filepath = fileUtils.upload(savepath, upfile[i]);
 	            NewsLetterFile newsletterFile = new NewsLetterFile();
 	            newsletterFile.setFilepath(filepath);
 	            newsletterFile.setFilename(filename);
 	            fileList.add(newsletterFile);
 	        }
 	    }
-	    int result = newsletterService.updateNewsLetter(nl, fileList);
-	    if (result > 0) {
+	    List<NewsLetterFile> delFileList = newsletterService.updateNewsLetter(nl, fileList,delFileNo);
+	    if (delFileList != null) {
+	    	for(NewsLetterFile newsletterFile : delFileList) {
+	    		String savepath = root+"/newsletter/";
+	    		File delFile = new File(savepath+newsletterFile.getFilepath());
+	    		delFile.delete();
+	    	}
 	        model.addAttribute("title", "게시글 수정 성공");
 	        model.addAttribute("msg", "게시글 수정 성공");
 	        model.addAttribute("icon", "success");
