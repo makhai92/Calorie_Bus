@@ -29,7 +29,32 @@
 }
 .faqContent{
 	min-height: 300px;
+	font-size : 15px;
+	text-align : left;
 }
+.option-button {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px; 
+}
+
+.btn-primary, .btn-secondary {
+    padding: 6px 12px; 
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(241, 229, 215, 1); /* 배경색 */
+    color: #333; /* 텍스트 색상 */
+    cursor: pointer;
+    font-size: 15px; 
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    background-color: rgba(241, 229, 215, 0.8); /* 호버 시 색상 변경 */
+}
+
 </style>
 <th:block th:include="common/header"></th:block>
 </head>
@@ -50,7 +75,7 @@
                <tr>
                   <th style="width:10%;">작성자</th>
                   <td style="width:40%;" >
-                  <span>관리자</span>
+                  <span th:text="${f.memberNo}"></span>
                   </td>
                </tr>
                <tr>
@@ -61,7 +86,7 @@
                </tr>          
           	</table>
           	<div class="option-button">
-          		<button class="btn-primary" th:href="@{/faq/faqUpdate(faqNo=${f.faqNo})}">수정</button>
+          		<button class="btn-primary"  th:onclick="faqUpdate([[${f.faqNo}]])">수정</button>
           		<button class="btn-secondary" th:onclick="faqDelete([[${f.faqNo}]])">삭제</button>
           	</div>
       	</div>
@@ -74,7 +99,11 @@
 			location.href = "/faq/faqDelete?faqNo="+faqNo
 		}
 	}
-	
+	function faqUpdate(faqNo) {
+		if(confirm("faq를 수정하시겠습니까?")) {
+			location.href = "/faq/faqUpdate?faqNo="+faqNo
+		}
+	}
 </script>
 </body>
 <th:block th:include="common/footer"></th:block>

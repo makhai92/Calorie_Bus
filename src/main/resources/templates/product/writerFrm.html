@@ -70,8 +70,8 @@ th {
 								<th style="width: 40px;">상태</th>
 								<td style="width: 15%;">
 									<div class="select">
-										<select name="" id="">
-											<option>준비중</option>
+										<select>
+											<option>오픈 예정</option>
 											<option>진행중</option>
 											<option>종료/마감</option>
 										</select>
@@ -220,7 +220,12 @@ th {
 			}
 		});
 	}
-	
+	window.addEventListener('scroll', function() {
+	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+	        // 페이지 하단에 도달했을 때 실행할 코드
+	        console.log('페이지 하단에 도달했습니다.');
+	    }
+	});
 	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

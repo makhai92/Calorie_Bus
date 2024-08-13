@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+  <title>1:1 문의 수정</title>
+  <link rel="stylesheet" href="css/headfooter.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="Semi_Project.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+</head>
+<style>
+.inquery-writer{
+padding: 50px 0;
+width: 1200px;
+margin: 0 auto;
+    
+}
+.inqueryWriter-title{
+    margin-bottom: 50px;
+    text-align: center;
+}
+.inqueryWriter-title>*{
+    font-size: 30px;
+    font-weight: bolder;    
+}
+
+.inqueryWriter-container{
+    display : flex;
+    justify-content : center;
+    align-items: center;
+}
+#inqueryTitle{
+    float: left;
+    width: 800px;
+    height: 25px;
+    border : none;
+    font-size: 20px;
+}
+.inqueryWriter-wrap .input-item>input[typt=text]{
+	border-bottom : none;
+	padding: 0;
+}
+    </style>
+</head>
+<th:block th:include="common/header"></th:block>
+<body>
+   
+   <script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+    
+    <div class="inquery-writer">
+        <div class="inqueryWriter-title">
+            <span>1:1 문의수정하기</span>
+        </div>
+        <div class="inqueryWriter-container">
+            <div class="wrap">
+       			<form action="/inquery/write" method="post" enctype="multipart/form-data">
+                    <table class="tbl">
+                	<tr>
+                    <th>제목</th>
+	                    <td colspan="3">
+	                        <div class="input-item">
+	                            <input type="text" name="inqueryTitle" id="inqueryTitle">
+	                        </div>
+               		</tr>
+                	<tr>
+	                    <th style="width:10%;">작성자</th>
+		                    <td style="width:40%;" th:text="${session.member.memberId}"></td>
+                	</tr>
+                	<tr>
+					<th style="width:10%;">첨부파일</th>
+						<td style="width:40%;">
+							<input type="file" name="upfile" multiple>
+						</td>
+					</tr>
+                	<tr>
+                    	<td colspan="4" class="left" style="text-align: left;">
+                         <textarea name="inqueryContent" id="inqueryContent"></textarea>
+                    </td>
+                	</tr>
+               		 <tr>
+                    <td colspan="4">
+                    	<input type="hidden" name="memberNo" th:value="${session.member.memberNo}">
+                        <button type="submit" class="btn-primary lg">1:1문의 수정</button>
+                    </td>
+                </tr>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<th:block th:include="common/footer"></th:block>
+<script>
+$("#inqueryContent").summernote({
+    height: 500,
+    lang: "ko-KR",
+    disableResize: true,
+    disableResizeEditor: true,
+    resize: false,
+    callbacks: {
+        onImageUpload: function(files) {
+            uploadImage(files[0], this);
+        }
+    }
+});
+$("#boardContent").summernote("fontSize",16);
+function uploadImage(file,editor){
+	const form = new FormData();
+	form.append("upfile", file);
+	$.ajax({
+		url : "/inquery/editorImage",
+				type : "post",
+				data : form,
+				processData: false,
+				contentType : false,
+				success : function(data){
+					$(editor).summernote("insertImage",data);	
+				},
+				error:function(){
+					console.log("에러");
+				}
+	});
+	
+}
+ 
+</script>
+</html>

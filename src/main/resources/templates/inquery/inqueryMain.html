@@ -15,12 +15,13 @@
 <style>
 .inquery-main{
     padding: 50px 0;
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
 }
 .inquery-maintitle{
     text-align: center;
     font-size: 35px;
+    margin-bottom : 50px;
 }
 #title-symbol{
     font-size: 40px;
@@ -41,9 +42,9 @@
     background-color: transparent;
 }
 .inquery-search-box{
-    position: relative;
+	text-align : center;
+	margin-top : 50px;
     left: 340px;
-    height:100%;
 }
 #search-icon{
     font-size: 40px;
@@ -72,6 +73,7 @@
 #pageNavi>ul{
 	text-align : center;
 	width : 500px;
+	     margin-bottom : 50px;
 }
 #pageNavi>ul>li{
 	position : relative;
@@ -100,29 +102,28 @@
             <span class="material-symbols-outlined" id="title-symbol">contact_support</span>
             <span>1:1 문의</span>
         </div>
-        <div class="inquery-sub">
-            <form action="search.html" method="get">
-                <button th:if="${session.member != null}" type="button" class="writeInquery" onclick = "location.href ='/inquery/inqueryEditor'">1:1 문의 작성하기</button>
-                    <div class="inquery-search-box">
-                        <span class="material-icons" id="search-icon">search</span>
-                        <input type="text" id="inquery-search" placeholder="제목으로 1:1 문의를 검색해보세요">
-                    </div>
-            </form>
-        </div>
          <div class="inquery-list">
-            <table class="tbl tbl-hover">
-					<tr>
-						<th style="width: 10%;">글번호</th>
-						<th style="width: 50%;">제목</th>
-						<th style="width: 15%;">회원번호</th>
-						<th style="width: 25%;">작성일</th>
-					</tr>
-					<tr th:each="inquery : ${list}" >
-						<td th:text = "${inquery.inqueryNo}"></td>
-						<td class="inqueryView"><a th:href = "@{/inquery/inqueryView(inqueryNo=${inquery.inqueryNo})}" th:text = "${inquery.inqueryTitle}"></a></td>
-						<td th:text = "${inquery.memberNo}"></td>
-						<td th:text = "${inquery.inqueryDate}"></td>
-					</tr>
+		    <table class="tbl tbl-hover">
+		        <tr>
+		            <th style="width: 10%;">글번호</th>
+		            <th style="width: 45%;">제목</th>
+		            <th style="width: 10%;">회원번호</th>
+		            <th style="width: 25%;">작성일</th>
+		            <th style="width: 10%;">답변현황</th>
+		        </tr>
+		        <tr th:each="inquery : ${list}">
+		            <td th:text="${inquery.inqueryNo}"></td>
+		            <td class="inqueryView">
+		                <a th:href="@{/inquery/inqueryView(inqueryNo=${inquery.inqueryNo})}" th:text="${inquery.inqueryTitle}"></a>
+		            </td>
+		            <td th:text="${inquery.memberNo}"></td>
+		            <td th:text="${inquery.inqueryDate}"></td>
+		            <td>
+		                <p th:text="${inquery.hasReply ? 'O' : 'X'}"></p>
+		            </td>
+       			 </tr>
+   			 </table>
+		</div>
 			</table>
         </div>
         <div class="pageNavi-wrap">

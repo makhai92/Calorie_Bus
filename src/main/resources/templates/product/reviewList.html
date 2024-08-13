@@ -34,6 +34,9 @@
 	.update-item{
 		float: right;
 	}
+	.update-item>a{
+		cursor: pointer;
+	}
 	.input-item1>textarea{
 		height: 80px;
 	}
@@ -41,11 +44,12 @@
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
+	<script src="/js/sweetalert.min.js"></script>
 	<main class="content">
 		<section class="product-review-wrap">
 			<div class="review-header">
-				<a class="btn-square w" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
-				<a class="btn-square" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
+				<a class="btn-square w" th:href="@{/product/view(productNo=${p.productNo},state=${state})}">상품 상세보기</a>
+				<a class="btn-square" th:href="@{/product/review(productNo=${p.productNo},state=${state})}">상품 후기</a>
 			</div>
 			<div class="review-content">
 				<div class="review-product-title">
@@ -61,10 +65,10 @@
 							</td>
 							<td>
 								<p id="memberId" th:text=${pr.memberId}></p>
-								<div class="update-item">
-									<a th:href="@{/product/reviewUpdateFrm(fundingNo=${pr.fundingNo})}">수정</a>
+								<div class="update-item" th:if="${session.member != null && session.member.memberId == pr.memberId}">
+									<a th:href="@{/product/reviewUpdateFrm(fundingNo=${pr.fundingNo},state=${state})}">수정</a>
 									<span>|</span>
-									<a>삭제</a>
+									<a th:onclick="reviewDelete([[${pr.fundingNo}]],[[${state}]]);">삭제</a>
 								</div>
 								<div class="input-item1">
 									<textarea th:text=${pr.reviewContent} readonly></textarea>								
@@ -76,6 +80,35 @@
 			</div>
 		</section>
 	</main>
+	<script>
+		function reviewDelete(fundingNo,state){
+			swal({
+				title:"후기 삭제",
+				text:"해당 후기를 삭제하시겠습니까?",
+				icon:"warning",
+				buttons:{
+					cancel:{
+						text:"취소",
+						value:false,
+						visible:true,
+						className:"btn-round",
+						closeModal:true
+					},
+					confirm:{
+						text:"삭제",
+						value:true,
+						visible:true,
+						className:"btn-round",
+						closeModal:true
+					}
+				}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					location.href="/product/reviewDelete?fundingNo="+fundingNo+"&state="+state;
+				}
+			});
+		}
+	</script>
 	<th:block th:include="common/footer"></th:block>
 </body>
 </html>

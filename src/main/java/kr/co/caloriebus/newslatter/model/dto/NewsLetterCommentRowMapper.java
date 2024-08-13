@@ -20,8 +20,7 @@ public class NewsLetterCommentRowMapper implements RowMapper<NewsLetterComment>{
 		comment.setBoardCommentRef(rs.getInt("board_comment_ref"));
 		comment.setIsLike(rs.getInt("is_like"));
 		comment.setLikeCount(rs.getInt("like_count"));
-		comment.setBoard_comment_writer(rs.getString("board_comment_writer"));
+		comment.setBoardCommentWriter(rs.getString("board_comment_writer"));
 		return comment;
 	}
-
 }

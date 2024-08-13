@@ -9,10 +9,7 @@
 		width : 100%;
 		margin : 30px auto;
 	}
-	.productDelete{
-		border: none;
-		background-color: #ffffff;
-		font-size: 16px;
+	.top>a{
 		cursor: pointer;
 	}
 	.detail-header {
@@ -21,6 +18,7 @@
 	.detail-header>.btn-square{
 		display : inline-block;
 		width : 130px;
+		margin-bottom: 20px;
 	}
 	.detail-content{
 		overflow:hidden;
@@ -54,13 +52,26 @@
 	.pdcontent,.remainingAmount{
 		margin : 30px 0;
 	}
-	.percent,.dcPrice{
+	.percent{
 		font-size : 24px;
+		font-style: italic;
+		display: inline-block;
 	}
 	.pddeadline{
 		font-size : 14px;
+		display: inline-block;
+		background: var(--point2);
+		border-radius: 50px;
+		padding: 1px 8px;
+	}
+	.price{
+		margin: 2px 0;
+		text-decoration: line-through;
+		color: var(--line2);
 	}
 	.dcPrice{
+		font-size : 24px;
+		font-weight: 700;
 		color : var(--point1)
 	}
 	.button-box{
@@ -80,9 +91,10 @@
 	}
 	.like-box>span{
 		font-size : 30px;
+		vertical-align : middle;
 		color : var(--line2);
 	}
-	.button-box>.funding{
+	.button-box>div>.funding{
 		width : 500px;
 		height : 40px;
 		margin : 5px 20px;
@@ -99,6 +111,29 @@
 		margin : 50px 0;
 		line-height: 100px;
 	}
+	.text{
+		display: inline-block;
+		margin-left: 5px;
+	}
+	.hidden{
+		height:1500px;
+		overflow: hidden;"
+	}
+	.btn-more{
+		width : 100%;
+		text-align: center;
+	}
+	.detailMore{
+		width : 50%;
+		height : 50px;
+		font-size : 18px;
+		border: none;
+		background-color: #fff;
+		border: 0.8px solid var(--line1);
+	}
+	.material-symbols-outlined{
+		vertical-align : middle;
+	}
 </style>
 <body>
 	<th:block th:include="common/header"></th:block>
@@ -107,43 +142,56 @@
 	<main class="content">
 		<section class="product-detail-wrap">
 			<div class="detail-header">
-				<a class="btn-square" th:href="@{/product/view(productNo=${p.productNo})}">상품 상세보기</a>
-				<a class="btn-square w" th:href="@{/product/review(productNo=${p.productNo})}">상품 후기</a>
+				<a class="btn-square" th:href="@{/product/view(productNo=${p.productNo},state=${state})}">상품 상세보기</a>
+				<a class="btn-square w" th:href="@{/product/review(productNo=${p.productNo},state=${state})}">상품 후기</a>
 			</div>
 			<div class="detail-content">
-				<div class="top">
-					<a th:href="@{/product/updateFrm(productNo=${p.productNo})}">수정</a>
+				<div class="top" th:if="${session.member != null && session.member.memberLevel == 1}">
+					<a th:href="@{/product/updateFrm(productNo=${p.productNo},state=${state})}">수정</a>
 					<span>|</span>
-					<button class="productDelete" th:onclick="productDelete([[${p.productNo}]]);">삭제</button>
+					<a th:onclick="productDelete([[${p.productNo}]]);">삭제</a>
 				</div>
 				<div class="detail-top left">
 					<img th:src=@{/product/main/}+${p.productImg}>
 				</div>
 				<div class="detail-top right">
 					<div class="info">
-						<div class="pdtitle" th:text=[진행중]+${p.productTitle}></div>
+						<div th:switch="${state}">
+							<div th:case="1" class="pdtitle" th:text="[진행중]+' '+${p.productTitle}"></div>
+							<div th:case="2" class="pdtitle" th:text="[종료+'/'+마감]+' '+${p.productTitle}"></div>
+							<div th:case="3" class="pdtitle" th:text="[오픈+' '+예정]+' '+${p.productTitle}"></div>
+						</div>
 						<div class="pdcontent" th:text=${p.productInfo}></div>
-						<div class="percent" th:text=${p.productMinAmount}></div>
-						<div class="orderCount"></div>
+						<div class="percent"  th:text=${p.productMinAmount}></div>
+						<div class="text">달성</div>
 						<div class="pddeadline" th:text=${p.endDate}></div>
-						<div class="remainingAmount" th:text=잔여수량+':'+${p.productMaxAmount}></div>
+						<input type="hidden" id="totalAmount" th:value="${totalAmount}">
+						<div class="remainingAmount" th:text=${p.productMaxAmount}></div>
 						<div class="price" th:text=${p.productPrice}></div>
 						<div class="dcPrice" th:text=${p.productDcPrice}></div>
 						<div class="button-box">
 							<button class="like-box">
-								<span class="material-symbols-outlined">favorite</span>
-								<span style="font-size:16px;">0</span>
+								<span th:if="${p.isLike == 0}" class="material-icons" th:onclick="likePush(this,[[${p.productNo}]]);">favorite_border</span>
+								<span th:if="${p.isLike == 1}" class="material-icons" style="color:#EA3323" th:onclick="likePush(this,[[${p.productNo}]]);">favorite</span>
+								<span class="like-count" style="font-size:16px;" th:text=${p.likeCount}></span>
 							</button>
-							<button class="btn-round funding" th:onclick="productFunding([[${p.productNo}]]);">구매 예약하기</button>
+							<div th:switch="${state}">
+								<button th:case="1" class="btn-round funding" th:onclick="productFunding([[${p.productNo}]]);">구매 예약하기</button>
+								<button th:case="2" class="btn-round funding g">공구 종료된 상품입니다.</button>
+								<button th:case="3" class="btn-round funding g">현재 공구 오픈 전인 상품입니다.</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="detail-view">
+			<div class="detail-view hidden">
 				<div class="view-title">
 					<h3>상품 상세 설명</h3>
 				</div>
 				<div class="productContent" th:utext="${p.productContent}"></div>
+			</div>
+			<div class="btn-more">
+				<button type="button" class="detailMore">더보기<span class="material-symbols-outlined">keyboard_arrow_down</span></button>	
 			</div>
 		</section>
 	</main>
@@ -160,6 +208,43 @@
 			$(".dcPrice").text(krtotalPrice2+'원');
 		}
 		changeNum();
+		
+		function percentSet(){
+			const productMinAmount = $(".percent").text();
+			const totalAmount = $("#totalAmount").val();
+			const percent = totalAmount/productMinAmount*100
+			$(".percent").text(percent+'%');
+		}
+		percentSet();
+		
+		function remainingAmount(){
+			const productMinAmount = $(".remainingAmount").text();
+			const totalAmount = $("#totalAmount").val();
+			const remainingAmount = productMinAmount-totalAmount;
+			$(".remainingAmount").text('잔여수량'+' '+':'+' '+remainingAmount+'ea');
+		}
+		remainingAmount();
+		
+		$(document).ready(function() {
+            // 오늘 날짜 가져오기
+            var today = new Date();
+
+            // 서버에서 전달된 목표 날짜 가져오기
+            var targetDate = new Date($('.pddeadline').text());
+
+            // 두 날짜 간의 차이를 밀리초로 계산
+            var timeDifference = targetDate.getTime() - today.getTime();
+
+            // 밀리초를 일(day)로 변환
+            var remainingDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            // 잔여일수를 화면에 표시
+            if (remainingDays >= 0) {
+                $('.pddeadline').text(remainingDays + "일 남음");
+            } else {
+                $('.pddeadline').text("목표 날짜가 이미 지났습니다.");
+            }
+        });
 		
 		function productDelete(productNo){
 			swal({
@@ -191,6 +276,56 @@
 		function productFunding(productNo){
 			location.href="/product/fundingFrm?productNo="+productNo;
 		}
+		
+		$(".detailMore").on("click",function(){
+			$(".detail-view").removeClass('hidden');
+			
+		});
+		
+		function likePush(obj, productNo){
+			//현재 상태를 구분 -> 지금 클릭한 행동이 좋아요를 누른건지/좋아요 취소를 누른건지 구분
+			const currentText = $(obj).text();
+			const isLike = (currentText == "favorite_border")?0:1;
+			if(isLike == 0){
+				$(obj).css('color','#EA3323');
+			}else{
+				$(obj).css('color','#d9d9d9')
+			}
+			console.log(isLike);
+			$.ajax({
+				url : "/product/likePush",
+				type : "post",			
+				data : {productNo: productNo, isLike : isLike},
+				success : function(data){
+					if(data == -10){
+						swal({
+							title : "로그인 필요",				
+							text : "로그인이 필요한 서비스입니다.",
+							icon : "info"
+						});
+					}else if(data == -1){
+						swal({
+							title : "데이터 처리 오류",				
+							text : "잠시 후 다시 시도해주세요.",
+							icon : "warning"
+						});
+					}else{
+						if(isLike == 0){
+							$(obj).text("favorite");
+						}else{
+							$(obj).text("favorite_border");
+						}
+						//현재 좋아요 갯수 수정
+						$(".like-count").text(data);
+					}
+				},
+				error : function(){
+					console.log("서버 접속 오류")
+				}
+			});
+		};
+		
+		
 	</script>
 	<th:block th:include="common/footer"></th:block>
 

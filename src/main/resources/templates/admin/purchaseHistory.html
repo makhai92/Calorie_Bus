@@ -17,16 +17,12 @@
       
 }
 #pageNavi>ul{
-	text-align : center;
-	width : 500px;
-}
-#pageNavi>ul>li{
-	position : relative;
-	left : 100px;
 	display : flex;
-	float : left;
-	margin-left : 50px;
+	justify-content : center;
+	align-items : center;
+	gap : 10px;
 }
+
 .pageNavi-wrap : hover{
      font-weight: bolder;
 }
@@ -35,6 +31,11 @@
 	display:flex;
 	justify-content:center;
 	align-items:center;
+}
+.adminPage{
+    padding: 50px 0;
+    width: 1300px;
+    margin: 0 auto;
 }
 .admin-wrap>div{
     text-align: center;
@@ -82,39 +83,39 @@
 					<td>
 						<div class="select" th:switch="${f.orderState}">
 							<select th:case="1">
-								<option value="1" selected>1</option>
-								<option value="2" >2</option>
-								<option value="3" >3</option>
-								<option value="4" >4</option>
-								<option value="5" >5</option>
+								<option value="1" selected>미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" >배송완료</option>
 							</select >
 							<select th:case="2">
-								<option value="1" >1</option>
-								<option value="2" selected>2</option>
-								<option value="3" >3</option>
-								<option value="4" >4</option>
-								<option value="5" >5</option>
+								<option value="1" >미입금</option>
+								<option value="2" selected>입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" >배송완료</option>
 							</select >
 							<select th:case="3">
-								<option value="1" >1</option>
-								<option value="2" >2</option>
-								<option value="3" selected>3</option>
-								<option value="4" >4</option>
-								<option value="5" >5</option>
+								<option value="1" >미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" selected>배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" >배송완료</option>
 							</select >
 							<select th:case="4">
-								<option value="1" >1</option>
-								<option value="2" >2</option>
-								<option value="3" >3</option>
-								<option value="4" selected>4</option>
-								<option value="5" >5</option>
+								<option value="1" >미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" selected>배송중</option>
+								<option value="5" >배송완료</option>
 							</select >
 							<select th:case="5">
-								<option value="1" >1</option>
-								<option value="2" >2</option>
-								<option value="3" >3</option>
-								<option value="4" >4</option>
-								<option value="5" selected>5</option>
+								<option value="1" >미입금</option>
+								<option value="2" >입금완료</option>
+								<option value="3" >배송준비중</option>
+								<option value="4" >배송중</option>
+								<option value="5" selected>배송완료</option>
 							</select >
 						</div>
 					</td>

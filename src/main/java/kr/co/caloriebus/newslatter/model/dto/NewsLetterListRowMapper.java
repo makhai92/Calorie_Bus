@@ -23,5 +23,4 @@ public class NewsLetterListRowMapper implements RowMapper<NewsLetter>{
 		nl.setCommentCount(rs.getInt("comment_count"));
 		return nl;
 	}
-
 }

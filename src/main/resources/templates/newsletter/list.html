@@ -27,15 +27,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="newsletter : ${list}">
-                        	<td th:text="${newsletter.rNum}"></td>
-                            <td><a th:href="@{/newsletter/viewForm(boardNo=${newsletter.boardNo})}"><span th:text="${newsletter.boardTitle}"></span>(<span th:text="${newsletter.commentCount}"></span>)</a></td>
-                            <td th:text="${newsletter.boardWriter}"></td>
-                            <td th:text="${newsletter.regDate}"></td>
-                            <td th:text="${newsletter.likeCount}"></td>
-                            <td th:text="${newsletter.readCount}"></td>
-                        </tr>
-                    </tbody>
+    <tr th:each="newsletter : ${list}" class="spread-underline">
+        <td th:text="${newsletter.rNum}"></td>
+        <td>
+            <a th:href="@{/newsletter/viewForm(boardNo=${newsletter.boardNo})}">
+                <span th:text="${newsletter.boardTitle}"></span>
+                (<span th:text="${newsletter.commentCount}"></span>)
+            </a>
+        </td>
+        <td th:text="${newsletter.boardWriter}"></td>
+        <td th:text="${newsletter.regDate}"></td>
+        <td th:text="${newsletter.likeCount}"></td>
+        <td th:text="${newsletter.readCount}"></td>
+    </tr>
+</tbody>
                 </table>
                 <a th:if="${session.member != null && session.member.memberLevel ==1}" class="btn-point" id="write-btn" href="/newsletter/writeForm">글쓰기</a>
             </div>
@@ -44,11 +49,11 @@
             </div>
             <div class="search-write-container">
                 <form action="/newsletter/search" method="get" id="searchFrm" class="search-form">
-                    <div class="input-item">
-                        <input type="text" name="keyword" placeholder="Search">
-                        <button type="submit" class="search-button"><span class="material-icons">search</span></button>
-                    </div>
-                </form>
+    <div class="input-item">
+        <input type="text" name="keyword" placeholder="Search" th:value="${keyword}">
+        <button type="submit" class="search-button"><span class="material-icons">search</span></button>
+    </div>
+</form>
             </div>
         </section>
     </main>

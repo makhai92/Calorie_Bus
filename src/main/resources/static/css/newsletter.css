@@ -161,3 +161,22 @@ a {
 #write-btn:hover {
     background-color: rgb(198, 182, 164);
 }
+.spread-underline {
+  position: relative;
+}
+
+.spread-underline:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #ffb000;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.spread-underline:hover:after {
+  width: 100%;
+  left: 0;
+}

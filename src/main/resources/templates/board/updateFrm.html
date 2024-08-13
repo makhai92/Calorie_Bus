@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시글 수정</title>
+<style>
+	.updateFrm tr>th{
+		font-size: 18px;
+	}
+	.files>span{
+		cursor: pointer;
+		font-size: 18px;
+	}
+</style>
+</head>
+<body>
+	<th:block th:include="common/header"></th:block>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	<script src="/js/sweetalert.min.js"></script>
+	<main class="content">
+		<form action="/board/updateBoard" method="post" enctype="multipart/form-data">
+			<table class="tbl updateFrm">
+				<tr>
+					<th style="width:5%;">
+						<select th:switch="${board.boardCategory}" name="boardCategory">
+							<th:block th:case="B1">
+								<option value="B1" selected>자유글</option>
+								<option value="B2">식단토크</option>
+								<option value="B3">성공후기</option>
+								<option value="B4">운동토크</option>
+							</th:block>
+							<th:block th:case="B2">
+								<option value="B1">자유글</option>
+								<option value="B2" selected>식단토크</option>
+								<option value="B3">성공후기</option>
+								<option value="B4">운동토크</option>
+							</th:block>
+							<th:block th:case="B3">
+								<option value="B1">자유글</option>
+								<option value="B2">식단토크</option>
+								<option value="B3" selected>성공후기</option>
+								<option value="B4">운동토크</option>
+							</th:block>
+							<th:block th:case="B4">
+								<option value="B1">자유글</option>
+								<option value="B2">식단토크</option>
+								<option value="B3">성공후기</option>
+								<option value="B4" selected>운동토크</option>
+							</th:block>
+						</select>
+					</th>
+					<th style="width:10%;">제목</th>
+					<td style="width:85%; text-align: left;" colspan="2">
+						<div class="input-item2">				
+							<input style="width:100%;"type="text" name="boardTitle" th:value="${board.boardTitle}">
+						</div>
+					</td>		
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td style="text-align: left;" colspan="2">
+						<div class="input-item2">
+							<input type="text" name="memberId" th:value="${board.boardWriter}" readonly> 
+						</div>
+					</td>	
+					<td>
+						<input type="file" name="upfile" multiple>
+					</td>	
+				</tr>
+				<tr>
+					<th>기존파일</th>
+					<td colspan="3">
+						<div th:each="file : ${board.fileList}" class="files">
+							<span class="delFilename" th:text="${file.filename}"></span>
+							<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" style="text-align: left;">
+						<textarea name="boardContent" id="boardContent" th:utext="${board.boardContent}"></textarea>
+					</td>		
+				</tr>
+				<tr>
+					<td colspan="4">
+						<input type="hidden" name="boardNo" th:value="${board.boardNo}" >
+						<button type="submit" class="btn-round" style="width:50%; font-size: 16px;">게시글 작성</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</main>
+	<script>
+		$("#boardContent").summernote({
+			toolbar:[
+				['style', ['style']],
+				['fontsize', ['fontsize']],
+				['font', ['bold', 'italic', 'underline', 'clear']],
+				['fontname', ['fontname']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				['table', ['table']],
+				['insert', ['link', 'picture', 'hr']],
+				['view', ['fullscreen', 'codeview']],
+				['help', ['help']]		
+			],
+			height:500,
+			lang : "ko-KR",
+			disableResize : true,
+			disableResizeEditor : true,
+			resize : false,
+			fontSizes: ['8','9','10','11','12','13','14','15','16','17','18','19','20','24','30','36','48','64','82','150'],
+			callbacks : {
+				onImageUpload : function(files){
+					uploadImage(files[0],this);
+				}
+			}
+		});
+		$("#boardContent").summernote("fontSize",16);
+		function uploadImage(file,editor){
+			const form = new FormData();
+			form.append("upfile",file);
+			$.ajax({
+				url : "/board/editorImage",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					$(editor).summernote("insertImage",data);
+				},
+				error : function(){
+					console.log("error");
+				}
+			});
+		}
+		function deleteFile(obj,fileNo){
+			swal({
+				title: "파일 삭제",
+				text : "첨부파일을 삭제하시겠습니까?",
+				icon : "info",
+				buttons : {
+					cancel : {
+						text : "취소",
+						value : false,
+						visible : true,
+						className : "btn-round",
+						closeModal : true
+					},
+					confirm : {
+						text : "삭제하기",
+						value : true,
+						visible : true,
+						className : "btn-round",
+						closeModal : true
+					}
+				}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					const input = $("<input type='hidden' name='delFileNo' value='"+fileNo+"'>");
+					$(".updateFrm").append(input);
+					$(obj).parent().hide();				
+				}
+			});
+		}
+	</script>
+	<th:block th:include="common/footer"></th:block>
+</body>
+</html>

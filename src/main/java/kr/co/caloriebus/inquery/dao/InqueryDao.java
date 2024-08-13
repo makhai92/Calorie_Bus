@@ -102,6 +102,76 @@ public class InqueryDao {
 		return totalCount;
 	}
 
-	
-	
+	public int insertReply(InqueryReply ir) {
+		String query = "insert into Reply values(reply_seq.nextval ,?,to_char(sysdate,'yyyy-mm-dd'),?)";
+		String inqueryReplyRef = ir.getInqueryReplyRef() == 0? null :String.valueOf(ir.getInqueryReplyRef());
+		System.out.println(ir);
+		System.out.println(query);
+		Object[] params = {ir.getReplyContent(),ir.getInqueryRef()};	
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int deleteReply(InqueryReply ir) {
+		String query = "delete from reply where reply_no=?";
+		Object[] params = {ir.getReplyNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int deleteInquery(int inqueryNo) {
+		String query = "delete from inquery where inquery_no=?";
+		Object[] params = {inqueryNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int updateReply(InqueryReply ir) {
+		String query = "update reply set reply_content=? where reply_no=?";
+		Object [] params = {ir.getReplyContent(), ir.getReplyNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int inqueryUpdate(Inquery i) {
+		String query = "update inquery set inquery_title=?, inquery_content=? where inquery_no=?";
+		Object[] params = {i.getInqueryTitle(),i.getInqueryContent(), i.getInqueryNo()};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public InqueryFile selectOneInqueryFile(int fileNo) {
+		String query = "select * from inquery_file where file_no=?";
+		Object[] params = {fileNo};
+		List list = jdbc.query(query, inqueryFileRowMapper, params);
+		if(list.isEmpty()) {
+			return null;
+		}
+		return (InqueryFile)list.get(0);
+	}
+
+	public int deleteInqueryFile(int fileNo) {
+		String query = "delete from inquery_file where file_no=?";
+		Object[] params = {fileNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+	/*
+	public List selectReplyCount(int inqueryNo) {
+		String query = "select inquery_no from reply where reply_content is not null";
+		List list = jdbc.query(query);
+	return list;
+	}
+	*/
+
+	public List<Integer> selectReplyCount(int inqueryNo) {
+		 String query = "SELECT inquery_no FROM reply WHERE reply_content IS NOT NULL AND inquery_no = ?";
+		    return jdbc.query(query, new Object[]{inqueryNo}, (rs, rowNum) -> rs.getInt("inquery_no"));
+	}
 }
+
+	
+
+	
+	
+

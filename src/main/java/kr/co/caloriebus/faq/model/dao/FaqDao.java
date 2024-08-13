@@ -46,14 +46,36 @@ public class FaqDao {
 		}else {
 			return (Faq) list.get(0);
 		}
-
 	}
 
 	public int deleteFaq(int faqNo) {
 		String query = "delete from faq where faq_no=?";
 		Object[] params = {faqNo};
 		int result = jdbc.update(query,params);
-		
 		return result;
+	}
+
+	public int updateFaq(Faq f) {
+		String query = "UPDATE faq SET faq_title = ?, faq_content = ?, member_no = ? WHERE faq_no = ?";
+		Object[] params = {f.getFaqTitle(),f.getFaqContent(),f.getMemberNo(),f.getFaqNo()};
+		System.out.println(f);
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public List searchFaqTitle(String keyword,int start, int end) {
+		String query = 
+		"select * from (select rownum as rnum ,n.* from (select * from faq where faq_title like '%'||?||'%' order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {keyword,start,end};
+		List list = jdbc.query(query, faqRowMapper,params);
+		return list;
+	}
+
+	public List searchFaqContent(String keyword,int start, int end) {
+		String query =
+		"select * from (select rownum as rnum ,n.* from (select * from faq where faq_content like '%'||?||'%' order by 1 desc)n) where rnum between ? and ?";
+		Object[] params = {keyword,start,end};
+		List list = jdbc.query(query, faqRowMapper,params);
+		return list;
 	}
 }

@@ -1,5 +1,6 @@
 package kr.co.caloriebus.faq.controller;
 
+import java.io.Console;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.caloriebus.faq.model.dto.Faq;
 import kr.co.caloriebus.faq.model.dto.FaqListData;
+import kr.co.caloriebus.faq.model.dto.FaqSearch;
 import kr.co.caloriebus.faq.model.service.FaqService;
 
 
@@ -48,7 +50,7 @@ public String write(Faq f, Model model) {
 		model.addAttribute("loc", "/faq/faqMain?reqPage=1");
 		return "common/msg";
 	}
-	return "redirect:/faq/faqview";
+	return "redirect:/faq/faqView";
 }
 @GetMapping(value = "/faqView")
 public String view(int faqNo,Model model) {
@@ -81,12 +83,43 @@ public String delete(int faqNo, Model model) {
 	}
 	return "common/msg";
 }
-@GetMapping(value = "faqUpdate")
+@GetMapping(value = "/faqUpdate")
 public String updateFrm(int faqNo , Model model) {
 	Faq f = faqService.getOneFaq(faqNo);
 	model.addAttribute("f", f);
 	return "faq/faqUpdate";
 }
+@PostMapping("/update")
+public String update(Faq f, Model model) {
+    int result = faqService.updateFaq(f);
+    System.out.println(f);
+    if (result > 0) {
+        model.addAttribute("title", "성공");
+        model.addAttribute("msg", "FAQ가 수정되었습니다!");
+        model.addAttribute("icon", "success");
+        model.addAttribute("loc", "/faq/faqView?faqNo="+f.getFaqNo());
+        return "common/msg";
+    } else {
+        model.addAttribute("title", "실패");
+        model.addAttribute("msg", "수정 등록에 실패하였습니다.");
+        model.addAttribute("icon", "warning");
+        model.addAttribute("loc", "/faq/faqMain?reqPage=1");
+        return "common/msg";
+    }
+}	
+
+@GetMapping(value="/faqSearch")
+public String faqSearch(FaqSearch fs,int reqPage,Model model) {
+	FaqListData fld = faqService.searchAllFaq(fs,reqPage);
+	model.addAttribute("list", fld.getList());
+	model.addAttribute("pageNavi", fld.getPageNavi());
+	model.addAttribute("searchField",fs.getSearchField());
+	model.addAttribute("keyword",fs.getKeyword());
+	return "faq/faqMain";
 }
+
+	
+}
+
 	
 

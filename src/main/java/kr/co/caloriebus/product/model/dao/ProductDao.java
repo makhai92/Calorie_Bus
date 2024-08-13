@@ -1,5 +1,6 @@
 package kr.co.caloriebus.product.model.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import kr.co.caloriebus.product.model.dto.Myfunding;
 import kr.co.caloriebus.product.model.dto.MyfundingListRowMapper;
 import kr.co.caloriebus.product.model.dto.MyfundingRowMapper;
 import kr.co.caloriebus.product.model.dto.Product;
-import kr.co.caloriebus.product.model.dto.ProductFile;
 import kr.co.caloriebus.product.model.dto.MylikeRowMapper;
 import kr.co.caloriebus.product.model.dto.ProductReview;
 import kr.co.caloriebus.product.model.dto.ProductReviewRowMapper;
@@ -34,9 +34,20 @@ public class ProductDao {
 	private MyfundingRowMapper myfundingRowMapper;
 	@Autowired
 	private MylikeRowMapper mylikeRowMapper;
+		
+	public List selectAllProduct1() {
+		String query="select * from product where (END_DATE>=SYSDATE and START_DATE<=SYSDATE) order by 1 desc";
+		List list = jdbc.query(query, productRowMapper);
+		return list;
+	}
 	
-	public List selectAllProduct() {
-		String query="select * from product order by 1 desc";
+	public List selectAllProduct2() {
+		String query="select * from product where (END_DATE<SYSDATE) order by 1 desc";
+		List list = jdbc.query(query, productRowMapper);
+		return list;
+	}
+	public List selectAllProduct3() {
+		String query="select * from product where (START_DATE>SYSDATE) order by 1 desc";
 		List list = jdbc.query(query, productRowMapper);
 		return list;
 	}
@@ -60,12 +71,14 @@ public class ProductDao {
 		}
 	}
 	
+	/*
 	public int productFileInsert(ProductFile productList) {
 		String query = "insert into product_file values(product_file_seq.nextval,?,?,?)";
 		Object[] params = {productList.getFilename(),productList.getFilepath(),productList.getProductNo()};
 		int result = jdbc.update(query, params);
 		return result;
 	}
+	*/
 
 	public int deleteProduct(int productNo) {
 		String query = "delete from product where product_no = ?";
@@ -135,7 +148,13 @@ public class ProductDao {
 		}
 	}
 
-	public int reviewUpdate(ProductReview pr) {
+	public int reviewUpdate1(ProductReview pr) {
+		String query = "update product_review set review_content=? where funding_no=?";
+		Object[] params = {pr.getReviewContent(),pr.getFundingNo()};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+	public int reviewUpdate2(ProductReview pr) {
 		String query = "update product_review set review_content=?,review_img=? where funding_no=?";
 		Object[] params = {pr.getReviewContent(),pr.getReviewImg(),pr.getFundingNo()};
 		int result = jdbc.update(query, params);
@@ -166,4 +185,57 @@ public class ProductDao {
 		return totalCount;
 	}
 
+	public int reviewDelete(int fundingNo) {
+		String query = "delete from product_review where funding_no = ?";
+		Object[] params = {fundingNo};
+		int result = jdbc.update(query,params);
+		return result;
+	}
+
+	public int orderAmount(int productNo) {
+		String query = "select nvl(sum(order_amount),0) from funding where product_no=?";
+		Object[] params = {productNo};
+		int totalAmount = jdbc.queryForObject(query, Integer.class, params);
+		return totalAmount;
+	}
+
+	public int insertProductLike(int productNo, int memberNo) {
+		String query = "insert into product_like values(?,?)";
+		Object[] params = {memberNo,productNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int deleteProductLike(int productNo, int memberNo) {
+		String query = "delete from product_like where member_no=? and product_no=?";
+		Object[] params = {memberNo,productNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int selectProductLikeCount(int productNo) {
+		String query = "select count(*) from product_like where product_no = ?";
+		Object[] params = {productNo};
+		int likeCount = jdbc.queryForObject(query, Integer.class, params);
+		return likeCount;
+	}
+
+	public int selectIsCount(int memberNo,int productNo) {
+		String query = "select * from product_like where member_no=? and product_no = ?";
+		Object[] params = {memberNo,productNo};
+		int result = jdbc.update(query, params);
+		return result;
+	}
+
+	public int searchState(int productNo) {
+		String query = "select state from\r\n" + 
+				"(select p.*,(case \r\n" + 
+				"when END_DATE>=SYSDATE and START_DATE<=SYSDATE then 1\r\n" + 
+				"when END_DATE<SYSDATE then 2\r\n" + 
+				"when START_DATE>SYSDATE then 3\r\n" + 
+				"end) as state from(select * from product where product_no=?)p)";
+		Object[] params = {productNo};
+		int state = jdbc.queryForObject(query, Integer.class, params);
+		return state;
+	}
 }

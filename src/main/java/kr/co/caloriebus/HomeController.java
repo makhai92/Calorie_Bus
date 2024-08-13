@@ -18,7 +18,7 @@ public class HomeController {
 	
 	@GetMapping(value="/")
 	public String main(Model model) {
-		List list = productService.selectAllProduct();
+		List list = productService.selectAllProduct1();
     	model.addAttribute("list",list);
         
 		return "index";
@@ -29,4 +29,5 @@ public class HomeController {
 		session.setAttribute("member", member);
 		return "redirect:/";
 	}
+	
 }

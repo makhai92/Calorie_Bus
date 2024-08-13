@@ -4,19 +4,23 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
-    <link rel="stylesheet" href="css/headfooter.css">
+    <link rel="stylesheet" href="/css/default.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="Semi_Project.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+    
 <style>
+.inquery-page-title{
+	text-align: center;
+    font-size: 30px;
+    margin-bottom : 50px;
+}
 .inquery-content{
     padding: 50px 0;
     width: 1000px;
-    height: 800px;
     margin: 0 auto;
+    text-align : left;
+    
 }
 .page-title{
     margin-bottom: 50px;
@@ -24,43 +28,382 @@
     font-size: 30px;
     font-weight: bolder;    
 }
+.posting-reply{
+    font-size: 17px;
+}
+.mini-title>*{
+	text-align : left;
+}
+.posting-reply>li>span{
+    font-size : 65px;
+    margin-right : 20px;
+}
+.commentBox {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.reply-block{
+	width : 640px;
+}
+.posting-reply {
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reply-icon {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.reply-content {
+    flex: 1;
+}
+
+.comment-info {
+    margin-bottom: 10px;
+}
+
+.author {
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.comment-content {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #333;
+}
+
+.edit-area {
+    margin-top: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.save-edit {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.reply-actions {
+    margin-top: 10px;
+    font-size: 10px;
+}
+
+.reply-actions a, .reply-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+ 
+}
+
+
+.inputCommentBox {
+    border-top: 1px solid #ddd;
+    padding: 20px;
+}
+
+.input-item {
+    display: flex;
+    align-items: flex-start;
+}
+
+.input-item .reply-icon {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.input-fields {
+    flex: 1;
+}
+
+.input-fields textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.btn-primary {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-primary {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(241, 229, 215, 1); 
+    color: #333; 
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: rgba(241, 229, 215, 0.8); 
+}
+
+.btn-secondary {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(241, 229, 215, 1);
+    color: #333; 
+    cursor: pointer;
+    font-size: 15px;
+    text-weight : 15px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(241, 229, 215, 0.8);
+}
+
+.update-btn, .delete-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(241, 229, 215, 1);
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+    text-decoration: none; 
+    display: inline-block; 
+    text-weight : 15px;
+}
+
+.update-btn:hover, .delete-btn:hover {
+    background-color: rgba(241, 229, 215, 0.8); 
+}
+
+.delete-btn {
+    background-color: rgba(241, 229, 215, 1); 
+}
+
+.delete-btn:hover {
+    background-color: rgba(241, 229, 215, 0.8); 
+}
+
+.update-btn {
+    background-color: rgba(241, 229, 215, 1);
+}
+
+.update-btn:hover {
+    background-color: rgba(241, 229, 215, 0.8); 
+}
+.comment-link {
+    text-align: right; 
+    margin-top: 10px; 
+}
+.regi-block {
+	float : right;
+}
+
 </style>
 </head>
 <th:block th:include="common/header"></th:block>
 <body>
-	
 	<script src="/project/css/summernote/summernote-lite.css"></script>
 	<script src="/project/css/summernote/lang/summernote-ko-KR.js"></script>
 
     <main class="inquery-content">
 		<section class="section inquery-view-wrap">
-			<div class="page-title">1 : 1 문의 상세보기</div>
+			<div class="inquery-page-title">1 : 1 문의 상세보기</div>
 			<table class="tbl inquery-view">
-				<tr>
-					<th colspan="6" th:text="${i.inqueryTitle}">글 제목</th>
+				<tr class="mini-title">
+					<th style="width: 15%;" colspan="1">제목</th>
+					<td style="width: 85%;" colspan="3" th:text="${i.inqueryTitle}"></td>
 				</tr>
 				<tr>
 					<th style="width: 15%;">작성자</th>
-					<td style="width: 35%;" th:text="${i.memberNo}">회원번호</td>
+					<td style="width: 35%;" th:text="${i.memberNo}"></td>
 					<th style="width: 15%;">작성일</th>
-					<td style="width: 35%;" th:text="${i.inqueryDate}">2024-01-01</td>
+					<td style="width: 35%;" th:text="${i.inqueryDate}"></td>
 				</tr>
 				<tr>
 					<th>첨부파일</th>
-					<td colspan="5"><th:block th:each="file : ${i.fileList}">
-							<img src="/image/file.png" width="16px">
-							<a th:href="@{/inquery/filedown(fileName=${file.fileName},filePath=${file.filePath})}" th:text="${file.fileName}"></a>
-						</th:block></td>
+					<td colspan="5">
+					<th:block th:each="file : ${i.fileList}">
+					<img src="/image/file.png" width="16px">
+					<a th:href="@{/inquery/filedown(fileName=${file.fileName},filePath=${file.filePath})}" th:text="${file.fileName}"></a>
+					</th:block>
+					</td>
 				</tr>
 				<tr>
 					<td class="left" colspan="6">
 						<div class="inqueryContent" th:utext="${i.inqueryContent}"></div>
 					</td>
 				</tr>
-				
+				<tr th:if="${session.member.memberLevel	 == 1}">
+				<td colspan="6">
+			<a th:href="@{/inquery/inqueryUpdateFrm(inqueryNo=${i.inqueryNo})}"
+						class="btn-primary">수정</a>
+			<button class="btn-secondary"
+					th:onclick="inqueryDelete([[${i.inqueryNo}]]);">삭제</button>
+				</td>
+				</tr>
 			</table>
-	</section>
-	</main>
+			<!-- 댓글 출력 -->
+			<div class="commentBox">
+				<th:block th:each="ir : ${i.replyList}">
+					<ul class="posting-reply">
+						<li><span class="material-icons">support_agent</span></li>
+						<li class="reply-block">
+							<p class="comment-info">
+								<span>관리자</span> <span th:text="${ir.replyDate}"></span> 
+							</p>
+							<p class="comment-content" th:text="${ir.replyContent}"></p>
+							<div class="input-item"  style="display: none; text-align: left;">
+								<textarea name="replyContent"
+									th:text="${ir.replyContent}"></textarea>
+							</div>
+							<p class="comment-link">
+								<th:block th:if="${session.member != null}">
+									<th:block th:if="${session.member.memberLevel == 1}">
+										<a class="update-btn" th:onclick="modifyReply(this,[[${ir.replyNo}]],[[${ir.inqueryNo}]]);">수정</a>
+										<button class="delete-btn" th:onclick="deleteReply([[${ir.replyNo}]],[[${ir.inqueryNo}]]);">삭제</button>
+									</th:block>
+								</th:block>
+							</p>
+						</li>
+					</ul>
+				</th:block>
+			</div>
+			
+			<!-- 댓글 입력창 맨 아래 -->
+			<div th:if="${session.member.memberLevel == 1}" class="inputCommentBox">
+				<form action="/inquery/insertReply" method="post">
+					<ul>
+						<li><span class="material-icons">support_agent</span></li>
+						<li>
+							<input type="hidden" name="inqueryRef" th:value="${i.inqueryNo}">
+							<div class="input-item">
+								<textarea name="replyContent"></textarea>
+							</div>
+						</li>
+						<li class="regi-block">
+							<button type="submit" class="btn-primary">등록</button>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</section>
+	 </main>
+	<script>
+	
+	function inqueryDelete(inqueryNo) {
+		swal({
+			title : "문의 삭제",
+			text : "문의글을 삭제하시겠습니까?",
+			icon : "warning",
+			buttons : {
+				cancle : {
+					text : "삭제 취소",
+					value : false,
+					visible : true,
+					className : "btn-secondary",
+					closeModal : true
+				},
+			confirm : {
+					text : "문의 삭제",
+					value : true,
+					visible : true,
+					className : "btn-point",
+					closeModal : true
+				}
+			}
+		}).then(function(isConfirm) {
+			if (isConfirm) {
+				location.href = "/inquery/delete?inqueryNo=" + inqueryNo;
+			}
+		});
+	}
+	function deleteReply(replyNo , inqueryNo) {
+		if (confirm("댓글을 삭제하시겠습니까?")) {
+			location.href = "/inquery/deleteReply?&replyNo="+replyNo+
+					"&inqueryRef="+inqueryNo;
+		}
+	}
+	
+	function modifyReply(obj, replyNo, inqueryNo) {
+		//숨겨놓은 textarea를 화면에 보여줌
+		$(obj).parent().prev().show();
+		//화면에 보이던 댓글내용을 숨김
+		$(obj).parent().prev().prev().hide();
+
+		//수정버튼 -> 수정완료버튼으로
+		$(obj).text("수정완료");
+		$(obj).attr(
+				"onclick",
+				"modifyComplete(this," + replyNo + "," + inqueryNo
+						+ ");")
+
+		//삭제버튼 -> 수정취소버튼으로
+		$(obj).next().text("수정취소");
+		$(obj).next().attr(
+				"onclick",
+				"modifyCancel(this," + replyNo + "," + inqueryNo
+						+ ");")
+
+		//답글달기버튼이 있는경우 화면에서 안보이게 처리
+		$(obj).next().next().hide();
+	}
+	
+	function modifyComplete(obj, replyNo, inqueryNo) {
+		const form = $("<form>");
+		form.attr("action", "/inquery/updateReply");
+		form.attr("method","post");
+		form.hide();
+		
+		const inqueryReplyNoInput = $("<input>");
+		inqueryReplyNoInput.attr("type","text");
+		inqueryReplyNoInput.attr("name","replyNo");
+		inqueryReplyNoInput.val(replyNo);
+		const inqueryRefInput = $("<input type='text' name='inqueryRef' >");
+		inqueryRefInput.val(inqueryNo);
+		
+		const replyContent = $(obj).parent().prev().clone();
+		
+		form.append(inqueryReplyNoInput).append(inqueryRefInput)
+			.append(replyContent);
+		
+		$("body").append(form);
+		form.submit();
+	}
+		
+	</script>
 </body>
 <th:block th:include="common/footer"></th:block>
 </html>
+	

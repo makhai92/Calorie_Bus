@@ -33,12 +33,19 @@
     top: 5px;
 }
 .admin-menu{
+	margin: 0 auto;
     margin-bottom: 100px;
-    text-align: right;
+    text-align: left;
     width: 500px;
 }
 #member-grade{
     font-size: 25px;
+    margin-bottom: 50px;
+    border: none;
+    background-color: transparent ;
+}
+#inquery-button{
+ font-size: 25px;
     margin-bottom: 50px;
     border: none;
     background-color: transparent ;
@@ -80,15 +87,19 @@
         </div>
     
     <div class="admin-menu">
-        <button type="button" id="member-grade" onclick = "location.href ='/admin/gradeChange'">
+        <button type="button" id="member-grade" onclick = "location.href ='/admin/gradeChange?reqPage=1'">
             <span class="material-icons">manage_accounts</span>
             회원 등급 변경</button>
+         <br>
+         <button type="button" id="inquery-button" onclick = "location.href ='/inquery/inqueryMain?reqPage=1'">
+            <span class="material-icons">support_agent</span>
+     1:1 문의 답변 </button>
         <br>
         <button type="button" id="purchase-details" onclick = "location.href ='/admin/purchaseHistory?reqPage=1'">
             <span class="material-icons">shopping_cart</span>
             구매 내역 관리</button>
         <br>
-        <button type="button" id="prize-details"  onclick = "location.href ='/admin/prizeDetails'">
+        <button type="button" id="prize-details"  onclick = "location.href ='/admin/prizeDetails?reqPage=1'">
             <span class="material-icons">redeem</span>
             경품 내역 관리</button>
     </div>

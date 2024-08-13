@@ -31,7 +31,7 @@
 		<main class="content">
 			<section class="product-reviewUpdate-wrap">
 				<div class="page-title">후기 수정</div>
-				<form action="/product/reviewUpdate" method="post" enctype="multipart/form-data">
+				<form action="/product/reviewUpdate1" id="reviewUpdate" method="post">
 					<table class="tbl">
 						<tr>
 							<th>작성자</th>
@@ -52,12 +52,13 @@
 									<span class="delFilename" th:text="${pr.reviewImg}"></span>
 									<span class="material-symbols-outlined" th:onclick="deleteFile(this,[[${pr.fundingNo}]])">close</span>
 								</div>
-								<input type="hidden" name="upfile" id="reviewImg" multiple>
+								<input type="hidden" name="upfile" id="updateImg" multiple>
 							</td>
 						</tr>
 					</table>
 					<input type="hidden" name="productNo" th:value=${pr.productNo}>
 					<input type="hidden" name="fundingNo" th:value=${pr.fundingNo}>
+					<input type="hidden" name="state" th:value=${state}>
 					<div class="btn-box">
 						<button type="submit" class="btn-round">후기 수정 완료</button>
 					</div>
@@ -89,7 +90,9 @@
 					}).then(function(isConfirm){
 						if(isConfirm){
 							$(obj).parent().remove();
-							$("#reviewImg").attr('type','file')
+							$("#updateImg").attr('type','file');
+							$("#reviewUpdate").attr('action','/product/reviewUpdate2');
+							$("#reviewUpdate").attr('enctype','multipart/form-data');
 						}
 					});
 			 }

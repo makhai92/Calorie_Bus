@@ -4,14 +4,35 @@
 <meta charset="UTF-8">
 <title>정보공유서비스</title>
 <style>
-
+	#searchFrm{
+		display: flex;
+		float: right;
+	}
+	.btn{
+		width: 70px;
+		height: 30px;
+		background-color: rgba(241, 229, 215, 1);
+		border: 0.8px solid #D9D9D9;
+	}
+	input{
+		width: 200px;
+		height: 30px;
+		border: 0.8px solid #D9D9D9;
+	}
 </style>
+
 </head>
 <body>
 	<th:block th:include="common/header"></th:block>
 		<main class="content">
 			<section class="section">
 				<div class="page-title">음식칼로리</div>
+				<form action="/foodNutrition/search" method="get" id="searchFrm">
+					<div class="input-item">
+						<input type="text" name="keyword">
+						<button type="submit" class="btn">조회</button>
+					</div>
+				</form>
 				<table class="tbl tbl-border food">
 					<tr>
 						<th style="width: 20%">식품명</th>
@@ -22,6 +43,16 @@
 						<th style="width: 10%">당류(g)</th>
 						<th style="width: 10%">나트륨(mg)</th>
 					</tr>
+					<tr class="board-list" th:each="food : ${food}">
+						<td><a th:href="@{/foodNutrition/food"></td>
+						<td th:text="${food.foodName}"></td>
+						<td th:text="${food.kcal}"></td>
+						<td th:text="${food.prot}"></td>
+						<td th:text="${food.fat}"></td>
+						<td th:text="${food.card}"></td>	
+						<td th:text="${food.sugar}"></td>
+						<td th:text="${food.nat}"></td>			
+					</tr>
 				</table>
 				
 				<div class="btn-zone">
@@ -30,49 +61,49 @@
 			</section>
 		</main>
 		<script>
-			let pageNo = 1;
-			$("#more-btn").on("click",function(){
-				$.ajax({
-					url :"api/foodTotal",
-					data:{pageNo : pageNo},
-					type : "get",
-					success : function(data){
-						for(let i=0;i<data.length;i++){
-							const f = data[i];
-							const tr = $("<tr>");
-							
-							const foodNameTd = $("<td>");
-							foodNameTd .text(f.foodName);
-							
-							const kcalTd = $("<td>");
-							kcalTd.text(f.kcal);
-							
-							const protTd = $("<td>");
-							protTd.text(f.prot);
-							
-							const fatTd = $("<td>");
-							fatTd.text(f.fat);
-							
-							const cardTd = $("<td>");
-							cardTd.text(f.card);
-							
-							const sugarTd = $("<td>");
-							sugarTd.text(f.sugar);
-							
-							const natTd = $("<td>");
-							natTd.text(f.nat);
-							
-							tr.append(foodNameTd).append(kcalTd).append(protTd).append(fatTd).append(cardTd).append(sugarTd).append(natTd);
-							
-							$(".food").append(tr);	
-						}
-						pageNo++;
-					},
-					error : function(){
-					console.log("에러");						
-					}
-				});
+			$(document).ready(function() {
+			    let pageNo = 1;       
+			    const pageSize = 10; 
+
+			    function loadMoreData() {
+			        $.ajax({
+			            url: "/foodNutrition/foodTotal",
+			            data: { pageNo: pageNo, pageSize: pageSize },
+			            type: "get",
+			            success: function(data) {
+			                if (data.length > 0) {
+			                    for (let i = 0; i < data.length; i++) {
+			                        const f = data[i];
+			                        const tr = $("<tr>");
+			                        
+			                        const foodNameTd = $("<td>").text(f.foodName);
+			                        const kcalTd = $("<td>").text(f.kcal);
+			                        const protTd = $("<td>").text(f.prot);
+			                        const fatTd = $("<td>").text(f.fat);
+			                        const cardTd = $("<td>").text(f.card);
+			                        const sugarTd = $("<td>").text(f.sugar);
+			                        const natTd = $("<td>").text(f.nat);
+			                        
+			                        tr.append(foodNameTd, kcalTd, protTd, fatTd, cardTd, sugarTd, natTd);
+			                        $(".food").append(tr);
+			                    }
+			                    pageNo++; 
+			                } else {
+			                    console.log("No more data to load");
+			                    $("#more-btn").hide(); 
+			                }
+			            },
+			            error: function() {
+			                console.log("Error");
+			            }
+			        });
+			    }
+			    loadMoreData();
+			    $("#more-btn").on("click", function() {
+			        loadMoreData();
+			    });
 			});
+			
 		</script>
 	<th:block th:include="common/footer"></th:block>
 </body>

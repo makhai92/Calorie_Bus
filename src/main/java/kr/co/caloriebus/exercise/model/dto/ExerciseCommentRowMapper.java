@@ -20,8 +20,7 @@ public class ExerciseCommentRowMapper implements RowMapper<ExerciseComment>{
 		exerciseComment.setBoardCommentRef(rs.getInt("board_comment_ref"));
 		exerciseComment.setIsLike(rs.getInt("is_like"));
 		exerciseComment.setLikeCount(rs.getInt("like_count"));
-		exerciseComment.setBoard_comment_writer(rs.getString("board_comment_writer"));
-		exerciseComment.setReCommentCount(rs.getInt("re_comment_count"));
+		exerciseComment.setBoardCommentWriter(rs.getString("board_comment_writer"));
 		return exerciseComment;
 	}
 

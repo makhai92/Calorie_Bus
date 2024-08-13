@@ -12,9 +12,9 @@ public class InqueryFileRowMapper implements RowMapper<InqueryFile>{
 	@Override
 	public InqueryFile mapRow(ResultSet rs, int rowNum) throws SQLException {
 		InqueryFile inFile = new InqueryFile();
+		inFile.setFileName(rs.getString("filename"));
 		inFile.setFileNo(rs.getInt("file_no"));
 		inFile.setFilePath(rs.getString("filepath"));
-		inFile.setFileName(rs.getString("filename"));
 		inFile.setInqueryNo(rs.getInt("inquery_no"));
 		return inFile;
 	}

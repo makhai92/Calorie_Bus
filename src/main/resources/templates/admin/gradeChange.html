@@ -17,6 +17,27 @@
 	margin-bottom : 50px;
 	margin-top : 30px;
 }
+#pageNavi>ul{
+	display : flex;
+	justify-content : center;
+	align-items : center;
+	gap : 10px;
+}
+
+.pageNavi-wrap : hover{
+     font-weight: bolder;
+}
+.pageNavi-wrap{
+ 	margin-top : 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+#eventCount{
+	width : 50px;
+	height : 30px;
+	font-size : 15px; 
+}
 
 </style>
 </head>
@@ -30,42 +51,38 @@
 				<tr>
 					<th style="width:5%;">회원번호</th>
 					<th style="width:10%;">아이디</th>
-					<th style="width:10%;">비밀번호</th>
 					<th style="width:10%;">이름</th>
 					<th style="width:10%;">전화번호</th>
-					<th style="width:20%;">주소</th>
-                    <th style="width:3%;">우편번호</th>
+					<th style="width:25%;">주소</th>
+                    <th style="width:8%;">우편번호</th>
 					<th style="width:15%;">생년월일</th>
-					<th style="width:5%;">회원등급</th>
-                    <th style="width:5%;">이벤트 참여 기회</th>
+                    <th style="width:10%;">이벤트 참여 기회</th>
 					<th style="width:7%;">등급변경</th>
-					<th style="width:7%;">등급적용</th>
+					<th style="width:7%;">적용</th>
 				</tr>
 				<tr th:each="m : ${list}">
 					<td th:text="${m.memberNo}"></td>
 					<td th:text="${m.memberId}"></td>
-					<td th:text="${m.memberPw}"></td>
                     <td th:text="${m.memberName}"></td>
 					<td th:text="${m.memberPhone}"></td>
 					<td th:text="${m.memberAddr}"></td>
                     <td th:text="${m.memberPostcode}"></td>
 					<td th:text="${m.memberBirth}"></td>
-					<td th:text="${m.memberLevel}">
 					</td>
                     <td>
-					    <div class="select">
-					        <span th:text="${m.eventCount == 0 ? 'X' : 'O'}"></span>
+					    <div class="select" >
+					        <input type="number" name="eventCount" id="eventCount"th:value="${m.eventCount}">
 					    </div>
 					</td>
 					<td>
 					<div class="select" th:switch="${m.memberLevel}">
 							<select th:case="1">
-								<option value="1" selected>1</option>
-								<option value="2" >2</option>
+								<option value="1" selected>관리자</option>
+								<option value="2" >회원</option>
 							</select >
 							<select th:case="2">
-								<option value="1">1</option>
-								<option value="2"selected>2</option>
+								<option value="1">관리자</option>
+								<option value="2"selected>회원</option>
 							</select >
 						</div>
 					</td>	
@@ -77,15 +94,20 @@
 				</tr>
 			</table>
 		</section>
+		<div class="pageNavi-wrap">
+        	<div id="pageNavi" th:utext="${pageNavi}"></div>
+        </div>
 </main>
 <script>
 	$(".memberLevelChange").on("click",function(){
 				const memberNo = $(this).parent().parent().children().eq(0).text();
 				const memberLevel = $(this).parent().prev().children().children().val();
-				location.href="/admin/memberLevelChange?memberNo="+memberNo+"&memberLevel="+memberLevel;
+				const eventCount = $(this).parent().prev().prev().children().children().val();
+				location.href="/admin/memberLevelChange?memberNo="+memberNo+"&memberLevel="+memberLevel+"&eventCount="+eventCount;
 			});
 			
 </script>
 <th:block th:include="common/footer"></th:block>
 </body>
+
 </html>

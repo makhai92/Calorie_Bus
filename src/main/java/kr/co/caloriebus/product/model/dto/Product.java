@@ -19,4 +19,6 @@ public class Product {
 	private String endDate;
 	private String productImg;
 	private String productInfo;
+	private int likeCount;
+	private int isLike;
 }

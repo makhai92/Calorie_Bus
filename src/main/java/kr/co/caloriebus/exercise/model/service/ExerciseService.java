@@ -14,10 +14,12 @@ import kr.co.caloriebus.exercise.model.dto.ExerciseFile;
 import kr.co.caloriebus.exercise.model.dto.ExerciseListData;
 
 
+
 @Service
 public class ExerciseService {
 	@Autowired
 	private ExerciseDao exerciseDao;
+	
 	
 	//번호
 	public ExerciseListData selectBoardList(int reqPage) {
@@ -96,7 +98,13 @@ public class ExerciseService {
 				int result = exerciseDao.updateReadCount(boardNo);
 			}
 			List fileList = exerciseDao.selectExerciseList(boardNo);
-			e.setFileList(fileList);			
+			e.setFileList(fileList);	
+			List commentList = exerciseDao.selectExerciseCommentList(boardNo, memberNo);
+			e.setBoardCommentList(commentList);
+			List reCommentList = exerciseDao.selectExerciseReCommentList(boardNo, memberNo);
+			e.setBoardReCommentList(reCommentList);
+			int commentCount = commentList.size()+reCommentList.size();
+			e.setCommentCount(commentCount);
 		}
 		return e;
 	}
@@ -140,7 +148,7 @@ public class ExerciseService {
 		return result;
 	}
 
-
+	@Transactional
 	public List exerciseReCommentList(int boardCommentNo, int memberNo) {
 		List list = exerciseDao.selectExerciseReCommentList(boardCommentNo,memberNo);
 		return list;
@@ -200,7 +208,72 @@ public class ExerciseService {
 		}
 	}
 
+	//서치(타이틀로 쳤을 때)
+	public ExerciseListData searchExerciseList(String keyword, int reqPage) {
+	    int numPerPage = 10;
+	    int end = reqPage * numPerPage;
+	    int start = end - numPerPage + 1;
+	    List list;
+	    int totalCount;
+	    
+	    if (keyword == null || keyword.trim().isEmpty()) {
+	        list = exerciseDao.selectBoardList(start, end);
+	        totalCount = exerciseDao.selectBoardTotalCount();
+	    } else {
+	        list = exerciseDao.searchExerciseList(keyword, start, end);
+	        totalCount = exerciseDao.searchExerciseTotalCount(keyword);
+	    }
+	    
+	    int totalPage = (totalCount + numPerPage - 1) / numPerPage; // Ceiling division
+	    
+	    int pageNaviSize = 5;
+	    int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+	    StringBuilder pageNavi = new StringBuilder("<ul class='page-ul'>");
+	    
+	    if (pageNo != 1) {
+	        pageNavi.append("<li>")
+	                .append("<a class='page-item' href='/exercise/list?category=I1&reqPage=")
+	                .append(pageNo - 1)
+	                .append("'><span class='material-icons'>chevron_left</span></a>")
+	                .append("</li>");
+	    }
+	    
+	    for (int i = 0; i < pageNaviSize; i++) {
+	        pageNavi.append("<li>");
+	        if (pageNo == reqPage) {
+	            pageNavi.append("<a class='page-item active' href='/exercise/list?category=I1&reqPage=")
+	                    .append(pageNo)
+	                    .append("'>")
+	                    .append(pageNo)
+	                    .append("</a>");
+	        } else {
+	            pageNavi.append("<a class='page-item' href='/exercise/list?category=I1&reqPage=")
+	                    .append(pageNo)
+	                    .append("'>")
+	                    .append(pageNo)
+	                    .append("</a>");
+	        }
+	        pageNavi.append("</li>");
+	        pageNo++;
+	        if (pageNo > totalPage) {
+	            break;
+	        }
+	    }
+	    
+	    if (pageNo <= totalPage) {
+	        pageNavi.append("<li>")
+	                .append("<a class='page-item' href='/exercise/list?category=I1&reqPage=")
+	                .append(pageNo)
+	                .append("'><span class='material-icons'>chevron_right</span></a>")
+	                .append("</li>");
+	    }
+	    
+	    pageNavi.append("</ul>");
+	    
+	    return new ExerciseListData(list, pageNavi.toString());
+	}
 
+	
 	
 
 }

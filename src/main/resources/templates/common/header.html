@@ -19,7 +19,7 @@
         <marquee>
             <span class="notice-item">
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
-                <span class="notice-text"><span class="highlight">공지사항</span> 룰렛 이벤트에 5인이 선정되었습니다. 본인 이름이 올라갔는지 확인후 룰렛을 돌려주세요!!!</span>
+                <span class="notice-text"><span class="highlight">공지사항</span> 오운완10회 달성하시고 확인후 룰렛을 돌려주세요!!!</span>
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
             </span>
             <span class="notice-item">
@@ -29,19 +29,21 @@
             </span>
             <span class="notice-item">
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
-                <span class="notice-text"><span class="highlight">공지사항</span> 세미 얼마안남았어요 다같이 화이팅!!</span>
+                <span class="notice-text"><span class="highlight">공지사항</span>뉴스레터 게시판에 새로운 정보가 등록되었습니다.</span>
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
             </span>
             <span class="notice-item">
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
-                <span class="notice-text"><span class="highlight">공지사항</span> 세미끝나면 같이 먹고싶은거 먹으러가요~</span>
+                <span class="notice-text"><span class="highlight">공지사항</span>새로운 운동정보 및 식단정보가 등록되었습니다.</span>
                 <img src="/image/ezgif.com-animated-gif-maker.gif" alt="Notice Image">
             </span>
         </marquee>
+		<div class="logo-container">
         <div class="logo">
             <a href="/">Calorie Bus</a>
         </div>
-        <ul class="user-menu">
+    </div>
+		<ul class="user-menu">
             <th:block th:if="${session.member == null}">
                 <li><a href="/member/loginForm">로그인</a></li>
                 <li><a href="/member/joinForm">회원가입</a></li>
@@ -63,7 +65,7 @@
                         <li><a href="/exercise/list?category=I1&reqPage=1">운동정보</a></li>
                     </ul>
                 </li>
-                <li><a href="/product/list">공동구매서비스</a></li>
+                <li><a href="/product/ingList">공동구매서비스</a></li>
                 <li><a href="/bmi/BMI">칼로리계산기</a></li>
                 <li><a href="/board/list?category=all&reqPage=1">커뮤니티</a>
                     <ul class="comu-menu">
@@ -73,9 +75,9 @@
                         <li><a href="/board/list?category=B4&reqPage=1">운동토크</a></li>
                     </ul>
                 </li>
-                <li><a href="/rulletpage/rullet">이벤트</a>
+                <li><a href="/rulletPage/rullet">이벤트</a>
                     <ul class="event-menu">
-                        <li><a href="/rulletpage/rullet">후기이벤트</a></li>
+                        <li><a href="/rulletPage/rullet">후기이벤트</a></li>
                         <li><a href="/attendance/attendance">출석체크</a></li>
                     </ul>
                 </li>

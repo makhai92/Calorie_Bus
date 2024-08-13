@@ -155,22 +155,22 @@
 								<tr>
 									<th style="width : 80px; height:40px;">이름</th>
 									<td class="input-item1">
-										<input type="text" name="fundingName" id="memberName">
+										<input type="text" name="fundingName" id="memberName" required>
 									</td>
 								</tr>
 								<tr>
 									<th style="height:40px;">전화번호</th>
 									<td class="input-item1">
-										<input type="text" name="fundingPhone" id="memberPhone">
+										<input type="text" name="fundingPhone" id="memberPhone" required>
 									</td>
 								</tr>
 								<tr>
 									<th style="height:80px;">주소</th>
 									<td class="input-item1">
-										<input type="text" name="fundingPostcode" id="memberPostcode">
-										<input type="text" name="fundingAddr" id="memberroadAddr">
-										<input type="text" name="memberAddr" id="memberdetailAddr" placeholder="상세주소">
-										<input type="hidden" id="memberAddr">
+										<input type="text" name="fundingPostcode" id="memberPostcode" required>
+										<input type="text" name="fundingAddr" id="memberroadAddr" required>
+										<input type="text" name="memberAddr" id="memberdetailAddr" placeholder="상세주소" required>
+										<input type="hidden" id="memberAddr" required>
 										<button type="button" class="btn-round address-change">주소찾기</button>
 									</td>
 								</tr>
@@ -181,7 +181,7 @@
 		                        			<option disabled selected th:if="${session.member.memberBank}!=null"><span th:text="${session.member.memberBank}"></span></option>
 		                        			<option disabled selected th:if="${session.member.memberBank}==null">은행선택</option>
 		                    			</select>
-										<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}">
+										<input type="text" name="memberAccount" id="memberAccount" th:value="${session.member.memberAccount}" required>
 										<span></span>
 									</td>
 								</tr>
