@@ -85,10 +85,17 @@
                   </td>
                </tr>          
           	</table>
-          	<div class="option-button">
+          	<div class="option-button" >
+          	<a th:if="${session.member != null && session.member.memberLevel == 1}">
           		<button class="btn-primary"  th:onclick="faqUpdate([[${f.faqNo}]])">수정</button>
+          	</a>
+          	<a th:if="${session.member != null && session.member.memberLevel == 1}">
           		<button class="btn-secondary" th:onclick="faqDelete([[${f.faqNo}]])">삭제</button>
+          	</a>
           	</div>
+          	<td class="reFaqMain">
+		         <a th:href="@{/faq/faqMain?reqPage=1}" th:text="목록으로"></a>
+		    </td>
       	</div>
 	</div>
 </div>

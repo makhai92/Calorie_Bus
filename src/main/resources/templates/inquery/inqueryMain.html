@@ -128,8 +128,12 @@
         </div>
         <div class="pageNavi-wrap">
         <div id="pageNavi" th:utext="${pageNavi}"></div>
+        <td class="reFaqMain">
+		         <a th:href="@{/admin/adminMain}" th:text="관리자메인"></a>
+		    </td>
         </div>
     </div>
+    
 </body>
 <th:block th:include="common/footer"></th:block>
 </html>
