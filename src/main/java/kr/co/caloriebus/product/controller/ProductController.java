@@ -100,8 +100,12 @@ public class ProductController {
 		int totalAmount = productService.orderAmount(productNo);
 		int likeCount = productService.selectProductLikeCount(productNo);
 		int isLike = 0;
+		int memberNo = 0;
 		if(member != null) {
 			isLike = productService.selectIsCount(member.getMemberNo(),productNo);
+			memberNo = member.getMemberNo();
+		}else {
+			memberNo = -1;
 		}
 		System.out.println(isLike);
 		p.setIsLike(isLike);
@@ -109,6 +113,7 @@ public class ProductController {
 		model.addAttribute("p", p);
 		model.addAttribute("totalAmount",totalAmount);
 		model.addAttribute("state", state);
+		model.addAttribute("memberNo", memberNo);
 		return "/product/view";
 	}
 	
