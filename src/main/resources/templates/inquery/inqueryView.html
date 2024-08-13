@@ -265,7 +265,7 @@ textarea {
 						<div class="inqueryContent" th:utext="${i.inqueryContent}"></div>
 					</td>
 				</tr>
-				<tr th:if="${session.member.memberLevel	 == 1}">
+				<tr th:if="${session.member.memberLevel	 == 2}">
 				<td colspan="6">
 			<a th:href="@{/inquery/inqueryUpdateFrm(inqueryNo=${i.inqueryNo})}"
 						class="btn-primary">수정</a>
