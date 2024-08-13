@@ -176,7 +176,7 @@ public class ProductController {
 			model.addAttribute("title","구매 예약 완료");
 			model.addAttribute("msg","구매 예약이 완료되었습니다. 24시간 내로 미입금 시 자동 취소됩니다.");
 			model.addAttribute("icon","success");
-			model.addAttribute("loc","/product/myfunding?reqPage=1");
+			model.addAttribute("loc","/member/myfunding?reqPage=1");
 		}else {
 			model.addAttribute("title","구매 예약 실패");
 			model.addAttribute("msg","문제가 발생하였습니다.관리자에게 문의하세요.");
@@ -308,9 +308,7 @@ public class ProductController {
 	@ResponseBody
 	@GetMapping(value="/searchState")
 	public int searchState(int productNo) {
-		System.out.println(productNo);
 		int state = productService.searchState(productNo);
-		System.out.println(state);
 		return state;
 	}
 }
