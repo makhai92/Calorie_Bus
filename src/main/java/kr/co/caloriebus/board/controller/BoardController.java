@@ -211,7 +211,6 @@ public class BoardController {
 	}
 	@PostMapping(value="/updateBoard")
 	public String updateBoard(Board b,MultipartFile[] upfile,int[] delFileNo, Model model) {
-		System.out.println(delFileNo.length);
 		ArrayList<BoardFile> fileList = new ArrayList<BoardFile>();
 		if(!upfile[0].isEmpty()) {
 			String savepath = root+"/board/";
