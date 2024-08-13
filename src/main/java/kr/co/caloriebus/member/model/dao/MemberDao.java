@@ -29,9 +29,9 @@ public class MemberDao {
 	}
 
 	public int insertMember(Member m) {
-		String query = "insert into member values(member_seq.nextval, ?, ?, ?, ?, ?, ?, ?, 2, 0, null, null, null)";
+		String query = "insert into member values(member_seq.nextval, ?, ?, ?, ?, ?, ?, ?, 2, 0, null, null, ?)";
 		Object[] params = { m.getMemberId(), m.getMemberPw(), m.getMemberName(), m.getMemberPhone(), m.getMemberAddr(),
-				m.getMemberEmail(), m.getMemberBirth() };
+				m.getMemberEmail(), m.getMemberBirth(), m.getMemberPostcode()};
 		int result = jdbc.update(query, params);
 		return result;
 	}

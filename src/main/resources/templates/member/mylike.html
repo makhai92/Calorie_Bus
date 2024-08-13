@@ -19,7 +19,8 @@
         	<th:block th:if="${!#lists.isEmpty(list)}">
 				<ul class="mylike-list">
 					<li class="product" th:each="product : ${list}">
-						<a th:href="@{/product/view(productNo=${product.productNo})} ">
+						<input type="hidden" th:value="${product.productNo}">
+						<a id="product-link">
 							<div class="product-img-box">
 								<img th:src=@{/product/main/}+${product.productImg}>
 							</div>
@@ -40,5 +41,22 @@
         </form>
 	</section>
 </main>
+<script>
+// 클릭 시 상세보기로 이동
+$("#product-link").on("click", function(){
+	const productNo = $(this).prev().val();
+	$.ajax({
+		url: "/product/searchState",
+		type: "get",
+		data: {productNo, productNo},
+		success: function(state) {
+			location.href="/product/view?productNo="+productNo+"&state="+state;
+		},
+		error: function() {
+			alert("처리 중 에러가 발생했습니다.");
+		}
+	})
+})
+</script>
 </body>
 </html>

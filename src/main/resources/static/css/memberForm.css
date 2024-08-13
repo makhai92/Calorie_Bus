@@ -82,10 +82,6 @@ div[id^=join-]{
     border-radius: 10px;
     margin: 30px auto;
 }
-#sns-join-title{
-    text-align: center;
-    padding-top: 30px;
-}
 .joinform-wrap a{
     text-decoration: none;
     color: var(--main1);
@@ -112,15 +108,6 @@ div[id^=join-]{
     width: 800px;
     margin: 0 auto;
 }
-.logo-box{
-    margin: 0 auto;
-    text-align: center;
-}
-.login-box{
-    width: 70%;
-    margin: 0 auto;            
-    border-top: 1px solid var(--line2);
-}
 .loginform-tbl{
 	margin: 30px auto;
 }
@@ -133,21 +120,12 @@ div[id^=login-]{
     border-radius: 10px;
     margin: 30px auto;
 }
-#sns-login-title{
-    text-align: center;
-    padding-top: 30px;
-}
 .input-item1{
 	padding: 10px;
 }
 .input-item1>input{
 	line-height: 20px;
 }
-button[name=login-btn]{
-	width: 80px;
-	height: 80px;
-}
-
 
 
 /* ------------------------ 마이페이지 용 ------------------------ */
