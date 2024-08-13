@@ -52,7 +52,9 @@
         margin: 0;
         border: none;
     }
-
+	.file-upload {
+    text-align: left;
+	}
     .file-upload label {
         font-size: 12px;
         margin-bottom: 8px;
@@ -117,10 +119,8 @@
 					<th>작성자</th>
 					<td>
 						<div class="custom-input-item">
-							<input type="hidden" name="memberNo"
-								th:value="${session.member.memberNo}"> <input
-								type="text" name="memberId"
-								th:value="${session.member.memberId}" readonly>
+							<input type="hidden" name="memberNo" th:value="${session.member.memberNo}"> 
+							<input type="text" name="memberId" th:value="${session.member.memberId}" readonly>
 						</div>
 					</td>
 				</tr>
@@ -128,9 +128,9 @@
 					<th>기존파일</th>
 					<td colspan="2">
 						<div th:each="file : ${newsletter.fileList}" class="files">
-							<span class="delFilename" th:text="${file.filename}"></span> <span
-								class="material-icons delBtn"
-								th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+							<span class="delFilename" th:text="${file.filename}"></span> 
+							<span class="material-icons delBtn" th:onclick="deleteFile(this,[[${file.fileNo}]]);">remove_circle</span>
+							
 						</div>
 					</td>
 				</tr>
