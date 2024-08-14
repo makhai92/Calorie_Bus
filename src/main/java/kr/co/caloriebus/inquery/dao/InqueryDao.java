@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryReplyRowMapper;
+import kr.co.caloriebus.inquery.dto.InqueryRowMapper;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
 import kr.co.caloriebus.inquery.dto.InqueryFileRowMapper;
-import kr.co.caloriebus.inquery.dto.InqueryRowMapper;
+import kr.co.caloriebus.inquery.dto.InqueryListRowMapper;
 import kr.co.caloriebus.inquery.dto.InqueryReply;
 
 @Repository
@@ -23,14 +24,14 @@ public class InqueryDao {
 	private InqueryFileRowMapper inqueryFileRowMapper;
 	@Autowired
 	private InqueryReplyRowMapper inqueryReplyRowMapper;
-	
+	@Autowired
+	private InqueryListRowMapper inqueryListRowMapper;
 	
 	
 	public List selectInqueryList(int start, int end) {
 		String query ="select * from (select rownum as rnum ,n.* from (select inquery_no,inquery_title,inquery_content,inquery_date,member_no,member_id as inquery_writer from inquery join member using(member_no) order by 1 desc)n) where rnum between ? and ?";
 		Object[] params = {start,end};
 		List list = jdbc.query(query, inqueryRowMapper, params);
-		System.out.println(list);
 		return list;
 	}
 
@@ -92,7 +93,7 @@ public class InqueryDao {
 	public List selectMyInqueryList(int memberNo, int start, int end) {
 		String query = "select * from (select rownum rnum, i.* from ((select inquery_no, inquery_title, reply_no as inquery_content, inquery_date, member_no from inquery left join reply using (inquery_no) where member_no = ?) order by 1 desc)i) where rnum between ? and ?";
 		Object[] params = {memberNo, start, end};
-		List list = jdbc.query(query, inqueryRowMapper, params);
+		List list = jdbc.query(query, inqueryListRowMapper, params);
 		return list;
 	}
 	
@@ -105,9 +106,6 @@ public class InqueryDao {
 
 	public int insertReply(InqueryReply ir) {
 		String query = "insert into Reply values(reply_seq.nextval ,?,to_char(sysdate,'yyyy-mm-dd'),?)";
-		String inqueryReplyRef = ir.getInqueryReplyRef() == 0? null :String.valueOf(ir.getInqueryReplyRef());
-		System.out.println(ir);
-		System.out.println(query);
 		Object[] params = {ir.getReplyContent(),ir.getInqueryRef()};	
 		int result = jdbc.update(query,params);
 		return result;
