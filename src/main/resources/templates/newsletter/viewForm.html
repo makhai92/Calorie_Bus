@@ -150,7 +150,7 @@
             </div>
             <div class="actions">
                 <span th:if="${session.member != null && session.member.memberNo == newsletter.memberNo}" th:onclick="|location.href='/newsletter/editForm?boardNo=${newsletter.boardNo}'|">수정</span>
-                <span th:if="${session.member != null && session.member.memberNo == newsletter.memberNo}" th:onclick="|deleteNewsletter(${newsletter.boardNo})|">삭제</span>
+                <span th:if="${session.member != null && session.member.memberNo == newsletter.memberNo}" th:onclick="|deleteNewsLetter(${newsletter.boardNo})|">삭제</span>
             </div>
         </div>
         <div class="title-row">
@@ -411,7 +411,7 @@
 					}
 			}).then(function(isConfirm){
 				if(isConfirm){
-					location.href="/newsletter/deleteBoard?boardNo="+boardNo;
+					location.href="/newsletter/delete?boardNo="+boardNo;
 				}
 			});
 		}

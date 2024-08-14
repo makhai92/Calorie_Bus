@@ -222,7 +222,6 @@
 							likeSpan.addClass("favorite");
 							likeSpan.text("thumb_down");
 						}
-						console.log(data);
 						$(".view-tbl tr>td>span").eq(1).text(data);
 						likeSpan.prev().text(data);
 					}
@@ -284,10 +283,6 @@
 			$(".input-comment-box").eq(index+1).toggle();
 		}
 		function commentShow(obj,boardCommentNo,memberNo,memberId,level,memberLevel){
-			console.log(boardCommentNo);
-			console.log(memberNo);
-			console.log(memberId);
-			console.log(memberLevel);
 			$.ajax({
 				url : "/board/boardReCommentList",
 				data : {boardCommentNo : boardCommentNo,memberNo : memberNo},

@@ -26,8 +26,8 @@
 						<tr th:each="inquery : ${list}">
 							<td><a th:href="@{/inquery/inqueryView(inqueryNo=${inquery.inqueryNo})}"><span th:text="${inquery.inqueryTitle}"></span></a></td>
 							<td th:text="${inquery.inqueryDate}"></td>
-							<td th:if="${inquery.replyNo != null}">답변 완료</td>
-							<td th:if="${inquery.replyNo == null}">답변 대기 중</td>
+							<td th:if="${inquery.replyNo > 0}">답변 완료</td>
+							<td th:if="${inquery.replyNo == 0}">답변 대기 중</td>
 						</tr>
 					</table>
 					<div id="pageNavi" th:utext="${pageNavi}"></div>
@@ -40,5 +40,6 @@
         </form>
 	</section>
 </main>
+<th:block th:include="common/footer"></th:block>
 </body>
 </html>

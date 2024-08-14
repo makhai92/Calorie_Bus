@@ -33,7 +33,6 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LoginInterceptor())
 				.addPathPatterns("/board/**",
 								"/member/logout",
-								"/member/updatePw",
 								"/member/mypage",
 								"/member/updateMember",
 								"/member/deleteAccount",
