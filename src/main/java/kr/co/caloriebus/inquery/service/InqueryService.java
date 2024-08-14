@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.caloriebus.board.model.dto.BoardListData;
 import kr.co.caloriebus.inquery.dao.InqueryDao;
 import kr.co.caloriebus.inquery.dto.Inquery;
 import kr.co.caloriebus.inquery.dto.InqueryFile;
@@ -105,17 +104,17 @@ public class InqueryService {
 		String pageNavi = "<ul class='pageNavi-ul'>";
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='pageNavi-li' href='/inquery/myinquery?reqPage=" + (pageNo - 1) + "'>";
+			pageNavi += "<a class='pageNavi-li' href='/member/myinquery?reqPage=" + (pageNo - 1) + "'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		for(int i = 0; i < pageNaviSize; i++) {
 			pageNavi += "<li>";
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='pageNavi-li active' href='/inquery/myinquery?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='pageNavi-li active' href='/member/myinquery?reqPage=" + pageNo + "'>";
 			}
 			else {
-				pageNavi += "<a class='pageNavi-li' href='/inquery/myinquery?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='pageNavi-li' href='/member/myinquery?reqPage=" + pageNo + "'>";
 			}
 			pageNavi += pageNo;
 			pageNavi += "</a></li>";
@@ -126,7 +125,7 @@ public class InqueryService {
 		}
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='pageNavi-li' href='/inquery/myinquery?reqPage=" + pageNo + "'>";
+			pageNavi += "<a class='pageNavi-li' href='/member/myinquery?reqPage=" + pageNo + "'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 		}

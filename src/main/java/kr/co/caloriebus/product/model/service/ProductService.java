@@ -111,17 +111,17 @@ public class ProductService {
 		String pageNavi = "<ul class='pageNavi-ul'>";
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='pageNavi-li' href='/product/myfunding?reqPage=" + (pageNo - 1) + "'>";
+			pageNavi += "<a class='pageNavi-li' href='/member/myfunding?reqPage=" + (pageNo - 1) + "'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		for(int i = 0; i < pageNaviSize; i++) {
 			pageNavi += "<li>";
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='pageNavi-li active' href='/product/myfunding?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='pageNavi-li active' href='/member/myfunding?reqPage=" + pageNo + "'>";
 			}
 			else {
-				pageNavi += "<a class='pageNavi-li' href='/product/myfunding?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='pageNavi-li' href='/member/myfunding?reqPage=" + pageNo + "'>";
 			}
 			pageNavi += pageNo;
 			pageNavi += "</a></li>";
@@ -132,7 +132,7 @@ public class ProductService {
 		}
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='pageNavi-li' href='/product/myfunding?reqPage=" + pageNo + "'>";
+			pageNavi += "<a class='pageNavi-li' href='/member/myfunding?reqPage=" + pageNo + "'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 		}
@@ -167,17 +167,17 @@ public class ProductService {
 		String pageNavi = "<ul class='pageNavi-ul'>";
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='pageNavi-li' href='/product/mylike?reqPage=" + (pageNo - 1) + "'>";
+			pageNavi += "<a class='pageNavi-li' href='/member/mylike?reqPage=" + (pageNo - 1) + "'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
 		for(int i = 0; i < pageNaviSize; i++) {
 			pageNavi += "<li>";
 			if(pageNo == reqPage) {
-				pageNavi += "<a class='pageNavi-li active' href='/product/mylike?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='pageNavi-li active' href='/member/mylike?reqPage=" + pageNo + "'>";
 			}
 			else {
-				pageNavi += "<a class='pageNavi-li' href='/product/mylike?reqPage=" + pageNo + "'>";
+				pageNavi += "<a class='pageNavi-li' href='/member/mylike?reqPage=" + pageNo + "'>";
 			}
 			pageNavi += pageNo;
 			pageNavi += "</a></li>";
@@ -188,7 +188,7 @@ public class ProductService {
 		}
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='pageNavi-li' href='/product/mylike?reqPage=" + pageNo + "'>";
+			pageNavi += "<a class='pageNavi-li' href='/member/mylike?reqPage=" + pageNo + "'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 		}
