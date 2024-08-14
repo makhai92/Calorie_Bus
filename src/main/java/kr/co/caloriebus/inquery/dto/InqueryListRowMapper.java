@@ -7,14 +7,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InqueryListRowMapper implements RowMapper<Inquery>{
+public class InqueryListRowMapper implements RowMapper<MyInquery>{
 	
 	@Override
-	public Inquery mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Inquery i = new Inquery();
+	public MyInquery mapRow(ResultSet rs, int rowNum) throws SQLException {
+		MyInquery i = new MyInquery();
 		i.setInqueryNo(rs.getInt("inquery_no"));
 		i.setInqueryTitle(rs.getString("inquery_title"));
-		i.setInqueryContent(rs.getString("inquery_content"));
+		i.setReplyNo(rs.getInt("reply_no"));
 		i.setInqueryDate(rs.getString("inquery_date"));
 		i.setMemberNo(rs.getInt("member_no"));
 		return i;
