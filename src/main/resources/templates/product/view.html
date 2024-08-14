@@ -274,15 +274,7 @@
 			});
 		}
 		function productFunding(productNo,memberNo){
-			if(memberNo == -1){
-				swal({
-					title : "로그인 필요",				
-					text : "로그인이 필요한 서비스입니다.",
-					icon : "info"
-				});
-			}else{
-				location.href="/product/fundingFrm?productNo="+productNo;				
-			}
+			location.href="/product/fundingFrm?productNo="+productNo;				
 		}
 		
 		$(".detailMore").on("click",function(){

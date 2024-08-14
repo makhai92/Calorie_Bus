@@ -182,9 +182,14 @@ public class BoardController {
 		}
 	}
 	@GetMapping(value="/deleteBoard")
-	public String deleteBoard(int boardNo,@SessionAttribute(required=false) Member member,Model model) {
+	public String deleteBoard(int boardNo,int memberNo,@SessionAttribute(required=false) Member member,Model model) {
 		if(member != null) {
-			List<BoardFile> list = boardService.deleteBoard(boardNo,member.getMemberNo());
+			List<BoardFile> list = null;
+			if(member.getMemberLevel()==1) {
+				list = boardService.deleteBoard(boardNo,memberNo);
+			}else {
+				list = boardService.deleteBoard(boardNo,member.getMemberNo());
+			}
 			if(list == null) {
 				model.addAttribute("title","삭제 실패");
 				model.addAttribute("msg","존재하지 않는 게시물입니다.");
@@ -196,7 +201,7 @@ public class BoardController {
 					delFile.delete();
 				}
 				model.addAttribute("title","삭제 성공");
-				model.addAttribute("msg","게시물이 삭제되었습니다..");
+				model.addAttribute("msg","게시물이 삭제되었습니다.");
 				model.addAttribute("icon","success");
 			}
 			model.addAttribute("loc","/board/list?category=all&reqPage=1");

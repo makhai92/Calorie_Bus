@@ -130,7 +130,7 @@
 		</table>
 		<div class="update-btn-wrap" th:if="${session.member != null && (session.member.memberNo == board.memberNo || session.member.memberLevel == 1)}">
 			<a th:if="${session.member.memberNo == board.memberNo}" class="btn-round" th:href="@{/board/updateFrm(boardNo=${board.boardNo})}">수정하기</a>
-			<a class="btn-round g" th:onclick="deleteBoard([[${board.boardNo}]])">삭제하기</a>
+			<a class="btn-round g" th:onclick="deleteBoard([[${board.boardNo}]],[[${board.memberNo}]])">삭제하기</a>
 		</div>
 			<form action="/board/insertBoardComment" method="post">
 				<div class="input-item1 input-comment-box">
@@ -395,7 +395,7 @@
 			location.href = "/board/deleteComment?boardCommentNo="+boardCommentNo+"&boardNo="+boardNo;
 		}
 		
-		function deleteBoard(boardNo){
+		function deleteBoard(boardNo,memberNo){
 			swal({
 				title:"게시글 삭제",
 				text :"게시글을 삭제하시겠습니까?",
@@ -418,7 +418,7 @@
 					}
 			}).then(function(isConfirm){
 				if(isConfirm){
-					location.href="/board/deleteBoard?boardNo="+boardNo;
+					location.href="/board/deleteBoard?boardNo="+boardNo+"&memberNo="+memberNo;
 				}
 			});
 		}
